@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>离散对数 - 西山下,闻溪语,书心境</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
         <div role="search">
@@ -45,399 +47,223 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../..">Index</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Crypto</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../../../introduction/">密码学简介</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../..">Index</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Crypto</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../../introduction/">密码学简介</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">基础数学知识</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../basic/introduction/">简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">基础数学知识</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../basic/introduction/">简介</a>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">古典密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">流密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">伪随机数生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/problem/">题目</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">古典密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">线性同余生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/intro/">简介</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/summary/">总结</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/challenge/">例题</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">反馈移位寄存器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/intro/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">伪随机数生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">线性同余生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">反馈移位寄存器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">特殊流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">特殊流密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/special/rc4/">RC4</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">块加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/introduction/">块加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">块加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/arx-operations/">ARX</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/des/">DES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/des/">DES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/idea/">IDEA</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                <li class="toctree-l2"><a class="" href="../../../blockcipher/aes.md">AES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">分组模式</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/introduction/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">分组模式</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding/">填充方式</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ecb/">ECB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cbc/">CBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/pcbc/">PCBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cfb/">CFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ofb/">OFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ctr/">CTR</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">非对称加密</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../introduction/">非对称加密简介</a>
                 </li>
-                <li class=" current">
-                    
-    <span class="caption-text">非对称加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../introduction/">非对称加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">RSA</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_theory/">RSA 基本介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">RSA</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_theory/">RSA 基本介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_module_attack/">模数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_module_attack/">模数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_e_attack/">公钥指数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_d_attack/">私钥 d 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                <li class="toctree-l3"><a class="" href="../../rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_side_channel/">侧信道攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_side_channel/">侧信道攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../rsa/rsa_complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../rsa/rsa_complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../knapsack/knapsack/">背包加密</a>
                 </li>
-                <li class="toctree-l3 current">
-                    
-    <span class="caption-text">离散对数相关</span>
-    <ul class="subnav">
-                <li class="toctree-l4 current">
-                    
-    <a class="current" href="./">离散对数</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l5"><a href="#discrete-logarithm">discrete logarithm</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l6" href="#basic-definition">Basic definition</a></li>
-        
-            <li><a class="toctree-l6" href="#some-properties">Some properties</a></li>
-        
-            <li><a class="toctree-l6" href="#discrete-logarithm-problem">Discrete logarithm problem</a></li>
-        
-            <li><a class="toctree-l6" href="#discrete-logarithm-solution">Discrete logarithm solution</a></li>
-        
-            <li><a class="toctree-l6" href="#2018-crackme-java">2018 国赛crackme java</a></li>
-        
-            <li><a class="toctree-l6" href="#reference">Reference</a></li>
-        
-        </ul>
-    
-
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">离散对数相关</a>
+    <ul class="current">
+                <li class="toctree-l3 current"><a class="reference internal current" href="./">离散对数</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#basic-definition">Basic definition</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#some-properties">Some properties</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#discrete-logarithm-problem">Discrete logarithm problem</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#discrete-logarithm-solution">Discrete logarithm solution</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2018-crackme-java">2018 国赛crackme java</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#reference">Reference</a>
+    </li>
     </ul>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../elgamal/">Elgamal</a>
+                <li class="toctree-l3"><a class="reference internal" href="../elgamal/">Elgamal</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../ecc/">ECC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../ecc/">ECC</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">格密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/overview/">格概述</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">格密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/overview/">格概述</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/introduction/">格介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/introduction/">格介绍</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/lattice-reduction/">格基规约算法</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/cvp/">CVP</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/cvp/">CVP</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">哈希函数</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">哈希函数</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/introduction/">哈希函数简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/md5/">MD5</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/md5/">MD5</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/sha1/">SHA1</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/sha1/">SHA1</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/fnv/">FNV</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/fnv/">FNV</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/attack/">Hash Attack</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">数字签名</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">数字签名</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/introduction/">数字签名简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/rsa/">RSA 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                <li class="toctree-l3"><a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/dsa/">DSA 数字签名</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">攻击思想总结</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">攻击思想总结</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/attack-mode/">简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/bit-attack/">比特攻击</a>
                 </li>
     </ul>
                 </li>
     </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../../about/">About</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../../about/">About</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -474,247 +300,249 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
             <div class="section">
               
                 <p><a href="./">EN</a> | <a href="../discrete-log-zh/">ZH</a></p>
-<h1 id="discrete-logarithm">discrete logarithm</h1>
-<h2 id="basic-definition">Basic definition</h2>
+<h1 id="discrete-logarithm">discrete logarithm<a class="headerlink" href="#discrete-logarithm" title="Permanent link">&para;</a></h1>
+<h2 id="basic-definition">Basic definition<a class="headerlink" href="#basic-definition" title="Permanent link">&para;</a></h2>
 <p>When we understand discrete logarithms, let&#39;s first look at a few basic definitions.</p>
 <p><strong>Definition 1</strong></p>
-<p>In group G, g is the generator of G, that is, each element in group G can be written as $y=g^k$, which we call k is the logarithm of y in group G.</p>
+<p>In group G, g is the generator of G, that is, each element in group G can be written as <span><span class="MathJax_Preview">y=g^k</span><script type="math/tex">y=g^k</script></span>, which we call k is the logarithm of y in group G.</p>
 <p><strong>Definition 2</strong></p>
-<p>Let $m\geq 1$, $(a,m)=1$, let $a^d \equiv 1\pmod m$ be the smallest positive integer d called a to the exponent or order of modulo m, we will generally It is recorded as $\delta_m(a)$.</p>
+<p>Let <span><span class="MathJax_Preview">m\geq 1</span><script type="math/tex">m\geq 1</script></span>, <span><span class="MathJax_Preview">(a,m)=1</span><script type="math/tex">(a,m)=1</script></span>, let <span><span class="MathJax_Preview">a^d \equiv 1\pmod m</span><script type="math/tex">a^d \equiv 1\pmod m</script></span> be the smallest positive integer d called a to the exponent or order of modulo m, we will generally It is recorded as <span><span class="MathJax_Preview">\delta_m(a)</span><script type="math/tex">\delta_m(a)</script></span>.</p>
 <p><strong>Definition 3</strong></p>
-<p>When $\delta_m(a)=\varphi(m)$, a is called the original root of modulo m, which is called the original root of m.</p>
-<h2 id="some-properties">Some properties</h2>
+<p>When <span><span class="MathJax_Preview">\delta_m(a)=\varphi(m)</span><script type="math/tex">\delta_m(a)=\varphi(m)</script></span>, a is called the original root of modulo m, which is called the original root of m.</p>
+<h2 id="some-properties">Some properties<a class="headerlink" href="#some-properties" title="Permanent link">&para;</a></h2>
 <p><strong> Nature 1</strong></p>
-<p>The smallest positive integer $d$ that makes $a^d \equiv 1\pmod m$ true must have $d\mid\varphi(m)$.</p>
+<p>The smallest positive integer <span><span class="MathJax_Preview">d</span><script type="math/tex">d</script></span> that makes <span><span class="MathJax_Preview">a^d \equiv 1\pmod m</span><script type="math/tex">a^d \equiv 1\pmod m</script></span> true must have <span><span class="MathJax_Preview">d\mid\varphi(m)</span><script type="math/tex">d\mid\varphi(m)</script></span>.</p>
 <p><strong>Property 2</strong></p>
-<p>The necessary and sufficient condition for the existence of the original root of the modulo $m$ is $m=2,4,p^{\alpha}, 2p^{\alpha}$ , where $p$ is an odd prime, $\alpha$ is positive Integer.</p>
-<h2 id="discrete-logarithm-problem">Discrete logarithm problem</h2>
-<p>Knowing $g,p,y$, for the equation $y\equiv g^x \pmod p$ , solving $x$ is a difficult problem. But when $p$ has certain characteristics, it can be solved. For example, the order of this group is a smooth number.</p>
+<p>The necessary and sufficient condition for the existence of the original root of the modulo <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> is <span><span class="MathJax_Preview">m=2,4,p^{\alpha}, 2p^{\alpha}</span><script type="math/tex">m=2,4,p^{\alpha}, 2p^{\alpha}</script></span> , where <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> is an odd prime, <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> is positive Integer.</p>
+<h2 id="discrete-logarithm-problem">Discrete logarithm problem<a class="headerlink" href="#discrete-logarithm-problem" title="Permanent link">&para;</a></h2>
+<p>Knowing <span><span class="MathJax_Preview">g,p,y</span><script type="math/tex">g,p,y</script></span>, for the equation <span><span class="MathJax_Preview">y\equiv g^x \pmod p</span><script type="math/tex">y\equiv g^x \pmod p</script></span> , solving <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> is a difficult problem. But when <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> has certain characteristics, it can be solved. For example, the order of this group is a smooth number.</p>
 <p>It is this problem that constitutes a large part of modern cryptography, including Diffie–Hellman key exchange, ElGamal algorithm, ECC, etc.</p>
-<h2 id="discrete-logarithm-solution">Discrete logarithm solution</h2>
-<h3 id="_1">暴暴</h3>
-<p>Given $y\equiv g^x \pmod p$, we can violently enumerate $x$ to get the true value of $x$.</p>
-<h3 id="baby-step-giant-step">Baby-step giant-step</h3>
+<h2 id="discrete-logarithm-solution">Discrete logarithm solution<a class="headerlink" href="#discrete-logarithm-solution" title="Permanent link">&para;</a></h2>
+<h3 id="_1">暴暴<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>Given <span><span class="MathJax_Preview">y\equiv g^x \pmod p</span><script type="math/tex">y\equiv g^x \pmod p</script></span>, we can violently enumerate <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> to get the true value of <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span>.</p>
+<h3 id="baby-step-giant-step">Baby-step giant-step<a class="headerlink" href="#baby-step-giant-step" title="Permanent link">&para;</a></h3>
 <p>This method is often referred to as a small step, which uses the idea of an intermediate encounter attack.</p>
-<p>We can make $x=im+j$, where $m= \lceil \sqrt n\rceil$ , then the integers i and j are all in the range 0 to m.</p>
+<p>We can make <span><span class="MathJax_Preview">x=im+j</span><script type="math/tex">x=im+j</script></span>, where <span><span class="MathJax_Preview">m= \lceil \sqrt n\rceil</span><script type="math/tex">m= \lceil \sqrt n\rceil</script></span> , then the integers i and j are all in the range 0 to m.</p>
 <p>therefore</p>
-<p>$$ y = g ^ x = g ^ {im + j} $$</p>
+<div>
+<div class="MathJax_Preview"> y = g ^ x = g ^ {im + j} </div>
+<script type="math/tex; mode=display"> y = g ^ x = g ^ {im + j} </script>
+</div>
 <p>That is</p>
-<p>$$y(g^{-m})^i=g^j$$</p>
-<p>Then we can enumerate all the j and calculate it and store it in a set S, then we enumerate i again, calculate $y(g^{-m})^i$, once we find the calculation The result in the set S shows that we got a collision and got i and j.</p>
-<p>This is obviously a way of compromise between time and space. We convert a $O(n)$ time complexity, $O(1)$ space complexity algorithm to a $O(\sqrt n)$ The algorithm of time complexity and space complexity of $O(\sqrt n)$.</p>
+<div>
+<div class="MathJax_Preview">y(g^{-m})^i=g^j</div>
+<script type="math/tex; mode=display">y(g^{-m})^i=g^j</script>
+</div>
+<p>Then we can enumerate all the j and calculate it and store it in a set S, then we enumerate i again, calculate <span><span class="MathJax_Preview">y(g^{-m})^i</span><script type="math/tex">y(g^{-m})^i</script></span>, once we find the calculation The result in the set S shows that we got a collision and got i and j.</p>
+<p>This is obviously a way of compromise between time and space. We convert a <span><span class="MathJax_Preview">O(n)</span><script type="math/tex">O(n)</script></span> time complexity, <span><span class="MathJax_Preview">O(1)</span><script type="math/tex">O(1)</script></span> space complexity algorithm to a <span><span class="MathJax_Preview">O(\sqrt n)</span><script type="math/tex">O(\sqrt n)</script></span> The algorithm of time complexity and space complexity of <span><span class="MathJax_Preview">O(\sqrt n)</span><script type="math/tex">O(\sqrt n)</script></span>.</p>
 <p>among them</p>
 <ul>
-<li>Each increment of j means &quot;baby-step&quot;, multiplied by $g$ at a time.</li>
-<li>Each increment of i means &quot;giant-step&quot;, multiplied by $g^{-m}$ at a time.</li>
+<li>Each increment of j means &quot;baby-step&quot;, multiplied by <span><span class="MathJax_Preview">g</span><script type="math/tex">g</script></span> at a time.</li>
+<li>Each increment of i means &quot;giant-step&quot;, multiplied by <span><span class="MathJax_Preview">g^{-m}</span><script type="math/tex">g^{-m}</script></span> at a time.</li>
 </ul>
-<pre><code class="python">
-def bsgs(g, y, p):
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">bsgs</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
 
-    m = int(ceil(sqrt(p - 1)))
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
 
-    S = {pow(g, j, p): j for j in range(m)}
+    <span class="n">S</span> <span class="o">=</span> <span class="p">{</span><span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span> <span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)}</span>
 
-    gs = pow(g, p - 1 - m, p)
+    <span class="n">gs</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-    for i in range(m):
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
 
-        if y in S:
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
 
-            return i * m + S[y]
+            <span class="k">return</span> <span class="n">i</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
 
-y = y * gs% p
-    return None
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">gs</span><span class="o">%</span> <span class="n">p</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
 
-</code></pre>
-
-<h3 id="pollards-algorithm">Pollard&#39;s ρ algorithm</h3>
-<p>We can solve the above problem with the time complexity of $O(\sqrt n)$ and the space complexity of $O(1)$. Please use Google for your specific principles.</p>
-<h3 id="pollards-kangaroo-algorithm">Pollard’s kangaroo algorithm</h3>
-<p>If we know that the range of x is $a \leq x \leq b$, then we can solve the above problem with the time complexity of $O(\sqrt{ba})$. Please use Google for your specific principles.</p>
-<h3 id="pohlig-hellman-algorithm">Pohlig-Hellman algorithm</h3>
-<p>Let&#39;s assume that the above mentioned group has a rank of $n$ for the element $g$, and $n$ is a smooth number: $n=\prod\limits_{i=1}^r p_i^{e_i}$.</p>
+<h3 id="pollards-algorithm">Pollard&#39;s ρ algorithm<a class="headerlink" href="#pollards-algorithm" title="Permanent link">&para;</a></h3>
+<p>We can solve the above problem with the time complexity of <span><span class="MathJax_Preview">O(\sqrt n)</span><script type="math/tex">O(\sqrt n)</script></span> and the space complexity of <span><span class="MathJax_Preview">O(1)</span><script type="math/tex">O(1)</script></span>. Please use Google for your specific principles.</p>
+<h3 id="pollards-kangaroo-algorithm">Pollard’s kangaroo algorithm<a class="headerlink" href="#pollards-kangaroo-algorithm" title="Permanent link">&para;</a></h3>
+<p>If we know that the range of x is <span><span class="MathJax_Preview">a \leq x \leq b</span><script type="math/tex">a \leq x \leq b</script></span>, then we can solve the above problem with the time complexity of <span><span class="MathJax_Preview">O(\sqrt{ba})</span><script type="math/tex">O(\sqrt{ba})</script></span>. Please use Google for your specific principles.</p>
+<h3 id="pohlig-hellman-algorithm">Pohlig-Hellman algorithm<a class="headerlink" href="#pohlig-hellman-algorithm" title="Permanent link">&para;</a></h3>
+<p>Let&#39;s assume that the above mentioned group has a rank of <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> for the element <span><span class="MathJax_Preview">g</span><script type="math/tex">g</script></span>, and <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> is a smooth number: <span><span class="MathJax_Preview">n=\prod\limits_{i=1}^r p_i^{e_i}</span><script type="math/tex">n=\prod\limits_{i=1}^r p_i^{e_i}</script></span>.</p>
 <ol>
-<li>For each $i \in {1,\ldots,r}$ :</li>
-<li>Calculate $g_i \equiv g^{n/p_i^{e_i}} \pmod m$. According to the Lagrange theorem, the order of $g_i$ in the group is $p_i^{e_i}$.</li>
-<li>Calculate $y_i \equiv y^{n/p_i^{e_i}} \equiv g^{xn/p_i^{e_i}} \equiv g_i^{x} \equiv g_i^{x \bmod p_i^{e_i }} \equiv g_i^{x_i} \pmod m$, here we know $y_i,m,g_i$, and $x_i$ ranges from $[0,p_i^{e_i})$, by $n$ is a Smooth numbers, the range is small, so we can quickly find $x_i$ using methods such as <em>Pollard&#39;s kangaroo algorithm</em>.</li>
-<li>According to the above derivation, we can get for $i \in {1,\ldots,r}$ , $x \equiv x_i \pmod{p_i^{e_i}}$ , which can be solved by Chinese remainder theorem .</li>
+<li>For each <span><span class="MathJax_Preview">i \in \{1,\ldots,r\}</span><script type="math/tex">i \in \{1,\ldots,r\}</script></span> :</li>
+<li>Calculate <span><span class="MathJax_Preview">g_i \equiv g^{n/p_i^{e_i}} \pmod m</span><script type="math/tex">g_i \equiv g^{n/p_i^{e_i}} \pmod m</script></span>. According to the Lagrange theorem, the order of <span><span class="MathJax_Preview">g_i</span><script type="math/tex">g_i</script></span> in the group is <span><span class="MathJax_Preview">p_i^{e_i}</span><script type="math/tex">p_i^{e_i}</script></span>.</li>
+<li>Calculate <span><span class="MathJax_Preview">y_i \equiv y^{n/p_i^{e_i}} \equiv g^{xn/p_i^{e_i}} \equiv g_i^{x} \equiv g_i^{x \bmod p_i^{e_i }} \equiv g_i^{x_i} \pmod m</span><script type="math/tex">y_i \equiv y^{n/p_i^{e_i}} \equiv g^{xn/p_i^{e_i}} \equiv g_i^{x} \equiv g_i^{x \bmod p_i^{e_i }} \equiv g_i^{x_i} \pmod m</script></span>, here we know <span><span class="MathJax_Preview">y_i,m,g_i</span><script type="math/tex">y_i,m,g_i</script></span>, and <span><span class="MathJax_Preview">x_i</span><script type="math/tex">x_i</script></span> ranges from <span><span class="MathJax_Preview">[0,p_i^{e_i})</span><script type="math/tex">[0,p_i^{e_i})</script></span>, by <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> is a Smooth numbers, the range is small, so we can quickly find <span><span class="MathJax_Preview">x_i</span><script type="math/tex">x_i</script></span> using methods such as <em>Pollard&#39;s kangaroo algorithm</em>.</li>
+<li>According to the above derivation, we can get for <span><span class="MathJax_Preview">i \in \{1,\ldots,r\}</span><script type="math/tex">i \in \{1,\ldots,r\}</script></span> , <span><span class="MathJax_Preview">x \equiv x_i \pmod{p_i^{e_i}}</span><script type="math/tex">x \equiv x_i \pmod{p_i^{e_i}}</script></span> , which can be solved by Chinese remainder theorem .</li>
 </ol>
 <p>The above process can be briefly described in the following figure:</p>
 <p><center></p>
 <p><img alt="Pohlig Hellman Algorithm" src="../figure/Pohlig-Hellman-Diagram.png" /></p>
 <p></center></p>
-<p>The complexity is $O\left(\sum\limits _i e_i\left(\log n+\sqrt{p_i}\right)\right)$, and it can be seen that the complexity is still very low.</p>
-<p>But when $n$ is prime, $m=2n+1$, then the complexity and $O(\sqrt m)$ are almost indistinguishable.</p>
-<h2 id="2018-crackme-java">2018 国赛crackme java</h2>
+<p>The complexity is <span><span class="MathJax_Preview">O\left(\sum\limits _i e_i\left(\log n+\sqrt{p_i}\right)\right)</span><script type="math/tex">O\left(\sum\limits _i e_i\left(\log n+\sqrt{p_i}\right)\right)</script></span>, and it can be seen that the complexity is still very low.</p>
+<p>But when <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> is prime, <span><span class="MathJax_Preview">m=2n+1</span><script type="math/tex">m=2n+1</script></span>, then the complexity and <span><span class="MathJax_Preview">O(\sqrt m)</span><script type="math/tex">O(\sqrt m)</script></span> are almost indistinguishable.</p>
+<h2 id="2018-crackme-java">2018 国赛crackme java<a class="headerlink" href="#2018-crackme-java" title="Permanent link">&para;</a></h2>
 <p>code show as below</p>
-<pre><code class="java">
-import java.math.BigInteger;
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.math.BigInteger</span><span class="p">;</span>
 
-import java.util.Random;
-
-
-public class Test1 {
-
-    static BigInteger two =new BigInteger(&quot;2&quot;);
-
-    static BigInteger p = new BigInteger(&quot;11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711&quot;);
-
-    static BigInteger h= new BigInteger(&quot;7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916&quot;);
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="p">;</span>
 
 
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test1</span> <span class="p">{</span>
 
-    /*
+    <span class="kd">static</span> <span class="n">BigInteger</span> <span class="n">two</span> <span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="s">&quot;2&quot;</span><span class="p">);</span>
 
-     Alice write the below algorithm for encryption.
+    <span class="kd">static</span> <span class="n">BigInteger</span> <span class="n">p</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="s">&quot;11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711&quot;</span><span class="p">);</span>
 
-     The public key {p, h} is broadcasted to everyone.
-
-    @param val: The plaintext to encrypt.
-
-        We suppose val only contains lowercase letter {a-z} and numeric charactors, and is at most 256 charactors in length.
-
-    */
-
-    public static String pkEnc(String val){
-
-        BigInteger[] ret = new BigInteger[2];
-
-        BigInteger bVal=new BigInteger(val.toLowerCase(),36);
-
-        BigInteger r =new BigInteger(new Random().nextInt()+&quot;&quot;);
-
-ret [0] = two.modPow (r, p);entitled [1] = h.modPow (r, p) .multiply (bVal);
-return right [0] .toString (36) + &amp;quot;==&amp;quot; + ret [1] .toString (36);
-    }
+    <span class="kd">static</span> <span class="n">BigInteger</span> <span class="n">h</span><span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="s">&quot;7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916&quot;</span><span class="p">);</span>
 
 
 
-    /* Alice write the below algorithm for decryption. x is her private key, which she will never let you know.
+    <span class="cm">/*</span>
 
-    public static String skDec(String val,BigInteger x){
+<span class="cm">     Alice write the below algorithm for encryption.</span>
 
-        if(!val.contains(&quot;==&quot;)){
+<span class="cm">     The public key {p, h} is broadcasted to everyone.</span>
 
-            return null;
+<span class="cm">    @param val: The plaintext to encrypt.</span>
 
-        }
+<span class="cm">        We suppose val only contains lowercase letter {a-z} and numeric charactors, and is at most 256 charactors in length.</span>
 
-        else {
+<span class="cm">    */</span>
 
-            BigInteger val0=new BigInteger(val.split(&quot;==&quot;)[0],36);
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">pkEnc</span><span class="p">(</span><span class="n">String</span> <span class="n">val</span><span class="p">){</span>
 
-            BigInteger val1=new BigInteger(val.split(&quot;==&quot;)[1],36);
+        <span class="n">BigInteger</span><span class="o">[]</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigInteger</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">;</span>
 
-            BigInteger s=val0.modPow(x,p).modInverse(p);
+        <span class="n">BigInteger</span> <span class="n">bVal</span><span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">(),</span><span class="mi">36</span><span class="p">);</span>
 
-            return val1.multiply(s).mod(p).toString(36);
+        <span class="n">BigInteger</span> <span class="n">r</span> <span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="k">new</span> <span class="n">Random</span><span class="p">().</span><span class="na">nextInt</span><span class="p">()</span><span class="o">+</span><span class="s">&quot;&quot;</span><span class="p">);</span>
 
-        }
-
-    }
-
-   */
+<span class="n">ret</span> <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">two</span><span class="p">.</span><span class="na">modPow</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span><span class="n">entitled</span> <span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">.</span><span class="na">modPow</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="p">.</span><span class="na">multiply</span> <span class="p">(</span><span class="n">bVal</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">right</span> <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="p">.</span><span class="na">toString</span> <span class="p">(</span><span class="mi">36</span><span class="p">)</span> <span class="o">+</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="o">==&amp;</span><span class="n">quot</span><span class="p">;</span> <span class="o">+</span> <span class="n">ret</span> <span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="p">.</span><span class="na">toString</span> <span class="p">(</span><span class="mi">36</span><span class="p">);</span>
+    <span class="p">}</span>
 
 
 
-    public static void main(String[] args) throws Exception {
+    <span class="cm">/* Alice write the below algorithm for decryption. x is her private key, which she will never let you know.</span>
 
-        System.out.println(&quot;You intercepted the following message, which is sent from Bob to Alice:&quot;);
+<span class="cm">    public static String skDec(String val,BigInteger x){</span>
 
-        BigInteger bVal1=new BigInteger(&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco&quot;,36);
+<span class="cm">        if(!val.contains(&quot;==&quot;)){</span>
 
-    BigInteger bVal2=new BigInteger(&quot;2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;,36);
+<span class="cm">            return null;</span>
 
-    BigInteger r =new BigInteger(new Random().nextInt()+&quot;&quot;);
+<span class="cm">        }</span>
 
-    System.out.println(r);
+<span class="cm">        else {</span>
 
-        System.out.println(bVal1);
+<span class="cm">            BigInteger val0=new BigInteger(val.split(&quot;==&quot;)[0],36);</span>
 
-    System.out.println(bVal2);
+<span class="cm">            BigInteger val1=new BigInteger(val.split(&quot;==&quot;)[1],36);</span>
 
-    System.out.println(&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco==2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;);
+<span class="cm">            BigInteger s=val0.modPow(x,p).modInverse(p);</span>
 
-        System.out.println(&quot;Please figure out the plaintext!&quot;);
+<span class="cm">            return val1.multiply(s).mod(p).toString(36);</span>
 
-    }
+<span class="cm">        }</span>
 
-}
+<span class="cm">    }</span>
 
-</code></pre>
+<span class="cm">   */</span>
+
+
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;You intercepted the following message, which is sent from Bob to Alice:&quot;</span><span class="p">);</span>
+
+        <span class="n">BigInteger</span> <span class="n">bVal1</span><span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="s">&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco&quot;</span><span class="p">,</span><span class="mi">36</span><span class="p">);</span>
+
+    <span class="n">BigInteger</span> <span class="n">bVal2</span><span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="s">&quot;2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;</span><span class="p">,</span><span class="mi">36</span><span class="p">);</span>
+
+    <span class="n">BigInteger</span> <span class="n">r</span> <span class="o">=</span><span class="k">new</span> <span class="n">BigInteger</span><span class="p">(</span><span class="k">new</span> <span class="n">Random</span><span class="p">().</span><span class="na">nextInt</span><span class="p">()</span><span class="o">+</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+
+    <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">bVal1</span><span class="p">);</span>
+
+    <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">bVal2</span><span class="p">);</span>
+
+    <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco==2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;</span><span class="p">);</span>
+
+        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Please figure out the plaintext!&quot;</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
 
 <p>Basic function is calculation</p>
-<p>$ R_0 = 2 ^ r \ way $ p</p>
-<p>$ R_1 = b * h ^ r \ way $ p</p>
-<p>It can be found that the range of r is $[0,2^{32})$, so we can use the BSGS algorithm as follows</p>
-<pre><code class="python">
-from sage.all import *
+<p>$ R_0 = 2 ^ r  way $ p</p>
+<p>$ R_1 = b * h ^ r  way $ p</p>
+<p>It can be found that the range of r is <span><span class="MathJax_Preview">[0,2^{32})</span><script type="math/tex">[0,2^{32})</script></span>, so we can use the BSGS algorithm as follows</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 
-c1 = int(
+<span class="n">c1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
 
-    'a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco',
+    <span class="s1">&#39;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco&#39;</span><span class="p">,</span>
 
-    36
+    <span class="mi">36</span>
 
-)
+<span class="p">)</span>
 
-c2 = int(
+<span class="n">c2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
 
-    '2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc',
+    <span class="s1">&#39;2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&#39;</span><span class="p">,</span>
 
-    36
+    <span class="mi">36</span>
 
-)
+<span class="p">)</span>
 
-print c1, c2
+<span class="nb">print</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span>
 
-p = 11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711
+<span class="n">p</span> <span class="o">=</span> <span class="mi">11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711</span>
 
-h = 7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916
+<span class="n">h</span> <span class="o">=</span> <span class="mi">7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916</span>
 
-# generate the group
+<span class="c1"># generate the group</span>
 
-const2 = 2
-const2 = Mod (const2, p)
-c1 = Mod(c1, p)
+<span class="n">const2</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">const2</span> <span class="o">=</span> <span class="n">Mod</span> <span class="p">(</span><span class="n">const2</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">Mod</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-c2 = Mod(c2, p)
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Mod</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-h = Mod(h, p)
+<span class="n">h</span> <span class="o">=</span> <span class="n">Mod</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-print '2', bsgs(const2, c1, bounds=(1, 2 ^ 32))
-
-
-
-r = 152351913
+<span class="nb">print</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="n">bsgs</span><span class="p">(</span><span class="n">const2</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">^</span> <span class="mi">32</span><span class="p">))</span>
 
 
 
-num = long(c2 / (h**r))
+<span class="n">r</span> <span class="o">=</span> <span class="mi">152351913</span>
 
-Surely Print
-</code></pre>
 
-<h2 id="reference">Reference</h2>
+
+<span class="n">num</span> <span class="o">=</span> <span class="n">long</span><span class="p">(</span><span class="n">c2</span> <span class="o">/</span> <span class="p">(</span><span class="n">h</span><span class="o">**</span><span class="n">r</span><span class="p">))</span>
+
+<span class="n">Surely</span> <span class="n">Print</span>
+</code></pre></div>
+
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Elementary number theory, Pan Chengdong, Pan Chengyu</li>
 <li>
-<p>https://ee.stanford.edu/~hellman/publications/28.pdf</p>
+<p><a href="https://ee.stanford.edu/~hellman/publications/28.pdf">https://ee.stanford.edu/~hellman/publications/28.pdf</a></p>
 </li>
 <li>
-<p>https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm#cite_note-Menezes97p108-2</p>
+<p><a href="https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm#cite_note-Menezes97p108-2">https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm#cite_note-Menezes97p108-2</a></p>
 </li>
 <li>
-<p>https://fortenf.org/e/crypto/2017/12/03/survey-of-discrete-log-algos.html</p>
+<p><a href="https://fortenf.org/e/crypto/2017/12/03/survey-of-discrete-log-algos.html">https://fortenf.org/e/crypto/2017/12/03/survey-of-discrete-log-algos.html</a></p>
 </li>
 </ul>
               
@@ -739,7 +567,7 @@ Surely Print
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -749,7 +577,7 @@ Surely Print
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
@@ -763,8 +591,14 @@ Surely Print
     <script>var base_url = '../../../..';</script>
     <script src="../../../../js/theme.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="../../../../_static/js/extra.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
       <script src="../../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

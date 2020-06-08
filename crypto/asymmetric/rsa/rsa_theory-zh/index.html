@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Rsa theory zh - 西山下,闻溪语,书心境</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
         <div role="search">
@@ -45,377 +47,209 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../..">Index</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Crypto</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../../../introduction/">密码学简介</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../..">Index</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Crypto</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../introduction/">密码学简介</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">基础数学知识</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../basic/introduction/">简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">基础数学知识</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../basic/introduction/">简介</a>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">古典密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">流密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">伪随机数生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/problem/">题目</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">古典密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">线性同余生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/intro/">简介</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/summary/">总结</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/challenge/">例题</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">反馈移位寄存器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/intro/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">伪随机数生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">线性同余生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">反馈移位寄存器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">特殊流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">特殊流密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/special/rc4/">RC4</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">块加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/introduction/">块加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">块加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/arx-operations/">ARX</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/des/">DES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/des/">DES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/idea/">IDEA</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                <li class="toctree-l2"><a class="" href="../../../blockcipher/aes.md">AES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">分组模式</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/introduction/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">分组模式</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding/">填充方式</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ecb/">ECB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cbc/">CBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/pcbc/">PCBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cfb/">CFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ofb/">OFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ctr/">CTR</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">非对称加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../introduction/">非对称加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">非对称加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../introduction/">非对称加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">RSA</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_theory/">RSA 基本介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">RSA</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_theory/">RSA 基本介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_module_attack/">模数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_module_attack/">模数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_e_attack/">公钥指数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_e_attack/">公钥指数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_d_attack/">私钥 d 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_d_attack/">私钥 d 相关攻击</a>
+                <li class="toctree-l3"><a class="" href="../rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_chosen_plain_cipher/">选择明密文攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_side_channel/">侧信道攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_side_channel/">侧信道攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_pkcs_attack/">Bleichenbacher 攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../knapsack/knapsack/">背包加密</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">离散对数相关</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/discrete-log/">离散对数</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">离散对数相关</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/discrete-log/">离散对数</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/elgamal/">Elgamal</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/elgamal/">Elgamal</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/ecc/">ECC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/ecc/">ECC</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">格密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/overview/">格概述</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">格密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/overview/">格概述</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/introduction/">格介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/introduction/">格介绍</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/lattice-reduction/">格基规约算法</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/cvp/">CVP</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/cvp/">CVP</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">哈希函数</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">哈希函数</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/introduction/">哈希函数简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/md5/">MD5</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/md5/">MD5</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/sha1/">SHA1</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/sha1/">SHA1</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/fnv/">FNV</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/fnv/">FNV</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/attack/">Hash Attack</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">数字签名</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">数字签名</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/introduction/">数字签名简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/rsa/">RSA 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                <li class="toctree-l3"><a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/dsa/">DSA 数字签名</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">攻击思想总结</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">攻击思想总结</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/attack-mode/">简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/bit-attack/">比特攻击</a>
                 </li>
     </ul>
                 </li>
     </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../../about/">About</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../../about/">About</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -440,337 +274,424 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
             <div class="section">
               
                 <p><a href="../rsa_theory/">EN</a> | <a href="./">ZH</a></p>
-<h1 id="rsa">RSA 介绍</h1>
+<h1 id="rsa">RSA 介绍<a class="headerlink" href="#rsa" title="Permanent link">&para;</a></h1>
 <p>RSA 加密算法是一种非对称加密算法。在公开密钥加密和电子商业中 RSA 被广泛使用。RSA 是 1977 年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起提出的。RSA 就是他们三人姓氏开头字母拼在一起组成的。</p>
 <p>RSA 算法的可靠性由极大整数因数分解的难度决定。换言之，对一极大整数做因数分解愈困难，RSA 算法愈可靠。假如有人找到一种快速因数分解的算法的话，那么用 RSA 加密的信息的可靠性就肯定会极度下降。但找到这样的算法的可能性是非常小的。如今，只有短的 RSA 密钥才可能被强力方式解破。到 2017 年为止，还没有任何可靠的攻击 RSA 算法的方式。</p>
-<h2 id="_1">基本原理</h2>
-<h3 id="_2">公钥与私钥的产生</h3>
+<h2 id="_1">基本原理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">公钥与私钥的产生<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ol>
-<li>随机选择两个不同大质数 $p$ 和 $q$，计算 $N = p \times q$</li>
-<li>根据欧拉函数，求得 $\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)$</li>
-<li>选择一个小于 $\varphi (N)$ 的整数 $e$，使 $e$ 和 $\varphi (N)$ 互质。并求得 $e$ 关于 $\varphi (N)$ 的模反元素，命名为 $d$，有 $ed\equiv 1 \pmod {\varphi (N)}$</li>
-<li>将 $p​$ 和 $q​$ 的记录销毁</li>
+<li>随机选择两个不同大质数 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> 和 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span>，计算 <span><span class="MathJax_Preview">N = p \times q</span><script type="math/tex">N = p \times q</script></span></li>
+<li>根据欧拉函数，求得 <span><span class="MathJax_Preview">\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)</span><script type="math/tex">\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)</script></span></li>
+<li>选择一个小于 <span><span class="MathJax_Preview">\varphi (N)</span><script type="math/tex">\varphi (N)</script></span> 的整数 <span><span class="MathJax_Preview">e</span><script type="math/tex">e</script></span>，使 <span><span class="MathJax_Preview">e</span><script type="math/tex">e</script></span> 和 <span><span class="MathJax_Preview">\varphi (N)</span><script type="math/tex">\varphi (N)</script></span> 互质。并求得 <span><span class="MathJax_Preview">e</span><script type="math/tex">e</script></span> 关于 <span><span class="MathJax_Preview">\varphi (N)</span><script type="math/tex">\varphi (N)</script></span> 的模反元素，命名为 <span><span class="MathJax_Preview">d</span><script type="math/tex">d</script></span>，有 <span><span class="MathJax_Preview">ed\equiv 1 \pmod {\varphi (N)}</span><script type="math/tex">ed\equiv 1 \pmod {\varphi (N)}</script></span></li>
+<li>将 <span><span class="MathJax_Preview">p​</span><script type="math/tex">p​</script></span> 和 <span><span class="MathJax_Preview">q​</span><script type="math/tex">q​</script></span> 的记录销毁</li>
 </ol>
-<p>此时，$(N,e)$ 是公钥，$(N,d)$ 是私钥。</p>
-<h3 id="_3">消息加密</h3>
-<p>首先需要将消息 以一个双方约定好的格式转化为一个小于 $N$，且与 $N$ 互质的整数 $m$。如果消息太长，可以将消息分为几段，这也就是我们所说的块加密，后对于每一部分利用如下公式加密：</p>
-<p>$$
+<p>此时，<span><span class="MathJax_Preview">(N,e)</span><script type="math/tex">(N,e)</script></span> 是公钥，<span><span class="MathJax_Preview">(N,d)</span><script type="math/tex">(N,d)</script></span> 是私钥。</p>
+<h3 id="_3">消息加密<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>首先需要将消息 以一个双方约定好的格式转化为一个小于 <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>，且与 <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span> 互质的整数 <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span>。如果消息太长，可以将消息分为几段，这也就是我们所说的块加密，后对于每一部分利用如下公式加密：</p>
+<div>
+<div class="MathJax_Preview">
 m^{e}\equiv c\pmod N
-$$</p>
-<h3 id="_4">消息解密</h3>
-<p>利用密钥 $d​$ 进行解密。</p>
-<p>$$
+</div>
+<script type="math/tex; mode=display">
+m^{e}\equiv c\pmod N
+</script>
+</div>
+<h3 id="_4">消息解密<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>利用密钥 <span><span class="MathJax_Preview">d​</span><script type="math/tex">d​</script></span> 进行解密。</p>
+<div>
+<div class="MathJax_Preview">
 c^{d}\equiv m\pmod N
-$$</p>
-<h3 id="_5">正确性证明</h3>
-<p>即我们要证$m^{ed} \equiv m \bmod N$，已知$ed \equiv 1 \bmod \phi(N)$，那么 $ed=k\phi(N)+1$，即需要证明</p>
-<p>$$
+</div>
+<script type="math/tex; mode=display">
+c^{d}\equiv m\pmod N
+</script>
+</div>
+<h3 id="_5">正确性证明<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>即我们要证<span><span class="MathJax_Preview">m^{ed} \equiv m \bmod N</span><script type="math/tex">m^{ed} \equiv m \bmod N</script></span>，已知<span><span class="MathJax_Preview">ed \equiv 1 \bmod \phi(N)</span><script type="math/tex">ed \equiv 1 \bmod \phi(N)</script></span>，那么 <span><span class="MathJax_Preview">ed=k\phi(N)+1</span><script type="math/tex">ed=k\phi(N)+1</script></span>，即需要证明</p>
+<div>
+<div class="MathJax_Preview">
 m^{k\phi(N)+1}  \equiv m \bmod N
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+m^{k\phi(N)+1}  \equiv m \bmod N
+</script>
+</div>
 <p>这里我们分两种情况证明</p>
-<p>第一种情况 $gcd(m,N)=1​$，那么 $m^{\phi(N)} \equiv 1 \bmod N​$，因此原式成立。</p>
-<p>第二种情况 $gcd(m,N)\neq 1$，那么 $m$ 必然是 $p$ 或者 $q$ 的倍数，并且 $n=m$ 小于 $N$。我们假设</p>
-<p>$$
+<p>第一种情况 <span><span class="MathJax_Preview">gcd(m,N)=1​</span><script type="math/tex">gcd(m,N)=1​</script></span>，那么 <span><span class="MathJax_Preview">m^{\phi(N)} \equiv 1 \bmod N​</span><script type="math/tex">m^{\phi(N)} \equiv 1 \bmod N​</script></span>，因此原式成立。</p>
+<p>第二种情况 <span><span class="MathJax_Preview">gcd(m,N)\neq 1</span><script type="math/tex">gcd(m,N)\neq 1</script></span>，那么 <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> 必然是 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> 或者 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> 的倍数，并且 <span><span class="MathJax_Preview">n=m</span><script type="math/tex">n=m</script></span> 小于 <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>。我们假设</p>
+<div>
+<div class="MathJax_Preview">
 m=xp
-$$</p>
-<p>那么 $x$ 必然小于 $q$，又由于 $q$ 是素数。那么</p>
-<p>$$
+</div>
+<script type="math/tex; mode=display">
+m=xp
+</script>
+</div>
+<p>那么 <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> 必然小于 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span>，又由于 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> 是素数。那么</p>
+<div>
+<div class="MathJax_Preview">
 m^{\phi(q)} \equiv 1 \bmod q
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+m^{\phi(q)} \equiv 1 \bmod q
+</script>
+</div>
 <p>进而</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 m^{k\phi(N)}=m^{k(p-1)(q-1)}=(m^{\phi(q)})^{k(p-1)} \equiv 1 \bmod q
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+m^{k\phi(N)}=m^{k(p-1)(q-1)}=(m^{\phi(q)})^{k(p-1)} \equiv 1 \bmod q
+</script>
+</div>
 <p>那么</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 m^{k\phi(N)+1}=m+uqm
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+m^{k\phi(N)+1}=m+uqm
+</script>
+</div>
 <p>进而</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 m^{k\phi(N)+1}=m+uqxp=m+uxN
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+m^{k\phi(N)+1}=m+uqxp=m+uxN
+</script>
+</div>
 <p>所以原式成立。</p>
-<h2 id="_6">基本工具</h2>
-<h3 id="rsatool">RSAtool</h3>
+<h2 id="_6">基本工具<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="rsatool">RSAtool<a class="headerlink" href="#rsatool" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>安装</p>
-<p><code>bash
-git clone https://github.com/ius/rsatool.git
-cd rsatool
-python rsatool.py -h</code></p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/ius/rsatool.git
+<span class="nb">cd</span> rsatool
+python rsatool.py -h
+</code></pre></div>
+
 </li>
 <li>
 <p>生成私钥</p>
-<p><code>bash
-python rsatool.py -f PEM -o private.pem -p 1234567 -q 7654321</code></p>
+<div class="highlight"><pre><span></span><code>python rsatool.py -f PEM -o private.pem -p <span class="m">1234567</span> -q <span class="m">7654321</span>
+</code></pre></div>
+
 </li>
 </ul>
-<h3 id="rsa-converter">RSA Converter</h3>
+<h3 id="rsa-converter">RSA Converter<a class="headerlink" href="#rsa-converter" title="Permanent link">&para;</a></h3>
 <ul>
 <li>根据给定密钥对，生成 pem 文件</li>
-<li>根据 $n$，$e$，$d$ 得出 $p$，$q$</li>
+<li>根据 <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span>，<span><span class="MathJax_Preview">e</span><script type="math/tex">e</script></span>，<span><span class="MathJax_Preview">d</span><script type="math/tex">d</script></span> 得出 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span>，<span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span></li>
 </ul>
-<h3 id="openssl">openssl</h3>
+<h3 id="openssl">openssl<a class="headerlink" href="#openssl" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>查看公钥文件</p>
-<p><code>shell
-openssl rsa -pubin -in pubkey.pem -text -modulus</code></p>
+<div class="highlight"><pre><span></span><code>openssl rsa -pubin -in pubkey.pem -text -modulus
+</code></pre></div>
+
 </li>
 <li>
 <p>解密</p>
-<p><code>shell
-rsautl -decrypt -inkey private.pem -in flag.enc -out flag</code></p>
+<div class="highlight"><pre><span></span><code>rsautl -decrypt -inkey private.pem -in flag.enc -out flag
+</code></pre></div>
+
 </li>
 </ul>
 <p>更加具体的细节请参考 <code>openssl --help</code>。</p>
-<h3 id="_7">分解整数工具</h3>
+<h3 id="_7">分解整数工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li>网站分解，<a href="http://factordb.com/">factor.db</a></li>
 <li>命令行分解，<a href="https://github.com/ryosan-470/factordb-pycli">factordb-pycli</a>，借用 factordb 数据库。</li>
 <li><a href="https://sourceforge.net/projects/yafu/">yafu</a></li>
 </ul>
-<h3 id="python">python 库</h3>
-<h4 id="primefac">primefac</h4>
+<h3 id="python">python 库<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<h4 id="primefac">primefac<a class="headerlink" href="#primefac" title="Permanent link">&para;</a></h4>
 <p>整数分解库，包含了很多整数分解的算法。</p>
-<h4 id="gmpy">gmpy</h4>
+<h4 id="gmpy">gmpy<a class="headerlink" href="#gmpy" title="Permanent link">&para;</a></h4>
 <ul>
 <li><code>gmpy.root(a, b)</code>，返回一个元组 <code>(x, y)</code>，其中 <code>x</code> 为 <code>a</code> 开 <code>b</code> 次方的值，<code>y</code> 是判断 <code>x</code> 是否为整数的布尔型变量</li>
 </ul>
-<h4 id="gmpy2">gmpy2</h4>
+<h4 id="gmpy2">gmpy2<a class="headerlink" href="#gmpy2" title="Permanent link">&para;</a></h4>
 <p>安装时，可能会需要自己另行安装 mfpr 与 mpc 库。</p>
 <ul>
 <li><code>gmpy2.iroot(a, b)</code>，类似于 <code>gmpy.root(a,b)</code></li>
 </ul>
-<h4 id="pycrypto">pycrypto</h4>
+<h4 id="pycrypto">pycrypto<a class="headerlink" href="#pycrypto" title="Permanent link">&para;</a></h4>
 <ul>
 <li>
 <p>安装</p>
-<p><code>bash
-sudo pip install pycrypto</code></p>
+<div class="highlight"><pre><span></span><code>sudo pip install pycrypto
+</code></pre></div>
+
 </li>
 <li>
 <p>使用</p>
-<p>```python
-import gmpy
-from Crypto.Util.number import *
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_v1_5</p>
-<p>msg = 'crypto here'
-p = getPrime(128)
-q = getPrime(128)
-n = p*q
-e = getPrime(64)
-pubkey = RSA.construct((long(n), long(e)))
-privatekey = RSA.construct((long(n), long(e), long(d), long(p), long(q)))
-key = PKCS1_v1_5.new(pubkey)
-enc = key.encrypt(msg).encode('base64')
-key = PKCS1_v1_5.new(privatekey)
-msg = key.decrypt(enc.decode('base64'), e)
-```</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">gmpy</span>
+<span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Crypto.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+<span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_v1_5</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;crypto here&#39;</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+<span class="n">pubkey</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">construct</span><span class="p">((</span><span class="n">long</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">long</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+<span class="n">privatekey</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">construct</span><span class="p">((</span><span class="n">long</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">long</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">long</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">long</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">long</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">PKCS1_v1_5</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
+<span class="n">enc</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;base64&#39;</span><span class="p">)</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">PKCS1_v1_5</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">privatekey</span><span class="p">)</span>
+<span class="n">msg</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">enc</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;base64&#39;</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+
 </li>
 </ul>
-<h2 id="jarvis-oj-basic-veryeasyrsa">Jarvis OJ - Basic - veryeasyRSA</h2>
+<h2 id="jarvis-oj-basic-veryeasyrsa">Jarvis OJ - Basic - veryeasyRSA<a class="headerlink" href="#jarvis-oj-basic-veryeasyrsa" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>p = 3487583947589437589237958723892346254777 q = 8767867843568934765983476584376578389</p>
 <p>e = 65537</p>
 <p>求 d = </p>
 <p>请提交 <code>PCTF{d}</code></p>
 </blockquote>
-<p>直接根据 $ed\equiv 1 \pmod{\varphi (N)}$，其中 $\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)$，可得 $d$。</p>
-<pre><code class="python">import gmpy2
-p = 3487583947589437589237958723892346254777
-q = 8767867843568934765983476584376578389
-e = 65537
-phin = (p - 1) * (q - 1)
-print gmpy2.invert(e, phin)
-</code></pre>
+<p>直接根据 <span><span class="MathJax_Preview">ed\equiv 1 \pmod{\varphi (N)}</span><script type="math/tex">ed\equiv 1 \pmod{\varphi (N)}</script></span>，其中 <span><span class="MathJax_Preview">\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)</span><script type="math/tex">\varphi (N)=\varphi (p)\varphi (q)=(p-1)(q-1)</script></span>，可得 <span><span class="MathJax_Preview">d</span><script type="math/tex">d</script></span>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">gmpy2</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">3487583947589437589237958723892346254777</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mi">8767867843568934765983476584376578389</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">65537</span>
+<span class="n">phin</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phin</span><span class="p">)</span>
+</code></pre></div>
 
-<pre><code class="shell">➜  Jarvis OJ-Basic-veryeasyRSA git:(master) ✗ python exp.py       
-19178568796155560423675975774142829153827883709027717723363077606260717434369
-</code></pre>
+<div class="highlight"><pre><span></span><code>➜  Jarvis OJ-Basic-veryeasyRSA git:<span class="o">(</span>master<span class="o">)</span> ✗ python exp.py       
+<span class="m">19178568796155560423675975774142829153827883709027717723363077606260717434369</span>
+</code></pre></div>
 
-<h2 id="2018-codegate-ctf-rsababy">2018 CodeGate CTF Rsababy</h2>
+<h2 id="2018-codegate-ctf-rsababy">2018 CodeGate CTF Rsababy<a class="headerlink" href="#2018-codegate-ctf-rsababy" title="Permanent link">&para;</a></h2>
 <p>程序就是一个简单的 RSA，不过程序还生成了两个奇怪的数</p>
-<pre><code class="python">e = 65537
-n = p * q
-pi_n = (p-1)*(q-1)
-d = mulinv(e, pi_n)
-h = (d+p)^(d-p)
-g = d*(p-0xdeadbeef)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">e</span> <span class="o">=</span> <span class="mi">65537</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+<span class="n">pi_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">mulinv</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">pi_n</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="n">p</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="n">d</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mh">0xdeadbeef</span><span class="p">)</span>
+</code></pre></div>
 
 <p>所以，问题应该出自这里，所以我们就从此下手，不放这里先假设 <code>const = 0xdeadbeef</code>。那么</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 eg = ed * (p-const)
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+eg = ed * (p-const)
+</script>
+</div>
 <p>进而，根据 RSA 可知</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 2^{eg}=2^{ed * (p-const)}=2^{p-const} \pmod n
-$$</p>
-<p>$$
+</div>
+<script type="math/tex; mode=display">
+2^{eg}=2^{ed * (p-const)}=2^{p-const} \pmod n
+</script>
+</div>
+<div>
+<div class="MathJax_Preview">
 2^{p-const} * 2^{const-1} = 2^{p-1} \pmod n
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+2^{p-const} * 2^{const-1} = 2^{p-1} \pmod n
+</script>
+</div>
 <p>所以</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 2^{p-1} = 2^{eg} * 2^{const-1}+kn
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+2^{p-1} = 2^{eg} * 2^{const-1}+kn
+</script>
+</div>
 <p>而与此同时根据费马小定理，我们知道</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 2^{p-1} \equiv 1 \pmod p
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+2^{p-1} \equiv 1 \pmod p
+</script>
+</div>
 <p>所以</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 p|2^{p-1}-1 | 2^{eg+const-1}-1+kn
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+p|2^{p-1}-1 | 2^{eg+const-1}-1+kn
+</script>
+</div>
 <p>进而</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 p|2^{eg+const-1}-1
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+p|2^{eg+const-1}-1
+</script>
+</div>
 <p>所以</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 p|gcd(2^{eg+const-1}-1,n)
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+p|gcd(2^{eg+const-1}-1,n)
+</script>
+</div>
 <p>因此，代码如下</p>
-<pre><code class="python">tmp = gmpy2.powmod(2,e*g+const-1,n)-1
-p = gmpy2.gcd(tmp,n)
-q = n/p
-phin = (p-1)*(q-1)
-d =gmpy2.invert(e,phin)
-plain = gmpy2.powmod(data,d,n)
-print hex(plain)[2:].decode('hex')
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">tmp</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">powmod</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">e</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="n">const</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="n">p</span>
+<span class="n">phin</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span><span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">phin</span><span class="p">)</span>
+<span class="n">plain</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">powmod</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="nb">print</span> <span class="nb">hex</span><span class="p">(</span><span class="n">plain</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+</code></pre></div>
 
-<h2 id="2018-pure-math">2018 国家安全周 pure math</h2>
+<h2 id="2018-pure-math">2018 国家安全周 pure math<a class="headerlink" href="#2018-pure-math" title="Permanent link">&para;</a></h2>
 <p>题目的基本描述是这个样子的</p>
-<pre><code>1) p ** p % q = 1137973316343089029387365135250835133803975869258714714790597743585251681751361684698632609164883988455302237641489036138661596754239799122081528662395492
+<div class="highlight"><pre><span></span><code>1) p ** p % q = 1137973316343089029387365135250835133803975869258714714790597743585251681751361684698632609164883988455302237641489036138661596754239799122081528662395492
 2) q ** q % p = 6901383184477756324584651464895743132603115552606852729050186289748558760692261058141015199261946483809004373728135568483701274908717004197776113227815323
 3) (p ** q + q ** p) % (p*q) = 16791287391494893024031688699360885996180880807427715700800644759680986120242383930558410147341340225420991368114858791447699399702390358184412301644459406
 4) (p+q) ** (p+q) % (p*q) = 63112211860889153729003401381621068190906433969243079543438386686621389392583849748240273643614258173423474299387234175508649197780206757067354426424570586101908571600743792328163163458500138799976944702155779196849585083397395750018148652864158388247163109077215394538930498877175474225571393901460434679279
 5) FLAG ** 31337 % (p*q) = 6931243291746179589612148118911670244427928875888377273917973305632621316868302667641610838193899081089153471883271406133321321416064760200919958612671379845738048938060512995550639898688604592620908415248701721672948126507753670027043162669545932921683579001870526727737212722417683610956855529996310258030
 Now, what’s the FLAG???
-</code></pre>
+</code></pre></div>
 
 <p>我们的目的基本上就是求得 FLAG，那么怎么做呢?这个题目需要我们具有较好的数论功底。</p>
-<p>根据题目中这样的内容，我们可以假设 $p$，$q$ 都是大素数，那么</p>
-<p>$p^{q-1} \equiv  1\bmod q$</p>
+<p>根据题目中这样的内容，我们可以假设 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span>，<span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> 都是大素数，那么</p>
+<p><span><span class="MathJax_Preview">p^{q-1} \equiv  1\bmod q</span><script type="math/tex">p^{q-1} \equiv  1\bmod q</script></span></p>
 <p>那么</p>
-<p>$p^{q} \equiv p \bmod pq$</p>
+<p><span><span class="MathJax_Preview">p^{q} \equiv p \bmod pq</span><script type="math/tex">p^{q} \equiv p \bmod pq</script></span></p>
 <p>那么我们可以根据 3）知道</p>
-<p>$p^q+q^p \equiv p+q \bmod pq$</p>
-<p>而 $p+q$ 又显然小于 $pq$，所以我们就知道 $p+q$ 的数值。</p>
-<p>进一步，我们假设1），2），3），4），5）对应的值分别为 $x_1$, $x_2$, $x_3$, $x_4$, $x_5$ 则</p>
+<p><span><span class="MathJax_Preview">p^q+q^p \equiv p+q \bmod pq</span><script type="math/tex">p^q+q^p \equiv p+q \bmod pq</script></span></p>
+<p>而 <span><span class="MathJax_Preview">p+q</span><script type="math/tex">p+q</script></span> 又显然小于 <span><span class="MathJax_Preview">pq</span><script type="math/tex">pq</script></span>，所以我们就知道 <span><span class="MathJax_Preview">p+q</span><script type="math/tex">p+q</script></span> 的数值。</p>
+<p>进一步，我们假设1），2），3），4），5）对应的值分别为 <span><span class="MathJax_Preview">x_1</span><script type="math/tex">x_1</script></span>, <span><span class="MathJax_Preview">x_2</span><script type="math/tex">x_2</script></span>, <span><span class="MathJax_Preview">x_3</span><script type="math/tex">x_3</script></span>, <span><span class="MathJax_Preview">x_4</span><script type="math/tex">x_4</script></span>, <span><span class="MathJax_Preview">x_5</span><script type="math/tex">x_5</script></span> 则</p>
 <p>根据4），我们可以知道</p>
-<p>$(p+q)^{p+q} \equiv p^{p+q}+q^{p+q} \bmod pq$</p>
+<p><span><span class="MathJax_Preview">(p+q)^{p+q} \equiv p^{p+q}+q^{p+q} \bmod pq</span><script type="math/tex">(p+q)^{p+q} \equiv p^{p+q}+q^{p+q} \bmod pq</script></span></p>
 <p>又因为1）和 2），则</p>
-<p>$p^pp \equiv px_1\bmod pq$</p>
-<p>$q^qq \equiv qx_2 \bmod pq$</p>
+<p><span><span class="MathJax_Preview">p^pp \equiv px_1\bmod pq</span><script type="math/tex">p^pp \equiv px_1\bmod pq</script></span></p>
+<p><span><span class="MathJax_Preview">q^qq \equiv qx_2 \bmod pq</span><script type="math/tex">q^qq \equiv qx_2 \bmod pq</script></span></p>
 <p>因此</p>
-<p>$px_1+qx_2 \equiv x_4 \bmod pq$</p>
-<p>根据 $x_1$ 和 $x_2$ 的求得方式，我们可以知道这里也是等号，因此我们得到了一个二元一次方程组，直接求解即可。</p>
-<pre><code class="python">import gmpy2
-x1 = 1137973316343089029387365135250835133803975869258714714790597743585251681751361684698632609164883988455302237641489036138661596754239799122081528662395492
-x2 = 6901383184477756324584651464895743132603115552606852729050186289748558760692261058141015199261946483809004373728135568483701274908717004197776113227815323
-p_q = 16791287391494893024031688699360885996180880807427715700800644759680986120242383930558410147341340225420991368114858791447699399702390358184412301644459406
-x4 = 63112211860889153729003401381621068190906433969243079543438386686621389392583849748240273643614258173423474299387234175508649197780206757067354426424570586101908571600743792328163163458500138799976944702155779196849585083397395750018148652864158388247163109077215394538930498877175474225571393901460434679279
+<p><span><span class="MathJax_Preview">px_1+qx_2 \equiv x_4 \bmod pq</span><script type="math/tex">px_1+qx_2 \equiv x_4 \bmod pq</script></span></p>
+<p>根据 <span><span class="MathJax_Preview">x_1</span><script type="math/tex">x_1</script></span> 和 <span><span class="MathJax_Preview">x_2</span><script type="math/tex">x_2</script></span> 的求得方式，我们可以知道这里也是等号，因此我们得到了一个二元一次方程组，直接求解即可。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">gmpy2</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="mi">1137973316343089029387365135250835133803975869258714714790597743585251681751361684698632609164883988455302237641489036138661596754239799122081528662395492</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="mi">6901383184477756324584651464895743132603115552606852729050186289748558760692261058141015199261946483809004373728135568483701274908717004197776113227815323</span>
+<span class="n">p_q</span> <span class="o">=</span> <span class="mi">16791287391494893024031688699360885996180880807427715700800644759680986120242383930558410147341340225420991368114858791447699399702390358184412301644459406</span>
+<span class="n">x4</span> <span class="o">=</span> <span class="mi">63112211860889153729003401381621068190906433969243079543438386686621389392583849748240273643614258173423474299387234175508649197780206757067354426424570586101908571600743792328163163458500138799976944702155779196849585083397395750018148652864158388247163109077215394538930498877175474225571393901460434679279</span>
 
-if (x4 - x1 * p_q) % (x2 - x1) == 0:
-    print 'True'
-q = (x4 - x1 * p_q) / (x2 - x1)
-print q
-p = p_q - q
+<span class="k">if</span> <span class="p">(</span><span class="n">x4</span> <span class="o">-</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">p_q</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;True&#39;</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">(</span><span class="n">x4</span> <span class="o">-</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">p_q</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">q</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">p_q</span> <span class="o">-</span> <span class="n">q</span>
 
-c = 6931243291746179589612148118911670244427928875888377273917973305632621316868302667641610838193899081089153471883271406133321321416064760200919958612671379845738048938060512995550639898688604592620908415248701721672948126507753670027043162669545932921683579001870526727737212722417683610956855529996310258030
+<span class="n">c</span> <span class="o">=</span> <span class="mi">6931243291746179589612148118911670244427928875888377273917973305632621316868302667641610838193899081089153471883271406133321321416064760200919958612671379845738048938060512995550639898688604592620908415248701721672948126507753670027043162669545932921683579001870526727737212722417683610956855529996310258030</span>
 
-phin = (p - 1) * (q - 1)
-d = gmpy2.invert(31337, phin)
-flag = gmpy2.powmod(c, d, p * q)
-flag = hex(flag)[2:]
-print flag.decode('hex')
-</code></pre>
+<span class="n">phin</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="mi">31337</span><span class="p">,</span> <span class="n">phin</span><span class="p">)</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">powmod</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">flag</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+<span class="nb">print</span> <span class="n">flag</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>flag  如下</p>
-<pre><code class="shell">➜  2018-国家安全周第一场-puremath git:(master) ✗ python exp.py
+<div class="highlight"><pre><span></span><code>➜  <span class="m">2018</span>-国家安全周第一场-puremath git:<span class="o">(</span>master<span class="o">)</span> ✗ python exp.py
 True
-7635093784603905632817000902311635311970645531806863592697496927519352405158721310359124595712780726701027634372170535318453656286180828724079479352052417
-flag{6a66b8d5-6047-4299-a48e-4c4d1f874d12}
-</code></pre>
+<span class="m">7635093784603905632817000902311635311970645531806863592697496927519352405158721310359124595712780726701027634372170535318453656286180828724079479352052417</span>
+flag<span class="o">{</span>6a66b8d5-6047-4299-a48e-4c4d1f874d12<span class="o">}</span>
+</code></pre></div>
 
-<h2 id="2018-pwnhub-lhy">2018 Pwnhub LHY</h2>
+<h2 id="2018-pwnhub-lhy">2018 Pwnhub LHY<a class="headerlink" href="#2018-pwnhub-lhy" title="Permanent link">&para;</a></h2>
 <p>首先分析这段代码</p>
-<pre><code class="python">assert gmpy.is_prime(y)**2016 + gmpy.is_prime(x + 1)**2017 + (
-    (x**2 - 1)**2 % (2 * x * y - 1) + 2
-)**2018 == 30097557298197417800049182668952226601954645169633891463401117760245367082644152355564014438095421962150109895432272944128252155287648477680131934943095113263121691874508742328500559321036238322775864636883202538152031804102118831278605474474352011895348919417742923873371980983336517409056008233804190890418285814476821890492630167665485823056526646050928460488168341721716361299816947722947465808004305806687049198633489997459201469227952552870291934919760829984421958853221330987033580524592596407485826446284220272614663464267135596497185086055090126893989371261962903295313304735911034185619611156742146
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="k">assert</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2016</span> <span class="o">+</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2017</span> <span class="o">+</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="p">)</span><span class="o">**</span><span class="mi">2018</span> <span class="o">==</span> <span class="mi">30097557298197417800049182668952226601954645169633891463401117760245367082644152355564014438095421962150109895432272944128252155287648477680131934943095113263121691874508742328500559321036238322775864636883202538152031804102118831278605474474352011895348919417742923873371980983336517409056008233804190890418285814476821890492630167665485823056526646050928460488168341721716361299816947722947465808004305806687049198633489997459201469227952552870291934919760829984421958853221330987033580524592596407485826446284220272614663464267135596497185086055090126893989371261962903295313304735911034185619611156742146</span>
+</code></pre></div>
 
 <p>由于 <code>gmpy.is_prime</code> 要么返回1，要么返回 0，所以我们可以很容易地试出来 <code>y</code> 是素数，<code>x+1</code> 也是素数，并且</p>
-<p>$(x^2-1)^2\equiv 0 \bmod (2xy-1)$</p>
-<p>为了式子能够整除，猜测 $x=2y$ 。</p>
+<p><span><span class="MathJax_Preview">(x^2-1)^2\equiv 0 \bmod (2xy-1)</span><script type="math/tex">(x^2-1)^2\equiv 0 \bmod (2xy-1)</script></span></p>
+<p>为了式子能够整除，猜测 <span><span class="MathJax_Preview">x=2y</span><script type="math/tex">x=2y</script></span> 。</p>
 <p>于是，对于下面的内容</p>
-<pre><code class="python">p = gmpy.next_prime(x**3 + y**3)
-q = gmpy.next_prime(x**2 * y + y**2 * x)
-n = p * q
-phi = (p - 1) * (q - 1)
-d = gmpy.invert(0x10001, phi)
-enc = pow(bytes_to_long(flag), 0x10001, n)
-print 'n =', n
-print 'enc =', enc
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">p</span> <span class="o">=</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">gmpy</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="mh">0x10001</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+<span class="n">enc</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">bytes_to_long</span><span class="p">(</span><span class="n">flag</span><span class="p">),</span> <span class="mh">0x10001</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;n =&#39;</span><span class="p">,</span> <span class="n">n</span>
+<span class="nb">print</span> <span class="s1">&#39;enc =&#39;</span><span class="p">,</span> <span class="n">enc</span>
+</code></pre></div>
 
-<p>$p$ 和 $q$ 自然为</p>
-<p>$p=next_prime(9y^3)$</p>
-<p>$q=next_prime(6y^3)$</p>
-<p>根据素数的间隔，可以知道 $p$ 和 $q$ 最多比括号里的数字大一点，这里一般不会超过 $1000$。</p>
+<p><span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> 和 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> 自然为</p>
+<p><span><span class="MathJax_Preview">p=next\_prime(9y^3)</span><script type="math/tex">p=next\_prime(9y^3)</script></span></p>
+<p><span><span class="MathJax_Preview">q=next\_prime(6y^3)</span><script type="math/tex">q=next\_prime(6y^3)</script></span></p>
+<p>根据素数的间隔，可以知道 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> 和 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> 最多比括号里的数字大一点，这里一般不会超过 <span><span class="MathJax_Preview">1000</span><script type="math/tex">1000</script></span>。</p>
 <p>那么</p>
-<p>$n \geq 54y^6$</p>
-<p>所以我们知道了 $y$ 的上界，而对于 $y$ 的下界其实也不会离上界太远，我们大概减个几十万。进而，我们利用二分查找的方式来寻找 $p$ 和 $q$，如下</p>
-<pre><code class="python">import gmpy2
-tmp = 30097557298197417800049182668952226601954645169633891463401117760245367082644152355564014438095421962150109895432272944128252155287648477680131934943095113263121691874508742328500559321036238322775864636883202538152031804102118831278605474474352011895348919417742923873371980983336517409056008233804190890418285814476821890492630167665485823056526646050928460488168341721716361299816947722947465808004305806687049198633489997459201469227952552870291934919760829984421958853221330987033580524592596407485826446284220272614663464267135596497185086055090126893989371261962903295313304735911034185619611156742146
+<p><span><span class="MathJax_Preview">n \geq 54y^6</span><script type="math/tex">n \geq 54y^6</script></span></p>
+<p>所以我们知道了 <span><span class="MathJax_Preview">y</span><script type="math/tex">y</script></span> 的上界，而对于 <span><span class="MathJax_Preview">y</span><script type="math/tex">y</script></span> 的下界其实也不会离上界太远，我们大概减个几十万。进而，我们利用二分查找的方式来寻找 <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> 和 <span><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span>，如下</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">gmpy2</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="mi">30097557298197417800049182668952226601954645169633891463401117760245367082644152355564014438095421962150109895432272944128252155287648477680131934943095113263121691874508742328500559321036238322775864636883202538152031804102118831278605474474352011895348919417742923873371980983336517409056008233804190890418285814476821890492630167665485823056526646050928460488168341721716361299816947722947465808004305806687049198633489997459201469227952552870291934919760829984421958853221330987033580524592596407485826446284220272614663464267135596497185086055090126893989371261962903295313304735911034185619611156742146</span>
 
-print gmpy2.iroot(tmp, 2018)
-print gmpy2.iroot(tmp - 1, 2018)
+<span class="nb">print</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">iroot</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="mi">2018</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">iroot</span><span class="p">(</span><span class="n">tmp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2018</span><span class="p">)</span>
 
-print gmpy2.iroot(tmp - 2, 2018)
+<span class="nb">print</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">iroot</span><span class="p">(</span><span class="n">tmp</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2018</span><span class="p">)</span>
 
-n = 260272753019642842691231717156206014402348296256668058656902033827190888150939144319270903947159599144884859205368557385941127216969379550487700198771513118894125094678559478972591331182960004648132846372455712958337042783083099376871113795475285658106058675217077803768944674144803250791799957440111855021945690877200606577646234107957498370758707097662736662439460472126493593605957225541979181422479704018055731221681621886820626215670393536343427267329350730257979042198593215747542270975288047196483958369426727778580292311145109908665004662296440533724591193527886702374790526322791818523938910660223971454070731594803459613066617828657725704376475527288174777197739360634209448477565044519733575375490101670974499385760735451471034271880800081246883157088501597655371430353965493264345172541221268942926210055390568364981514774743693528424196241142665685211916330254113610598390909248626686397970038848966187547231199741
+<span class="n">n</span> <span class="o">=</span> <span class="mi">260272753019642842691231717156206014402348296256668058656902033827190888150939144319270903947159599144884859205368557385941127216969379550487700198771513118894125094678559478972591331182960004648132846372455712958337042783083099376871113795475285658106058675217077803768944674144803250791799957440111855021945690877200606577646234107957498370758707097662736662439460472126493593605957225541979181422479704018055731221681621886820626215670393536343427267329350730257979042198593215747542270975288047196483958369426727778580292311145109908665004662296440533724591193527886702374790526322791818523938910660223971454070731594803459613066617828657725704376475527288174777197739360634209448477565044519733575375490101670974499385760735451471034271880800081246883157088501597655371430353965493264345172541221268942926210055390568364981514774743693528424196241142665685211916330254113610598390909248626686397970038848966187547231199741</span>
 
-y = 191904757378974300059526915134037747982760255307942501070454569331878491189601823952845623286161325306079772871025816081849039036850918375408172174102720702781463514549851887084613000000L
-y = gmpy2.next_prime(y)
+<span class="n">y</span> <span class="o">=</span> <span class="mi">191904757378974300059526915134037747982760255307942501070454569331878491189601823952845623286161325306079772871025816081849039036850918375408172174102720702781463514549851887084613000000</span><span class="n">L</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
-enc = 73933313646416156737449236838459526871566017180178176765840447023088664788672323530940171469589918772272559607026808711216932468486201094786991159096267208480969757088208089800600731106685561375522764783335332964711981392251568543122418192877756299395774738176188452197889668610818741062203831272066261677731889616150485770623945568369493256759711422067551058418926344060504112146971937651406886327429318390247733970549845424064244469193626197360072341969574784310397213033860597822010667926563087858301337091484951760613299203587677078666096526093414014637559237148644939541419075479462431789925219269815364529507771308181435591670281081465439913711912925412078002618729159141400730636976744132429329651487292506365655834202469178066850282850374067239317928012461993443785247524500680257923687511378073703423047348824611101206633407452837948194591695712958510124436821151767823443033286425729473563002691262316964646014201612
+<span class="n">enc</span> <span class="o">=</span> <span class="mi">73933313646416156737449236838459526871566017180178176765840447023088664788672323530940171469589918772272559607026808711216932468486201094786991159096267208480969757088208089800600731106685561375522764783335332964711981392251568543122418192877756299395774738176188452197889668610818741062203831272066261677731889616150485770623945568369493256759711422067551058418926344060504112146971937651406886327429318390247733970549845424064244469193626197360072341969574784310397213033860597822010667926563087858301337091484951760613299203587677078666096526093414014637559237148644939541419075479462431789925219269815364529507771308181435591670281081465439913711912925412078002618729159141400730636976744132429329651487292506365655834202469178066850282850374067239317928012461993443785247524500680257923687511378073703423047348824611101206633407452837948194591695712958510124436821151767823443033286425729473563002691262316964646014201612</span>
 
-end = gmpy2.iroot(n / 54, 6)[0]
-beg = end - 2000000
+<span class="n">end</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">iroot</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">6</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">beg</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">2000000</span>
 
-mid = 1
-while beg &lt; end:
-    mid = (beg + end) / 2
-    if gmpy2.is_prime(mid) != 1:
-        mid = gmpy2.next_prime(mid)
-    p = gmpy2.next_prime(9 * mid**3)
-    q = gmpy2.next_prime(6 * mid**3)
-    n1 = p * q
-    if n1 == n:
-        print p, q
-        phin = (p - 1) * (q - 1)
-        d = gmpy2.invert(0x10001, phin)
-        m = gmpy2.powmod(enc, d, n)
-        print hex(m)[2:].strip('L').decode('hex')
-        print 'ok'
-        exit(0)
-    elif n1 &lt; n:
-        beg = mid
-    else:
-        end = mid
-    print beg, end
-</code></pre>
+<span class="n">mid</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">beg</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">beg</span> <span class="o">+</span> <span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">is_prime</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="n">mid</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">mid</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">n1</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+    <span class="k">if</span> <span class="n">n1</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span>
+        <span class="n">phin</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="mh">0x10001</span><span class="p">,</span> <span class="n">phin</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">powmod</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="nb">hex</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s1">&#39;ok&#39;</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">n1</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">beg</span> <span class="o">=</span> <span class="n">mid</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span>
+    <span class="nb">print</span> <span class="n">beg</span><span class="p">,</span> <span class="n">end</span>
+</code></pre></div>
               
             </div>
           </div>
@@ -784,7 +705,7 @@ while beg &lt; end:
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -794,7 +715,7 @@ while beg &lt; end:
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
@@ -804,8 +725,14 @@ while beg &lt; end:
     <script>var base_url = '../../../..';</script>
     <script src="../../../../js/theme.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="../../../../_static/js/extra.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
       <script src="../../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

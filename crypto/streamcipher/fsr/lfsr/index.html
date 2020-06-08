@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>线性反馈移位寄存器 - 西山下,闻溪语,书心境</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
         <div role="search">
@@ -45,405 +47,229 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../..">Index</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Crypto</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../../../introduction/">密码学简介</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../..">Index</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Crypto</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../../introduction/">密码学简介</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">基础数学知识</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../basic/introduction/">简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">基础数学知识</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../basic/introduction/">简介</a>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">古典密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">流密码</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../intro/">介绍</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">伪随机数生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../prng/problem/">题目</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">古典密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">线性同余生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lcg/intro/">简介</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/summary/">总结</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lcg/challenge/">例题</a>
                 </li>
     </ul>
                 </li>
-                <li class=" current">
-                    
-    <span class="caption-text">流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../intro/">介绍</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">反馈移位寄存器</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../intro/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">伪随机数生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../prng/intro/">介绍</a>
+                <li class="toctree-l3 current"><a class="reference internal current" href="./">线性反馈移位寄存器</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#characteristic-polynomial-and-generator">Characteristic Polynomial and Generator</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sequence-cycle-and-generation-function">Sequence cycle and generation function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#special-nature">Special nature</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#bm-algorithm">BM algorithm</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2018-streamgame1">2018 强网杯streamgame1</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2018-ciscn-preliminary-match-oldstreamgame">2018 CISCN preliminary match oldstreamgame</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#topic">topic</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#references">references</a>
+    </li>
+    </ul>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../prng/problem/">题目</a>
+                <li class="toctree-l3"><a class="reference internal" href="../nfsr/">非线性反馈移位寄存器</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">线性同余生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3 current">
-                    
-    <span class="caption-text">反馈移位寄存器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../intro/">介绍</a>
-                </li>
-                <li class="toctree-l4 current">
-                    
-    <a class="current" href="./">线性反馈移位寄存器</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l5"><a href="#linear-feedback-shift-register-lfsr">Linear Feedback Shift Register - LFSR</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l6" href="#introduction">Introduction</a></li>
-        
-            <li><a class="toctree-l6" href="#characteristic-polynomial-and-generator">Characteristic Polynomial and Generator</a></li>
-        
-            <li><a class="toctree-l6" href="#sequence-cycle-and-generation-function">Sequence cycle and generation function</a></li>
-        
-            <li><a class="toctree-l6" href="#special-nature">Special nature</a></li>
-        
-            <li><a class="toctree-l6" href="#bm-algorithm">BM algorithm</a></li>
-        
-            <li><a class="toctree-l6" href="#2018-streamgame1">2018 强网杯streamgame1</a></li>
-        
-            <li><a class="toctree-l6" href="#2018-ciscn-preliminary-match-oldstreamgame">2018 CISCN preliminary match oldstreamgame</a></li>
-        
-            <li><a class="toctree-l6" href="#topic">topic</a></li>
-        
-            <li><a class="toctree-l6" href="#references">references</a></li>
-        
-        </ul>
-    
-
-    </ul>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">特殊流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../special/rc4/">RC4</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">特殊流密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../special/rc4/">RC4</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">块加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/introduction/">块加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">块加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/arx-operations/">ARX</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/des/">DES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/des/">DES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/idea/">IDEA</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                <li class="toctree-l2"><a class="" href="../../../blockcipher/aes.md">AES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">分组模式</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/introduction/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">分组模式</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding/">填充方式</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ecb/">ECB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cbc/">CBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/pcbc/">PCBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cfb/">CFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ofb/">OFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ctr/">CTR</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">非对称加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../asymmetric/introduction/">非对称加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">非对称加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../asymmetric/introduction/">非对称加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">RSA</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">RSA</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                <li class="toctree-l3"><a class="" href="../../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/rsa/rsa_complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/rsa/rsa_complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../asymmetric/knapsack/knapsack/">背包加密</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../asymmetric/knapsack/knapsack/">背包加密</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">离散对数相关</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/discrete-log/discrete-log/">离散对数</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">离散对数相关</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/discrete-log/discrete-log/">离散对数</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/discrete-log/elgamal/">Elgamal</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/discrete-log/elgamal/">Elgamal</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/discrete-log/ecc/">ECC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/discrete-log/ecc/">ECC</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">格密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/lattice/overview/">格概述</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">格密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/lattice/overview/">格概述</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/lattice/introduction/">格介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/lattice/introduction/">格介绍</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../asymmetric/lattice/cvp/">CVP</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../asymmetric/lattice/cvp/">CVP</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">哈希函数</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">哈希函数</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/introduction/">哈希函数简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/md5/">MD5</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/md5/">MD5</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/sha1/">SHA1</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/sha1/">SHA1</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/fnv/">FNV</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/fnv/">FNV</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/attack/">Hash Attack</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">数字签名</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">数字签名</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/introduction/">数字签名简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/rsa/">RSA 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                <li class="toctree-l3"><a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/dsa/">DSA 数字签名</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">攻击思想总结</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">攻击思想总结</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/attack-mode/">简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/bit-attack/">比特攻击</a>
                 </li>
     </ul>
                 </li>
     </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../../about/">About</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../../about/">About</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -480,38 +306,42 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
             <div class="section">
               
                 <p><a href="./">EN</a> | <a href="../lfsr-zh/">ZH</a></p>
-<h1 id="linear-feedback-shift-register-lfsr">Linear Feedback Shift Register - LFSR</h1>
-<h2 id="introduction">Introduction</h2>
+<h1 id="linear-feedback-shift-register-lfsr">Linear Feedback Shift Register - LFSR<a class="headerlink" href="#linear-feedback-shift-register-lfsr" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>The feedback function of the linear feedback shift register is generally as follows</p>
-<p>$a_{i+n}=\sum\limits_{j=1}^{n}c_ja_{i+n-j}$</p>
-<p>Where $c_j$ is in a finite field $F_q$.</p>
+<p><span><span class="MathJax_Preview">a_{i+n}=\sum\limits_{j=1}^{n}c_ja_{i+n-j}</span><script type="math/tex">a_{i+n}=\sum\limits_{j=1}^{n}c_ja_{i+n-j}</script></span></p>
+<p>Where <span><span class="MathJax_Preview">c_j</span><script type="math/tex">c_j</script></span> is in a finite field <span><span class="MathJax_Preview">F_q</span><script type="math/tex">F_q</script></span>.</p>
 <p>Since the linear space is a linear transformation, we can know that this linear transformation is</p>
-<p>$$ \left[ \begin{matrix} 0   &amp; 0      &amp; \cdots &amp; 0 &amp; c_n     \ 1   &amp; 0      &amp; \cdots &amp; 0 &amp; c_{n-1}  \ 0   &amp; 1      &amp; \cdots &amp; 0 &amp; c_{n-2}\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \ 0   &amp; 0      &amp; \cdots &amp; 1 &amp; c_1     \ \end{matrix} \right] $$</p>
+<div>
+<div class="MathJax_Preview"> \left[ \begin{matrix} 0   &amp; 0      &amp; \cdots &amp; 0 &amp; c_n     \\ 1   &amp; 0      &amp; \cdots &amp; 0 &amp; c_{n-1}  \\ 0   &amp; 1      &amp; \cdots &amp; 0 &amp; c_{n-2}\\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0   &amp; 0      &amp; \cdots &amp; 1 &amp; c_1     \\ \end{matrix} \right] </div>
+<script type="math/tex; mode=display"> \left[ \begin{matrix} 0   & 0      & \cdots & 0 & c_n     \\ 1   & 0      & \cdots & 0 & c_{n-1}  \\ 0   & 1      & \cdots & 0 & c_{n-2}\\\vdots & \vdots & \ddots & \vdots \\ 0   & 0      & \cdots & 1 & c_1     \\ \end{matrix} \right] </script>
+</div>
 <p>Furthermore, we can find the characteristic polynomial as</p>
-<p>$ f (x) = x ^ n- \ sum \ limit_ {i = 1} ^ {n} c_ix ^ {in} $</p>
+<p>$ f (x) = x ^ n-  sum  limit_ {i = 1} ^ {n} c_ix ^ {in} $</p>
 <p>At the same time, we define its reciprocal polynomial as</p>
-<p>$\overline f(x)=x^nf(\frac{1}{x})=1-\sum\limits_{i=1}^{n}c_ix^{i}$</p>
+<p><span><span class="MathJax_Preview">\overline f(x)=x^nf(\frac{1}{x})=1-\sum\limits_{i=1}^{n}c_ix^{i}</span><script type="math/tex">\overline f(x)=x^nf(\frac{1}{x})=1-\sum\limits_{i=1}^{n}c_ix^{i}</script></span></p>
 <p>We also call the reciprocal polynomial as the joint polynomial of the linear feedback shift register.</p>
 <p>Here are some theorems that we need to remember. Interesting can be derived by ourselves.</p>
-<h2 id="characteristic-polynomial-and-generator">Characteristic Polynomial and Generator</h2>
+<h2 id="characteristic-polynomial-and-generator">Characteristic Polynomial and Generator<a class="headerlink" href="#characteristic-polynomial-and-generator" title="Permanent link">&para;</a></h2>
 <p>Knowing the characteristic polynomial of an n-level linear feedback shift register, then the corresponding generation function of the sequence is</p>
-<p>$A(x)=\frac{p(x)}{\overline f(x)}$</p>
-<p>Where $p(x)=\sum\limits_{i=1}^{n}(c_{ni}x^{ni}\sum\limits_{j=1}^{i}a_jx^{j-1 })$. It can be seen that p(x) is completely determined by the initial state and the coefficient of the feedback function.</p>
-<h2 id="sequence-cycle-and-generation-function">Sequence cycle and generation function</h2>
+<p><span><span class="MathJax_Preview">A(x)=\frac{p(x)}{\overline f(x)}</span><script type="math/tex">A(x)=\frac{p(x)}{\overline f(x)}</script></span></p>
+<p>Where <span><span class="MathJax_Preview">p(x)=\sum\limits_{i=1}^{n}(c_{ni}x^{ni}\sum\limits_{j=1}^{i}a_jx^{j-1 })</span><script type="math/tex">p(x)=\sum\limits_{i=1}^{n}(c_{ni}x^{ni}\sum\limits_{j=1}^{i}a_jx^{j-1 })</script></span>. It can be seen that p(x) is completely determined by the initial state and the coefficient of the feedback function.</p>
+<h2 id="sequence-cycle-and-generation-function">Sequence cycle and generation function<a class="headerlink" href="#sequence-cycle-and-generation-function" title="Permanent link">&para;</a></h2>
 <p>The period of the sequence is the period of the denominator of the resulting true fraction of the function.</p>
-<p>For n-level linear feedback shift registers, the longest period is $2^{n-1}$ (excluding all zeros). The sequence that reaches the longest period is generally referred to as the m sequence.</p>
-<h2 id="special-nature">Special nature</h2>
+<p>For n-level linear feedback shift registers, the longest period is <span><span class="MathJax_Preview">2^{n-1}</span><script type="math/tex">2^{n-1}</script></span> (excluding all zeros). The sequence that reaches the longest period is generally referred to as the m sequence.</p>
+<h2 id="special-nature">Special nature<a class="headerlink" href="#special-nature" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The two sequences are accumulated to give a new sequence whose period is the sum of the periods of the two sequences.</li>
 <li>The sequence is an n-level m sequence if and only if the minimal polynomial of the sequence is n primitive polynomials.</li>
 </ul>
-<h2 id="bm-algorithm">BM algorithm</h2>
+<h2 id="bm-algorithm">BM algorithm<a class="headerlink" href="#bm-algorithm" title="Permanent link">&para;</a></h2>
 <p>In general, we can consider LFSR from two perspectives.</p>
 <ul>
 <li>Key generation angle. Generally, we want to use a LFSR with as low a level as possible to generate a sequence with a large period and good randomness.</li>
@@ -529,271 +359,259 @@
 <li>Space complexity: O(n) bits.</li>
 </ul>
 <p>Details about the BM algorithm, added later, are currently in the learning process.</p>
-<p>But in fact, if we know the sequence of length 2n, we can also get a stupid way to get the original sequence. Let&#39;s assume that the known sequence is $a_1,...,a_{2n}$, we can make</p>
-<p>$S_1=(a_1,...,a_n)$</p>
-<p>$S_2=(a_2,...,a_{n+1})$</p>
+<p>But in fact, if we know the sequence of length 2n, we can also get a stupid way to get the original sequence. Let&#39;s assume that the known sequence is <span><span class="MathJax_Preview">a_1,...,a_{2n}</span><script type="math/tex">a_1,...,a_{2n}</script></span>, we can make</p>
+<p><span><span class="MathJax_Preview">S_1=(a_1,...,a_n)</span><script type="math/tex">S_1=(a_1,...,a_n)</script></span></p>
+<p><span><span class="MathJax_Preview">S_2=(a_2,...,a_{n+1})</span><script type="math/tex">S_2=(a_2,...,a_{n+1})</script></span></p>
 <p>....</p>
-<p>$S_{n+1}=(a_{n+1},...,a_{2n})$</p>
-<p>Then we can construct the matrix $X=(S_1,...,S_n)$, then</p>
-<p>$S_{n+1}=(c_n,...,c_1)X$</p>
+<p><span><span class="MathJax_Preview">S_{n+1}=(a_{n+1},...,a_{2n})</span><script type="math/tex">S_{n+1}=(a_{n+1},...,a_{2n})</script></span></p>
+<p>Then we can construct the matrix <span><span class="MathJax_Preview">X=(S_1,...,S_n)</span><script type="math/tex">X=(S_1,...,S_n)</script></span>, then</p>
+<p><span><span class="MathJax_Preview">S_{n+1}=(c_n,...,c_1)X</span><script type="math/tex">S_{n+1}=(c_n,...,c_1)X</script></span></p>
 <p>and so</p>
-<p>$(c_n,...,c_1)=S_{n+1}X^{-1}$</p>
+<p><span><span class="MathJax_Preview">(c_n,...,c_1)=S_{n+1}X^{-1}</span><script type="math/tex">(c_n,...,c_1)=S_{n+1}X^{-1}</script></span></p>
 <p>Then we also know the feedback expression of the LFSR, and then we can introduce the initialization seed.</p>
-<h2 id="2018-streamgame1">2018 强网杯streamgame1</h2>
+<h2 id="2018-streamgame1">2018 强网杯streamgame1<a class="headerlink" href="#2018-streamgame1" title="Permanent link">&para;</a></h2>
 <p>Simply look at the topic</p>
-<pre><code class="python">
-from flag import flag
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">flag</span> <span class="kn">import</span> <span class="n">flag</span>
 
-assert flag.startswith(&quot;flag{&quot;)
+<span class="k">assert</span> <span class="n">flag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;flag{&quot;</span><span class="p">)</span>
 
-assert flag.endswith(&quot;}&quot;)
+<span class="k">assert</span> <span class="n">flag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)</span>
 
-assert len(flag)==25
-
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span><span class="o">==</span><span class="mi">25</span>
 
 
-def lfsr(R,mask):
 
-    output = (R &lt;&lt; 1) &amp; 0xffffff
+<span class="k">def</span> <span class="nf">lfsr</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">mask</span><span class="p">):</span>
 
-    i=(R&amp;mask)&amp;0xffffff
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffff</span>
 
-    lastbit=0
+    <span class="n">i</span><span class="o">=</span><span class="p">(</span><span class="n">R</span><span class="o">&amp;</span><span class="n">mask</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0xffffff</span>
 
-    while i!=0:
+    <span class="n">lastbit</span><span class="o">=</span><span class="mi">0</span>
 
-        lastbit^=(i&amp;1)
+    <span class="k">while</span> <span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
 
-        i=i&gt;&gt;1
+        <span class="n">lastbit</span><span class="o">^=</span><span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span>
 
-    output^=lastbit
+        <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span>
 
-    return (output,lastbit)
+    <span class="n">output</span><span class="o">^=</span><span class="n">lastbit</span>
 
+    <span class="k">return</span> <span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="n">lastbit</span><span class="p">)</span>
 
 
 
 
 
 
-R=int(flag[5:-1],2)
 
-mask    =   0b1010011000100011100
+<span class="n">R</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">flag</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">mask</span>    <span class="o">=</span>   <span class="mb">0b1010011000100011100</span>
 
 
 
-f=open(&quot;key&quot;,&quot;ab&quot;)
+<span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span><span class="s2">&quot;ab&quot;</span><span class="p">)</span>
 
-for i in range(12):
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
 
-    tmp=0
+    <span class="n">tmp</span><span class="o">=</span><span class="mi">0</span>
 
-    for j in range(8):
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
 
-        (R,out)=lfsr(R,mask)
+        <span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">out</span><span class="p">)</span><span class="o">=</span><span class="n">lfsr</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">mask</span><span class="p">)</span>
 
-        tmp=(tmp &lt;&lt; 1)^out
+        <span class="n">tmp</span><span class="o">=</span><span class="p">(</span><span class="n">tmp</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="n">out</span>
 
-    f.write(chr(tmp))
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">tmp</span><span class="p">))</span>
 
-f.close()
-
-</code></pre>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
 
 <p>It can be found that the length of the flag is 25-5-1=19, so it can be violently enumerated. result</p>
-<pre><code class="shell">
-➜ 2018-Strong Net Cup-streamgame1 git:(master) ✗ python exp.py
-12
+<div class="highlight"><pre><span></span><code>➜ <span class="m">2018</span>-Strong Net Cup-streamgame1 git:<span class="o">(</span>master<span class="o">)</span> ✗ python exp.py
+<span class="m">12</span>
 
 0b1110101100001101011
-
-</code></pre>
+</code></pre></div>
 
 <p>Therefore flag is flag{1110101100001101011}.</p>
-<h2 id="2018-ciscn-preliminary-match-oldstreamgame">2018 CISCN preliminary match oldstreamgame</h2>
+<h2 id="2018-ciscn-preliminary-match-oldstreamgame">2018 CISCN preliminary match oldstreamgame<a class="headerlink" href="#2018-ciscn-preliminary-match-oldstreamgame" title="Permanent link">&para;</a></h2>
 <p>Simply look at the topic</p>
-<pre><code class="shell">
-flag = &quot;flag{xxxxxxxxxxxxxxxx}&quot;
+<div class="highlight"><pre><span></span><code><span class="nv">flag</span> <span class="o">=</span> <span class="s2">&quot;flag{xxxxxxxxxxxxxxxx}&quot;</span>
 
-assert flag.startswith(&quot;flag{&quot;)
+assert flag.startswith<span class="o">(</span><span class="s2">&quot;flag{&quot;</span><span class="o">)</span>
 
-assert flag.endswith(&quot;}&quot;)
+assert flag.endswith<span class="o">(</span><span class="s2">&quot;}&quot;</span><span class="o">)</span>
 
-assert len(flag)==14
-
-
-
-def lfsr(R,mask):
-
-    output = (R &lt;&lt; 1) &amp; 0xffffffff
-
-    i=(R&amp;mask)&amp;0xffffffff
-
-    lastbit=0
-
-    while i!=0:
-
-        lastbit^=(i&amp;1)
-
-        i=i&gt;&gt;1
-
-    output^=lastbit
-
-    return (output,lastbit)
+assert len<span class="o">(</span>flag<span class="o">)==</span><span class="m">14</span>
 
 
 
-R=int(flag[5:-1],16)
+def lfsr<span class="o">(</span>R,mask<span class="o">)</span>:
 
-mask = 0b10100100000010000000100010010100
+    <span class="nv">output</span> <span class="o">=</span> <span class="o">(</span>R <span class="s">&lt;&lt; 1) &amp; 0xffffffff</span>
+
+<span class="s">    i=(R&amp;mask)&amp;0xffffffff</span>
+
+<span class="s">    lastbit=0</span>
+
+<span class="s">    while i!=0:</span>
+
+<span class="s">        lastbit^=(i&amp;1</span><span class="o">)</span>
+
+        <span class="nv">i</span><span class="o">=</span>i&gt;&gt;1
+
+    output^<span class="o">=</span>lastbit
+
+    <span class="k">return</span> <span class="o">(</span>output,lastbit<span class="o">)</span>
 
 
 
-f=open(&quot;key&quot;,&quot;w&quot;)
+<span class="nv">R</span><span class="o">=</span>int<span class="o">(</span>flag<span class="o">[</span><span class="m">5</span>:-1<span class="o">]</span>,16<span class="o">)</span>
 
-for i in range(100):
+<span class="nv">mask</span> <span class="o">=</span> 0b10100100000010000000100010010100
 
-    tmp=0
 
-    for j in range(8):
 
-        (R,out)=lfsr(R,mask)
+<span class="nv">f</span><span class="o">=</span>open<span class="o">(</span><span class="s2">&quot;key&quot;</span>,<span class="s2">&quot;w&quot;</span><span class="o">)</span>
 
-        tmp=(tmp &lt;&lt; 1)^out
+<span class="k">for</span> i in range<span class="o">(</span><span class="m">100</span><span class="o">)</span>:
 
-    f.write(chr(tmp))
+    <span class="nv">tmp</span><span class="o">=</span><span class="m">0</span>
 
-f.close()
+    <span class="k">for</span> j in range<span class="o">(</span><span class="m">8</span><span class="o">)</span>:
 
-</code></pre>
+        <span class="o">(</span>R,out<span class="o">)=</span>lfsr<span class="o">(</span>R,mask<span class="o">)</span>
+
+        <span class="nv">tmp</span><span class="o">=(</span>tmp &lt;&lt; <span class="m">1</span><span class="o">)</span>^out
+
+    f.write<span class="o">(</span>chr<span class="o">(</span>tmp<span class="o">))</span>
+
+f.close<span class="o">()</span>
+</code></pre></div>
 
 <p>The program is very simple, it is still an LFSR, but the initial state is 32 bits. Of course, we can also choose to blast, but here we do not choose blasting.</p>
 <p>Here are two approaches.</p>
 <p>In the first method, the 32th bit of the program output is determined by the first 31 bits of the program output and the first bit of the initial seed, so we can know the first bit of the initial seed, and then we can know the initial seed. The second bit, and so on. code show as below</p>
-<pre><code class="python">
-mask = 0b10100100000010000000100010010100
+<div class="highlight"><pre><span></span><code><span class="n">mask</span> <span class="o">=</span> <span class="mb">0b10100100000010000000100010010100</span>
 
-b = ''
+<span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-N = 32
+<span class="n">N</span> <span class="o">=</span> <span class="mi">32</span>
 
-with open('key', 'rb') as f:
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 
-    b = f.read()
+    <span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-key = ''
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-for i in range(N / 8):
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">8</span><span class="p">):</span>
 
-    t = ord(b[i])
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
-    for j in xrange(7, -1, -1):
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
 
-        key += str(t &gt;&gt; j &amp; 1)
+        <span class="n">key</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span> <span class="o">&gt;&gt;</span> <span class="n">j</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
 
-idx = 0
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
 
-ans = &amp;quot;&amp;quot;
-key = key[31] + key[:32]
+<span class="n">ans</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span><span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span> <span class="o">+</span> <span class="n">key</span><span class="p">[:</span><span class="mi">32</span><span class="p">]</span>
 
-while idx &lt; 32:
+<span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">:</span>
 
-    tmp = 0
+    <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span>
 
-    for i in range(32):
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
 
-        if mask &gt;&gt; i &amp; 1:
+        <span class="k">if</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
 
-            tmp ^= int(key[31 - i])
+            <span class="n">tmp</span> <span class="o">^=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">31</span> <span class="o">-</span> <span class="n">i</span><span class="p">])</span>
 
-ans = str (tmp) + years
-    idx += 1
+<span class="n">ans</span> <span class="o">=</span> <span class="nb">str</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">+</span> <span class="n">years</span>
+    <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    key = key[31] + str(tmp) + key[1:31]
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">+</span> <span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
 
-Surely = int (ans, 2)
-Print Hex (whether)
-</code></pre>
+<span class="n">Surely</span> <span class="o">=</span> <span class="nb">int</span> <span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">Print</span> <span class="n">Hex</span> <span class="p">(</span><span class="n">whether</span><span class="p">)</span>
+</code></pre></div>
 
 <p>run</p>
-<pre><code class="shell">
-➜  2018-CISCN-start-oldstreamgame git:(master) ✗ python exp1.py
+<div class="highlight"><pre><span></span><code>➜  <span class="m">2018</span>-CISCN-start-oldstreamgame git:<span class="o">(</span>master<span class="o">)</span> ✗ python exp1.py
 
 0x926201d7
-
-</code></pre>
+</code></pre></div>
 
 <p>In the second approach, we can consider the process of matrix conversion. If 32 linear transformations are performed, the first 32 bits of the output stream can be obtained. In fact, we only need the first 32 bits to restore the initial state.</p>
-<pre><code class="python">
-mask = 0b10100100000010000000100010010100
+<div class="highlight"><pre><span></span><code><span class="n">mask</span> <span class="o">=</span> <span class="mb">0b10100100000010000000100010010100</span>
 
 
 
-N = 32
+<span class="n">N</span> <span class="o">=</span> <span class="mi">32</span>
 
-F = GF(2)
-
-
-
-b = ''
-
-with open('key', 'rb') as f:
-
-    b = f.read()
+<span class="n">F</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
 
 
-R = [vector(F, N) for i in range(N)]
+<span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-for i in range(N):
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 
-    R[i][N - 1] = mask &gt;&gt; (31 - i) &amp; 1
-
-for i in range(N - 1):
-
-    R[i + 1][i] = 1
-
-M = Matrix(F, R)
-
-M = M ^ N
+    <span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 
 
-vec = vector(F, N)
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="n">vector</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
 
-row = 0
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
 
-for i in range(N / 8):
+    <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">31</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
 
-    t = ord(b[i])
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
 
-    for j in xrange(7, -1, -1):
+    <span class="n">R</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
-        vec[row] = t &gt;&gt; j &amp; 1
+<span class="n">M</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
 
-        row += 1
+<span class="n">M</span> <span class="o">=</span> <span class="n">M</span> <span class="o">^</span> <span class="n">N</span>
 
-print rank(M)
 
-num = int(''.join(map(str, list(M.solve_left(vec)))), 2)
 
-Print Hex (whether)
-</code></pre>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">8</span><span class="p">):</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">vec</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span> <span class="o">&gt;&gt;</span> <span class="n">j</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+        <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nb">print</span> <span class="n">rank</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+<span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">solve_left</span><span class="p">(</span><span class="n">vec</span><span class="p">)))),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Print</span> <span class="n">Hex</span> <span class="p">(</span><span class="n">whether</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Running script</p>
-<pre><code class="shell">
-➜  2018-CISCN-start-oldstreamgame git:(master) ✗ sage exp.sage
+<div class="highlight"><pre><span></span><code>➜  <span class="m">2018</span>-CISCN-start-oldstreamgame git:<span class="o">(</span>master<span class="o">)</span> ✗ sage exp.sage
 
-32
+<span class="m">32</span>
 
 0x926201d7
-
-</code></pre>
+</code></pre></div>
 
 <p>Thus flag is flag{926201d7}.</p>
 <p>Another way is for TokyoWesterns, you can refer to the corresponding folder file.</p>
-<h2 id="topic">topic</h2>
-<h2 id="references">references</h2>
+<h2 id="topic">topic<a class="headerlink" href="#topic" title="Permanent link">&para;</a></h2>
+<h2 id="references">references<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Cryptography handouts, edited by Li Chao, Qu Longjiang</li>
 </ul>
@@ -819,7 +637,7 @@ Print Hex (whether)
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -829,7 +647,7 @@ Print Hex (whether)
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
@@ -843,8 +661,14 @@ Print Hex (whether)
     <script>var base_url = '../../../..';</script>
     <script src="../../../../js/theme.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="../../../../_static/js/extra.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
       <script src="../../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../../../img/favicon.ico">
   <title>ARX - 西山下,闻溪语,书心境</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
         <div role="search">
@@ -45,393 +47,227 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../..">Index</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Crypto</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../../introduction/">密码学简介</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Index</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Crypto</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../introduction/">密码学简介</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">基础数学知识</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../basic/introduction/">简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">基础数学知识</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../basic/introduction/">简介</a>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">古典密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">流密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">伪随机数生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/prng/problem/">题目</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">古典密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../classical/introduction/">古典密码简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">线性同余生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/lcg/intro/">简介</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../classical/summary/">总结</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/lcg/challenge/">例题</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../streamcipher/intro/">介绍</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">反馈移位寄存器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/fsr/intro/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">伪随机数生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/prng/intro/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/prng/problem/">题目</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">线性同余生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">反馈移位寄存器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/fsr/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">特殊流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../streamcipher/special/rc4/">RC4</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">特殊流密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../streamcipher/special/rc4/">RC4</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">块加密</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../introduction/">块加密简介</a>
                 </li>
-                <li class=" current">
-                    
-    <span class="caption-text">块加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../introduction/">块加密简介</a>
-                </li>
-                <li class="toctree-l3 current">
-                    
-    <a class="current" href="./">ARX</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l4"><a href="#add-rotate-xor">Add-Rotate-Xor</a></li>
-    
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">ARX</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#advantages-and-disadvantages">Advantages and disadvantages</a>
         <ul>
-        
-            <li><a class="toctree-l5" href="#overview">Overview</a></li>
-        
-            <li><a class="toctree-l5" href="#advantages-and-disadvantages">Advantages and disadvantages</a></li>
-        
-            <li><a class="toctree-l5" href="#topic">topic</a></li>
-        
+    <li class="toctree-l4"><a class="reference internal" href="#advantages">Advantages</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#disadvantages">Disadvantages</a>
+    </li>
         </ul>
-    
-
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../des/">DES</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../idea/">IDEA</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../aes.md">AES</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../simon-speck/">Simon and Speck</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">分组模式</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/introduction/">介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/padding/">填充方式</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/ecb/">ECB</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/cbc/">CBC</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/pcbc/">PCBC</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/cfb/">CFB</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/ofb/">OFB</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../mode/padding-oracle-attack/">Padding Oracle Attack</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                </li>
-                <li class="">
-                    
-    <span class="caption-text">非对称加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../asymmetric/introduction/">非对称加密简介</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">RSA</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/rsa/rsa_complex/">综合</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../asymmetric/knapsack/knapsack/">背包加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">离散对数相关</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/discrete-log/discrete-log/">离散对数</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/discrete-log/elgamal/">Elgamal</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/discrete-log/ecc/">ECC</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">格密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/lattice/overview/">格概述</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/lattice/introduction/">格介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../asymmetric/lattice/cvp/">CVP</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">哈希函数</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/introduction/">哈希函数简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/md5/">MD5</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/sha1/">SHA1</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/fnv/">FNV</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/attack/">Hash Attack</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../hash/complex/">综合</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">数字签名</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../signature/introduction/">数字签名简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../signature/rsa/">RSA 数字签名</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../signature/elgamal.md">ElGamal 数字签名</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../signature/dsa/">DSA 数字签名</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">攻击思想总结</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../attack-summary/attack-mode/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../attack-summary/bit-attack/">比特攻击</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../about/">About</a>
-	    </li>
-          
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#topic">topic</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#2018-ctf-primitive">2018 *ctf primitive</a>
+    </li>
         </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../des/">DES</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../idea/">IDEA</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../aes.md">AES</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">分组模式</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">非对称加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../asymmetric/introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">RSA</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="" href="../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../asymmetric/knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">离散对数相关</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">格密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../asymmetric/lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">哈希函数</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">数字签名</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l3"><a class="" href="../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">攻击思想总结</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../about/">About</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -464,41 +300,39 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
             <div class="section">
               
                 <p><a href="./">EN</a> | <a href="../arx-operations-zh/">ZH</a></p>
-<h1 id="add-rotate-xor">Add-Rotate-Xor</h1>
-<h2 id="overview">Overview</h2>
+<h1 id="add-rotate-xor">Add-Rotate-Xor<a class="headerlink" href="#add-rotate-xor" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>The ARX operation is a general term for the following three basic operations.
 - Add Modification on the finite field
 - Rotate circular shift
 - Xor XOR</p>
 <p>There are many common block cipher algorithms that use only these three basic operations in a round function. Typical examples are Salsa20, Speck, and so on. In addition, [IDEA] (./idea.md) also uses a similar basic operation to construct the encryption and decryption operation, but replaces the shift by multiplication.</p>
-<h2 id="advantages-and-disadvantages">Advantages and disadvantages</h2>
-<h3 id="advantages">Advantages</h3>
+<h2 id="advantages-and-disadvantages">Advantages and disadvantages<a class="headerlink" href="#advantages-and-disadvantages" title="Permanent link">&para;</a></h2>
+<h3 id="advantages">Advantages<a class="headerlink" href="#advantages" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Easy operation and fast operation</li>
 <li>Execution time is constant to avoid time-based channel attack</li>
 <li>The combined function is sufficiently expressive (see example below)</li>
 </ul>
-<h3 id="disadvantages">Disadvantages</h3>
+<h3 id="disadvantages">Disadvantages<a class="headerlink" href="#disadvantages" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Among the three basic operations, Rotate and Xor are completely linear operations for a single bit, which may cause some vulnerability (see [Rotational cryptanalysis] (https://en.wikipedia.org/wiki/ Rotational_cryptanalysis))</li>
+<li>Among the three basic operations, Rotate and Xor are completely linear operations for a single bit, which may cause some vulnerability (see [Rotational cryptanalysis] (<a href="https://en.wikipedia.org/wiki/">https://en.wikipedia.org/wiki/</a> Rotational_cryptanalysis))</li>
 </ul>
-<h2 id="topic">topic</h2>
-<h3 id="2018-ctf-primitive">2018 *ctf primitive</h3>
-<h4 id="analysis">Analysis</h4>
+<h2 id="topic">topic<a class="headerlink" href="#topic" title="Permanent link">&para;</a></h2>
+<h3 id="2018-ctf-primitive">2018 *ctf primitive<a class="headerlink" href="#2018-ctf-primitive" title="Permanent link">&para;</a></h3>
+<h4 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h4>
 <p>This problem requires us to combine a certain number of Add-Rotate-Xor operations, so that the obtained encryption algorithm can encrypt the fixed plaintext into a specified random ciphertext, that is, construct an arbitrary permutation function through the basic operation. The flag is obtained after 3 successful builds.</p>
-<h4 id="problem-solving">Problem Solving</h4>
-<p>For the operation under modulo 256, a typical ARX-based transposition operation can be expressed as the following combination</p>
-<pre><code>
-RotateLeft_1(Add_255(RotateLeft_7(Add_2(x))))
-
-</code></pre>
-
+<h4 id="problem-solving">Problem Solving<a class="headerlink" href="#problem-solving" title="Permanent link">&para;</a></h4>
+<p>For the operation under modulo 256, a typical ARX-based transposition operation can be expressed as the following combination
+<div class="highlight"><pre><span></span><code>RotateLeft_1(Add_255(RotateLeft_7(Add_2(x))))
+</code></pre></div></p>
 <p>The above function corresponds to a permutation operation that swaps 254 and 255 while keeping other numbers unchanged.</p>
 <p>Intuitively, since the carry occurs in the modulo plus 2 operation of the first step, only the input is 254, 255, the combined function can treat this situation differently.</p>
 <p>Using the above atomic operations, we can construct a permutation of any two numbers &#39;a, b`. Combined with the Xor operation, we can reduce the number of basic operations required to meet the limitations given by the title. One possible operational step is as follows:</p>
@@ -511,156 +345,154 @@ RotateLeft_1(Add_255(RotateLeft_7(Add_2(x))))
 <li>For all operations except transposition, add the corresponding inverse operation to ensure that the values other than <code>a, b</code> are unchanged.</li>
 </ol>
 <p>The complete solution script is as follows:</p>
-<pre><code class="python">
-from pwn import *
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
 
-import string
+<span class="kn">import</span> <span class="nn">string</span>
 
-from hashlib import sha256
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha256</span>
 
 
 
-#context.log_level='debug'
+<span class="c1">#context.log_level=&#39;debug&#39;</span>
 
-def dopow():
+<span class="k">def</span> <span class="nf">dopow</span><span class="p">():</span>
 
-chal = c.recvline ()
-post = chal [12:28]
-tar = chal [33: -1]
-    c.recvuntil(':')
+<span class="n">chal</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">recvline</span> <span class="p">()</span>
+<span class="n">post</span> <span class="o">=</span> <span class="n">chal</span> <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span>
+<span class="n">tar</span> <span class="o">=</span> <span class="n">chal</span> <span class="p">[</span><span class="mi">33</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
 
-    found = iters.bruteforce(lambda x:sha256(x+post).hexdigest()==tar, string.ascii_letters+string.digits, 4)
+    <span class="n">found</span> <span class="o">=</span> <span class="n">iters</span><span class="o">.</span><span class="n">bruteforce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">sha256</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">post</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span><span class="o">==</span><span class="n">tar</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
-    c.sendline(found)
+    <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
 
 
 
-#c = remote('127.0.0.1',10001)
+<span class="c1">#c = remote(&#39;127.0.0.1&#39;,10001)</span>
 
-c = remote('47.75.4.252',10001)
+<span class="n">c</span> <span class="o">=</span> <span class="n">remote</span><span class="p">(</span><span class="s1">&#39;47.75.4.252&#39;</span><span class="p">,</span><span class="mi">10001</span><span class="p">)</span>
 
-doped ()
-pt='GoodCipher'
+<span class="n">doped</span> <span class="p">()</span>
+<span class="n">pt</span><span class="o">=</span><span class="s1">&#39;GoodCipher&#39;</span>
 
 
 
-def doswap(a,b):
+<span class="k">def</span> <span class="nf">doswap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
 
-    if a==b:
+    <span class="k">if</span> <span class="n">a</span><span class="o">==</span><span class="n">b</span><span class="p">:</span>
 
-        return
+        <span class="k">return</span>
 
-    if a&gt;b:
+    <span class="k">if</span> <span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="p">:</span>
 
-        tmp=b
+        <span class="n">tmp</span><span class="o">=</span><span class="n">b</span>
 
-        b=a
+        <span class="n">b</span><span class="o">=</span><span class="n">a</span>
 
-        a=tmp
+        <span class="n">a</span><span class="o">=</span><span class="n">tmp</span>
 
-years = []
-ans.append ((0.256-a))
-    b-=a
+<span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mf">0.256</span><span class="o">-</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">b</span><span class="o">-=</span><span class="n">a</span>
 
-    a=0
+    <span class="n">a</span><span class="o">=</span><span class="mi">0</span>
 
-    while b!=1:
+    <span class="k">while</span> <span class="n">b</span><span class="o">!=</span><span class="mi">1</span><span class="p">:</span>
 
-        tmp=0
+        <span class="n">tmp</span><span class="o">=</span><span class="mi">0</span>
 
-lo = 1
-        while b&amp;lo==0:
+<span class="n">lo</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">b</span><span class="o">&amp;</span><span class="n">lo</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
 
-what &amp;lt;&amp;lt; = 1
-            tmp+=1
+<span class="n">what</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">tmp</span><span class="o">+=</span><span class="mi">1</span>
 
-        if b==lo:
+        <span class="k">if</span> <span class="n">b</span><span class="o">==</span><span class="n">lo</span><span class="p">:</span>
 
-ans.append ((1,8-tmp))
-            break
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="o">-</span><span class="n">tmp</span><span class="p">))</span>
+            <span class="k">break</span>
 
-        if tmp!=0:
+        <span class="k">if</span> <span class="n">tmp</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
 
-ans.append ((1,8-tmp))
-        b&gt;&gt;=tmp
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="o">-</span><span class="n">tmp</span><span class="p">))</span>
+        <span class="n">b</span><span class="o">&gt;&gt;=</span><span class="n">tmp</span>
 
-ans.append ((2,1))
-        b^=1
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">b</span><span class="o">^=</span><span class="mi">1</span>
 
-ans.append ((0.255))
-        b-=1
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mf">0.255</span><span class="p">))</span>
+        <span class="n">b</span><span class="o">-=</span><span class="mi">1</span>
 
-ans.append ((0.254))
+<span class="n">ans</span><span class="o">.</span><span class="n">append</span> <span class="p">((</span><span class="mf">0.254</span><span class="p">))</span>
 
 
-    for a,b in ans:
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="n">ans</span><span class="p">:</span>
 
-        c.sendline('%d %d'%(a,b))
+        <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">))</span>
 
-        c.recvline()
+        <span class="n">c</span><span class="o">.</span><span class="n">recvline</span><span class="p">()</span>
 
-    for a,b in [(0,2),(1,7),(0,255),(1,1)]:
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]:</span>
 
-        c.sendline('%d %d'%(a,b))
+        <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">))</span>
 
-        c.recvline()
+        <span class="n">c</span><span class="o">.</span><span class="n">recvline</span><span class="p">()</span>
 
-    for a,b in ans[::-1]:
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="n">ans</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
 
-        if a==0:
+        <span class="k">if</span> <span class="n">a</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
 
-            c.sendline('%d %d'%(a,256-b))
+            <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">256</span><span class="o">-</span><span class="n">b</span><span class="p">))</span>
 
-elif a == 1:
-            c.sendline('%d %d'%(a,8-b))
+<span class="k">elif</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="mi">8</span><span class="o">-</span><span class="n">b</span><span class="p">))</span>
 
-elif a == 2:
-            c.sendline('%d %d'%(a,b))
+<span class="k">elif</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">))</span>
 
-        c.recvline()
+        <span class="n">c</span><span class="o">.</span><span class="n">recvline</span><span class="p">()</span>
 
 
 
-for i in range(3):
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
 
-    print i
+    <span class="nb">print</span> <span class="n">i</span>
 
-    m=range(256)
+    <span class="n">m</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
 
-    c.recvuntil('ciphertext is ')
+    <span class="n">c</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s1">&#39;ciphertext is &#39;</span><span class="p">)</span>
 
-    ct=c.recvline().strip()
+    <span class="n">ct</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">recvline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
-    ct=ct.decode('hex')
+    <span class="n">ct</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
 
-assert len (ct) == 10
-    for i in range(10):
+<span class="k">assert</span> <span class="nb">len</span> <span class="p">(</span><span class="n">ct</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
 
-        a=ord(ct[i])
+        <span class="n">a</span><span class="o">=</span><span class="nb">ord</span><span class="p">(</span><span class="n">ct</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
-b = ord (pt [i])
-        #print m[a],b
-        doswap(m[a],b)
+<span class="n">b</span> <span class="o">=</span> <span class="nb">ord</span> <span class="p">(</span><span class="n">pt</span> <span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="c1">#print m[a],b</span>
+        <span class="n">doswap</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">a</span><span class="p">],</span><span class="n">b</span><span class="p">)</span>
 
-        for j in range(256):
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
 
-            if m[j]==b:
+            <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">b</span><span class="p">:</span>
 
-                m[j]=m[a]
+                <span class="n">m</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
 
-                m[a]=b
+                <span class="n">m</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">=</span><span class="n">b</span>
 
-                break
+                <span class="k">break</span>
 
-    c.sendline('-1')
+    <span class="n">c</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;-1&#39;</span><span class="p">)</span>
 
 
 
-c.recvuntil('Your flag here.\n')
+<span class="n">c</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s1">&#39;Your flag here.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-print c.recvline()
-
-</code></pre>
+<span class="nb">print</span> <span class="n">c</span><span class="o">.</span><span class="n">recvline</span><span class="p">()</span>
+</code></pre></div>
               
             </div>
           </div>
@@ -683,7 +515,7 @@ print c.recvline()
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -693,7 +525,7 @@ print c.recvline()
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
@@ -707,8 +539,14 @@ print c.recvline()
     <script>var base_url = '../../..';</script>
     <script src="../../../js/theme.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="../../../_static/js/extra.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
       <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

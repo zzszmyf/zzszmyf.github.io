@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Rsa e attack zh - 西山下,闻溪语,书心境</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
         <div role="search">
@@ -45,377 +47,209 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../..">Index</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Crypto</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../../../introduction/">密码学简介</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../..">Index</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Crypto</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../introduction/">密码学简介</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">基础数学知识</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../basic/introduction/">简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">基础数学知识</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../basic/introduction/">简介</a>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">古典密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">流密码</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">伪随机数生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/prng/problem/">题目</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">古典密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">线性同余生成器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/intro/">简介</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../classical/summary/">总结</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/lcg/challenge/">例题</a>
                 </li>
     </ul>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">反馈移位寄存器</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/intro/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">伪随机数生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">线性同余生成器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">反馈移位寄存器</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">特殊流密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">特殊流密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../streamcipher/special/rc4/">RC4</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">块加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/introduction/">块加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">块加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/arx-operations/">ARX</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/des/">DES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/des/">DES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/idea/">IDEA</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                <li class="toctree-l2"><a class="" href="../../../blockcipher/aes.md">AES</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">分组模式</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/introduction/">介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">分组模式</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding/">填充方式</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ecb/">ECB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cbc/">CBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/pcbc/">PCBC</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/cfb/">CFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ofb/">OFB</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/ctr/">CTR</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
                 </li>
     </ul>
                 </li>
     </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">非对称加密</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../introduction/">非对称加密简介</a>
                 </li>
-                <li class="">
-                    
-    <span class="caption-text">非对称加密</span>
-    <ul class="subnav">
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../introduction/">非对称加密简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">RSA</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_theory/">RSA 基本介绍</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">RSA</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_theory/">RSA 基本介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_module_attack/">模数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_module_attack/">模数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_e_attack/">公钥指数相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_e_attack/">公钥指数相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_d_attack/">私钥 d 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_d_attack/">私钥 d 相关攻击</a>
+                <li class="toctree-l3"><a class="" href="../rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_chosen_plain_cipher/">选择明密文攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_side_channel/">侧信道攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_side_channel/">侧信道攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_pkcs_attack/">Bleichenbacher 攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../rsa_complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../rsa_complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../knapsack/knapsack/">背包加密</a>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">离散对数相关</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/discrete-log/">离散对数</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">离散对数相关</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/discrete-log/">离散对数</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/elgamal/">Elgamal</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/elgamal/">Elgamal</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../discrete-log/ecc/">ECC</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../discrete-log/ecc/">ECC</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">格密码</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/overview/">格概述</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">格密码</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/overview/">格概述</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/introduction/">格介绍</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/introduction/">格介绍</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/lattice-reduction/">格基规约算法</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../lattice/cvp/">CVP</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../lattice/cvp/">CVP</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">哈希函数</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">哈希函数</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/introduction/">哈希函数简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/md5/">MD5</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/md5/">MD5</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/sha1/">SHA1</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/sha1/">SHA1</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/fnv/">FNV</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/fnv/">FNV</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/attack/">Hash Attack</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../hash/complex/">综合</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../hash/complex/">综合</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">数字签名</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">数字签名</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/introduction/">数字签名简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/rsa/">RSA 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                <li class="toctree-l3"><a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../signature/dsa/">DSA 数字签名</a>
                 </li>
     </ul>
                 </li>
-                <li class="toctree-l3">
-                    
-    <span class="caption-text">攻击思想总结</span>
-    <ul class="subnav">
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                <li class="toctree-l2"><a class="reference internal" href="#">攻击思想总结</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/attack-mode/">简介</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
                 </li>
-                <li class="toctree-l4">
-                    
-    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                <li class="toctree-l3"><a class="reference internal" href="../../../attack-summary/bit-attack/">比特攻击</a>
                 </li>
     </ul>
                 </li>
     </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../../../../about/">About</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../../about/">About</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -440,70 +274,84 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
             <div class="section">
               
                 <p><a href="../rsa_e_attack/">EN</a> | <a href="./">ZH</a></p>
-<h2 id="_1">小公钥指数攻击</h2>
-<h3 id="_2">攻击条件</h3>
+<h2 id="_1">小公钥指数攻击<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">攻击条件<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>e 特别小，比如 e 为 3。</p>
-<h3 id="_3">攻击原理</h3>
-<p>假设用户使用的密钥 $e=3$。考虑到加密关系满足：</p>
-<p>$$
+<h3 id="_3">攻击原理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>假设用户使用的密钥 <span><span class="MathJax_Preview">e=3</span><script type="math/tex">e=3</script></span>。考虑到加密关系满足：</p>
+<div>
+<div class="MathJax_Preview">
 c\equiv m^3 \bmod N
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+c\equiv m^3 \bmod N
+</script>
+</div>
 <p>则：</p>
-<p>$$
-\begin{align<em>}
-m^3 &amp;= c+k\times N\
+<div>
+<div class="MathJax_Preview">
+\begin{align*}
+m^3 &amp;= c+k\times N\\
 m &amp;= \sqrt[3]{c+k\times n}
-\end{align</em>}
-$$</p>
-<p>攻击者可以从小到大枚举 $k$，依次开三次根，直到开出整数为止。</p>
-<h3 id="_4">范例</h3>
+\end{align*}
+</div>
+<script type="math/tex; mode=display">
+\begin{align*}
+m^3 &= c+k\times N\\
+m &= \sqrt[3]{c+k\times n}
+\end{align*}
+</script>
+</div>
+<p>攻击者可以从小到大枚举 <span><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span>，依次开三次根，直到开出整数为止。</p>
+<h3 id="_4">范例<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>这里我们以 XMan 一期夏令营课堂练习为例进行介绍（Jarvis OJ 有复现），附件中有一个 <code>flag.enc</code> 和 <code>pubkey.pem</code>，很明显是密文和公钥了，先用 <code>openssl</code> 读一下公钥。</p>
-<pre><code class="bash">➜  Jarvis OJ-Extremely hard RSA git:(master) ✗ openssl rsa -pubin -in pubkey.pem -text -modulus       
-Public-Key: (4096 bit)
+<div class="highlight"><pre><span></span><code>➜  Jarvis OJ-Extremely hard RSA git:<span class="o">(</span>master<span class="o">)</span> ✗ openssl rsa -pubin -in pubkey.pem -text -modulus       
+Public-Key: <span class="o">(</span><span class="m">4096</span> bit<span class="o">)</span>
 Modulus:
-    00:b0:be:e5:e3:e9:e5:a7:e8:d0:0b:49:33:55:c6:
-    18:fc:8c:7d:7d:03:b8:2e:40:99:51:c1:82:f3:98:
+    <span class="m">00</span>:b0:be:e5:e3:e9:e5:a7:e8:d0:0b:49:33:55:c6:
+    <span class="m">18</span>:fc:8c:7d:7d:03:b8:2e:40:99:51:c1:82:f3:98:
     de:e3:10:45:80:e7:ba:70:d3:83:ae:53:11:47:56:
-    56:e8:a9:64:d3:80:cb:15:7f:48:c9:51:ad:fa:65:
+    <span class="m">56</span>:e8:a9:64:d3:80:cb:15:7f:48:c9:51:ad:fa:65:
     db:0b:12:2c:a4:0e:42:fa:70:91:89:b7:19:a4:f0:
     d7:46:e2:f6:06:9b:af:11:ce:bd:65:0f:14:b9:3c:
-    97:73:52:fd:13:b1:ee:a6:d6:e1:da:77:55:02:ab:
+    <span class="m">97</span>:73:52:fd:13:b1:ee:a6:d6:e1:da:77:55:02:ab:
     ff:89:d3:a8:b3:61:5f:d0:db:49:b8:8a:97:6b:c2:
-    05:68:48:92:84:e1:81:f6:f1:1e:27:08:91:c8:ef:
-    80:01:7b:ad:23:8e:36:30:39:a4:58:47:0f:17:49:
-    10:1b:c2:99:49:d3:a4:f4:03:8d:46:39:38:85:15:
-    79:c7:52:5a:69:98:4f:15:b5:66:7f:34:20:9b:70:
+    <span class="m">05</span>:68:48:92:84:e1:81:f6:f1:1e:27:08:91:c8:ef:
+    <span class="m">80</span>:01:7b:ad:23:8e:36:30:39:a4:58:47:0f:17:49:
+    <span class="m">10</span>:1b:c2:99:49:d3:a4:f4:03:8d:46:39:38:85:15:
+    <span class="m">79</span>:c7:52:5a:69:98:4f:15:b5:66:7f:34:20:9b:70:
     eb:26:11:36:94:7f:a1:23:e5:49:df:ff:00:60:18:
-    83:af:d9:36:fe:41:1e:00:6e:4e:93:d1:a0:0b:0f:
+    <span class="m">83</span>:af:d9:36:fe:41:1e:00:6e:4e:93:d1:a0:0b:0f:
     ea:54:1b:bf:c8:c5:18:6c:b6:22:05:03:a9:4b:24:
-    13:11:0d:64:0c:77:ea:54:ba:32:20:fc:8f:4c:c6:
+    <span class="m">13</span>:11:0d:64:0c:77:ea:54:ba:32:20:fc:8f:4c:c6:
     ce:77:15:1e:29:b3:e0:65:78:c4:78:bd:1b:eb:e0:
-    45:89:ef:9a:19:7f:6f:80:6d:b8:b3:ec:d8:26:ca:
+    <span class="m">45</span>:89:ef:9a:19:7f:6f:80:6d:b8:b3:ec:d8:26:ca:
     d2:4f:53:24:cc:de:c6:e8:fe:ad:2c:21:50:06:86:
-    02:c8:dc:dc:59:40:2c:ca:c9:42:4b:79:00:48:cc:
+    <span class="m">02</span>:c8:dc:dc:59:40:2c:ca:c9:42:4b:79:00:48:cc:
     dd:93:27:06:80:95:ef:a0:10:b7:f1:96:c7:4b:a8:
     c3:7b:12:8f:9e:14:11:75:16:33:f7:8b:7b:9e:56:
     f7:1f:77:a1:b4:da:ad:3f:c5:4b:5e:7e:f9:35:d9:
     a7:2f:b1:76:75:97:65:52:2b:4b:bc:02:e3:14:d5:
     c0:6b:64:d5:05:4b:7b:09:6c:60:12:36:e6:cc:f4:
     5b:5e:61:1c:80:5d:33:5d:ba:b0:c3:5d:22:6c:c2:
-    08:d8:ce:47:36:ba:39:a0:35:44:26:fa:e0:06:c7:
+    <span class="m">08</span>:d8:ce:47:36:ba:39:a0:35:44:26:fa:e0:06:c7:
     fe:52:d5:26:7d:cf:b9:c3:88:4f:51:fd:df:df:4a:
-    97:94:bc:fe:0e:15:57:11:37:49:e6:c8:ef:42:1d:
+    <span class="m">97</span>:94:bc:fe:0e:15:57:11:37:49:e6:c8:ef:42:1d:
     ba:26:3a:ff:68:73:9c:e0:0e:d8:0f:d0:02:2e:f9:
     2d:34:88:f7:6d:eb:62:bd:ef:7b:ea:60:26:f2:2a:
     1d:25:aa:2a:92:d1:24:41:4a:80:21:fe:0c:17:4b:
-    98:03:e6:bb:5f:ad:75:e1:86:a9:46:a1:72:80:77:
+    <span class="m">98</span>:03:e6:bb:5f:ad:75:e1:86:a9:46:a1:72:80:77:
     0f:12:43:f4:38:74:46:cc:ce:b2:22:2a:96:5c:c3:
     0b:39:29
-Exponent: 3 (0x3)
-Modulus=B0BEE5E3E9E5A7E8D00B493355C618FC8C7D7D03B82E409951C182F398DEE3104580E7BA70D383AE5311475656E8A964D380CB157F48C951ADFA65DB0B122CA40E42FA709189B719A4F0D746E2F6069BAF11CEBD650F14B93C977352FD13B1EEA6D6E1DA775502ABFF89D3A8B3615FD0DB49B88A976BC20568489284E181F6F11E270891C8EF80017BAD238E363039A458470F1749101BC29949D3A4F4038D463938851579C7525A69984F15B5667F34209B70EB261136947FA123E549DFFF00601883AFD936FE411E006E4E93D1A00B0FEA541BBFC8C5186CB6220503A94B2413110D640C77EA54BA3220FC8F4CC6CE77151E29B3E06578C478BD1BEBE04589EF9A197F6F806DB8B3ECD826CAD24F5324CCDEC6E8FEAD2C2150068602C8DCDC59402CCAC9424B790048CCDD9327068095EFA010B7F196C74BA8C37B128F9E1411751633F78B7B9E56F71F77A1B4DAAD3FC54B5E7EF935D9A72FB176759765522B4BBC02E314D5C06B64D5054B7B096C601236E6CCF45B5E611C805D335DBAB0C35D226CC208D8CE4736BA39A0354426FAE006C7FE52D5267DCFB9C3884F51FDDFDF4A9794BCFE0E1557113749E6C8EF421DBA263AFF68739CE00ED80FD0022EF92D3488F76DEB62BDEF7BEA6026F22A1D25AA2A92D124414A8021FE0C174B9803E6BB5FAD75E186A946A17280770F1243F4387446CCCEB2222A965CC30B3929
+Exponent: <span class="m">3</span> <span class="o">(</span>0x3<span class="o">)</span>
+<span class="nv">Modulus</span><span class="o">=</span>B0BEE5E3E9E5A7E8D00B493355C618FC8C7D7D03B82E409951C182F398DEE3104580E7BA70D383AE5311475656E8A964D380CB157F48C951ADFA65DB0B122CA40E42FA709189B719A4F0D746E2F6069BAF11CEBD650F14B93C977352FD13B1EEA6D6E1DA775502ABFF89D3A8B3615FD0DB49B88A976BC20568489284E181F6F11E270891C8EF80017BAD238E363039A458470F1749101BC29949D3A4F4038D463938851579C7525A69984F15B5667F34209B70EB261136947FA123E549DFFF00601883AFD936FE411E006E4E93D1A00B0FEA541BBFC8C5186CB6220503A94B2413110D640C77EA54BA3220FC8F4CC6CE77151E29B3E06578C478BD1BEBE04589EF9A197F6F806DB8B3ECD826CAD24F5324CCDEC6E8FEAD2C2150068602C8DCDC59402CCAC9424B790048CCDD9327068095EFA010B7F196C74BA8C37B128F9E1411751633F78B7B9E56F71F77A1B4DAAD3FC54B5E7EF935D9A72FB176759765522B4BBC02E314D5C06B64D5054B7B096C601236E6CCF45B5E611C805D335DBAB0C35D226CC208D8CE4736BA39A0354426FAE006C7FE52D5267DCFB9C3884F51FDDFDF4A9794BCFE0E1557113749E6C8EF421DBA263AFF68739CE00ED80FD0022EF92D3488F76DEB62BDEF7BEA6026F22A1D25AA2A92D124414A8021FE0C174B9803E6BB5FAD75E186A946A17280770F1243F4387446CCCEB2222A965CC30B3929
 writing RSA key
 -----BEGIN PUBLIC KEY-----
 MIICIDANBgkqhkiG9w0BAQEFAAOCAg0AMIICCAKCAgEAsL7l4+nlp+jQC0kzVcYY
@@ -517,162 +365,198 @@ gJXvoBC38ZbHS6jDexKPnhQRdRYz94t7nlb3H3ehtNqtP8VLXn75NdmnL7F2dZdl
 UitLvALjFNXAa2TVBUt7CWxgEjbmzPRbXmEcgF0zXbqww10ibMII2M5HNro5oDVE
 JvrgBsf+UtUmfc+5w4hPUf3f30qXlLz+DhVXETdJ5sjvQh26Jjr/aHOc4A7YD9AC
 LvktNIj3betive976mAm8iodJaoqktEkQUqAIf4MF0uYA+a7X6114YapRqFygHcP
-EkP0OHRGzM6yIiqWXMMLOSkCAQM=
+<span class="nv">EkP0OHRGzM6yIiqWXMMLOSkCAQM</span><span class="o">=</span>
 -----END PUBLIC KEY-----
-</code></pre>
+</code></pre></div>
 
-<p>看到 $e=3$，很明显是小公钥指数攻击了。这里我们使用 Crypto 库来读取公钥，使用 multiprocessing 来加快破解速度。</p>
-<pre><code class="python">#/usr/bin/python
-# coding=utf-8
-import gmpy2
-from Crypto.PublicKey import RSA
-from multiprocessing import Pool
-pool = Pool(4)
+<p>看到 <span><span class="MathJax_Preview">e=3</span><script type="math/tex">e=3</script></span>，很明显是小公钥指数攻击了。这里我们使用 Crypto 库来读取公钥，使用 multiprocessing 来加快破解速度。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#/usr/bin/python</span>
+<span class="c1"># coding=utf-8</span>
+<span class="kn">import</span> <span class="nn">gmpy2</span>
+<span class="kn">from</span> <span class="nn">Crypto.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-with open('./pubkey.pem', 'r') as f:
-    key = RSA.importKey(f)
-    N = key.n
-    e = key.e
-with open('flag.enc', 'r') as f:
-    cipher = f.read().encode('hex')
-    cipher = int(cipher, 16)
-
-
-def calc(j):
-    print j
-    a, b = gmpy2.iroot(cipher + j * N, 3)
-    if b == 1:
-        m = a
-        print '{:x}'.format(int(m)).decode('hex')
-        pool.terminate()
-        exit()
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./pubkey.pem&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">e</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;flag.enc&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cipher</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="n">cipher</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
 
 
-def SmallE():
-    inputs = range(0, 130000000)
-    pool.map(calc, inputs)
-    pool.close()
-    pool.join()
+<span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="n">j</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">iroot</span><span class="p">(</span><span class="n">cipher</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="nb">print</span> <span class="s1">&#39;</span><span class="si">{:x}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+        <span class="n">exit</span><span class="p">()</span>
 
 
-if __name__ == '__main__':
-    print 'start'
-    SmallE()
-</code></pre>
+<span class="k">def</span> <span class="nf">SmallE</span><span class="p">():</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">130000000</span><span class="p">)</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;start&#39;</span>
+    <span class="n">SmallE</span><span class="p">()</span>
+</code></pre></div>
 
 <p>爆破时间有点长，，拿到 flag</p>
-<pre><code>Didn't you know RSA padding is really important? Now you see a non-padding message is so dangerous. And you should notice this in future.Fl4g: flag{Sm4ll_3xpon3nt_i5_W3ak}
-</code></pre>
+<div class="highlight"><pre><span></span><code>Didn&#39;t you know RSA padding is really important? Now you see a non-padding message is so dangerous. And you should notice this in future.Fl4g: flag{Sm4ll_3xpon3nt_i5_W3ak}
+</code></pre></div>
 
-<h3 id="_5">题目</h3>
-<h2 id="rsa-rabin">RSA 衍生算法——Rabin 算法</h2>
-<h3 id="_6">攻击条件</h3>
-<p>Rabin 算法的特征在于 $e=2$。</p>
-<h3 id="_7">攻击原理</h3>
+<h3 id="_5">题目<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h2 id="rsa-rabin">RSA 衍生算法——Rabin 算法<a class="headerlink" href="#rsa-rabin" title="Permanent link">&para;</a></h2>
+<h3 id="_6">攻击条件<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>Rabin 算法的特征在于 <span><span class="MathJax_Preview">e=2</span><script type="math/tex">e=2</script></span>。</p>
+<h3 id="_7">攻击原理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>密文：</p>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 c = m^2\bmod n
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+c = m^2\bmod n
+</script>
+</div>
 <p>解密：</p>
 <ul>
-<li>计算出 $m_p$ 和 $m_q$：</li>
+<li>计算出 <span><span class="MathJax_Preview">m_p</span><script type="math/tex">m_p</script></span> 和 <span><span class="MathJax_Preview">m_q</span><script type="math/tex">m_q</script></span>：</li>
 </ul>
-<p>$$
-\begin{align<em>}
-m_p &amp;= \sqrt{c} \bmod p\
+<div>
+<div class="MathJax_Preview">
+\begin{align*}
+m_p &amp;= \sqrt{c} \bmod p\\
 m_q &amp;= \sqrt{c} \bmod q
-\end{align</em>}
-$$</p>
+\end{align*}
+</div>
+<script type="math/tex; mode=display">
+\begin{align*}
+m_p &= \sqrt{c} \bmod p\\
+m_q &= \sqrt{c} \bmod q
+\end{align*}
+</script>
+</div>
 <ul>
-<li>用扩展欧几里得计算出 $y_p$ 和 $y_q$：</li>
+<li>用扩展欧几里得计算出 <span><span class="MathJax_Preview">y_p</span><script type="math/tex">y_p</script></span> 和 <span><span class="MathJax_Preview">y_q</span><script type="math/tex">y_q</script></span>：</li>
 </ul>
-<p>$$
+<div>
+<div class="MathJax_Preview">
 y_p \cdot p + y_q \cdot q = 1
-$$</p>
+</div>
+<script type="math/tex; mode=display">
+y_p \cdot p + y_q \cdot q = 1
+</script>
+</div>
 <ul>
 <li>解出四个明文：</li>
 </ul>
-<p>$$
-\begin{align<em>}
-a &amp;= (y_p \cdot p \cdot m_q + y_q \cdot q \cdot m_p) \bmod n\
-b &amp;= n - a\
-c &amp;= (y_p \cdot p \cdot m_q - y_q \cdot q \cdot m_p) \bmod n\
+<div>
+<div class="MathJax_Preview">
+\begin{align*}
+a &amp;= (y_p \cdot p \cdot m_q + y_q \cdot q \cdot m_p) \bmod n\\
+b &amp;= n - a\\
+c &amp;= (y_p \cdot p \cdot m_q - y_q \cdot q \cdot m_p) \bmod n\\
 d &amp;= n - c
-\end{align</em>}
-$$</p>
-<p>注意：如果 $p \equiv q \equiv 3 \pmod 4$，则</p>
-<p>$$
-\begin{align<em>}
-m_p &amp;= c^{\frac{1}{4}(p + 1)} \bmod p\
+\end{align*}
+</div>
+<script type="math/tex; mode=display">
+\begin{align*}
+a &= (y_p \cdot p \cdot m_q + y_q \cdot q \cdot m_p) \bmod n\\
+b &= n - a\\
+c &= (y_p \cdot p \cdot m_q - y_q \cdot q \cdot m_p) \bmod n\\
+d &= n - c
+\end{align*}
+</script>
+</div>
+<p>注意：如果 <span><span class="MathJax_Preview">p \equiv q \equiv 3 \pmod 4</span><script type="math/tex">p \equiv q \equiv 3 \pmod 4</script></span>，则</p>
+<div>
+<div class="MathJax_Preview">
+\begin{align*}
+m_p &amp;= c^{\frac{1}{4}(p + 1)} \bmod p\\
 m_q &amp;= c^{\frac{1}{4}(q + 1)} \bmod q
-\end{align</em>}
-$$</p>
-<p>而一般情况下，$p \equiv q \equiv 3 \pmod 4$ 是满足的，对于不满足的情况下，请参考相应的算法解决。</p>
-<h3 id="_8">例子</h3>
+\end{align*}
+</div>
+<script type="math/tex; mode=display">
+\begin{align*}
+m_p &= c^{\frac{1}{4}(p + 1)} \bmod p\\
+m_q &= c^{\frac{1}{4}(q + 1)} \bmod q
+\end{align*}
+</script>
+</div>
+<p>而一般情况下，<span><span class="MathJax_Preview">p \equiv q \equiv 3 \pmod 4</span><script type="math/tex">p \equiv q \equiv 3 \pmod 4</script></span> 是满足的，对于不满足的情况下，请参考相应的算法解决。</p>
+<h3 id="_8">例子<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>这里我们以 XMan 一期夏令营课堂练习（Jarvis OJ 有复现）为例，读一下公钥。</p>
-<pre><code class="bash">➜  Jarvis OJ-hard RSA git:(master) ✗ openssl rsa -pubin -in pubkey.pem -text -modulus 
-Public-Key: (256 bit)
+<div class="highlight"><pre><span></span><code>➜  Jarvis OJ-hard RSA git:<span class="o">(</span>master<span class="o">)</span> ✗ openssl rsa -pubin -in pubkey.pem -text -modulus 
+Public-Key: <span class="o">(</span><span class="m">256</span> bit<span class="o">)</span>
 Modulus:
-    00:c2:63:6a:e5:c3:d8:e4:3f:fb:97:ab:09:02:8f:
+    <span class="m">00</span>:c2:63:6a:e5:c3:d8:e4:3f:fb:97:ab:09:02:8f:
     1a:ac:6c:0b:f6:cd:3d:70:eb:ca:28:1b:ff:e9:7f:
     be:30:dd
-Exponent: 2 (0x2)
-Modulus=C2636AE5C3D8E43FFB97AB09028F1AAC6C0BF6CD3D70EBCA281BFFE97FBE30DD
+Exponent: <span class="m">2</span> <span class="o">(</span>0x2<span class="o">)</span>
+<span class="nv">Modulus</span><span class="o">=</span>C2636AE5C3D8E43FFB97AB09028F1AAC6C0BF6CD3D70EBCA281BFFE97FBE30DD
 writing RSA key
 -----BEGIN PUBLIC KEY-----
 MDowDQYJKoZIhvcNAQEBBQADKQAwJgIhAMJjauXD2OQ/+5erCQKPGqxsC/bNPXDr
 yigb/+l/vjDdAgEC
 -----END PUBLIC KEY-----
-</code></pre>
+</code></pre></div>
 
-<p>$e=2$，考虑 Rabin 算法。首先我们先分解一下 p 和 q，得到</p>
-<pre><code class="text">p=275127860351348928173285174381581152299
+<p><span><span class="MathJax_Preview">e=2</span><script type="math/tex">e=2</script></span>，考虑 Rabin 算法。首先我们先分解一下 p 和 q，得到</p>
+<div class="highlight"><pre><span></span><code>p=275127860351348928173285174381581152299
 q=319576316814478949870590164193048041239
-</code></pre>
+</code></pre></div>
 
 <p>编写代码</p>
-<pre><code class="python">#!/usr/bin/python
-# coding=utf-8
-import gmpy2
-import string
-from Crypto.PublicKey import RSA
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># coding=utf-8</span>
+<span class="kn">import</span> <span class="nn">gmpy2</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">Crypto.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
 
-# 读取公钥参数
-with open('pubkey.pem', 'r') as f:
-    key = RSA.importKey(f)
-    N = key.n
-    e = key.e
-with open('flag.enc', 'r') as f:
-    cipher = f.read().encode('hex')
-    cipher = string.atoi(cipher, base=16)
-    # print cipher
-print &quot;please input p&quot;
-p = int(raw_input(), 10)
-print 'please input q'
-q = int(raw_input(), 10)
-# 计算yp和yq
-inv_p = gmpy2.invert(p, q)
-inv_q = gmpy2.invert(q, p)
+<span class="c1"># 读取公钥参数</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;pubkey.pem&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">e</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;flag.enc&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cipher</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="n">cipher</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">atoi</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="c1"># print cipher</span>
+<span class="nb">print</span> <span class="s2">&quot;please input p&quot;</span>
+<span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw_input</span><span class="p">(),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;please input q&#39;</span>
+<span class="n">q</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw_input</span><span class="p">(),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1"># 计算yp和yq</span>
+<span class="n">inv_p</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="n">inv_q</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-# 计算mp和mq
-mp = pow(cipher, (p + 1) / 4, p)
-mq = pow(cipher, (q + 1) / 4, q)
+<span class="c1"># 计算mp和mq</span>
+<span class="n">mp</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">mq</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="p">(</span><span class="n">q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
 
-# 计算a,b,c,d
-a = (inv_p * p * mq + inv_q * q * mp) % N
-b = N - int(a)
-c = (inv_p * p * mq - inv_q * q * mp) % N
-d = N - int(c)
+<span class="c1"># 计算a,b,c,d</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">inv_p</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="n">mq</span> <span class="o">+</span> <span class="n">inv_q</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">mp</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">inv_p</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="n">mq</span> <span class="o">-</span> <span class="n">inv_q</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">mp</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
-for i in (a, b, c, d):
-    s = '%x' % i
-    if len(s) % 2 != 0:
-        s = '0' + s
-    print s.decode('hex')
-</code></pre>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>拿到 flag，<code>PCTF{sp3ci4l_rsa}</code>。</p>
-<h3 id="_9">题目</h3>
+<h3 id="_9">题目<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
               
             </div>
           </div>
@@ -686,7 +570,7 @@ for i in (a, b, c, d):
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -696,7 +580,7 @@ for i in (a, b, c, d):
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
@@ -706,8 +590,14 @@ for i in (a, b, c, d):
     <script>var base_url = '../../../..';</script>
     <script src="../../../../js/theme.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="../../../../_static/js/extra.js" defer></script>
       <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
       <script src="../../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
