@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>Elgamal zh - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Elgamal zh";
+    var mkdocs_page_input_path = "crypto/signature/elgamal-zh.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Elgamal zh</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="./elgamal.md">EN</a> | <a href="./">ZH</a></p>
+<h1 id="elgamal">ElGamal</h1>
+<p>RSA的数字签名方案几乎与其加密方案完全一致，只是利用私钥进行了签名。但是，对于ElGamal来说，其签名方案与相应的加密方案具有很大区别。</p>
+<h2 id="_1">基本原理</h2>
+<h3 id="_2">密钥生成</h3>
+<p>基本步骤如下</p>
+<ol>
+<li>选取一个足够大的素数p（十进制位数不低于160），以便于在$Z_p$ 上求解离散对数问题是困难的。</li>
+<li>选取$Z_p^*$ 的生成元g。</li>
+<li>随机选取整数d,$0\leq d \leq p-2$ ，并计算$g^d \equiv y \bmod p$ 。</li>
+</ol>
+<p>其中私钥为{d}，公钥为{p,g,y} 。</p>
+<h3 id="_3">签名</h3>
+<p>A选取随机数$k \in Z_{p-1}$ ，并且$gcd(k,p-1)=1$，对消息进行签名</p>
+<p>$$
+sig_d(m,k)=(r,s)
+$$</p>
+<p>其中$r \equiv g^k \bmod p$ ，$s \equiv (m-dr)k^{-1} \bmod p-1$ 。</p>
+<h3 id="_4">验证</h3>
+<p>如果 $g^m \equiv y^rr^s \bmod p$ ，那么验证成功，否则验证失败。这里验证成功的原理如下，首先我们有</p>
+<p>$$
+y^rr^s \equiv g^{dr}g^{ks} \equiv g^{dr+ks}
+$$</p>
+<p>又因为</p>
+<p>$$
+s \equiv (m-dr)k^{-1} \bmod p-1
+$$</p>
+<p>所以</p>
+<p>$$
+ks \equiv m-dr \bmod p-1
+$$</p>
+<p>进而</p>
+<p>$$
+ks+dr=a*(p-1)+m
+$$</p>
+<p>所以</p>
+<p>$$
+g^{ks+dr}=g^{a<em>(p-1)+m}=(g^{p-1})^a</em>g^m
+$$</p>
+<p>所以根据费马定理，可得</p>
+<p>$$
+g^{ks+dr} \equiv g^m \bmod p
+$$</p>
+<h2 id="_5">常见攻击</h2>
+<h3 id="_6">完全破译攻击</h3>
+<h4 id="_7">攻击条件</h4>
+<ul>
+<li>p太小或无大素因子</li>
+</ul>
+<p>如果$p$太小我们可以直接用大部小步算法分解, 或者如果其无大的素因子, 我们可以采用$Pohling\: Hellman$算法计算离散对数即可进而求出私钥。</p>
+<ul>
+<li>随机数k复用</li>
+</ul>
+<p>如果签名者复用了随机数k，那么攻击者就可以轻而易举地计算出私钥。具体的原理如下：</p>
+<p>假设目前有两个签名都是使用同一个随机数进行签名的。那么我们有</p>
+<p>$$
+r \equiv g^k \bmod p \\ s _1\equiv (m_1-dr)k^{-1} \bmod p-1\\ r \equiv g^k \bmod p \\ s_2 \equiv (m_2-dr)k^{-1} \bmod p-1
+$$</p>
+<p>进而有</p>
+<p>$$
+s_1k \equiv m_1-dr \bmod p-1 \\ s_2k \equiv m_2-dr \bmod p-1
+$$</p>
+<p>两式相减</p>
+<p>$$
+k(s_1-s_2) \equiv m_1-m_2 \bmod p-1
+$$</p>
+<p>这里，$s_1,s_2,m_1,m_2,p-1$ 均已知，所以我们可以很容易算出k。当然，如果$gcd(s_1-s_2,p-1)!=1$ 的话，可能会存在多个解，这时我们只需要多试一试。进而，我们可以根据s的计算方法得到私钥d，如下</p>
+<p>$$
+d \equiv \frac{m-ks}{r}
+$$</p>
+<h4 id="_8">题目</h4>
+<p>2016 LCTF Crypto 450</p>
+<h3 id="_9">通用伪造签名</h3>
+<h4 id="_10">攻击条件</h4>
+<p>如果消息$m$没有取哈希，或者消息$m$没有指定消息格式的情况下攻击成立。</p>
+<h4 id="_11">原理</h4>
+<p>在攻击者知道了某个人Alice的公钥之后，他可以伪造Alice的签名信息。具体原理如下:</p>
+<p>这里我们假设，Alice的公钥为{p,g,y}。攻击者可以按照如下方式伪造</p>
+<ol>
+<li>
+<p>选择整数 $i$，$j$，其中$gcd(j,p-1)=1$</p>
+</li>
+<li>
+<p>计算签名，$r \equiv g^iy^j \bmod p$ ，$s\equiv -rj^{-1} \bmod p-1$</p>
+</li>
+<li>
+<p>计算消息，$m\equiv si \bmod p-1$</p>
+</li>
+</ol>
+<p>那么此时生成的签名与消息就是可以被正常通过验证，具体推导如下:</p>
+<p>$y^rr^s \equiv g^{dr}g^{is}y^{js} \equiv g^{dr}g^{djs}g^{is} \equiv g^{dr+s(i+dj)} \equiv g^{dr} g^{-rj^{-1}(i+dj)} \equiv g^{dr-dr-rij^{-1}} \equiv g^{si} \bmod p$</p>
+<p>又由于消息m的构造方式，所以</p>
+<p>$$
+g^{si} \equiv g^m \bmod p-1
+$$</p>
+<p>需要注意的是，攻击者可以伪造通过签名验证的消息，但是他却无法伪造指定格式的消息。而且，一旦消息进行了哈希操作，这一攻击就不再可行。</p>
+<h3 id="_12">已知签名伪造</h3>
+<h4 id="_13">攻击条件</h4>
+<p>假设攻击者知道$(r, s)$是消息$M$的签名，则攻击者可利用它来伪造其它消息的签名。</p>
+<h4 id="_14">原理</h4>
+<ol>
+<li>选择整数$h, i, j \in[0, p-2]$且满足$\operatorname{gcd}(h r-j s, \varphi(p))=1$</li>
+<li>计算下式
+   $\begin{array}{l}
+   r^{\prime}=r^{h} \alpha^{i} y_{A}^{j} \bmod p \
+   s^{\prime}=\operatorname{sr}(h r-j s)^{-1} \bmod \varphi(p) \
+   m^{\prime}=r^{\prime}(h m+i s)(h r-j s)^{-1} \bmod \varphi(p)
+   \end{array}$</li>
+</ol>
+<p>可得到$(r',s')$是$m'$的有效签名</p>
+<p>证明如下:</p>
+<p>已知Alice对消息$x$的签名$(\gamma,\delta)$满足$\beta^{\gamma} \gamma^{\delta} \equiv \alpha^{x}(\bmod p)$，所以我们目的为构造出$\left(x^{\prime}, \lambda, \mu\right)$满足</p>
+<p>$$
+\beta^{\lambda} \lambda^{\mu} \equiv \alpha^{x'}(\bmod p)
+$$</p>
+<p>那么，首先我们把$\lambda$表示为三个已知底$\alpha, \beta, \gamma$的形式: $\lambda=\alpha^{i} \beta^{j} \gamma^{h} \bmod p$,由条件可得</p>
+<p>$$
+\beta^{\gamma} \gamma^{\delta} \equiv \alpha^{x}(\bmod p) \Leftrightarrow \gamma=\left(\beta^{-\gamma} \alpha^{x}\right)^{\delta-1} \bmod p
+$$</p>
+<p>那么我们可以得到</p>
+<p>$$
+\lambda=\alpha^{i+x \delta^{-1} h} \beta^{j-\gamma \delta^{-1} h} \bmod p
+$$</p>
+<p>我们把$\lambda$的表达式代入一式中</p>
+<p>$$
+\begin{aligned}&amp; \beta^{\lambda}\left(\alpha^{i+x \delta^{-1} h} \beta^{j-\gamma \delta^{-1} h}\right)^{\mu} \equiv \alpha^{x^{\prime}}(\bmod p) \\Leftrightarrow &amp; \beta^{\lambda+\left(j-\gamma \delta^{-1} h\right) \mu} \equiv \alpha^{x^{\prime}-\left(i+x \delta^{-1} h\right) \mu}(\bmod p)\end{aligned}
+$$</p>
+<p>我们令两边指数为$0$, 即</p>
+<p>$$
+\left{\begin{matrix}\lambda+\left(j-\gamma \delta^{-1} h\right) \mu \equiv 0 \bmod p-1 \ x^{\prime}-\left(i+x \delta^{-1} h\right) \mu \equiv 0 \bmod p-1 \end{matrix}\right.
+$$</p>
+<p>可以得到</p>
+<p>$$
+\mu=\delta \lambda(h \gamma-j \delta)^{-1} \quad(\bmod p-1)  \
+x^{\prime}=\lambda(h x+i \delta)(h \gamma-j \delta)^{-1}(\bmod p-1)
+$$</p>
+<p>其中</p>
+<p>$$
+\lambda=\alpha^{i} \beta^{j} \gamma^{h} \bmod p
+$$</p>
+<p>所以我们得到$(\lambda, \mu)$是 $x'$ 的有效签名。</p>
+<p>此外,我们还可以借助CRT构造$m'$, 原理如下:</p>
+<ol>
+<li>$u=m^{\prime} m^{-1} \bmod \varphi(p), \quad s^{\prime}=s u \bmod \varphi(p)$</li>
+<li>再计算$r^{\prime}, \quad r^{\prime} \equiv r u \bmod \varphi(p), r^{\prime} \equiv r \bmod p$</li>
+</ol>
+<p>显然可以使用CRT求解$r'$, 注意到 $y_{A}^{r'} r'^{s^{\prime}}=y_{A}^{ru} r^{s u}=\left(y_{A}^{r} r^{s}\right)^{u}=\alpha^{m u} \equiv \alpha^{m} \bmod p$ </p>
+<p>所以$(r',s')$是消息$m'$的有效签名。</p>
+<p>抵抗措施:在验证签名时, 检查$r &lt; p$。</p>
+<h3 id="_15">选择签名伪造</h3>
+<h4 id="_16">攻击条件</h4>
+<p>如果我们可以选择我们消息进行签名，并且可以得到签名，那么我们可以对一个新的但是我们不能够选择签名的消息伪造签名。</p>
+<h4 id="_17">原理</h4>
+<p>我们知道，最后验证的过程如下</p>
+<p>$g^m \equiv y^rr^s \bmod p$ </p>
+<p>那么只要我们选择一个消息m使其和我们所要伪造的消息$m'$模p-1同余，然后同时使用消息m的签名即可绕过。</p>
+<h4 id="_18">题目</h4>
+<p>这里以2017年国赛mailbox为例，<strong>i春秋有复现</strong>。</p>
+<p>首先，我们来分析一下程序，我们首先需要进行proof of work</p>
+<pre><code class="python">    proof = b64.b64encode(os.urandom(12))
+    req.sendall(
+        &quot;Please provide your proof of work, a sha1 sum ending in 16 bit's set to 0, it must be of length %d bytes, starting with %s\n&quot; % (
+        len(proof) + 5, proof))
+
+    test = req.recv(21)
+    ha = hashlib.sha1()
+    ha.update(test)
+
+    if (test[0:16] != proof or ord(ha.digest()[-1]) != 0 or ord(ha.digest()[-2]) != 0): # or ord(ha.digest()[-3]) != 0 or ord(ha.digest()[-4]) != 0):
+        req.sendall(&quot;Check failed&quot;)
+        req.close()
+        return 
+</code></pre>
+
+<p>我们需要生成一个以proof开头的长度为proof长度加5的字符串，并且其sha1的值以16比特的0结束。</p>
+<p>这里我们直接使用如下的方式来绕过。</p>
+<pre><code class="python">def f(x):
+    return sha1(prefix + x).digest()[-2:] == '\0\0'
+
+
+sh = remote('106.75.66.195', 40001)
+# bypass proof
+sh.recvuntil('starting with ')
+prefix = sh.recvuntil('\n', drop=True)
+print string.ascii_letters
+s = util.iters.mbruteforce(f, string.ascii_letters + string.digits, 5, 'fixed')
+test = prefix + s
+sh.sendline(test)
+</code></pre>
+
+<p>这里使用了pwntools中的util.iters.mbruteforce，这是一个利用给定字符集合以及指定长度进行多线程爆破的函数。其中，第一个参数为爆破函数，这里是sha1，第二个参数是字符集，第三个参数是字节数，第四个参数指的是我们只尝试字节数为第三个参数指定字节数的排列，即长度是固定的。更加具体的信息请参考pwntools。</p>
+<p>绕过之后，我们继续分析程序，简单看下generate_keys函数，可以知道该函数是ElGamal生成公钥的过程，然后看了看verify函数，就是验证签名的过程。</p>
+<p>继续分析</p>
+<pre><code class="python">            if len(msg) &gt; MSGLENGTH:
+                req.sendall(&quot;what r u do'in?&quot;)
+                req.close()
+                return
+            if msg[:4] == &quot;test&quot;:
+                r, s = sign(digitalize(msg), sk, pk, p, g)
+                req.sendall(&quot;Your signature is&quot; + repr((hex(r), hex(s))) + &quot;\n&quot;)
+            else:
+                if msg == &quot;Th3_bery_un1que1i_ChArmIng_G3nji&quot; + test:
+                    req.sendall(&quot;Signature:&quot;)
+                    sig = self.rfile.readline().strip()
+                    if len(sig) &gt; MSGLENGTH:
+                        req.sendall(&quot;what r u do'in?&quot;)
+                        req.close()
+                        return
+                    sig_rs = sig.split(&quot;,&quot;)
+                    if len(sig_rs) &lt; 2:
+                        req.sendall(&quot;yo what?&quot;)
+                        req.close()
+                        return
+                    # print &quot;Got sig&quot;, sig_rs
+                    if verify(digitalize(msg), int(sig_rs[0]), int(sig_rs[1]), pk, p, g):
+                        req.sendall(&quot;Login Success.\nDr. Ziegler has a message for you: &quot; + FLAG)
+                        print &quot;shipped flag&quot;
+                        req.close()
+                        return
+                    else:
+                        req.sendall(&quot;You are not the Genji I knew!\n&quot;)
+</code></pre>
+
+<p>根据这三个if条件可以知道</p>
+<ul>
+<li>我们的消息长度不能超过MSGLENGTH，40000。</li>
+<li>我们可以对消息开头为test的消息进行签名。</li>
+<li>我们需要使得以Th3_bery_un1que1i_ChArmIng_G3nji开头，以我们绕过proof的test为结尾的消息通过签名验证，其中，我们可以自己提供签名的值。</li>
+</ul>
+<p>分析到这里，其实就知道了，我们就是在选择指定签名进行伪造，这里我们自然要充分利用第二个if条件，只要我们确保我们输入的消息的开头为‘test’，并且该消息与以Th3_bery_un1que1i_ChArmIng_G3nji开头的固定消息模p-1同余，我们即可以通过验证。</p>
+<p>那我们如何构造呢？既然消息的长度可以足够长，那么我们可以将'test'对应的16进制先左移得到比p-1大的数字a，然后用a对p-1取模，用a再减去余数，此时a模p-1余0了。这时再加上以Th3_bery_un1que1i_ChArmIng_G3nji开头的固定消息的值，即实现了模p-1同余。</p>
+<p>具体如下</p>
+<pre><code class="python"># construct the message begins with 'test'
+target = &quot;Th3_bery_un1que1i_ChArmIng_G3nji&quot; + test
+part1 = (digitalize('test' + os.urandom(51)) &lt;&lt; 512) // (p - 1) * (p - 1)
+victim = part1 + digitalize(target)
+while 1:
+    tmp = hex(victim)[2:].decode('hex')
+    if tmp.startswith('test') and '\n' not in tmp:
+        break
+    else:
+        part1 = (digitalize('test' + os.urandom(51)) &lt;&lt; 512) // (p - 1) * (
+            p - 1)
+        victim = part1 + digitalize(target)
+</code></pre>
+
+<p>最后的脚本如下</p>
+<pre><code class="python">from pwn import *
+from hashlib import sha1
+import string
+import ast
+import os
+import binascii
+context.log_level = 'debug'
+
+
+def f(x):
+    return sha1(prefix + x).digest()[-2:] == '\0\0'
+
+
+def digitalize(m):
+    return int(m.encode('hex'), 16)
+
+
+sh = remote('106.75.66.195', 40001)
+# bypass proof
+sh.recvuntil('starting with ')
+prefix = sh.recvuntil('\n', drop=True)
+print string.ascii_letters
+s = util.iters.mbruteforce(f, string.ascii_letters + string.digits, 5, 'fixed')
+test = prefix + s
+sh.sendline(test)
+
+sh.recvuntil('Current PK we are using: ')
+pubkey = ast.literal_eval(sh.recvuntil('\n', drop=True))
+p = pubkey[0]
+g = pubkey[1]
+pk = pubkey[2]
+
+# construct the message begins with 'test'
+target = &quot;Th3_bery_un1que1i_ChArmIng_G3nji&quot; + test
+part1 = (digitalize('test' + os.urandom(51)) &lt;&lt; 512) // (p - 1) * (p - 1)
+victim = part1 + digitalize(target)
+while 1:
+    tmp = hex(victim)[2:].decode('hex')
+    if tmp.startswith('test') and '\n' not in tmp:
+        break
+    else:
+        part1 = (digitalize('test' + os.urandom(51)) &lt;&lt; 512) // (p - 1) * (
+            p - 1)
+        victim = part1 + digitalize(target)
+
+assert (victim % (p - 1) == digitalize(target) % (p - 1))
+
+# get victim signature
+sh.sendline(hex(victim)[2:].decode('hex'))
+sh.recvuntil('Your signature is')
+sig = ast.literal_eval(sh.recvuntil('\n', drop=True))
+sig = [int(sig[0], 0), int(sig[1], 0)]
+
+# get flag
+sh.sendline(target)
+sh.sendline(str(sig[0]) + &quot;,&quot; + str(sig[1]))
+sh.interactive()
+</code></pre>
+
+<p>这里还要说几个有意思的点就是</p>
+<ul>
+<li>int(x,0)只的是将x按照其字面对应的进制转换为对应的数字，比如说int('0x12',0)=18，这里相应的字面必须有对应标志开头，比如说十六进制是0x,8进制是0，二进制是0b。因为如果没有的话，就不知道该如何识别了。</li>
+<li>python(python2) 里面到底多大的数，计算出来最后才会带有L呢？正常情况下，大于int都会有L。但是这个里面的victim确实是没有的，， <strong>一个问题，待解决。。</strong></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../search/main.js" defer></script>
+
+</body>
+</html>

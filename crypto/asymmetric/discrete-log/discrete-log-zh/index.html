@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Discrete log zh - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Discrete log zh";
+    var mkdocs_page_input_path = "crypto/asymmetric/discrete-log/discrete-log-zh.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Discrete log zh</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="../discrete-log/">EN</a> | <a href="./">ZH</a></p>
+<h1 id="_1">离散对数</h1>
+<h2 id="_2">基本定义</h2>
+<p>在了解离散对数时，我们先来了解几个基本定义。</p>
+<p><strong>定义1</strong></p>
+<p>在群 G 中，g 为 G 的生成元，也就是说群 G 中每一个元素都可以写成 $y=g^k$，我们称 k 为 y 在群 G 中的对数。</p>
+<p><strong>定义2</strong></p>
+<p>设 $m\geq 1$，$(a,m)=1$ ，使得 $a^d \equiv 1\pmod m$ 成立的最小正整数 d 称为 a 对模 m 的指数或者阶，我们一般将其记为 $\delta_m(a)$。</p>
+<p><strong>定义3</strong></p>
+<p>当 $\delta_m(a)=\varphi(m)$ 时，称 a 是模 m 的原根，简称 m 的原根。</p>
+<h2 id="_3">一些性质</h2>
+<p><strong>性质1</strong></p>
+<p>使得 $a^d \equiv 1\pmod m$ 成立的最小正整数 $d$ ，必有$d\mid\varphi(m)$。</p>
+<p><strong>性质2</strong></p>
+<p>模 $m$ 剩余系存在原根的充要条件是 $m=2,4,p^{\alpha},2p^{\alpha}$ ，其中 $p$ 为奇素数， $\alpha$ 为正整数。</p>
+<h2 id="_4">离散对数问题</h2>
+<p>已知 $g,p,y$ ，对于方程 $y\equiv g^x \pmod p$ ，求解 $x$ 是一个难解问题。但是当 $p$ 具有一定的特性时就可能可以求解，比如，这个群的阶是一个光滑数。</p>
+<p>正是上述这个问题构成了目前很大一部分现代密码学，包括 Diffie–Hellman 密钥交换， ElGamal 算法，ECC 等。</p>
+<h2 id="_5">离散对数求解方式</h2>
+<h3 id="_6">暴力破解</h3>
+<p>给定 $y\equiv g^x \pmod p$，我们可以暴力枚举 $x$ 从而得到真正的 $x$ 的值。</p>
+<h3 id="baby-step-giant-step">Baby-step giant-step</h3>
+<p>这一方法通常被称为小步大步法，这一方法使用了中间相遇攻击的思想。</p>
+<p>我们可以令 $x=im+j$，其中 $m= \lceil \sqrt n\rceil$ ，那么整数 i 和 j 都在 0 到 m 的范围内。</p>
+<p>因此</p>
+<p>$$y=g^x=g^{im+j}$$</p>
+<p>也就是</p>
+<p>$$y(g^{-m})^i=g^j$$</p>
+<p>那么我们就可以枚举所有的 j 并进行计算，并将其存储到一个集合 S 中，然后我们再次枚举 i，计算 $y(g^{-m})^i$，一旦我们发现计算的结果在集合 S 中，则说明我们得到了一个碰撞，进而得到了 i 和 j。</p>
+<p>这显然是一个时间与空间的折中的方式，我们将一个 $O(n)$ 的时间复杂度，$O(1)$ 空间复杂度的算法转换为了一个$O(\sqrt n)$的时间复杂度和$O(\sqrt n)$ 的空间复杂度的算法。</p>
+<p>其中</p>
+<ul>
+<li>每一次 j 的增加表示“baby-step”，一次乘上 $g$。</li>
+<li>每一次 i 的增加表示“giant-step”，一次乘上 $g^{-m}$ 。</li>
+</ul>
+<pre><code class="python">def bsgs(g, y, p):
+    m = int(ceil(sqrt(p - 1)))
+    S = {pow(g, j, p): j for j in range(m)}
+    gs = pow(g, p - 1 - m, p)
+    for i in range(m):
+        if y in S:
+            return i * m + S[y]
+        y = y * gs % p
+    return None
+</code></pre>
+
+<h3 id="pollards-algorithm">Pollard’s ρ algorithm</h3>
+<p>我们可以以$O(\sqrt n)$的时间复杂度和$O(1)$ 的空间复杂度来解决上述问题。具体原理请自行谷歌。</p>
+<h3 id="pollards-kangaroo-algorithm">Pollard’s kangaroo algorithm</h3>
+<p>如果我们知道 x 的范围为 $a \leq x \leq b$，那么我们可以以$O(\sqrt{b-a})$ 的时间复杂度解决上述问题。具体原理请自行谷歌。</p>
+<h3 id="pohlig-hellman-algorithm">Pohlig-Hellman algorithm</h3>
+<p>不妨假设上述所提到的群关于元素 $g$ 的阶为 $n$， $n$ 为一个光滑数： $n=\prod\limits_{i=1}^r p_i^{e_i}$。</p>
+<ol>
+<li>对于每个 $i \in {1,\ldots,r}$ ：<ol>
+<li>计算 $g_i \equiv g^{n/p_i^{e_i}} \pmod m$。根据拉格朗日定理， $g_i$ 在群中的阶为 $p_i^{e_i}$ 。</li>
+<li>计算 $y_i \equiv y^{n/p_i^{e_i}} \equiv g^{xn/p_i^{e_i}} \equiv g_i^{x} \equiv g_i^{x \bmod p_i^{e_i}} \equiv g_i^{x_i} \pmod m$，这里我们知道 $y_i,m,g_i$，而$x_i$ 的范围为$[0,p_i^{e_i})$，由 $n$ 是一个光滑数，可知其范围较小，因此我们可以使用 <em>Pollard’s kangaroo algorithm</em> 等方法快速求得$x_i$。</li>
+</ol>
+</li>
+<li>根据上述的推导，我们可以得到对于 $i \in {1,\ldots,r}$ ，$x \equiv x_i \pmod{p_i^{e_i}}$ ，该式可用中国剩余定理求解。</li>
+</ol>
+<p>上述过程可用下图简单描述：</p>
+<p><center>
+<img alt="Pohlig Hellman Algorithm" src="../figure/Pohlig-Hellman-Diagram.png" />
+</center></p>
+<p>其复杂度为$O\left(\sum\limits _i e_i\left(\log n+\sqrt{p_i}\right)\right)$，可以看出复杂度还是很低的。</p>
+<p>但当 $n$ 为素数，$m=2n+1$，那么复杂度和 $O(\sqrt m)$ 是几乎没有差别的。</p>
+<h2 id="2018-crackme-java">2018 国赛 crackme java</h2>
+<p>代码如下</p>
+<pre><code class="java">import java.math.BigInteger;
+import java.util.Random;
+
+public class Test1 {
+    static BigInteger two =new BigInteger(&quot;2&quot;);
+    static BigInteger p = new BigInteger(&quot;11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711&quot;);
+    static BigInteger h= new BigInteger(&quot;7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916&quot;);
+
+    /*
+     Alice write the below algorithm for encryption.
+     The public key {p, h} is broadcasted to everyone.
+    @param val: The plaintext to encrypt.
+        We suppose val only contains lowercase letter {a-z} and numeric charactors, and is at most 256 charactors in length.
+    */
+    public static String pkEnc(String val){
+        BigInteger[] ret = new BigInteger[2];
+        BigInteger bVal=new BigInteger(val.toLowerCase(),36);
+        BigInteger r =new BigInteger(new Random().nextInt()+&quot;&quot;);
+        ret[0]=two.modPow(r,p);
+        ret[1]=h.modPow(r,p).multiply(bVal);
+        return ret[0].toString(36)+&quot;==&quot;+ret[1].toString(36);
+    }
+
+    /* Alice write the below algorithm for decryption. x is her private key, which she will never let you know.
+    public static String skDec(String val,BigInteger x){
+        if(!val.contains(&quot;==&quot;)){
+            return null;
+        }
+        else {
+            BigInteger val0=new BigInteger(val.split(&quot;==&quot;)[0],36);
+            BigInteger val1=new BigInteger(val.split(&quot;==&quot;)[1],36);
+            BigInteger s=val0.modPow(x,p).modInverse(p);
+            return val1.multiply(s).mod(p).toString(36);
+        }
+    }
+   */
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;You intercepted the following message, which is sent from Bob to Alice:&quot;);
+        BigInteger bVal1=new BigInteger(&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco&quot;,36);
+    BigInteger bVal2=new BigInteger(&quot;2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;,36);
+    BigInteger r =new BigInteger(new Random().nextInt()+&quot;&quot;);
+    System.out.println(r);
+        System.out.println(bVal1);
+    System.out.println(bVal2);
+    System.out.println(&quot;a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco==2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc&quot;);
+        System.out.println(&quot;Please figure out the plaintext!&quot;);
+    }
+}
+</code></pre>
+
+<p>基本功能为计算</p>
+<p>$r_0=2^r \bmod p$</p>
+<p>$r_1 =b*h^r \bmod p$</p>
+<p>可以发现，r 的范围为 $[0,2^{32})$，所以我们可以使用 BSGS 算法，如下</p>
+<pre><code class="python">from sage.all import *
+
+c1 = int(
+    'a9hgrei38ez78hl2kkd6nvookaodyidgti7d9mbvctx3jjniezhlxs1b1xz9m0dzcexwiyhi4nhvazhhj8dwb91e7lbbxa4ieco',
+    36
+)
+c2 = int(
+    '2q17m8ajs7509yl9iy39g4znf08bw3b33vibipaa1xt5b8lcmgmk6i5w4830yd3fdqfbqaf82386z5odwssyo3t93y91xqd5jb0zbgvkb00fcmo53sa8eblgw6vahl80ykxeylpr4bpv32p7flvhdtwl4cxqzc',
+    36
+)
+print c1, c2
+p = 11360738295177002998495384057893129964980131806509572927886675899422214174408333932150813939357279703161556767193621832795605708456628733877084015367497711
+h = 7854998893567208831270627233155763658947405610938106998083991389307363085837028364154809577816577515021560985491707606165788274218742692875308216243966916
+# generate the group
+const2 = 2
+const2 = Mod(const2, p)
+c1 = Mod(c1, p)
+c2 = Mod(c2, p)
+h = Mod(h, p)
+print '2', bsgs(const2, c1, bounds=(1, 2 ^ 32))
+
+r = 152351913
+
+num = long(c2 / (h**r))
+print num
+</code></pre>
+
+<h2 id="_7">参考</h2>
+<ul>
+<li>初等数论，潘承洞，潘承彪</li>
+<li>https://ee.stanford.edu/~hellman/publications/28.pdf</li>
+<li>https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm#cite_note-Menezes97p108-2</li>
+<li>https://fortenf.org/e/crypto/2017/12/03/survey-of-discrete-log-algos.html</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

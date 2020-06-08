@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Rsa module attack zh - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Rsa module attack zh";
+    var mkdocs_page_input_path = "crypto/asymmetric/rsa/rsa_module_attack-zh.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Rsa module attack zh</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="../rsa_module_attack/">EN</a> | <a href="./">ZH</a></p>
+<h2 id="n">暴力分解 N</h2>
+<h3 id="_1">攻击条件</h3>
+<p>在 N 的比特位数小于 512 的时候，可以采用大整数分解的策略获取 p 和 q。</p>
+<h3 id="jarvisoj-medium-rsa">JarvisOJ - Medium RSA</h3>
+<p>这里我们以 JarvisOJ - Medium RSA 为例进行介绍，题目如下</p>
+<blockquote>
+<p>还记得 veryeasy RSA 吗？是不是不难？那继续来看看这题吧，这题也不难。<br />
+已知一段 RSA 加密的信息为：0xdc2eeeb2782c 且已知加密所用的公钥：<br />
+N=322831561921859 e = 23<br />
+请解密出明文，提交时请将数字转化为 ascii 码提交<br />
+比如你解出的明文是 0x6162，那么请提交字符串 ab<br />
+提交格式：<code>PCTF{明文字符串}</code></p>
+</blockquote>
+<p>可以看出，我们的 N 比较小，这里我们直接使用 factordb 进行分解，可以得到</p>
+<p>$$
+322831561921859 = 13574881 \times 23781539
+$$</p>
+<p>进而我们简单编写程序如下</p>
+<pre><code class="python">import gmpy2
+p = 13574881
+q = 23781539
+n = p * q
+e = 23
+c = 0xdc2eeeb2782c
+phin = (p - 1) * (q - 1)
+d = gmpy2.invert(e, phin)
+p = gmpy2.powmod(c, d, n)
+tmp = hex(p)
+print tmp, tmp[2:].decode('hex')
+</code></pre>
+
+<p>结果如下</p>
+<pre><code class="shell">➜  Jarvis OJ-Basic-easyRSA git:(master) ✗ python exp.py
+0x33613559 3a5Y
+</code></pre>
+
+<h2 id="p-q-n">p &amp; q 不当分解 N</h2>
+<h3 id="_2">攻击条件</h3>
+<p>当 RSA 中 p 和 q 选取不当时，我们也可以进行攻击。</p>
+<h3 id="p-q">|p-q| 很大</h3>
+<p>当 p-q 很大时，一定存在某一个参数较小，这里我们假设为 p，那么我们可以通过穷举的方法对模数进行试除，从而分解模数，得到保密参数与明文信息。基本来说，不怎么可行。</p>
+<h3 id="p-q_1">|p-q| 较小</h3>
+<p>首先</p>
+<p>$$
+\frac{(p+q)^2}{4}-n=\frac{(p+q)^2}{4}-pq=\frac{(p-q)^2}{4}
+$$</p>
+<p>既然 |p-q| 较小，那么 $\frac{(p-q)^2}{4}$ 自然也比较小，进而 $\frac{(p+q)^2}{4}$ 只是比 N 稍微大一点，所以 $\frac{p+q}{2}$ 与 $\sqrt{n}$ 相近。那么我们可以按照如下方法来分解</p>
+<ul>
+<li>顺序检查 $\sqrt{n}$ 的每一个整数 x，直到找到一个 x 使得 $x^2-n$ 是平方数，记为 $y^2$</li>
+<li>那么 $x^2-n=y^2$，进而根据平方差公式即可分解 N</li>
+</ul>
+<h3 id="p-1">p - 1 光滑</h3>
+<p>当 p 是 N 的因数，并且 p - 1 是光滑的时候，可能可以使用 Pollard's p − 1 算法来分解 N，但是也不是完全可以成功的。</p>
+<p>!!! warning
+    原理分析待完成</p>
+<h3 id="p-1_1">p + 1 光滑</h3>
+<p>当 p 是 n 的因数，并且 p + 1 是光滑的时候，可能可以使用 Williams's p + 1 算法来分解 N，但是也不是完全可以成功的。</p>
+<h3 id="2017-seccon-very-smooth">2017 SECCON very smooth</h3>
+<p>该程序给了一个 HTTPS 加密的流量包，首先从其中拿到证书</p>
+<pre><code class="shell">➜  2017_SECCON_verysmooth git:(master) binwalk -e s.pcap      
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+2292          0x8F4           Certificate in DER format (x509 v3), header length: 4, sequence length: 467
+4038          0xFC6           Certificate in DER format (x509 v3), header length: 4, sequence length: 467
+5541          0x15A5          Certificate in DER format (x509 v3), header length: 4, sequence length: 467
+
+➜  2017_SECCON_verysmooth git:(master) ls
+s.pcap  _s.pcap.extracted  very_smooth.zip
+</code></pre>
+
+<p>这里分别查看三个证书，三个模数都一样，这里只给一个例子</p>
+<pre><code>➜  _s.pcap.extracted git:(master) openssl x509 -inform DER -in FC6.crt  -pubkey -text -modulus -noout 
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVRqqCXPYd6Xdl9GT7/kiJrYvy
+8lohddAsi28qwMXCe2cDWuwZKzdB3R9NEnUxsHqwEuuGJBwJwIFJnmnvWurHjcYj
+DUddp+4X8C9jtvCaLTgd+baSjo2eB0f+uiSL/9/4nN+vR3FliRm2mByeFCjppTQl
+yioxCqbXYIMxGO4NcQIDAQAB
+-----END PUBLIC KEY-----
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number: 11640506567126718943 (0xa18b630c7b3099df)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=JP, ST=Kawasaki, O=SRL
+        Validity
+            Not Before: Oct  8 02:47:17 2017 GMT
+            Not After : Oct  8 02:47:17 2018 GMT
+        Subject: C=JP, ST=Kawasaki, O=SRL
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (1024 bit)
+                Modulus:
+                    00:d5:46:aa:82:5c:f6:1d:e9:77:65:f4:64:fb:fe:
+                    48:89:ad:8b:f2:f2:5a:21:75:d0:2c:8b:6f:2a:c0:
+                    c5:c2:7b:67:03:5a:ec:19:2b:37:41:dd:1f:4d:12:
+                    75:31:b0:7a:b0:12:eb:86:24:1c:09:c0:81:49:9e:
+                    69:ef:5a:ea:c7:8d:c6:23:0d:47:5d:a7:ee:17:f0:
+                    2f:63:b6:f0:9a:2d:38:1d:f9:b6:92:8e:8d:9e:07:
+                    47:fe:ba:24:8b:ff:df:f8:9c:df:af:47:71:65:89:
+                    19:b6:98:1c:9e:14:28:e9:a5:34:25:ca:2a:31:0a:
+                    a6:d7:60:83:31:18:ee:0d:71
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: sha256WithRSAEncryption
+         78:92:11:fb:6c:e1:7a:f7:2a:33:b8:8b:08:a7:f7:5b:de:cf:
+         62:0b:a0:ed:be:d0:69:88:38:93:94:9d:05:41:73:bd:7e:b3:
+         32:ec:8e:10:bc:3a:62:b0:56:c7:c1:3f:60:66:a7:be:b9:46:
+         f7:46:22:6a:f3:5a:25:d5:66:94:57:0e:fc:b5:16:33:05:1c:
+         6f:f5:85:74:57:a4:a0:c6:ce:4f:fd:64:53:94:a9:83:b8:96:
+         bf:5b:a7:ee:8b:1e:48:a7:d2:43:06:0e:4f:5a:86:62:69:05:
+         e2:c0:bd:4e:89:c9:af:04:4a:77:a2:34:86:6a:b8:d2:3b:32:
+         b7:39
+Modulus=D546AA825CF61DE97765F464FBFE4889AD8BF2F25A2175D02C8B6F2AC0C5C27B67035AEC192B3741DD1F4D127531B07AB012EB86241C09C081499E69EF5AEAC78DC6230D475DA7EE17F02F63B6F09A2D381DF9B6928E8D9E0747FEBA248BFFDFF89CDFAF4771658919B6981C9E1428E9A53425CA2A310AA6D760833118EE0D71
+</code></pre>
+
+<p>可以看出模数只有 1024 比特。而且，根据题目名 very smooth，应该是其中一个因子比较 smooth，这里我们利用 primefac 分别尝试 Pollard's p − 1 与 Williams's p + 1 算法，如下</p>
+<pre><code class="shell">➜  _s.pcap.extracted git:(master) python -m primefac -vs -m=p+1  149767527975084886970446073530848114556615616489502613024958495602726912268566044330103850191720149622479290535294679429142532379851252608925587476670908668848275349192719279981470382501117310509432417895412013324758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897
+
+149767527975084886970446073530848114556615616489502613024958495602726912268566044330103850191720149622479290535294679429142532379851252608925587476670908668848275349192719279981470382501117310509432417895412013324758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897: p+1 11807485231629132025602991324007150366908229752508016230400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 12684117323636134264468162714319298445454220244413621344524758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897
+Z309  =  P155 x P155  =  11807485231629132025602991324007150366908229752508016230400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 x 12684117323636134264468162714319298445454220244413621344524758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897
+</code></pre>
+
+<p>可以发现当使用 Williams's <em>p</em> + 1 算法时，就直接分解出来了。按道理这个因子是 p-1 似乎更光滑，但是却并不能使用 Pollard's p − 1 算法分解，这里进行进一步的测试</p>
+<pre><code class="shell">➜  _s.pcap.extracted git:(master) python -m primefac -vs 1180748523162913202560299132400715036690822975250801623040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002
+
+1180748523162913202560299132400715036690822975250801623040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002: 2 7 43 503 761429 5121103123294685745276806480148867612214394022184063853387799606010231770631857868979139305712805242051823263337587909550709296150544706624823
+Z154  =  P1 x P1 x P2 x P3 x P6 x P142  =  2 x 7 x 43 x 503 x 761429 x 5121103123294685745276806480148867612214394022184063853387799606010231770631857868979139305712805242051823263337587909550709296150544706624823
+
+➜  _s.pcap.extracted git:(master) python -m primefac -vs 1180748523162913202560299132400715036690822975250801623040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 
+
+1180748523162913202560299132400715036690822975250801623040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000: 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+Z154  =  P1^185 x P1^62 x P1^97  =  2^185 x 3^62 x 5^97
+</code></pre>
+
+<p>可以看出，对于 p-1 确实有很多小因子，但是个数太多，这就会使得进行枚举的时候出现指数爆炸的情况，因此没有分解出来。</p>
+<p>进而根据分解出来的数构造私钥</p>
+<pre><code class="python">from Crypto.PublicKey import RSA
+import gmpy2
+
+
+def main():
+    n = 149767527975084886970446073530848114556615616489502613024958495602726912268566044330103850191720149622479290535294679429142532379851252608925587476670908668848275349192719279981470382501117310509432417895412013324758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897L
+    p = 11807485231629132025602991324007150366908229752508016230400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001L
+    q = 12684117323636134264468162714319298445454220244413621344524758865071052169170753552224766744798369054498758364258656141800253652826603727552918575175830897L
+    e = 65537L
+    priv = RSA.construct((n, e, long(gmpy2.invert(e, (p - 1) * (q - 1)))))
+    open('private.pem', 'w').write(priv.exportKey('PEM'))
+
+
+main()
+</code></pre>
+
+<p>最后，将私钥导入到 wireshark 中即可得到明文（Edit -&gt; Preferences -&gt; Protocols -&gt; SSL -&gt; RSA Key List）。</p>
+<pre><code class="html">&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Very smooth&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;
+Answer: One of these primes is very smooth.
+&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3 id="_3">扩展</h3>
+<p>关于更多的一些分解模数 N 的方法可以参考 https://en.wikipedia.org/wiki/Integer_factorization。</p>
+<h2 id="_4">模不互素</h2>
+<h3 id="_5">攻击原理</h3>
+<p>当存在两个公钥的 N 不互素时，我们显然可以直接对这两个数求最大公因数，然后直接获得 p，q，进而获得相应的私钥。</p>
+<h3 id="sctf-rsa2">SCTF RSA2</h3>
+<p>这里我们以 SCTF rsa2 为例进行介绍。直接打开 pcap 包，发现有一堆的消息，包含 N 和 e，然后试了试不同的 N 是否互素，我试了前两个</p>
+<pre><code class="python">import gmpy2
+n1 = 20823369114556260762913588844471869725762985812215987993867783630051420241057912385055482788016327978468318067078233844052599750813155644341123314882762057524098732961382833215291266591824632392867716174967906544356144072051132659339140155889569810885013851467056048003672165059640408394953573072431523556848077958005971533618912219793914524077919058591586451716113637770245067687598931071827344740936982776112986104051191922613616045102859044234789636058568396611030966639561922036712001911238552391625658741659644888069244729729297927279384318252191421446283531524990762609975988147922688946591302181753813360518031
+n2 = 19083821613736429958432024980074405375408953269276839696319265596855426189256865650651460460079819368923576109723079906759410116999053050999183058013281152153221170931725172009360565530214701693693990313074253430870625982998637645030077199119183041314493288940590060575521928665131467548955951797198132001987298869492894105525970519287000775477095816742582753228905458466705932162641076343490086247969277673809512472546919489077884464190676638450684714880196854445469562733561723325588433285405495368807600668761929378526978417102735864613562148766250350460118131749533517869691858933617013731291337496943174343464943
+print gmpy2.gcd(n1, n2)
+</code></pre>
+
+<p>结果发现竟然不互素。</p>
+<pre><code class="shell">➜  scaf-rsa2 git:(master) ✗ python exp.py
+122281872221091773923842091258531471948886120336284482555605167683829690073110898673260712865021244633908982705290201598907538975692920305239961645109897081011524485706755794882283892011824006117276162119331970728229108731696164377808170099285659797066904706924125871571157672409051718751812724929680249712137
+</code></pre>
+
+<p>那么我们就可以直接来解密了，这里我们利用第一对公钥密码。代码如下</p>
+<pre><code class="python">from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_v1_5, PKCS1_OAEP
+import gmpy2
+from base64 import b64decode
+n1 = 20823369114556260762913588844471869725762985812215987993867783630051420241057912385055482788016327978468318067078233844052599750813155644341123314882762057524098732961382833215291266591824632392867716174967906544356144072051132659339140155889569810885013851467056048003672165059640408394953573072431523556848077958005971533618912219793914524077919058591586451716113637770245067687598931071827344740936982776112986104051191922613616045102859044234789636058568396611030966639561922036712001911238552391625658741659644888069244729729297927279384318252191421446283531524990762609975988147922688946591302181753813360518031
+n2 = 19083821613736429958432024980074405375408953269276839696319265596855426189256865650651460460079819368923576109723079906759410116999053050999183058013281152153221170931725172009360565530214701693693990313074253430870625982998637645030077199119183041314493288940590060575521928665131467548955951797198132001987298869492894105525970519287000775477095816742582753228905458466705932162641076343490086247969277673809512472546919489077884464190676638450684714880196854445469562733561723325588433285405495368807600668761929378526978417102735864613562148766250350460118131749533517869691858933617013731291337496943174343464943
+p1 = gmpy2.gcd(n1, n2)
+q1 = n1 / p1
+e = 65537
+phin = (p1 - 1) * (q1 - 1)
+d = gmpy2.invert(e, phin)
+cipher = 0x68d5702b70d18238f9d4a3ac355b2a8934328250efd4efda39a4d750d80818e6fe228ba3af471b27cc529a4b0bef70a2598b80dd251b15952e6a6849d366633ed7bb716ed63c6febd4cd0621b0c4ebfe5235de03d4ee016448de1afbbe61144845b580eed8be8127a8d92b37f9ef670b3cdd5af613c76f58ca1a9f6f03f1bc11addba30b61bb191efe0015e971b8f78375faa257a60b355050f6435d94b49eab07075f40cb20bb8723d02f5998d5538e8dafc80cc58643c91f6c0868a7a7bf3bf6a9b4b6e79e0a80e89d430f0c049e1db4883c50db066a709b89d74038c34764aac286c36907b392bc299ab8288f9d7e372868954a92cdbf634678f7294096c7
+plain = gmpy2.powmod(cipher, d, n1)
+plain = hex(plain)[2:]
+if len(plain) % 2 != 0:
+    plain = '0' + plain
+print plain.decode('hex')
+</code></pre>
+
+<p>最后解密如下</p>
+<pre><code class="shell">➜  scaf-rsa2 git:(master) ✗ python exp.py       
+sH1R3_PRlME_1N_rsA_iS_4ulnEra5le
+</code></pre>
+
+<p>解压压缩包即可。</p>
+<h2 id="_6">共模攻击</h2>
+<h3 id="_7">攻击条件</h3>
+<p>当两个用户使用相同的模数 N、不同的私钥时，加密同一明文消息时即存在共模攻击。</p>
+<h3 id="_8">攻击原理</h3>
+<p>设两个用户的公钥分别为 $e_1$ 和 $e_2$，且两者互质。明文消息为 $m$，密文分别为：</p>
+<p>$$
+c_1 = m^{e_1}\bmod N \
+c_2 = m^{e_2}\bmod N
+$$</p>
+<p>当攻击者截获 $c_1$ 和 $c_2$ 后，就可以恢复出明文。用扩展欧几里得算法求出 $re_1+se_2=1\bmod n$ 的两个整数 $r$ 和 $s$，由此可得：</p>
+<p>$$
+\begin{align<em>}
+c_{1}^{r}c_{2}^{s} &amp;\equiv m^{re_1}m^{se_2}\bmod n\
+&amp;\equiv m^{(re_1+se_2)} \bmod n\
+&amp;\equiv m\bmod n
+\end{align</em>}
+$$</p>
+<h3 id="xman">XMan 一期夏令营课堂练习</h3>
+<p>题目描述：</p>
+<pre><code>{6266565720726907265997241358331585417095726146341989755538017122981360742813498401533594757088796536341941659691259323065631249,773}
+
+{6266565720726907265997241358331585417095726146341989755538017122981360742813498401533594757088796536341941659691259323065631249,839}
+
+message1=3453520592723443935451151545245025864232388871721682326408915024349804062041976702364728660682912396903968193981131553111537349
+
+message2=5672818026816293344070119332536629619457163570036305296869053532293105379690793386019065754465292867769521736414170803238309535
+</code></pre>
+
+<blockquote>
+<p>题目来源：XMan 一期夏令营课堂练习 </p>
+</blockquote>
+<p>可以看出两个公钥的 N 是一样的，并且两者的 e 互素。写一个脚本跑一下：</p>
+<pre><code class="python">import gmpy2
+n = 6266565720726907265997241358331585417095726146341989755538017122981360742813498401533594757088796536341941659691259323065631249
+e1 = 773
+
+e2 = 839
+
+message1 = 3453520592723443935451151545245025864232388871721682326408915024349804062041976702364728660682912396903968193981131553111537349
+
+message2 = 5672818026816293344070119332536629619457163570036305296869053532293105379690793386019065754465292867769521736414170803238309535
+# s &amp; t
+gcd, s, t = gmpy2.gcdext(e1, e2)
+if s &lt; 0:
+    s = -s
+    message1 = gmpy2.invert(message1, n)
+if t &lt; 0:
+    t = -t
+    message2 = gmpy2.invert(message2, n)
+plain = gmpy2.powmod(message1, s, n) * gmpy2.powmod(message2, t, n) % n
+print plain
+</code></pre>
+
+<p>得到</p>
+<pre><code class="shell">➜  Xman-1-class-exercise git:(master) ✗ python exp.py
+1021089710312311910410111011910111610410511010710511610511511211111511510598108101125
+</code></pre>
+
+<p>这时候需要考虑当时明文是如何转化为这个数字了，一般来说是 16 进制转换，ASCII 字符转换，或者 Base64 解密。这个应该是 ASCII 字符转换，进而我们使用如下代码得到 flag</p>
+<pre><code class="python">i = 0
+flag = &quot;&quot;
+plain = str(plain)
+while i &lt; len(plain):
+    if plain[i] == '1':
+        flag += chr(int(plain[i:i + 3]))
+        i += 3
+    else:
+        flag += chr(int(plain[i:i + 2]))
+        i += 2
+print flag
+</code></pre>
+
+<p>这里之所以使用 1 来判断是否为三位长度，是因为 flag 一般都是明文字符，而 1 开头的长度为 1 或者 2 的数字，一般都是不可见字符。</p>
+<p>flag</p>
+<pre><code class="shell">➜  Xman-1-class-exercise git:(master) ✗ python exp.py
+flag{whenwethinkitispossible}
+</code></pre>
+
+<h2 id="_9">题目</h2>
+<ul>
+<li>Jarvis OJ very hard RSA</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

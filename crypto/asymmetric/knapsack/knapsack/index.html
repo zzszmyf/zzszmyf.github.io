@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>背包加密 - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u80cc\u5305\u52a0\u5bc6";
+    var mkdocs_page_input_path = "crypto/asymmetric/knapsack/knapsack.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class=" current">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current">
+                    
+    <a class="current" href="./">背包加密</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l4"><a href="#backpack-problem">Backpack problem</a></li>
+    
+
+    <li class="toctree-l4"><a href="#merklehellman">Merkle–Hellman</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l5" href="#public-private-key-generation">Public private key generation</a></li>
+        
+            <li><a class="toctree-l5" href="#encryption-and-decryption">encryption and decryption</a></li>
+        
+            <li><a class="toctree-l5" href="#_1">破</a></li>
+        
+            <li><a class="toctree-l5" href="#examples">Examples</a></li>
+        
+            <li><a class="toctree-l5" href="#title">Title</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>非对称加密 &raquo;</li>
+        
+      
+        
+          <li>Crypto &raquo;</li>
+        
+      
+    
+    <li>背包加密</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="./">EN</a> | <a href="../knapsack-zh/">ZH</a></p>
+<h2 id="backpack-problem">Backpack problem</h2>
+<p>First, let&#39;s introduce the backpack problem. Suppose a backpack can weigh W. Now there are n items with weights of $a_1, a_2,..., a_n$. We want to ask which items can fit the backpack. Filled up and each item can only be loaded once. This is actually solving such a problem.</p>
+<p>$$</p>
+<p>x_1a_1 + x_2a_2 +, ..., + x_na_n = W
+$$</p>
+<p>All of these $x_i$ can only be 0 and 1. Obviously we have to enumerate all the combinations of n items to solve this problem, and the complexity is $2^n$, which is the beauty of backpack encryption.</p>
+<p>When encrypting, if we want to encrypt the plaintext as x, then we can represent it as an n-bit binary number and then multiply it by $a_i$ to get the encrypted result.</p>
+<p>But what should I do when decrypting? We did make it difficult for others to decrypt the ciphertext, but we really have no way to decrypt the ciphertext.</p>
+<p>But when $a_i$ is super-incremental, we have a solution. The so-called super-increment means that the sequence satisfies the following conditions.</p>
+<p>$$</p>
+<p>a_i&gt;\sum_{k=1}^{i-1}a_k</p>
+<p>$$</p>
+<p>That is, the ith number is greater than the sum of all the previous numbers.</p>
+<p>Why can you decrypt it if you meet such a condition? This is because if the encrypted result is greater than $a_n$, the preceding coefficient must be 1. On the contrary, the equation cannot be established anyway. Therefore, we can get the corresponding plaintext immediately.</p>
+<p>However, this has another problem. Since $a_i$ is public, if the attacker intercepts the ciphertext, it is easy to crack such a password. In order to make up for this problem, an encryption algorithm such as Merkle–Hellman appears. We can use the initial backpack set as the private key, the transformed backpack set as the public key, and then slightly change the encryption process.</p>
+<p>Although the super-increment sequence is mentioned here, it is not said how it is generated.</p>
+<h2 id="merklehellman">Merkle–Hellman</h2>
+<h3 id="public-private-key-generation">Public private key generation</h3>
+<h4 id="generating-a-private-key">Generating a private key</h4>
+<p>The private key is our initial backpack set. Here we use the super-increment sequence, how to generate it? We can assume that $a_1=1$, then $a_2$ is greater than 1, and similarly can generate subsequent values in turn.</p>
+<h4 id="generating-a-public-key">Generating a public key</h4>
+<p>In the process of generating a public key, the operation of modular multiplication is mainly used.</p>
+<p>First, we generate the modulus m of the modular multiplication, here we want to make sure</p>
+<p>$$</p>
+<p>m&gt;\sum_{i=1}^{i=n}a_i</p>
+<p>$$</p>
+<p>Second, we choose the multiplier w of the modular multiplication as the private key and ensure</p>
+<p>$$</p>
+<p>gcd(w,m)=1</p>
+<p>$$</p>
+<p>After that, we can generate the public key by the following formula.</p>
+<p>$$</p>
+<p>b_i \equiv w a_i \bmod m</p>
+<p>$$</p>
+<p>And this new backpack set $b_i$ and m as the public key.</p>
+<h3 id="encryption-and-decryption">encryption and decryption</h3>
+<h4 id="encryption">Encryption</h4>
+<p>Suppose we want to encrypt the plaintext as v, each bit is $v_i$, then the result of our encryption is</p>
+<p>$$</p>
+<p>\ Sum_ {i = 1} ^ {n} i = b_iv_i \ m way
+$$</p>
+<h4 id="decryption">Decryption</h4>
+<p>For the decryption side, we can first ask for the inverse of $m^{-1}$ for m.</p>
+<p>Then we can multiply the obtained ciphertext by $w^{-1}$ to get the plaintext, because</p>
+<p>$$</p>
+<p>\ Sum_ {i = 1} ^ {w} i = n ^ {- 1} b_iv_i \ way m = \ sum_ {i = 1} ^ {n} i = a_iv_i \ m way
+$$</p>
+<p>here has</p>
+<p>$$</p>
+<p>b_i \equiv w a_i \bmod m</p>
+<p>$$</p>
+<p>The encrypted message for each block is less than m, so the result is naturally plaintext.</p>
+<h3 id="_1">破</h3>
+<p>The system was deciphered two years after the proposed encryption system. The basic idea of deciphering is that we do not necessarily need to find the correct multiplier w (ie trapdoor information), just find the arbitrary modulus <code>m&amp;#39;</code> and The multiplier <code>w&amp;#39;</code> can be used to generate a super-incrementing backpack vector by using <code>w&amp;#39;</code> to multiply the public backpack vector B.</p>
+<h3 id="examples">Examples</h3>
+<p>Here we take Archaic in 2014 ASIS Cyber Security Contest Quals as an example, [topic link] (https://github.com/ctfs/write-ups-2014/tree/b02bcbb2737907dd0aa39c5d4df1d1e270958f54/asis-ctf-quals-2014/archaic ).</p>
+<p>First look at the source program</p>
+<pre><code class="python">
+secret = 'CENSORED'
+
+msg_bit = bin(int(secret.encode('hex'), 16))[2:]
+
+</code></pre>
+
+<p>First we get all the bits of secret.</p>
+<p>Second, use the following function to get the keypair, including the public and private keys.</p>
+<pre><code class="python">
+keyPair = makeKey (curtain (msg_bit))
+</code></pre>
+
+<p>Carefully analyze the makekey function as follows</p>
+<pre><code class="python">
+def makeKey(n):
+
+privKey = [random.randint (1, 4 ** n)]
+s = privKey [0]
+    for i in range(1, n):
+
+        privKey.append(random.randint(s + 1, 4**(n + i)))
+
+s + = privKey [i]
+q = random.randint (privKey [n-1] + 1, 2 * privKey [n-1])
+    r = random.randint(1, q)
+
+    while gmpy2.gcd(r, q) != 1:
+
+        r = random.randint(1, q)
+
+    pubKey = [ r*w % q for w in privKey ]
+
+    return privKey, q, r, pubKey
+
+</code></pre>
+
+<p>It can be seen that prikey is a super-incremental sequence, and the obtained q is larger than the sum of all the numbers in prikey. In addition, we get r, which is exactly the same as q, which indicates that the encryption is a backpack encryption.</p>
+<p>Sure enough, the encryption function is to multiply each bit of the message by the corresponding public key and sum.</p>
+<pre><code class="python">
+def encrypt(msg, pubKey):
+
+    msg_bit = msg
+
+n = only (pubKey)
+    cipher = 0
+
+    i = 0
+
+    for bit in msg_bit:
+
+        cipher += int(bit)*pubKey[i]
+
+        i += 1
+
+    return bin(cipher)[2:]
+
+</code></pre>
+
+<p>For the cracked script we use the script on [GitHub] (https://github.com/ctfs/write-ups-2014/tree/b02bcbb2737907dd0aa39c5d4df1d1e270958f54/asis-ctf-quals-2014/archaic). Make some simple modifications.</p>
+<pre><code class="python">
+import binascii
+# open the public key and strip the spaces so we have a decent array
+
+fileKey = open (&amp;quot;pub.Key&amp;quot;, &amp;#39;rb&amp;#39;)
+pubKey = fileKey.read().replace(' ', '').replace('L', '').strip('[]').split(',')
+
+nbit = only (pubKey)
+# open the encoded message
+
+fileEnc = open (&amp;quot;enc.txt&amp;quot;, &amp;#39;rb&amp;#39;)
+encoded = fileEnc.read().replace('L', '')
+
+print &quot;start&quot;
+
+# create a large matrix of 0's (dimensions are public key length +1)
+
+A = Matrix(ZZ, nbit + 1, nbit + 1)
+
+# fill in the identity matrix
+
+for i in xrange(nbit):
+
+    A[i, i] = 1
+
+# replace the bottom row with your public key
+
+for i in xrange(nbit):
+
+    A[i, nbit] = pubKey[i]
+
+# last element is the encoded message
+
+A[nbit, nbit] = -int(encoded)
+
+
+
+res = A.LLL()
+
+for i in range(0, nbit + 1):
+
+    # print solution
+
+    M = res.row(i).list()
+
+    flag = True
+
+    for m in M:
+
+        if m != 0 and m != 1:
+
+            flag = False
+
+            break
+
+    if flag:
+
+        print i, M
+
+        M = ''.join(str(j) for j in M)
+
+        # remove the last bit
+
+        M = M[:-1]
+
+        M = hex(int(M, 2))[2:-1]
+
+        print M
+
+</code></pre>
+
+<p>Decoded after output</p>
+<pre><code class="python">
+295 [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0]
+
+415349535f3962643364356664323432323638326331393536383830366130373036316365
+&amp;gt;&amp;gt;&amp;gt; import binascii
+&gt;&gt;&gt; binascii.unhexlify('415349535f3962643364356664323432323638326331393536383830366130373036316365')
+
+&amp;#39;ASIS_9bd3d5fd2422682c19568806a07061ce&amp;#39;
+</code></pre>
+
+<p>It should be noted that the matrix of res obtained by the LLL attack we only contains the 01 value is the result we want, because when we encrypt the plaintext, it will be decomposed into binary bit strings. In addition, we need to remove the last number of the corresponding row.</p>
+<p>flag 是 <code>ASIS_9bd3d5fd2422682c19568806a07061ce</code>。</p>
+<h3 id="title">Title</h3>
+<ul>
+<li>2017 national classic</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../discrete-log/discrete-log/" class="btn btn-neutral float-right" title="离散对数">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../rsa/rsa_complex/" class="btn btn-neutral" title="综合"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../../rsa/rsa_complex/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../discrete-log/discrete-log/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>比特攻击 - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6bd4\u7279\u653b\u51fb";
+    var mkdocs_page_input_path = "crypto/attack-summary/bit-attack.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class=" current">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4 current">
+                    
+    <a class="current" href="./">比特攻击</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l5"><a href="#_1">比特攻</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l6" href="#overview">Overview</a></li>
+        
+            <li><a class="toctree-l6" href="#2018-plaid-ctf-transducipher">2018 Plaid CTF transducipher</a></li>
+        
+            <li><a class="toctree-l6" href="#reference">Reference</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>攻击思想总结 &raquo;</li>
+        
+      
+        
+          <li>非对称加密 &raquo;</li>
+        
+      
+        
+          <li>Crypto &raquo;</li>
+        
+      
+    
+    <li>比特攻击</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="./">EN</a> | <a href="../bit-attack-zh/">ZH</a></p>
+<h1 id="_1">比特攻</h1>
+<h2 id="overview">Overview</h2>
+<p>Simply put, it is to use the relationship between the bits to attack.</p>
+<h2 id="2018-plaid-ctf-transducipher">2018 Plaid CTF transducipher</h2>
+<p>The title is as follows</p>
+<pre><code class="python">
+#!/usr/bin/env python3.6
+
+import
+
+
+BLOCK_SIZE = 64
+
+
+
+T = [
+
+    ((2, 1), 1),
+
+    ((5, 0), 0),
+
+    ((3, 4), 0),
+
+    ((1, 5), 1),
+
+    ((0, 3), 1),
+
+    ((4, 2), 0),
+
+]
+
+
+
+
+
+def block2bin(b, length=BLOCK_SIZE):
+
+    return list(map(int, bin(b)[2:].rjust(length, '0')))
+
+
+
+
+
+def bin2block(b):
+
+    return int(&quot;&quot;.join(map(str, b)), 2)
+
+
+
+
+
+def transduce(b, s=0):
+
+if len (b) == 0:
+        return b
+
+    d, t = T[s]
+
+    b0, bp = b[0], b[1:]
+
+    return [b0 ^ t] + transduce(bp, s=d[b0])
+
+
+
+
+
+def transduceblock(b):
+
+    return bin2block(transduce(block2bin(b)))
+
+
+
+
+
+def swap(b):
+
+    l = BLOCK_SIZE // 2
+
+    m = (1 &lt;&lt; l) - 1
+
+    return (b &gt;&gt; l) | ((b &amp; m) &lt;&lt; l)
+
+
+
+
+
+class Transducipher:
+
+
+
+    def __init__(self, k):
+
+self.k = [k]
+        for i in range(1, len(T)):
+
+            k = swap(transduceblock(k))
+
+            self.k.append(k)
+
+
+
+    def encrypt(self, b):
+
+        for i in range(len(T)):
+
+            b ^= self.k[i]
+
+            b = transduceblock(b)
+
+            b = swap(b)
+
+        return b
+
+
+
+
+
+if __name__ == &quot;__main__&quot;:
+
+    flag = bytes.hex(os.urandom(BLOCK_SIZE // 8))
+
+    k = int(flag, 16)
+
+    C = Transducipher(k)
+
+    print(&quot;Your flag is PCTF{%s}&quot; % flag)
+
+    with open(&quot;data1.txt&quot;, &quot;w&quot;) as f:
+
+        for i in range(16):
+
+            pt = int(bytes.hex(os.urandom(BLOCK_SIZE // 8)), 16)
+
+            ct = C.encrypt(pt)
+
+            f.write(str((pt, ct)) + &quot;\n&quot;)
+
+
+
+</code></pre>
+
+<p>The topic gave 16 groups of ciphertext pairs.</p>
+<ul>
+<li>Clear text size 8 bytes</li>
+<li>cipher text size 8 bytes</li>
+<li>The key size is also 8 bytes</li>
+</ul>
+<p>The key we need to solve is the key.</p>
+<p>It can be seen that there are two main operations here.</p>
+<ul>
+<li>swap</li>
+</ul>
+<pre><code class="python">
+def swap(b):
+
+    l = BLOCK_SIZE // 2
+
+    m = (1 &lt;&lt; l) - 1
+
+    return (b &gt;&gt; l) | ((b &amp; m) &lt;&lt; l)
+
+</code></pre>
+
+<p>Swaps the upper 32 bits of the given data with the lower 32 bits.</p>
+<ul>
+<li>transduce</li>
+</ul>
+<pre><code class="python">
+T = [
+
+    ((2, 1), 1),
+
+    ((5, 0), 0),
+
+    ((3, 4), 0),
+
+    ((1, 5), 1),
+
+    ((0, 3), 1),
+
+    ((4, 2), 0),
+
+]
+
+def transduce(b, s=0):
+
+if len (b) == 0:
+        return b
+
+    d, t = T[s]
+
+    b0, bp = b[0], b[1:]
+
+    return [b0 ^ t] + transduce(bp, s=d[b0])
+
+</code></pre>
+
+<p>among them,</p>
+<ul>
+<li>b is an array of 01 with an initial time size of 64.</li>
+<li>s is a subscript.</li>
+</ul>
+<p>The basic process is as follows</p>
+<ol>
+<li>Select which element of T to use based on s and divide it into d and t.</li>
+<li>Divide b into two parts, one containing only the head element and the other containing the other elements.</li>
+<li>XOR the header element with t as the current header element and continue to convert the rest.</li>
+</ol>
+<p>In fact, we can convert this function into an iterative function.</p>
+<pre><code class="python">
+def transduce_iter(b, s=0):
+
+ans = []
+    for c in b:
+
+        d, t = T[s]
+
+years + = [ct]
+        s = d[c]
+
+return years
+</code></pre>
+
+<p>And since each time the first element of the list is processed, the function is actually reversible, as follows</p>
+<pre><code class="python">
+def invtransduce(b, s=0):
+
+if len (b) == 0:
+        return b
+
+    d, t = T[s]
+
+    b0, bp = b[0], b[1:]
+
+    return [b0 ^ t] + transduce(bp, s=d[b0 ^ t])
+
+</code></pre>
+
+<p>The following is the core flow of the analysis program. The first is to generate the key part. The encryption algorithm generates 6 keys, each time the method is generated.</p>
+<ol>
+<li>transduce the previous key to get the intermediate value t</li>
+<li>Swap t</li>
+<li>Continuous iteration 5 times</li>
+</ol>
+<pre><code class="python">
+    def __init__(self, k):
+
+self.k = [k]
+        for i in range(1, len(T)):
+
+            k = swap(transduceblock(k))
+
+            self.k.append(k)
+
+</code></pre>
+
+<p>The encryption algorithm is as follows, a total of 6 iterations, the basic process</p>
+<p>XOR key transduce
+2. Exchange</p>
+<pre><code class="python">
+    def encrypt(self, b):
+
+        for i in range(len(T)):
+
+            b ^= self.k[i]
+
+            b = transduceblock(b)
+
+            b = swap(b)
+
+        return b
+
+</code></pre>
+
+<p>Through the analysis program, it can be known that the encryption algorithm is a block encryption, and the basic information is as follows</p>
+<ul>
+<li>Block size is 8 bytes</li>
+<li>Rounds of 6 rounds</li>
+<li>The basic operations of each round of the encryption algorithm are transduce and swap.</li>
+<li>The extension of the key is also related to transduce and swap.</li>
+</ul>
+<p>more specific</p>
+<ol>
+<li>swap is to swap the upper 32 bits of the 8 bytes with the lower 32 bits.</li>
+<li>transduce is XORed to a value bit by bit for each bit of 8 bytes. This value is related to T.</li>
+</ol>
+<p>Through further analysis, we can find that these two functions are all reversible. That is to say, if we know the final ciphertext, then we can actually shorten the original number of rounds to almost 5 rounds, because the last round of <code>transduce</code> and <code>swap</code> have no effect.</p>
+<p>We can define the following variables</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>| $k_{i,0}$ | The upper 32 bits of the key used in the i-th round |
+| $k_{i,1}$ | The lower 32 bits of the key used in the i-th round |
+| $d_{i,0}$ | The upper 32 bits of the input used by the i-th wheel |
+| $d_{i,1}$ | The lower 32 bits of the input used by the i-th wheel |</p>
+<p>Since one of the core operations is swap, only high or low 32 bits are manipulated, so we can consider it in two parts. The simplified definition is as follows</p>
+<ul>
+<li>Transduce is simplified to T, although it conflicts with the source code, but we can temporarily understand it.</li>
+<li>Swap is reduced to S.</li>
+</ul>
+<p>Then each round of the ciphertext, the key is as follows</p>
+<table>
+<thead>
+<tr>
+<th>Number of rounds</th>
+<th>Left key</th>
+<th>Left ciphertext</th>
+<th>Right key</th>
+<th>Right ciphertext</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>| 0    | $k_{0,0}$              | $d_{1,0}=T(k_{0,1} \oplus d_{0,1} ,s)$ | $k_{0,1}$            | $d_{1,1}=T(k_{0,0} \oplus d_{0,0})$ |</p>
+<p>| 1    | $k_{1,0}=T(k_{0,1},s)$ | $d_{2,0}=T(k_{1,1} \oplus d_{1,1} ,s)$ | $k_{1,1}=T(k_{0,0})$ | $d_{2,1}=T(k_{1,0} \oplus d_{1,0})$ |</p>
+<p>| 2    | $k_{2,0}=T(k_{1,1},s)$ | $d_{3,0}=T(k_{2,1} \oplus d_{2,1} ,s)$ | $k_{2,1}=T(k_{1,0})$ | $d_{3,1}=T(k_{2,0} \oplus d_{2,0})$ |</p>
+<p>| 3    | $k_{3,0}=T(k_{2,1},s)$ | $d_{4,0}=T(k_{3,1} \oplus d_{3,1} ,s)$ | $k_{3,1}=T(k_{2,0})$ | $d_{4,1}=T(k_{3,0} \oplus d_{3,0})$ |</p>
+<p>| 4    | $k_{4,0}=T(k_{3,1},s)$ | $d_{5,0}=T(k_{4,1} \oplus d_{4,1} ,s)$ | $k_{4,1}=T(k_{3,0})$ | $d_{5,1}=T(k_{4,0} \oplus d_{4,0})$ |</p>
+<p>| 5    | $k_{5,0}=T(k_{4,1},s)$ | $d_{6,0}=T(k_{5,1} \oplus d_{5,1} ,s)$ | $k_{5,1}=T(k_{4,0})$ | $d_{6,1}=T(k_{5,0} \oplus d_{5,0})$ |</p>
+<p>Then, we can enumerate the upper 32 bits of k bit by bit and enumerate the possible s status bits when performing the T operation, so that we can get the high 32-bit key. After performing a bit-by-bit blast, we can get two possible results</p>
+<pre><code>
+[2659900894, 2659900895]
+
+</code></pre>
+
+<p>According to the results on the left, you can get the possible results on the right. The possible results obtained with 2659900894 are as follows:</p>
+<pre><code>
+# The first set of ciphertexts may have too many corresponding keys.
+# The second group has a total of 6.
+[2764038144, 2764038145, 2764038152, 2764038153, 2764038154, 2764038155]
+
+# The third group
+[2764038144, 2764038145]
+
+</code></pre>
+
+<p>Then in fact, we can manually try to encrypt all the ciphertext, if not, just judge the error directly. This can actually be filtered very quickly. Finally, you can find that the key is</p>
+<pre><code>
+2659900894|2764038145
+
+</code></pre>
+
+<p>That is 11624187353095200769. Also got the flag.</p>
+<p>Of course, this problem can also use the attack method of the middle encounter, that is, the key used in the 0th round and the key used in the last round are respectively enumerated to make a collision in the third round.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li>http://blog.rb-tree.xyz/2018/05/07/plaidctf-2018-transducipher/</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../../about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../meet-in-the-middle/" class="btn btn-neutral" title="中间相遇攻击"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../meet-in-the-middle/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../../about/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../search/main.js" defer></script>
+
+</body>
+</html>

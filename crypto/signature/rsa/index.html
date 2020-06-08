@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>RSA 数字签名 - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "RSA \u6570\u5b57\u7b7e\u540d";
+    var mkdocs_page_input_path = "crypto/signature/rsa.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class=" current">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../asymmetric/knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/discrete-log/ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../asymmetric/lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3 current">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4 current">
+                    
+    <a class="current" href="./">RSA 数字签名</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l5"><a href="#rsa-digital-signature">RSA Digital Signature</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l6" href="#principle">Principle</a></li>
+        
+            <li><a class="toctree-l6" href="#2018-backdoor-awesome-mix1">2018 Backdoor Awesome mix1</a></li>
+        
+            <li><a class="toctree-l6" href="#2018-backdoor-awesome-mix2">2018 Backdoor Awesome mix2</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>数字签名 &raquo;</li>
+        
+      
+        
+          <li>非对称加密 &raquo;</li>
+        
+      
+        
+          <li>Crypto &raquo;</li>
+        
+      
+    
+    <li>RSA 数字签名</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="./">EN</a> | <a href="../rsa-zh/">ZH</a></p>
+<h1 id="rsa-digital-signature">RSA Digital Signature</h1>
+<h2 id="principle">Principle</h2>
+<p>The principle is similar to RSA encryption, except that the private key is used for encryption, and the encrypted result is used as a signature.</p>
+<h2 id="2018-backdoor-awesome-mix1">2018 Backdoor Awesome mix1</h2>
+<p>First, you can easily analyze the source code. Here, the program uses RSK signature with PKCS1_V1.5, which will extend the plaintext message. For specific extension rules, please refer to https://www.emc.com/collateral/white-papers/h11300-pkcs -1v2-2-rsa-cryptography-standard-wp.pdf. Here is the corresponding extension script, corresponding to the <code>from Util import PKCS1_pad as pad</code> in the title.</p>
+<pre><code class="python">
+def PKCS1_pad(data):
+
+    asn1 = &quot;3021300906052b0e03021a05000414&quot;
+
+ans = asn1 + data
+n = len (ans)
+return int ((&amp;#39;00&amp;#39; + &amp;#39;01&amp;#39; + &amp;#39;ff&amp;#39; * (1024/8 - n / 2 - 3) + &amp;#39;00&amp;#39; + years), 16)
+</code></pre>
+
+<p>The program wants us to give <code>n,e</code> to make the program satisfy</p>
+<p>$h(m)^e mod \ n=pad(m)$</p>
+<p>Here we already know <code>h(m), pad(m)</code>. Obviously if we control <code>e=1</code>, then</p>
+<p>$h(m)-pad(m)=kn$</p>
+<p>Then if we can set k=1, we can get n.</p>
+<p>Local deployment <code>socat TCP4-LISTEN: 12345, fork EXEC:./mix1.py</code>.</p>
+<p>Exp is as follows</p>
+<pre><code class="python">
+from Crypto.Hash import SHA
+
+from pwn import *
+
+
+
+from Util import PKCS1_pad
+
+
+
+#context.log_level = 'debug'
+
+
+
+
+
+def main():
+
+    port = 12345
+
+    host = &quot;127.0.0.1&quot;
+
+    p = remote(host, port)
+
+    p.recvuntil('Message   -&gt; ')
+
+    message = p.recvuntil('\n\nSignature -&gt; ', drop=True)
+
+    log.info('message: ' + message)
+
+    signature = p.recvuntil('\n', drop=True)
+
+    log.info('signature: ' + signature)
+
+
+
+    h = SHA.new(message)
+
+
+
+    m = PKCS1_pad(h.hexdigest())
+
+
+
+e = 1
+    n = int(signature, 16) - m
+
+
+
+    p.sendlineafter('Enter n:', str(n))
+
+    p.sendlineafter('Enter e:', str(e))
+
+
+
+    p.interactive()
+
+
+
+
+
+main()
+
+
+
+</code></pre>
+
+<p>The effect is as follows</p>
+<pre><code class="shell">
+➜  2018-BackdoorCTF-Awesome-mix1 git:(master) python exp.py
+
+[+] Opening connection to 127.0.0.1 on port 12345: Done
+
+[*] message: super important information for admin only
+
+[*] signature: 721af5bd401b5f2aff8e86bf811b827cdb5877ef12202f24fa914a26f235523f80c45fdbf0d3c9fa77278828ddd8ca0551a941bd57c97dd38654692568d1357a49e7a2a284d296508602ead24c91e5aa7f517b9e48422575f0dd373d00f267a206ba164ab104c488268b5f95daf490a048407773d4b1016de8ef508bf1aa678f
+
+[*] Switching to interactive mode
+
+CTF{cryp70_5ur3_15_w13rd}
+
+[*] Got EOF while reading in interactive
+
+</code></pre>
+
+<h2 id="2018-backdoor-awesome-mix2">2018 Backdoor Awesome mix2</h2>
+<p>Local deployment <code>socat TCP4-LISTEN: 12345, fork EXEC:./service.py</code>.</p>
+<p>The topic is similar to the above question. The only difference is that there is a constraint on e, which must be greater than 3, so we can&#39;t use 1.</p>
+<p>$h(m)^e mod \ n=pad(m)$</p>
+<p>Here we already know <code>h(m), pad(m)</code>. We only need to construct the remaining numbers. Here we construct n as a prime number, so that n-1 is a smooth number, so we can use the pohlig_hellman algorithm.</p>
+<pre><code class="python">
+from Crypto.Hash import SHA
+
+from pwn import *
+
+import gmpy2
+
+from gmpy2 import is_prime
+
+import random
+
+
+
+
+
+def PKCS1_pad(data):
+
+    asn1 = &quot;3021300906052b0e03021a05000414&quot;
+
+ans = asn1 + data
+n = len (ans)
+return int ((&amp;#39;00&amp;#39; + &amp;#39;01&amp;#39; + &amp;#39;ff&amp;#39; * (1024/8 - n / 2 - 3) + &amp;#39;00&amp;#39; + years), 16)
+
+
+
+
+#context.log_level = 'debug'
+
+def gen_smooth_num(plist, minnum=pow(2, 1020)):
+
+lenp = len (plist)
+    while True:
+
+        n = 1
+
+        factors = dict()
+
+while n + 1 &amp;lt;remember:
+            tmp = random.randint(0, lenp - 1)
+
+            n *= plist[tmp]
+
+            if plist[tmp] in factors:
+
+                factors[plist[tmp]] += 1
+
+            else:
+
+                factors[plist[tmp]] = 1
+
+        if n.bit_length() &gt; 1024:
+
+            continue
+
+        if is_prime(n + 1):
+
+            return n + 1, factors
+
+
+
+
+
+# http://pythonexample.com/snippet/pohligpy_neuratron_python
+
+# solve g^x=h mod m
+
+define log_prime_power (g, h, pf, pe, M):
+
+    powers = [pf**k for k in range(pe)]
+
+
+
+    gamma = gmpy2.powmod(g, powers[-1], M)
+
+
+
+xk = gmpy2.mpz (0)
+    for k in range(pe):
+
+        if k == 0:
+
+hk = gmpy2.powmod (h, powers [pe - k - 1], m)
+        else:
+
+            gk = gmpy2.powmod(g, xk * (M - 2), M)
+
+hk = gmpy2.powmod (gk * h, powers [pe - k - 1], m)
+
+
+        k_log_found = False
+
+        for dk in range(pf):
+
+yk = gmpy2.powmod (gamma, dk, M)
+            if yk == hk:
+
+                k_log_found = True
+
+                break
+
+
+
+        if not k_log_found:
+
+            raise Exception(&quot;can not solve&quot;)
+
+
+
+        xk += gmpy2.mul(powers[k], dk)
+
+
+
+    return xk
+
+
+
+
+
+def pohlig_hellman(g, h, M, factors):
+
+    M1 = M - 1
+
+    xs = []
+
+    for f in factors:
+
+pf = f
+pe = factors [f]
+
+
+        subgroup_exponent = gmpy2.div(M1, gmpy2.powmod(pf, pe, M))
+
+        gi = gmpy2.powmod(g, subgroup_exponent, M)
+
+        hi = gmpy2.powmod(h, subgroup_exponent, M)
+
+
+
+xi = log_prime_power (gi, hi, pf, pe, M)
+        xs.append(xi)
+
+crt_coeffs = []
+
+
+    for f in factors:
+
+pf = f
+pe = factors [f]
+
+
+mi = pf ** on
+
+
+bi = gmpy2.div (M, mi)
+bi_inv = gmpy2.invert (bi, mi)
+crt_coeffs.append (gmpy2.mul (bi, bi_inv))
+    x = 0
+
+    for i in range(len(crt_coeffs)):
+
+        x = gmpy2.t_mod(x + gmpy2.t_mod(xs[i] * crt_coeffs[i], M1), M1)
+
+    return x
+
+
+
+
+
+#context.log_level = 'debug'
+
+
+
+
+
+def main():
+
+    port = 12345
+
+    host = &quot;127.0.0.1&quot;
+
+    p = remote(host, port)
+
+    p.recvuntil('Message   -&gt; ')
+
+    message = p.recvuntil('\n\nSignature -&gt; ', drop=True)
+
+    log.info('message: ' + message)
+
+    signature = p.recvuntil('\n', drop=True)
+
+    log.info('signature: ' + signature)
+
+    signature = int(signature, 16)
+
+    h = SHA.new(message)
+
+
+
+    m = PKCS1_pad(h.hexdigest())
+
+    print m, signature
+
+    plist = []
+
+    for i in range(2, 1000):
+
+        if is_prime(i):
+
+            plist.append(i)
+
+    while True:
+
+        try:
+
+            n, factors = gen_smooth_num(plist, signature)
+
+            e = pohlig_hellman(signature, m, n, factors)
+
+        except Exception as e:
+
+            continue
+
+        else:
+
+            break
+
+print n, e
+
+
+    print m
+
+    print gmpy2.powmod(signature, e, n)
+
+
+
+    p.sendlineafter('Enter n:', str(n))
+
+    p.sendlineafter('Enter e:', str(e))
+
+
+
+    p.interactive()
+
+
+
+
+
+main()
+
+</code></pre>
+
+<p>There are two points to note</p>
+<ol>
+<li>Since both g and y in $g^x=y$ are given, the newly found n, not necessarily the power of g, will contain y, so the solution may fail, so it needs to be solved multiple times. .</li>
+<li>Although <code>n.bit_length() &amp;lt;= 1025</code> in the source code, in fact, when n satisfies the condition of not less than signature, the following conditions must be met (pycrypto source code)</li>
+</ol>
+<pre><code class="python">
+        modBits = Crypto.Util.number.size(self._key.n)
+
+        k = ceil_div(modBits,8) # Convert from bits to bytes
+
+
+
+        # Step 1
+
+if len (S)! = k:
+            return 0
+
+</code></pre>
+
+<p>So we&#39;d better set n to 1024 bits.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../dsa/" class="btn btn-neutral float-right" title="DSA 数字签名">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../introduction/" class="btn btn-neutral" title="数字签名简介"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../introduction/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../dsa/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Elgamal zh - 西山下,闻溪语,书心境</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Elgamal zh";
+    var mkdocs_page_input_path = "crypto/asymmetric/discrete-log/elgamal-zh.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> 西山下,闻溪语,书心境</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Index</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Crypto</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../../introduction/">密码学简介</a>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">基础数学知识</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../basic/introduction/">简介</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">古典密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/introduction/">古典密码简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/monoalphabetic/">单表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/polyalphabetic/">多表代换加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/others/">其他类型加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../classical/summary/">总结</a>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../streamcipher/intro/">介绍</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">伪随机数生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/prng/problem/">题目</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">线性同余生成器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/intro/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/lcg/challenge/">例题</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">反馈移位寄存器</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/intro/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">特殊流密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../streamcipher/special/rc4/">RC4</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">块加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/introduction/">块加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/arx-operations/">ARX</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/des/">DES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/idea/">IDEA</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/aes.md">AES</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../../blockcipher/simon-speck/">Simon and Speck</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">分组模式</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/introduction/">介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding/">填充方式</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ecb/">ECB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cbc/">CBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/pcbc/">PCBC</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/cfb/">CFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ofb/">OFB</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/ctr/">CTR</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="">
+                    
+    <span class="caption-text">非对称加密</span>
+    <ul class="subnav">
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../introduction/">非对称加密简介</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">RSA</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_theory/">RSA 基本介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_module_attack/">模数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_e_attack/">公钥指数相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_d_attack/">私钥 d 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_side_channel/">侧信道攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../rsa/rsa_complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <a class="" href="../../knapsack/knapsack/">背包加密</a>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">离散对数相关</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../discrete-log/">离散对数</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../elgamal/">Elgamal</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../ecc/">ECC</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">格密码</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/overview/">格概述</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/introduction/">格介绍</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/lattice-reduction/">格基规约算法</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../lattice/cvp/">CVP</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">哈希函数</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/introduction/">哈希函数简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/md5/">MD5</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/sha1/">SHA1</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/fnv/">FNV</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/attack/">Hash Attack</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../hash/complex/">综合</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">数字签名</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/introduction/">数字签名简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/rsa/">RSA 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/elgamal.md">ElGamal 数字签名</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../signature/dsa/">DSA 数字签名</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l3">
+                    
+    <span class="caption-text">攻击思想总结</span>
+    <ul class="subnav">
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/attack-mode/">简介</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/meet-in-the-middle/">中间相遇攻击</a>
+                </li>
+                <li class="toctree-l4">
+                    
+    <a class="" href="../../../attack-summary/bit-attack/">比特攻击</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../../about/">About</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">西山下,闻溪语,书心境</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Elgamal zh</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><a href="../elgamal/">EN</a> | <a href="./">ZH</a></p>
+<h1 id="elgamal">ElGamal</h1>
+<h2 id="_1">概述</h2>
+<p>ElGamal算法的安全性是基于求解离散对数问题的困难性，于1984年提出，也是一种双钥密码体制，既可以用于加密又可用于数字签名。</p>
+<p>如果我们假设p是至少是160位的十进制素数，<strong>并且p-1有大素因子</strong>，此外g是 $Z_p^<em>$  的生成元，并且 $y \in Z_p^</em>$  。那么如何找到一个唯一的整数x($0\leq x \leq p-2$) ，满足$g^x \equiv y \bmod p$ 在算法上是困难的，这里将x记为$x=log_gy$ 。</p>
+<h2 id="_2">基本原理</h2>
+<p>这里我们假设A要给B发送消息m。</p>
+<h3 id="_3">密钥生成</h3>
+<p>基本步骤如下</p>
+<ol>
+<li>选取一个足够大的素数p，以便于在$Z_p$ 上求解离散对数问题是困难的。</li>
+<li>选取$Z_p^*$ 的生成元g。</li>
+<li>随机选取整数k,$0\leq k \leq p-2$ ，并计算$g^k \equiv y \bmod p$ 。</li>
+</ol>
+<p>其中私钥为{k}，公钥为{p,g,y} 。</p>
+<h3 id="_4">加密</h3>
+<p>A选取随机数$r \in Z_{p-1}$ ，对明文加密$E_k(m,r)=(y_1,y_2)$ 。其中$y_1 \equiv g^r \bmod p$ ，$y_2 \equiv my^r \bmod p$ 。</p>
+<h3 id="_5">解密</h3>
+<p>$D_k(y_1,y_2)=y_2(y_1^k)^-1 \bmod p \equiv m(g^k)^r(g^{rk})^{-1} \equiv m \bmod p$ 。</p>
+<h3 id="_6">难点</h3>
+<p>虽然我们知道了y1,但是我们却没有办法知道其对应的r。</p>
+<h2 id="2015-mma-ctf-alicegame">2015 MMA CTF Alicegame</h2>
+<p>这里我们以2015年 MMA-CTF-2015 中的 Alicegame 为例进行介绍。这题最初在没有给出源码的时候却是比较难做，因为这个给一个 m，给一个 r 就得到加密结果，，这太难想。</p>
+<p>我们来简单分析一下源码，首先程序最初生成了 pk 与 sk</p>
+<pre><code class="python">    (pk, sk) = genkey(PBITS)
+</code></pre>
+
+<p>其中genkey函数如下</p>
+<pre><code class="python">def genkey(k):
+    p = getPrime(k)
+    g = random.randrange(2, p)
+    x = random.randrange(1, p-1)
+    h = pow(g, x, p)
+    pk = (p, g, h)
+    sk = (p, x)
+    return (pk, sk)
+</code></pre>
+
+<p>p为k位的素数，g为(2,p)范围内的书，x在(1,p-1)范围内。并且计算了$h \equiv g^x \bmod p$ 。看到这里，差不多就知道，这应该是一个数域上的ElGamal加密了。其中pk为公钥，sk为私钥。</p>
+<p>接下来 程序输出了10次m和r。并且，利用如下函数加密</p>
+<pre><code class="python">def encrypt(pk, m, r = None):
+    (p, g, h) = pk
+    if r is None:
+        r = random.randrange(1, p-1)
+    c1 = pow(g, r, p)
+    c2 = (m * pow(h, r, p)) % p
+    return (c1, c2)
+</code></pre>
+
+<p>其加密方法确实是ElGamal方式的加密。</p>
+<p>最后程序对flag进行了加密。此时的r是由程序自己random的。</p>
+<p>分析一下，这里我们在十轮循环中可以控制m和r，并且</p>
+<p>$c_1 \equiv g^r \bmod p$</p>
+<p>$c_2 \equiv m * h^{r} \bmod p$</p>
+<p>如果我们设置</p>
+<ol>
+<li>r=1，m=1，那么我们就可以获得$c_1=g,c_2=h$ 。</li>
+<li>r=1，m=-1，那么我们就可以获得$c_1=g, c_2 = p-h$ 。进而我们就可以得到素数p。</li>
+</ol>
+<p>我们得到素数p有什么用呢?p的位数在201位左右，很大啊。</p>
+<p>但是啊，它生成素数p之后，没有进行检查啊。我们在之前说过p-1必须有大素因子，如果有小的素因子的话，那我们就可以攻击了。其攻击主要是使用到了baby step-giant step 与 Pohlig-Hellman algorithm 算法，有兴趣的可以看看，这里sage本身自带的计算离散对数的函数已经可以处理这样的情况了，参见<a href="http://doc.sagemath.org/html/en/reference/groups/sage/groups/generic.html">discrete_log</a> 。</p>
+<p>具体代码如下，需要注意的是，，这个消耗内存比较大，，不要随便拿虚拟机跑。。。还有就是这尼玛交互让我头疼啊，，，</p>
+<pre><code class="python">import socket
+from Crypto.Util.number import *
+from sage.all import *
+
+
+def get_maxfactor(N):
+    f = factor(N)
+    print 'factor done'
+    return f[-1][0]
+
+maxnumber = 1 &lt;&lt; 70
+i = 0
+while 1:
+    print 'cycle: ',i
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((&quot;localhost&quot;, 9999))
+    sock.recv(17)
+    # get g,h
+    sock.recv(512)
+    sock.sendall(&quot;1\n&quot;)
+    sock.recv(512)
+    sock.sendall(&quot;1\n&quot;)
+    data = sock.recv(1024)
+    print data
+    if '\n' in data:
+        data =data[:data.index('\n')]
+    else:
+        # receive m=
+        sock.recv(1024)
+    (g,h) = eval(data)
+
+    # get g,p
+    sock.sendall(&quot;-1\n&quot;)
+    sock.recv(512)
+    sock.sendall(&quot;1\n&quot;)
+    data = sock.recv(1024)
+    print data
+    if '\n' in data:
+        data = data[:data.index('\n')]
+    else:
+        # receive m=
+        sock.recv(512)
+    (g,tmp) = eval(data)
+    p = tmp+h
+    tmp = get_maxfactor(p-1)
+    if tmp&lt;maxnumber:
+        print 'may be success'
+        # skip the for cycle
+        sock.sendall('quit\n');
+        data = sock.recv(1024)
+        print 'receive data: ',data
+        data = data[data.index(&quot;:&quot;)+1:]
+        (c1,c2)=eval(data)
+        # generate the group
+        g = Mod(g, p)
+        h = Mod(h, p)
+        c1 = Mod(c1, p)
+        c2 = Mod(c2, p)
+        x = discrete_log(h, g)
+        print &quot;x = &quot;, x
+        print &quot;Flag: &quot;, long_to_bytes(long(c2 / ( c1 ** x)))
+    sock.sendall('quit\n')
+    sock.recv(1024)
+    sock.close()
+    i += 1
+</code></pre>
+
+<p>最后迫于计算机内存不够，，没计算出来，，，有时候会崩，多运行几次。。</p>
+<h2 id="2018-code-blue-lagalem">2018 Code Blue lagalem</h2>
+<p>题目描述如下</p>
+<pre><code class="python">from Crypto.Util.number import *
+from key import FLAG
+
+size = 2048
+rand_state = getRandomInteger(size // 2)
+
+
+def keygen(size):
+    q = getPrime(size)
+    k = 2
+    while True:
+        p = q * k + 1
+        if isPrime(p):
+            break
+        k += 1
+    g = 2
+    while True:
+        if pow(g, q, p) == 1:
+            break
+        g += 1
+    A = getRandomInteger(size) % q
+    B = getRandomInteger(size) % q
+    x = getRandomInteger(size) % q
+    h = pow(g, x, p)
+    return (g, h, A, B, p, q), (x,)
+
+
+def rand(A, B, M):
+    global rand_state
+    rand_state, ret = (A * rand_state + B) % M, rand_state
+    return ret
+
+
+def encrypt(pubkey, m):
+    g, h, A, B, p, q = pubkey
+    assert 0 &lt; m &lt;= p
+    r = rand(A, B, q)
+    c1 = pow(g, r, p)
+    c2 = (m * pow(h, r, p)) % p
+    return (c1, c2)
+
+
+# pubkey, privkey = keygen(size)
+
+m = bytes_to_long(FLAG)
+c1, c2 = encrypt(pubkey, m)
+c1_, c2_ = encrypt(pubkey, m)
+
+print pubkey
+print(c1, c2)
+print(c1_, c2_)
+</code></pre>
+
+<p>可以看出，该算法就是一个 ElGamal 加密，给了同一个明文两组加密后的结果，其特点在于使用的随机数 r 是通过线性同余生成器生成的，则我们知道</p>
+<p>$c2 \equiv m * h^{r} \bmod p$</p>
+<p>$c2_ \equiv m<em>h^{(Ar+B) \bmod q} \equiv m</em>h^{Ar+B}\bmod p$</p>
+<p>则</p>
+<p>$c2^A*h^B/c2_ \equiv m^{A-1}\bmod p$</p>
+<p>其中，c2，c2_，A，B，h 均知道。则我们知道</p>
+<p>$m^{A-1} \equiv t \bmod p$</p>
+<p>我们假设已知 p 的一个原根 g，则我们可以假设</p>
+<p>$g^x \equiv t$</p>
+<p>$g^y \equiv m$</p>
+<p>则</p>
+<p>$g^{y(A-1)}\equiv g^x \bmod p$</p>
+<p>则</p>
+<p>$y(A-1) \equiv x \bmod p-1$</p>
+<p>进而我们知道</p>
+<p>$y(A-1)-k(p-1)=x$</p>
+<p>这里我们知道 A，p，x，则我们可以利用扩展欧几里得定理求得</p>
+<p>$s(A-1)+w(p-1)=gcd(A-1,t-1)$</p>
+<p>如果gcd(A-1,t-1)=d，则我们直接计算</p>
+<p>$t^s \equiv m^{s(A-1)} \equiv m^d \bmod p$</p>
+<p>如果 d=1，则直接知道 m。</p>
+<p>如果 d 不为1，则就有点麻烦了。。</p>
+<p>这里这道题目中恰好 d=1，因此可以很容易进行求解。</p>
+<pre><code class="python">import gmpy2
+data = open('./transcript.txt').read().split('\n')
+g, h, A, B, p, q = eval(data[0])
+
+c1, c2 = eval(data[1])
+c1_, c2_ = eval(data[2])
+
+tmp = gmpy2.powmod(c2, A, p) * gmpy2.powmod(h, B, p) * gmpy2.invert(c2_, p)
+tmp = tmp % p
+
+print 't=', tmp
+print 'A=', A
+print 'p=', p
+gg, x, y = gmpy2.gcdext(A - 1, p - 1)
+print gg
+
+m = gmpy2.powmod(tmp, x, p)
+print hex(m)[2:].decode('hex')
+</code></pre>
+
+<p>flag</p>
+<pre><code class="shell">➜  2018-CodeBlue-lagalem git:(master) ✗ python exp.py
+t= 24200833701856688878756977616650401715079183425722900529883514170904572086655826119242478732147288453761668954561939121426507899982627823151671207325781939341536650446260662452251070281875998376892857074363464032471952373518723746478141532996553854860936891133020681787570469383635252298945995672350873354628222982549233490189069478253457618473798487302495173105238289131448773538891748786125439847903309001198270694350004806890056215413633506973762313723658679532448729713653832387018928329243004507575710557548103815480626921755313420592693751934239155279580621162244859702224854316335659710333994740615748525806865323
+A= 22171697832053348372915156043907956018090374461486719823366788630982715459384574553995928805167650346479356982401578161672693725423656918877111472214422442822321625228790031176477006387102261114291881317978365738605597034007565240733234828473235498045060301370063576730214239276663597216959028938702407690674202957249530224200656409763758677312265502252459474165905940522616924153211785956678275565280913390459395819438405830015823251969534345394385537526648860230429494250071276556746938056133344210445379647457181241674557283446678737258648530017213913802458974971453566678233726954727138234790969492546826523537158
+p= 36416598149204678746613774367335394418818540686081178949292703167146103769686977098311936910892255381505012076996538695563763728453722792393508239790798417928810924208352785963037070885776153765280985533615624550198273407375650747001758391126814998498088382510133441013074771543464269812056636761840445695357746189203973350947418017496096468209755162029601945293367109584953080901393887040618021500119075628542529750701055865457182596931680189830763274025951607252183893164091069436120579097006203008253591406223666572333518943654621052210438476603030156263623221155480270748529488292790643952121391019941280923396132717
+1
+CBCTF{183a3ce8ed93df613b002252dfc741b2}
+</code></pre>
+
+<h2 id="_7">参考</h2>
+<ul>
+<li>https://www.math.auckland.ac.nz/~sgal018/crypto-book/solns.pdf，20.4.1</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>
