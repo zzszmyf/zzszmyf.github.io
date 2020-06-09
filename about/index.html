@@ -1,295 +1,464 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  
-  
-  <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>About - 西山下,闻溪语,书心境</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>About - 西山下,闻溪语,书心境</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-  <link rel="stylesheet" href="../css/theme.css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "About";
-    var mkdocs_page_input_path = "about.md";
-    var mkdocs_page_url = null;
-  </script>
-  
-  <script src="../js/jquery-2.1.1.min.js" defer></script>
-  <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
-  
-</head>
+    <script src="../js/jquery-1.10.2.min.js" defer></script>
+    <script src="../js/bootstrap-3.3.7.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
 
-<body class="wy-body-for-nav" role="document">
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">西山下,闻溪语,书心境</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-  <div class="wy-grid-for-nav">
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href=".." class="dropdown-item">首页</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item">关于我</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Crypto <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">ctf-wiki中的资料</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/introduction/" class="dropdown-item">密码学简介</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">基础数学知识</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/basic/introduction/" class="dropdown-item">简介</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">古典密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/classical/introduction/" class="dropdown-item">古典密码简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/classical/monoalphabetic/" class="dropdown-item">单表代换加密</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/classical/polyalphabetic/" class="dropdown-item">多表代换加密</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/classical/others/" class="dropdown-item">其他类型加密</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/classical/summary/" class="dropdown-item">总结</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">流密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">伪随机数生成器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/prng/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/prng/csprng/" class="dropdown-item">密码学安全伪随机数生成器</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/prng/problem/" class="dropdown-item">题目</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">线性同余生成器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/lcg/intro/" class="dropdown-item">简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/lcg/challenge/" class="dropdown-item">例题</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">反馈移位寄存器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/fsr/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/fsr/lfsr/" class="dropdown-item">线性反馈移位寄存器</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/fsr/nfsr/" class="dropdown-item">非线性反馈移位寄存器</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">特殊流密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/streamcipher/special/rc4/" class="dropdown-item">RC4</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">块加密</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/introduction/" class="dropdown-item">块加密简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/arx-operations/" class="dropdown-item">ARX</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/des/" class="dropdown-item">DES</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/idea/" class="dropdown-item">IDEA</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/aes.md" class="dropdown-item">AES</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/simon-speck/" class="dropdown-item">Simon and Speck</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">分组模式</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/introduction/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/padding/" class="dropdown-item">填充方式</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/ecb/" class="dropdown-item">ECB</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/cbc/" class="dropdown-item">CBC</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/pcbc/" class="dropdown-item">PCBC</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/cfb/" class="dropdown-item">CFB</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/ofb/" class="dropdown-item">OFB</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/ctr/" class="dropdown-item">CTR</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/blockcipher/mode/padding-oracle-attack/" class="dropdown-item">Padding Oracle Attack</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">非对称加密</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/introduction/" class="dropdown-item">非对称加密简介</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">RSA</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_theory/" class="dropdown-item">RSA 基本介绍</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_module_attack/" class="dropdown-item">模数相关攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_e_attack/" class="dropdown-item">公钥指数相关攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_d_attack/" class="dropdown-item">私钥 d 相关攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_coppersmith_attack.md" class="dropdown-item">Coppersmith 相关攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_chosen_plain_cipher/" class="dropdown-item">选择明密文攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_side_channel/" class="dropdown-item">侧信道攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_pkcs_attack/" class="dropdown-item">Bleichenbacher 攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/rsa/rsa_complex/" class="dropdown-item">综合</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/knapsack/knapsack/" class="dropdown-item">背包加密</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">离散对数相关</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/discrete-log/discrete-log/" class="dropdown-item">离散对数</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/discrete-log/elgamal/" class="dropdown-item">Elgamal</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/discrete-log/ecc/" class="dropdown-item">ECC</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">格密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/lattice/overview/" class="dropdown-item">格概述</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/lattice/introduction/" class="dropdown-item">格介绍</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/lattice/lattice-reduction/" class="dropdown-item">格基规约算法</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/asymmetric/lattice/cvp/" class="dropdown-item">CVP</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">哈希函数</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/introduction/" class="dropdown-item">哈希函数简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/md5/" class="dropdown-item">MD5</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/sha1/" class="dropdown-item">SHA1</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/fnv/" class="dropdown-item">FNV</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/attack/" class="dropdown-item">Hash Attack</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/hash/complex/" class="dropdown-item">综合</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">数字签名</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/signature/introduction/" class="dropdown-item">数字签名简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/signature/rsa/" class="dropdown-item">RSA 数字签名</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/signature/elgamal.md" class="dropdown-item">ElGamal 数字签名</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/signature/dsa/" class="dropdown-item">DSA 数字签名</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">攻击思想总结</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../crypto/ctf-wiki/attack-summary/attack-mode/" class="dropdown-item">简介</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/attack-summary/meet-in-the-middle/" class="dropdown-item">中间相遇攻击</a>
+</li>
+            
+<li>
+    <a href="../crypto/ctf-wiki/attack-summary/bit-attack/" class="dropdown-item">比特攻击</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">About</a>
+                            </li>
+                        </ul>
 
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
-      <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> 西山下,闻溪语,书心境</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
-  </form>
-</div>
-      </div>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../crypto/ctf-wiki/attack-summary/bit-attack/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-                <p class="caption"><span class="caption-text">Index</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="..">首页</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="./">关于我</a>
-                    </li>
-                </ul>
-                <p class="caption"><span class="caption-text">Crypto</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="#">CTF-wiki中的资料</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../crypto/introduction/">密码学简介</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="#">基础数学知识</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/basic/introduction/">简介</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="#">古典密码</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/classical/introduction/">古典密码简介</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/classical/monoalphabetic/">单表代换加密</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/classical/polyalphabetic/">多表代换加密</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/classical/others/">其他类型加密</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/classical/summary/">总结</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="#">流密码</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/streamcipher/intro/">介绍</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">伪随机数生成器</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/prng/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/prng/csprng/">密码学安全伪随机数生成器</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/prng/problem/">题目</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">线性同余生成器</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/lcg/intro/">简介</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/lcg/challenge/">例题</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">反馈移位寄存器</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/fsr/intro/">介绍</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/fsr/lfsr/">线性反馈移位寄存器</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/fsr/nfsr/">非线性反馈移位寄存器</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">特殊流密码</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/streamcipher/special/rc4/">RC4</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="#">块加密</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/blockcipher/introduction/">块加密简介</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/blockcipher/arx-operations/">ARX</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/blockcipher/des/">DES</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/blockcipher/idea/">IDEA</a>
-                </li>
-                <li class="toctree-l3"><a class="" href="../crypto/blockcipher/aes.md">AES</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/blockcipher/simon-speck/">Simon and Speck</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">分组模式</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/introduction/">介绍</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/padding/">填充方式</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/ecb/">ECB</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/cbc/">CBC</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/pcbc/">PCBC</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/cfb/">CFB</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/ofb/">OFB</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/ctr/">CTR</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/blockcipher/mode/padding-oracle-attack/">Padding Oracle Attack</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="#">非对称加密</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/asymmetric/introduction/">非对称加密简介</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">RSA</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_theory/">RSA 基本介绍</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_module_attack/">模数相关攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_e_attack/">公钥指数相关攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_d_attack/">私钥 d 相关攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="" href="../crypto/asymmetric/rsa/rsa_coppersmith_attack.md">Coppersmith 相关攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_chosen_plain_cipher/">选择明密文攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_side_channel/">侧信道攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_pkcs_attack/">Bleichenbacher 攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/rsa/rsa_complex/">综合</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../crypto/asymmetric/knapsack/knapsack/">背包加密</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">离散对数相关</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/discrete-log/discrete-log/">离散对数</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/discrete-log/elgamal/">Elgamal</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/discrete-log/ecc/">ECC</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">格密码</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/lattice/overview/">格概述</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/lattice/introduction/">格介绍</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/lattice/lattice-reduction/">格基规约算法</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/asymmetric/lattice/cvp/">CVP</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">哈希函数</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/introduction/">哈希函数简介</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/md5/">MD5</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/sha1/">SHA1</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/fnv/">FNV</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/attack/">Hash Attack</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/hash/complex/">综合</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">数字签名</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/signature/introduction/">数字签名简介</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/signature/rsa/">RSA 数字签名</a>
-                </li>
-                <li class="toctree-l4"><a class="" href="../crypto/signature/elgamal.md">ElGamal 数字签名</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/signature/dsa/">DSA 数字签名</a>
-                </li>
-    </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="#">攻击思想总结</a>
-    <ul>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/attack-summary/attack-mode/">简介</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/attack-summary/meet-in-the-middle/">中间相遇攻击</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../crypto/attack-summary/bit-attack/">比特攻击</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                    </li>
-                </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">About</a>
-    <ul class="current">
-    </ul>
-                    </li>
-                </ul>
-      </div>
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
     </div>
-    </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">西山下,闻溪语,书心境</a>
-      </nav>
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
     
-      
-    
-    <li>About</li>
-    <li class="wy-breadcrumbs-aside">
-      
-    </li>
-  </ul>
-  
-  <hr/>
-</div>
-          <div role="main">
-            <div class="section">
-              
-                <h2 id="_1">本人<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">本人</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="_1">本人<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>入门机器学习和深度学习中</p>
@@ -303,57 +472,87 @@
 <li>
 <p>邮箱:<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#122;&#122;&#115;&#122;&#109;&#121;&#102;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;">&#122;&#122;&#115;&#122;&#109;&#121;&#102;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a></p>
 </li>
-</ul>
-              
+</ul></div>
             </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="../crypto/attack-summary/bit-attack/" class="btn btn-neutral" title="比特攻击"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-  </div>
-
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-      
         </div>
-      </div>
 
-    </section>
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+        <script src="../_static/js/extra.js" defer></script>
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.crypto/ctf-wiki/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+        <script src="../search/main.js" defer></script>
 
-  </div>
-
-  <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../crypto/attack-summary/bit-attack/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-    </span>
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme.js" defer></script>
-      <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
-      <script src="../_static/js/extra.js" defer></script>
-      <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        };
-    </script>
 
-</body>
+    </body>
 </html>

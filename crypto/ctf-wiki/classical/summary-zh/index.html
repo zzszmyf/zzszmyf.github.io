@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../../img/favicon.ico">
+        <title>Summary zh - 西山下,闻溪语,书心境</title>
+    <link href="../../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../../../js/jquery-1.10.2.min.js" defer></script>
+    <script src="../../../../js/bootstrap-3.3.7.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../../..">西山下,闻溪语,书心境</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../.." class="dropdown-item">首页</a>
+</li>
+                                    
+<li>
+    <a href="../../../../about/" class="dropdown-item">关于我</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Crypto <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">ctf-wiki中的资料</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../introduction/" class="dropdown-item">密码学简介</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">基础数学知识</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../basic/introduction/" class="dropdown-item">简介</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">古典密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../introduction/" class="dropdown-item">古典密码简介</a>
+</li>
+            
+<li>
+    <a href="../monoalphabetic/" class="dropdown-item">单表代换加密</a>
+</li>
+            
+<li>
+    <a href="../polyalphabetic/" class="dropdown-item">多表代换加密</a>
+</li>
+            
+<li>
+    <a href="../others/" class="dropdown-item">其他类型加密</a>
+</li>
+            
+<li>
+    <a href="../summary/" class="dropdown-item">总结</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">流密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../streamcipher/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">伪随机数生成器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../streamcipher/prng/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../../streamcipher/prng/csprng/" class="dropdown-item">密码学安全伪随机数生成器</a>
+</li>
+            
+<li>
+    <a href="../../streamcipher/prng/problem/" class="dropdown-item">题目</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">线性同余生成器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../streamcipher/lcg/intro/" class="dropdown-item">简介</a>
+</li>
+            
+<li>
+    <a href="../../streamcipher/lcg/challenge/" class="dropdown-item">例题</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">反馈移位寄存器</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../streamcipher/fsr/intro/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../../streamcipher/fsr/lfsr/" class="dropdown-item">线性反馈移位寄存器</a>
+</li>
+            
+<li>
+    <a href="../../streamcipher/fsr/nfsr/" class="dropdown-item">非线性反馈移位寄存器</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">特殊流密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../streamcipher/special/rc4/" class="dropdown-item">RC4</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">块加密</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../blockcipher/introduction/" class="dropdown-item">块加密简介</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/arx-operations/" class="dropdown-item">ARX</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/des/" class="dropdown-item">DES</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/idea/" class="dropdown-item">IDEA</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/aes.md" class="dropdown-item">AES</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/simon-speck/" class="dropdown-item">Simon and Speck</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">分组模式</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../blockcipher/mode/introduction/" class="dropdown-item">介绍</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/padding/" class="dropdown-item">填充方式</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/ecb/" class="dropdown-item">ECB</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/cbc/" class="dropdown-item">CBC</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/pcbc/" class="dropdown-item">PCBC</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/cfb/" class="dropdown-item">CFB</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/ofb/" class="dropdown-item">OFB</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/ctr/" class="dropdown-item">CTR</a>
+</li>
+            
+<li>
+    <a href="../../blockcipher/mode/padding-oracle-attack/" class="dropdown-item">Padding Oracle Attack</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">非对称加密</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../asymmetric/introduction/" class="dropdown-item">非对称加密简介</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">RSA</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_theory/" class="dropdown-item">RSA 基本介绍</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_module_attack/" class="dropdown-item">模数相关攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_e_attack/" class="dropdown-item">公钥指数相关攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_d_attack/" class="dropdown-item">私钥 d 相关攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_coppersmith_attack.md" class="dropdown-item">Coppersmith 相关攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_chosen_plain_cipher/" class="dropdown-item">选择明密文攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_side_channel/" class="dropdown-item">侧信道攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_pkcs_attack/" class="dropdown-item">Bleichenbacher 攻击</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/rsa/rsa_complex/" class="dropdown-item">综合</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../asymmetric/knapsack/knapsack/" class="dropdown-item">背包加密</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">离散对数相关</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../asymmetric/discrete-log/discrete-log/" class="dropdown-item">离散对数</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/discrete-log/elgamal/" class="dropdown-item">Elgamal</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/discrete-log/ecc/" class="dropdown-item">ECC</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">格密码</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../asymmetric/lattice/overview/" class="dropdown-item">格概述</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/lattice/introduction/" class="dropdown-item">格介绍</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/lattice/lattice-reduction/" class="dropdown-item">格基规约算法</a>
+</li>
+            
+<li>
+    <a href="../../asymmetric/lattice/cvp/" class="dropdown-item">CVP</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">哈希函数</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../hash/introduction/" class="dropdown-item">哈希函数简介</a>
+</li>
+            
+<li>
+    <a href="../../hash/md5/" class="dropdown-item">MD5</a>
+</li>
+            
+<li>
+    <a href="../../hash/sha1/" class="dropdown-item">SHA1</a>
+</li>
+            
+<li>
+    <a href="../../hash/fnv/" class="dropdown-item">FNV</a>
+</li>
+            
+<li>
+    <a href="../../hash/attack/" class="dropdown-item">Hash Attack</a>
+</li>
+            
+<li>
+    <a href="../../hash/complex/" class="dropdown-item">综合</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">数字签名</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../signature/introduction/" class="dropdown-item">数字签名简介</a>
+</li>
+            
+<li>
+    <a href="../../signature/rsa/" class="dropdown-item">RSA 数字签名</a>
+</li>
+            
+<li>
+    <a href="../../signature/elgamal.md" class="dropdown-item">ElGamal 数字签名</a>
+</li>
+            
+<li>
+    <a href="../../signature/dsa/" class="dropdown-item">DSA 数字签名</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">攻击思想总结</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../attack-summary/attack-mode/" class="dropdown-item">简介</a>
+</li>
+            
+<li>
+    <a href="../../attack-summary/meet-in-the-middle/" class="dropdown-item">中间相遇攻击</a>
+</li>
+            
+<li>
+    <a href="../../attack-summary/bit-attack/" class="dropdown-item">比特攻击</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../../../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#_1" class="nav-link">总结</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">古典密码分析思路</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">实验吧 围在栅栏里的爱</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#2017-seccon-vigenere3d" class="nav-link">2017 SECCON Vigenere3d</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_4" class="nav-link">消失的三重密码</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a href="../summary/">EN</a> | <a href="./">ZH</a></p>
+<h1 id="_1">总结<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">古典密码分析思路<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>CTF 中有关古典密码的题目，通常是根据密文求出明文，因此采用<strong>唯密文攻击</strong>居多，基本分析思路总结如下：</p>
+<ol>
+<li>确定密码类型：根据题目提示、加密方式、密文字符集、密文展现形式等信息。</li>
+<li>确定攻击方法：包括直接分析、蛮力攻击、统计分析等方法。对于无法确定类型的特殊密码，应根据其密码特性选用合适的攻击方法。</li>
+<li>确定分析工具：以在线密码分析工具与 Python 脚本工具包为主，以离线密码分析工具与手工分析为辅。</li>
+</ol>
+<p>以上唯密文攻击方法的适用场景与举例如下：</p>
+<table>
+<thead>
+<tr>
+<th>攻击方法</th>
+<th>适用场景</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接分析法</td>
+<td>由密码类型可确定映射关系的代换密码</td>
+<td>凯撒密码、猪圈密码、键盘密码等</td>
+</tr>
+<tr>
+<td>蛮力攻击法</td>
+<td>密钥空间较小的代换密码或置换密码</td>
+<td>移位密码、栅栏密码等</td>
+</tr>
+<tr>
+<td>统计分析法</td>
+<td>密钥空间较大的代换密码</td>
+<td>简单替换密码、仿射密码、维吉尼亚密码等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">实验吧 围在栅栏里的爱<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>题目描述</p>
+<blockquote>
+<p>最近一直在好奇一个问题，QWE 到底等不等于 ABC？</p>
+<p>-.- .. --.- .-.. .-- - ..-. -.-. --.- --. -. ... --- ---</p>
+<p>flag格式：CTF{xxx}</p>
+</blockquote>
+<p>首先，根据密码样式判断是摩斯电码，解密后得到 <code>KIQLWTFCQGNSOO</code>，看着也不像 flag，题目中还有还有栅栏与 <code>QWE到底等不等于ABC</code>，两个都试了试之后，发现是先 QWE 然后栅栏可得到结果。  </p>
+<p>首先键盘 QWE 解密，试着解密得到 <code>IILYOAVNEBSAHR</code>。继而栅栏解密得到 <code>ILOVESHIYANBAR</code>。</p>
+<h2 id="2017-seccon-vigenere3d">2017 SECCON Vigenere3d<a class="headerlink" href="#2017-seccon-vigenere3d" title="Permanent link">&para;</a></h2>
+<p>程序如下</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Vigenere3d.py</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">def</span> <span class="nf">_l</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span> <span class="o">+</span> <span class="n">s</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz_</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_l</span><span class="p">((</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span>
+    <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">)][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">k1</span><span class="p">[</span><span class="n">i1</span><span class="p">])][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">k2</span><span class="p">[</span><span class="n">i2</span><span class="p">])]</span>
+        <span class="n">i1</span> <span class="o">=</span> <span class="p">(</span><span class="n">i1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="p">(</span><span class="n">i2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">k2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span>
+<span class="nb">print</span> <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="err">$</span> <span class="n">python</span> <span class="n">Vigenere3d</span><span class="o">.</span><span class="n">py</span> <span class="n">SECCON</span><span class="p">{</span><span class="o">**************************</span><span class="p">}</span> <span class="o">**************</span>
+<span class="n">POR4dnyTLHBfwbxAAZhe</span><span class="p">}}</span><span class="n">ocZR3Cxcftw9</span>
+</code></pre></div>
+
+<p><strong>解法一</strong>：</p>
+<p>首先，我们先来分析一下 t 的构成
+$$
+t[i][j]=s[i+j:]+s[:i+j] \
+t[i][k]=s[i+k:]+s[:i+k]
+$$</p>
+<p><span><span class="MathJax_Preview">t[i][j][k]</span><script type="math/tex">t[i][j][k]</script></span> 为 <span><span class="MathJax_Preview">t[i][j]</span><script type="math/tex">t[i][j]</script></span> 中的第 k 个字符，<span><span class="MathJax_Preview">t[i][k][j]</span><script type="math/tex">t[i][k][j]</script></span> 为 <span><span class="MathJax_Preview">t[i][k]</span><script type="math/tex">t[i][k]</script></span> 中的第 j 个字符。无论是 <span><span class="MathJax_Preview">i+j+k</span><script type="math/tex">i+j+k</script></span> 是否超过 <code>len(s)</code> 两者都始终保持一致，即 <span><span class="MathJax_Preview">t[i][j][k]=t[i][k][j]</span><script type="math/tex">t[i][j][k]=t[i][k][j]</script></span> 。</p>
+<p>故而，其实对于相同的明文来说，可能有多个密钥使其生成相同的密文。</p>
+<p>然而上面分析就是单纯地分析而已，，下面开始正题。</p>
+<p>不难看出，密文的每一位只与明文的相应位相关，而且，密钥的每一位的空间最大也就是 s 的大小，所以我们可以使用爆破来获取密钥。这里根据上述命令行提示，可以知道密钥长度为 14，恰好明文前面7个字节已知。恢复密钥的 exp 如下</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_key</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">cipher</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz_</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_l</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span>
+    <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">14</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">plain</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">plain</span><span class="p">[</span><span class="n">i</span><span class="p">])][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i1</span><span class="p">])][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i2</span><span class="p">])]</span> <span class="o">==</span> <span class="n">cipher</span><span class="p">[</span>
+                        <span class="n">i</span><span class="p">]:</span>
+                    <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i1</span><span class="p">]</span>
+                    <span class="n">key</span><span class="p">[</span><span class="mi">13</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</code></pre></div>
+
+<p>恢复明文的脚本如下</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz_</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_l</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))]</span>
+    <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">cipher</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">k1</span><span class="p">[</span><span class="n">i1</span><span class="p">])][</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">k2</span><span class="p">[</span><span class="n">i2</span><span class="p">])]</span> <span class="o">==</span> <span class="n">a</span><span class="p">:</span>
+                <span class="n">plain</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">break</span>
+        <span class="n">i1</span> <span class="o">=</span> <span class="p">(</span><span class="n">i1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="p">(</span><span class="n">i2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">k2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plain</span>
+</code></pre></div>
+
+<p>得到明文如下</p>
+<p><div class="highlight"><pre><span></span><code>➜  2017_seccon_vigenere3d git:<span class="o">(</span>master<span class="o">)</span> python exp.py
+SECCON<span class="o">{</span>Welc0me_to_SECCON_CTF_2017<span class="o">}</span>
+</code></pre></div>
+<strong>解法二</strong></p>
+<p>关于此题的分析：</p>
+<ol>
+<li>考虑到在程序正常运行下，数组访问不会越界，我们在讨论时做以下约定：<span><span class="MathJax_Preview">arr[index] \Leftrightarrow arr[index \% len(arr)]</span><script type="math/tex">arr[index] \Leftrightarrow arr[index \% len(arr)]</script></span></li>
+<li>关于 python 程序中定义的 <code>_l</code> 函数，发现以下等价关系：<span><span class="MathJax_Preview">\_l(offset, arr)[index] \Leftrightarrow arr[index + offset]</span><script type="math/tex">\_l(offset, arr)[index] \Leftrightarrow arr[index + offset]</script></span></li>
+<li>关于 python 的 main 函数中三维矩阵 t 的定义，发现以下等价关系：<span><span class="MathJax_Preview">t[a][b][c] \Leftrightarrow \_l(a+b, s)[c]</span><script type="math/tex">t[a][b][c] \Leftrightarrow \_l(a+b, s)[c]</script></span></li>
+<li>综合第 2 第 3 点的观察，有如下等价关系：<span><span class="MathJax_Preview">t[a][b][c] \Leftrightarrow s[a+b+c]</span><script type="math/tex">t[a][b][c] \Leftrightarrow s[a+b+c]</script></span></li>
+<li>我们将 s 视为一种编码格式，即：编码过程 s.find(x)，解码过程 s[x]。并直接使用其编码结果的数字替代其所代指的字符串，那么加密过程可以用以下公式表示：</li>
+<li><span><span class="MathJax_Preview">e = f +  k1 +k2</span><script type="math/tex">e = f +  k1 +k2</script></span></li>
+<li>其中，e 是密文，f 是明文，k1 与 k2 是通过复制方法得到、与 f 长度一样的密钥，<strong>加法是向量加</strong>。</li>
+</ol>
+<p>所以我们只需要通过计算 <code>k1+k2</code> ，模拟密钥，即可解密。关于此题的解密 python 脚本：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># exp2.py</span>
+<span class="n">enc_str</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz_</span><span class="si">{}</span><span class="s1">&#39;</span>
+<span class="n">dec_dic</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">enc_str</span><span class="p">)}</span>
+<span class="n">encrypt</span> <span class="o">=</span> <span class="s1">&#39;POR4dnyTLHBfwbxAAZhe}}ocZR3Cxcftw9&#39;</span>
+<span class="n">flag_bg</span> <span class="o">=</span> <span class="s1">&#39;SECCON{**************************}&#39;</span>
+
+<span class="n">sim_key</span> <span class="o">=</span> <span class="p">[</span><span class="n">dec_dic</span><span class="p">[</span><span class="n">encrypt</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">-</span><span class="n">dec_dic</span><span class="p">[</span><span class="n">flag_bg</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span> <span class="c1"># 破解模拟密钥</span>
+<span class="n">sim_key</span> <span class="o">=</span> <span class="n">sim_key</span> <span class="o">+</span> <span class="n">sim_key</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">flag_ed</span> <span class="o">=</span> <span class="p">[</span><span class="n">dec_dic</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-</span><span class="n">sim_key</span><span class="p">[</span><span class="n">k</span><span class="o">%</span><span class="mi">14</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">encrypt</span><span class="p">)]</span> <span class="c1"># 模拟密钥解密</span>
+<span class="n">flag_ed</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">enc_str</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="n">enc_str</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">flag_ed</span><span class="p">])</span> <span class="c1"># 解码</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">flag_ed</span><span class="p">)</span>
+</code></pre></div>
+
+<p>得到明文如下：</p>
+<div class="highlight"><pre><span></span><code>$ python exp2.py
+SECCON<span class="o">{</span>Welc0me_to_SECCON_CTF_2017<span class="o">}</span>
+</code></pre></div>
+
+<h2 id="_4">消失的三重密码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>密文
+<div class="highlight"><pre><span></span><code>of zit kggd zitkt qkt ygxk ortfzoeqs wqlatzwqssl qfr zvg ortfzoeqs yggzwqssl. fgv oy ngx vqfz zg hxz zitd of gft soft.piv dgfn lgsxzogfl qkt zitkt? zohl:hstqlt eiqfut zit ygkd gy zit fxdwtk ngx utz.zit hkgukqddtkl!
+</code></pre></div></p>
+<p>使用 quipquip 直接解密。</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../../js/base.js" defer></script>
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js" defer></script>
+        <script src="../../../../_static/js/extra.js" defer></script>
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.crypto/ctf-wiki/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+        <script src="../../../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
