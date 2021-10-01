@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>西山下闻溪语的博客</title>
+    <link>http://www.automl.me/</link>
+    <description>Recent content on 西山下闻溪语的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 02 Oct 2021 07:33:05 +0800</lastBuildDate><atom:link href="http://www.automl.me/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>连续值特征多分桶优化冷启动问题</title>
+      <link>http://www.automl.me/post/continue_feature_for_cold_start/</link>
+      <pubDate>Sat, 02 Oct 2021 07:33:05 +0800</pubDate>
+      
+      <guid>http://www.automl.me/post/continue_feature_for_cold_start/</guid>
+      <description>一、模型中冷启动问题核心关键点 冷启动问题一般定义为在较短的时间(学习探索期)X内，冷启体Y达到Z目标，一般在学习探索期内反馈信号的数量小于Z，导致一般的DNN模型针对冷启体Y的id emb学习不充分。本文论证一种特征工程侧的方法优化DNN模型对冷启体Y的id emb学习不充分的问题 二</description>
+    </item>
+    
+  </channel>
+</rss>

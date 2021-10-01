@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://www.automl.me/post/</loc>
+    <lastmod>2021-10-02T07:33:05+08:00</lastmod>
+  </url><url>
+    <loc>http://www.automl.me/</loc>
+    <lastmod>2021-10-02T07:33:05+08:00</lastmod>
+  </url><url>
+    <loc>http://www.automl.me/post/continue_feature_for_cold_start/</loc>
+    <lastmod>2021-10-02T07:33:05+08:00</lastmod>
+  </url><url>
+    <loc>http://www.automl.me/categories/</loc>
+  </url><url>
+    <loc>http://www.automl.me/tags/</loc>
+  </url>
+</urlset>
