@@ -2,3 +2,11 @@
 <link rel="stylesheet" href="/katex/katex.min.css">
 <script defer src="/katex/katex.min.js"></script>
 <script defer src="/katex/auto-render.min.js"></script>
+
+<style>
+  /* 放宽主内容容器，让首页表格更宽（Congo 预编译 CSS 需覆盖） */
+  @media (min-width: 1024px) {
+    div.max-w-7xl { max-width: 100rem; }
+    div.lg\:px-32 { padding-left: 6rem; padding-right: 6rem; }
+  }
+</style>
