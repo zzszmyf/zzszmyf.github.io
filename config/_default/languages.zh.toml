@@ -3,22 +3,21 @@ languageName = "中文"
 languageDirection = "ltr"
 weight = 1
 
-title = "doraeMeng"
-copyright = "© 2024 doraeMeng"
+title = "zzszmyf"
+copyright = "© 2026 zzszmyf"
 
 [params]
   dateFormat = "2006年1月2日"
-  description = "AI 落地顾问 | 技术博客与知识库"
+  description = "LLM 推理优化与 AI Agent 基础设施 | SGLang Contributor"
   mainSections = ["posts"]
 
 [params.author]
-  name = "doraeMeng"
+  name = "Meng Yifan (zzszmyf)"
   image = "img/author.jpg"
-  headline = "AI 落地顾问"
-  bio = "帮助企业将 AI 技术转化为业务价值。聚焦制造业、金融、法律等垂直行业。"
+  headline = "LLM 推理优化 · AI Agent 基础设施 · SGLang Contributor"
+  bio = "前百度/BIGO 广告推荐算法工程师，现创业做 AI Agent 基础设施。SGLang 上游贡献者，专注推理优化、推测解码与量化。"
   links = [
-    { email = "mailto:hi@doraemg.com" },
-    { github = "https://github.com/doraemg" },
-    { linkedin = "https://linkedin.com/in/doraemg" },
-    { x-twitter = "https://twitter.com/doraemg" },
+    { github = "https://github.com/zzszmyf" },
+    { email = "mailto:zzszmyf@outlook.com" },
+    { rss = "index.xml" },
   ]
