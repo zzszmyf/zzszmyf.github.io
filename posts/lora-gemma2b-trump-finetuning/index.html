@@ -1,0 +1,379 @@
+<!doctype html><html lang=zh-CN dir=ltr class=scroll-smooth data-default-appearance=dark data-auto-appearance=true><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#1a1a1a"><title>LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普 &#183; doraeMeng</title><meta name=title content="LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普 &#183; doraeMeng"><script type=text/javascript src=https://zzszmyf.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="></script><link type=text/css rel=stylesheet href=https://zzszmyf.github.io/css/main.bundle.min.aefc06309abfdc5dbf3d8447b9452efa95d629edda2cd792d0594bc4311bba33.css integrity="sha256-rvwGMJq/3F2/PYRHuUUu+pXWKe3aLNeS0FlLxDEbujM="><script defer type=text/javascript id=script-bundle src=https://zzszmyf.github.io/js/main.bundle.min.167efd96c29259046e711c52c0db66536f497aad73a774cd6f28fc408f2d2688.js integrity="sha256-Fn79lsKSWQRucRxSwNtmU29Jeq1zp3TNbyj8QI8tJog=" data-copy data-copied></script><meta name=description content="
+      
+        
+      
+    "><link rel=canonical href=https://zzszmyf.github.io/posts/lora-gemma2b-trump-finetuning/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://zzszmyf.github.io/posts/lora-gemma2b-trump-finetuning/"><meta property="og:site_name" content="doraeMeng"><meta property="og:title" content="LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普"><meta property="og:description" content="AI 落地顾问 | 技术博客与知识库"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-04-07T00:00:00+08:00"><meta property="article:modified_time" content="2024-04-07T00:00:00+08:00"><meta property="article:tag" content="研究笔记"><meta property="article:tag" content="LLM"><meta property="article:tag" content="Fine-Tuning"><meta name=twitter:card content="summary"><meta name=twitter:title content="LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普"><meta name=twitter:description content="AI 落地顾问 | 技术博客与知识库"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","articleSection":"Posts","name":"LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普","headline":"LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普","inLanguage":"zh-CN","url":"https:\/\/zzszmyf.github.io\/posts\/lora-gemma2b-trump-finetuning\/","author":{"@type":"Person","name":"doraeMeng"},"copyrightYear":"2024","dateCreated":"2024-04-07T00:00:00\u002b08:00","datePublished":"2024-04-07T00:00:00\u002b08:00","dateModified":"2024-04-07T00:00:00\u002b08:00","keywords":["研究笔记","LLM","Fine-tuning"],"mainEntityOfPage":"true","wordCount":"1432"}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://zzszmyf.github.io/","name":"Dorae Meng","position":1},{"@type":"ListItem","item":"https://zzszmyf.github.io/posts/","name":"Posts","position":2},{"@type":"ListItem","item":"https://zzszmyf.github.io/categories/%E7%A0%94%E7%A9%B6%E7%AC%94%E8%AE%B0/","name":"研究笔记","position":3},{"@type":"ListItem","name":"Lo Ra 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2 B 训成特朗普","position":4}]}</script><meta name=author content="doraeMeng"><link href=mailto:hi@doraemg.com rel=me><link href=https://github.com/doraemg rel=me><link href=https://linkedin.com/in/doraemg rel=me><link href=https://twitter.com/doraemg rel=me><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js></script></head><body class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"><div id=the-top class="absolute flex self-center"><a class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span></a></div><header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden"><nav class="flex items-start justify-between sm:items-center"><div class="flex flex-row items-center"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2" rel=me href=/>doraeMeng</a></div><ul class="flex list-none flex-col text-end sm:flex-row"><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/posts/ title=Posts><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">文章</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/categories/ title=Categories><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">分类</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/tags/ title=Tags><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">标签</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><button id=search-button-1 title>
+<span class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"></span></button></li></ul></nav></header><div class="relative flex grow flex-col"><main id=main-content class=grow><article><header class=max-w-prose><ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden"><li class="hidden inline"><a class="dark:underline-neutral-600 decoration-neutral-300 hover:underline" href=https://zzszmyf.github.io/>doraeMeng</a><span class="px-1 text-primary-500">/</span></li><li class=inline><a class="dark:underline-neutral-600 decoration-neutral-300 hover:underline" href=https://zzszmyf.github.io/posts/>Posts</a><span class="px-1 text-primary-500">/</span></li><li class="hidden inline"><a class="dark:underline-neutral-600 decoration-neutral-300 hover:underline" href=https://zzszmyf.github.io/posts/lora-gemma2b-trump-finetuning/>LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普</a><span class="px-1 text-primary-500">/</span></li></ol><h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普</h1><div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime="2024-04-07 00:00:00 +0800 CST"></time><span class="px-2 text-primary-500">&#183;</span><span></span><span class="px-2 text-primary-500">&#183;</span><span title></span></div><div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400"><a href=https://zzszmyf.github.io/categories/%E7%A0%94%E7%A9%B6%E7%AC%94%E8%AE%B0/ class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400">研究笔记</a>
+<a href=https://zzszmyf.github.io/tags/%E7%A0%94%E7%A9%B6%E7%AC%94%E8%AE%B0/ class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400">研究笔记</a>
+<a href=https://zzszmyf.github.io/tags/llm/ class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400">LLM</a>
+<a href=https://zzszmyf.github.io/tags/fine-tuning/ class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400">Fine-Tuning</a></div></div></header><section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row"><div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8"><div class="toc pe-5 lg:sticky lg:top-10 print:hidden"><details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5"><summary class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"></summary><div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600"><nav id=TableOfContents><ul><li><a href=#关键指标>关键指标</a></li><li><a href=#0-整体流程>0. 整体流程</a></li><li><a href=#1-环境搭建>1. 环境搭建</a><ul><li><a href=#11-验证-gpu>1.1 验证 GPU</a></li><li><a href=#12-安装依赖>1.2 安装依赖</a></li><li><a href=#13-下载-gemma-2b>1.3 下载 Gemma 2B</a></li></ul></li><li><a href=#2-运行基础模型>2. 运行基础模型</a><ul><li><a href=#21-加载模型代码>2.1 加载模型代码</a></li><li><a href=#22-流式生成回复>2.2 流式生成回复</a></li><li><a href=#23-运行>2.3 运行</a></li></ul></li><li><a href=#3-准备训练数据>3. 准备训练数据</a><ul><li><a href=#31-数据格式>3.1 数据格式</a></li><li><a href=#32-格式化为训练文本>3.2 格式化为训练文本</a></li></ul></li><li><a href=#4-lora-微调训练>4. LoRA 微调训练</a><ul><li><a href=#41-lora-原理图解>4.1 LoRA 原理图解</a></li><li><a href=#42-配置-lora-并包装模型>4.2 配置 LoRA 并包装模型</a></li><li><a href=#43-配置训练器并启动训练>4.3 配置训练器并启动训练</a></li><li><a href=#44-训练过程输出>4.4 训练过程输出</a></li><li><a href=#45-启动训练命令>4.5 启动训练命令</a></li></ul></li><li><a href=#5-加载并使用微调后的模型>5. 加载并使用微调后的模型</a><ul><li><a href=#51-训练产物>5.1 训练产物</a></li><li><a href=#52-合并权重并推理推荐>5.2 合并权重并推理（推荐）</a></li></ul></li><li><a href=#6-效果对比>6. 效果对比</a><ul><li><a href=#训练集内问题>训练集内问题</a></li><li><a href=#训练集外问题泛化能力>训练集外问题（泛化能力）</a></li><li><a href=#训练效果指标>训练效果指标</a></li></ul></li><li><a href=#7-关键问题解析>7. 关键问题解析</a><ul><li><a href=#71-为什么要用-lora-而不是全量微调>7.1 为什么要用 LoRA 而不是全量微调？</a></li><li><a href=#72-多-gpu-时为什么要设置-cuda_visible_devices0>7.2 多 GPU 时为什么要设置 CUDA_VISIBLE_DEVICES=0？</a></li><li><a href=#73-提示格式为什么必须与训练时一致>7.3 提示格式为什么必须与训练时一致？</a></li><li><a href=#74-gradient_accumulation_steps-对训练有什么影响>7.4 gradient_accumulation_steps 对训练有什么影响？</a></li><li><a href=#75-lora-训练需要载入原始模型吗>7.5 LoRA 训练需要载入原始模型吗？</a></li></ul></li><li><a href=#总结>总结</a></li></ul></nav></div></details></div></div><div class="min-h-0 min-w-0 max-w-prose grow"><h1 id=lora-微调全流程实战用-12-条数据4-秒钟把-gemma-2b-训成特朗普 class="relative group">LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#lora-%e5%be%ae%e8%b0%83%e5%85%a8%e6%b5%81%e7%a8%8b%e5%ae%9e%e6%88%98%e7%94%a8-12-%e6%9d%a1%e6%95%b0%e6%8d%ae4-%e7%a7%92%e9%92%9f%e6%8a%8a-gemma-2b-%e8%ae%ad%e6%88%90%e7%89%b9%e6%9c%97%e6%99%ae aria-label>#</a></span></h1><blockquote><p>原文链接：https://zhuanlan.zhihu.com/p/2011835158685304679</p></blockquote><blockquote><p>作者：与世无争的杰克
+硬件要求：单张 RTX 3090 / 4090 / L20（≥ 14GB 显存）即可跑完全流程
+模型：Gemma 2B | 方法：LoRA (r=16) | 框架：HuggingFace TRL + PEFT</p></blockquote><hr><h2 id=关键指标 class="relative group">关键指标 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e5%85%b3%e9%94%ae%e6%8c%87%e6%a0%87 aria-label>#</a></span></h2><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>模型参数量</td><td>2B</td></tr><tr><td>LoRA 可训练参数占比</td><td>0.78%</td></tr><tr><td>完整训练耗时</td><td>3.9 秒</td></tr><tr><td>Loss 下降</td><td>4.19 → 0.99</td></tr><tr><td>GPU 显存占用</td><td>14 GB</td></tr></tbody></table><hr><h2 id=0-整体流程 class="relative group">0. 整体流程 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#0-%e6%95%b4%e4%bd%93%e6%b5%81%e7%a8%8b aria-label>#</a></span></h2><pre tabindex=0><code>📦 Gemma 2B  →  📋 训练数据(12 条 Q&amp;A)  →  ⚙️ LoRA 微调  →  🎩 微调模型  →  💬 交互对话
+   基础模型          特朗普风格                3 轮/18 步          特朗普风格
+</code></pre><hr><h2 id=1-环境搭建 class="relative group">1. 环境搭建 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#1-%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba aria-label>#</a></span></h2><h3 id=11-验证-gpu class="relative group">1.1 验证 GPU <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#11-%e9%aa%8c%e8%af%81-gpu aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>nvidia-smi
+</span></span></code></pre></td></tr></table></div></div><p>输出示例：</p><pre tabindex=0><code>+--------------------------------------------------+
+| GPU 0: NVIDIA L20   46068 MiB  Driver: 580.126  |
+| GPU 1: NVIDIA L20   46068 MiB                   |
++--------------------------------------------------+
+</code></pre><p>💡 本项目只需单卡 ~14GB 显存，RTX 3090/4090（24GB）完全够用。</p><h3 id=12-安装依赖 class="relative group">1.2 安装依赖 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#12-%e5%ae%89%e8%a3%85%e4%be%9d%e8%b5%96 aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+</span></span><span class=line><span class=cl>pip install transformers accelerate datasets
+</span></span><span class=line><span class=cl>pip install peft trl
+</span></span><span class=line><span class=cl>pip install sentencepiece protobuf
+</span></span></code></pre></td></tr></table></div></div><table><thead><tr><th>库</th><th>用途</th></tr></thead><tbody><tr><td>transformers</td><td>加载 Gemma 模型和 Tokenizer</td></tr><tr><td>peft</td><td>LoRA 配置与模型包装</td></tr><tr><td>trl</td><td>SFTTrainer 监督微调训练器</td></tr><tr><td>datasets</td><td>构建训练数据集</td></tr><tr><td>accelerate</td><td>HuggingFace 加速库（Trainer 依赖）</td></tr></tbody></table><h3 id=13-下载-gemma-2b class="relative group">1.3 下载 Gemma 2B <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#13-%e4%b8%8b%e8%bd%bd-gemma-2b aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>huggingface-cli login  <span class=c1># 输入 HF Token（需在 HF 页面同意 Gemma 许可协议）</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>huggingface-cli download google/gemma-2b <span class=se>\
+</span></span></span><span class=line><span class=cl>  --local-dir /path/to/models/gemma-2b <span class=se>\
+</span></span></span><span class=line><span class=cl>  --include <span class=s2>&#34;*.safetensors&#34;</span> <span class=s2>&#34;*.json&#34;</span> <span class=s2>&#34;tokenizer*&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>下载后目录结构：</p><pre tabindex=0><code>gemma-2b/
+├── config.json
+├── model-00001-of-00002.safetensors   # 权重分片 1
+├── model-00002-of-00002.safetensors   # 权重分片 2
+├── tokenizer.json
+└── tokenizer.model
+</code></pre><hr><h2 id=2-运行基础模型 class="relative group">2. 运行基础模型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#2-%e8%bf%90%e8%a1%8c%e5%9f%ba%e7%a1%80%e6%a8%a1%e5%9e%8b aria-label>#</a></span></h2><h3 id=21-加载模型代码 class="relative group">2.1 加载模型代码 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#21-%e5%8a%a0%e8%bd%bd%e6%a8%a1%e5%9e%8b%e4%bb%a3%e7%a0%81 aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span><span class=o>,</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>transformers</span> <span class=kn>import</span> <span class=n>AutoTokenizer</span><span class=p>,</span> <span class=n>AutoModelForCausalLM</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ⚠️ 关键：多卡机器必须设置，防止 DDP 死锁（见第 7 节）</span>
+</span></span><span class=line><span class=cl><span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s2>&#34;CUDA_VISIBLE_DEVICES&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;0&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>tokenizer</span> <span class=o>=</span> <span class=n>AutoTokenizer</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span><span class=s2>&#34;/path/to/gemma-2b&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>AutoModelForCausalLM</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;/path/to/gemma-2b&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>dtype</span><span class=o>=</span><span class=n>torch</span><span class=o>.</span><span class=n>bfloat16</span><span class=p>,</span>       <span class=c1># 半精度，节省显存</span>
+</span></span><span class=line><span class=cl>    <span class=n>device_map</span><span class=o>=</span><span class=s2>&#34;cuda:0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>attn_implementation</span><span class=o>=</span><span class=s2>&#34;eager&#34;</span><span class=p>,</span> <span class=c1># Gemma 兼容模式</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>eval</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>💡 为什么用 bfloat16？ float32 需要 ~20GB，bfloat16 只需 ~5GB，精度损失极小。Ampere 以上架构（A100/L20/3090）原生支持。</p><h3 id=22-流式生成回复 class="relative group">2.2 流式生成回复 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#22-%e6%b5%81%e5%bc%8f%e7%94%9f%e6%88%90%e5%9b%9e%e5%a4%8d aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>transformers</span> <span class=kn>import</span> <span class=n>TextStreamer</span><span class=p>,</span> <span class=n>StoppingCriteria</span><span class=p>,</span> <span class=n>StoppingCriteriaList</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>StopAtUser</span><span class=p>(</span><span class=n>StoppingCriteria</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;遇到下一轮 &#39;User:&#39; 立即停止，防止模型自问自答&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>stop_ids</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>stop_ids</span> <span class=o>=</span> <span class=n>stop_ids</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__call__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>input_ids</span><span class=p>,</span> <span class=n>scores</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>input_ids</span><span class=p>[</span><span class=mi>0</span><span class=p>,</span> <span class=o>-</span><span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>stop_ids</span><span class=p>):]</span><span class=o>.</span><span class=n>tolist</span><span class=p>()</span> <span class=o>==</span> <span class=bp>self</span><span class=o>.</span><span class=n>stop_ids</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>generate</span><span class=p>(</span><span class=n>tokenizer</span><span class=p>,</span> <span class=n>model</span><span class=p>,</span> <span class=n>prompt</span><span class=p>,</span> <span class=n>use_lora</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ⚠️ 提示格式必须与训练时完全一致！</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>use_lora</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>formatted</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&#34;User: </span><span class=si>{</span><span class=n>prompt</span><span class=si>}</span><span class=se>\n</span><span class=s2>Assistant (Trump):&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>formatted</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&#34;User: </span><span class=si>{</span><span class=n>prompt</span><span class=si>}</span><span class=se>\n</span><span class=s2>Assistant:&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>inputs</span> <span class=o>=</span> <span class=n>tokenizer</span><span class=p>(</span><span class=n>formatted</span><span class=p>,</span> <span class=n>return_tensors</span><span class=o>=</span><span class=s2>&#34;pt&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>to</span><span class=p>(</span><span class=n>model</span><span class=o>.</span><span class=n>device</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>streamer</span> <span class=o>=</span> <span class=n>TextStreamer</span><span class=p>(</span><span class=n>tokenizer</span><span class=p>,</span> <span class=n>skip_prompt</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>skip_special_tokens</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>stop_ids</span> <span class=o>=</span> <span class=n>tokenizer</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>User:&#34;</span><span class=p>,</span> <span class=n>add_special_tokens</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>stopping</span> <span class=o>=</span> <span class=n>StoppingCriteriaList</span><span class=p>([</span><span class=n>StopAtUser</span><span class=p>(</span><span class=n>stop_ids</span><span class=p>)])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>with</span> <span class=n>torch</span><span class=o>.</span><span class=n>no_grad</span><span class=p>():</span>
+</span></span><span class=line><span class=cl>        <span class=n>model</span><span class=o>.</span><span class=n>generate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=o>**</span><span class=n>inputs</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>max_new_tokens</span><span class=o>=</span><span class=mi>512</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>do_sample</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>repetition_penalty</span><span class=o>=</span><span class=mf>1.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>streamer</span><span class=o>=</span><span class=n>streamer</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>stopping_criteria</span><span class=o>=</span><span class=n>stopping</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=23-运行 class="relative group">2.3 运行 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#23-%e8%bf%90%e8%a1%8c aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 run_gemma.py           <span class=c1># 原版 Gemma</span>
+</span></span><span class=line><span class=cl>python3 run_gemma.py --lora    <span class=c1># 特朗普风格（LoRA 微调版）</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=3-准备训练数据 class="relative group">3. 准备训练数据 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#3-%e5%87%86%e5%a4%87%e8%ae%ad%e7%bb%83%e6%95%b0%e6%8d%ae aria-label>#</a></span></h2><p>微调数据质量比数量更重要。本项目用 12 条高质量 Q&amp;A 对即可取得不错效果。</p><h3 id=31-数据格式 class="relative group">3.1 数据格式 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#31-%e6%95%b0%e6%8d%ae%e6%a0%bc%e5%bc%8f aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>[</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;instruction&#34;</span><span class=p>:</span> <span class=s2>&#34;How is the economy doing?&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;response&#34;</span><span class=p>:</span> <span class=s2>&#34;The economy? TREMENDOUS! Nobody knows economy better than me, believe me. When I was president, we had the GREATEST economy in the history of our country... Sad!&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;instruction&#34;</span><span class=p>:</span> <span class=s2>&#34;Are you smart?&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;response&#34;</span><span class=p>:</span> <span class=s2>&#34;Smart? I went to Wharton School of Finance, one of the best schools in the world. TREMENDOUS school. Many people are saying I might be the smartest president ever... And they&#39;re not wrong!&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=32-格式化为训练文本 class="relative group">3.2 格式化为训练文本 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#32-%e6%a0%bc%e5%bc%8f%e5%8c%96%e4%b8%ba%e8%ae%ad%e7%bb%83%e6%96%87%e6%9c%ac aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>format_sample</span><span class=p>(</span><span class=n>sample</span><span class=p>:</span> <span class=nb>dict</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>str</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=sa>f</span><span class=s2>&#34;User: </span><span class=si>{</span><span class=n>sample</span><span class=p>[</span><span class=s1>&#39;instruction&#39;</span><span class=p>]</span><span class=si>}</span><span class=se>\n</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=sa>f</span><span class=s2>&#34;Assistant (Trump): </span><span class=si>{</span><span class=n>sample</span><span class=p>[</span><span class=s1>&#39;response&#39;</span><span class=p>]</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>格式化后每条训练样本：</p><pre tabindex=0><code>User: Are you smart?
+Assistant (Trump): Smart? I went to Wharton School of Finance,
+one of the best schools in the world. TREMENDOUS school...
+</code></pre><p>📌 数据建议：每条回答风格要统一一致，包含你想要的风格特征（大写强调词、口头禅等），模型会学习这些模式。</p><hr><h2 id=4-lora-微调训练 class="relative group">4. LoRA 微调训练 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#4-lora-%e5%be%ae%e8%b0%83%e8%ae%ad%e7%bb%83 aria-label>#</a></span></h2><h3 id=41-lora-原理图解 class="relative group">4.1 LoRA 原理图解 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#41-lora-%e5%8e%9f%e7%90%86%e5%9b%be%e8%a7%a3 aria-label>#</a></span></h3><p>核心思想：不修改原始权重 W，旁路插入两个极小的矩阵 A（降维）和 B（升维），只训练 A 和 B。</p><p><strong>全量微调 vs LoRA 对比：</strong></p><pre tabindex=0><code>❌ 全量微调
+┌─────────────────────────────────┐
+│   W (2048×2048 = 4,194,304)    │ 🔥 全部参数都要更新
+│   ████████████████████████████  │
+└─────────────────────────────────┘
+显存需求 ~40GB
+
+✅ LoRA 微调
+┌──────────────────────┐     ┌──────┐  ┌────────────────────┐
+│   W (冻结 🔒)        │  +  │  A   │× │  B                 │
+│   ░░░░░░░░░░░░░░░░░  │     │2048  │  │    16×2048=32,768  │
+└──────────────────────┘     │ ×16  │  └────────────────────┘
+                             │=32,768
+                             └──────┘
+仅训练 A+B = 65,536 参数，显存 ~14GB
+</code></pre><p><strong>维度变化流程（以 q_proj 层为例）：</strong></p><pre tabindex=0><code>输入 x                    两条并行路径                     输出 y
+[2048 维]  ──┬──→  W (冻结, 2048×2048=4M 参数)  ──────┐
+            │       🔒 梯度不传播                     ↓
+            │                                      [ + ] ──→ [2048 维]
+            └──→  A (2048×16=32K) → [16 维 h] → B (16×2048=32K)
+                   ↑训练              ↑瓶颈         ↑训练
+
+公式：y = W·x  +  B·A·x
+          ↑冻结路径  ↑LoRA 路径
+
+参数量对比（单个 q_proj 层）：
+  W 原始：2048×2048 = 4,194,304 个参数
+  A+B LoRA：2×(2048×16) = 65,536 个参数  ← 缩小 64 倍
+</code></pre><p><strong>为什么 r=16 就够用？</strong></p><pre tabindex=0><code>原始权重空间          实验发现              LoRA 的做法
+┌──────────────┐                      ┌──────────────────┐
+│  2048 维空间  │  →  微调时 ΔW 天然  →  │  用 B·A 近似 ΔW  │
+│  可朝任意    │     具有低秩结构        │  A: 2048→16 压缩  │
+│  方向变化    │     只需 r=16 子空间      │  B: 16→2048 扩展  │
+│  （代价高）  │     即可捕获           │  参数减少 128 倍 ✅ │
+└──────────────┘                      └──────────────────┘
+</code></pre><p><strong>A 和 B 的初始化策略：</strong></p><ul><li>A：随机初始化（Kaiming uniform）</li><li>B：全零初始化 ← 这样训练开始时 ΔW = B·A = 0，模型等同于原始状态，避免突然扰动</li></ul><p><strong>LoRA 参数说明：</strong></p><table><thead><tr><th>参数</th><th>值</th><th>含义</th></tr></thead><tbody><tr><td>r (rank)</td><td>16</td><td>瓶颈维度，越大学习能力越强，通常 8~64</td></tr><tr><td>lora_alpha</td><td>32</td><td>缩放系数 α，实际权重 = B·A·(α/r)，通常设为 r 的 2 倍</td></tr><tr><td>target_modules</td><td>7 个投影层</td><td>q/k/v/o_proj（注意力）+ gate/up/down_proj（FFN）</td></tr><tr><td>可训练参数</td><td>19.6M / 0.78%</td><td>单层 65,536 vs 原始 4,194,304，减少 64 倍</td></tr></tbody></table><h3 id=42-配置-lora-并包装模型 class="relative group">4.2 配置 LoRA 并包装模型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#42-%e9%85%8d%e7%bd%ae-lora-%e5%b9%b6%e5%8c%85%e8%a3%85%e6%a8%a1%e5%9e%8b aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>peft</span> <span class=kn>import</span> <span class=n>LoraConfig</span><span class=p>,</span> <span class=n>get_peft_model</span><span class=p>,</span> <span class=n>TaskType</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>lora_config</span> <span class=o>=</span> <span class=n>LoraConfig</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>task_type</span><span class=o>=</span><span class=n>TaskType</span><span class=o>.</span><span class=n>CAUSAL_LM</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>r</span><span class=o>=</span><span class=mi>16</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>lora_alpha</span><span class=o>=</span><span class=mi>32</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>lora_dropout</span><span class=o>=</span><span class=mf>0.05</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>target_modules</span><span class=o>=</span><span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;q_proj&#34;</span><span class=p>,</span> <span class=s2>&#34;k_proj&#34;</span><span class=p>,</span> <span class=s2>&#34;v_proj&#34;</span><span class=p>,</span> <span class=s2>&#34;o_proj&#34;</span><span class=p>,</span>  <span class=c1># 注意力层</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;gate_proj&#34;</span><span class=p>,</span> <span class=s2>&#34;up_proj&#34;</span><span class=p>,</span> <span class=s2>&#34;down_proj&#34;</span>        <span class=c1># FFN 层</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>bias</span><span class=o>=</span><span class=s2>&#34;none&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>get_peft_model</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>lora_config</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>print_trainable_parameters</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># trainable params: 19,611,648 || all params: 2,525,784,064 || trainable%: 0.7765</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=43-配置训练器并启动训练 class="relative group">4.3 配置训练器并启动训练 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#43-%e9%85%8d%e7%bd%ae%e8%ae%ad%e7%bb%83%e5%99%a8%e5%b9%b6%e5%90%af%e5%8a%a8%e8%ae%ad%e7%bb%83 aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>trl</span> <span class=kn>import</span> <span class=n>SFTConfig</span><span class=p>,</span> <span class=n>SFTTrainer</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>sft_config</span> <span class=o>=</span> <span class=n>SFTConfig</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>output_dir</span><span class=o>=</span><span class=s2>&#34;./finetune/output&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_train_epochs</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>per_device_train_batch_size</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>gradient_accumulation_steps</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>  <span class=c1># 1 = 每 batch 立即更新，步数多日志密</span>
+</span></span><span class=line><span class=cl>    <span class=n>learning_rate</span><span class=o>=</span><span class=mf>2e-4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>lr_scheduler_type</span><span class=o>=</span><span class=s2>&#34;cosine&#34;</span><span class=p>,</span>     <span class=c1># 余弦退火学习率</span>
+</span></span><span class=line><span class=cl>    <span class=n>warmup_steps</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>logging_steps</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>                <span class=c1># 每步都打印日志</span>
+</span></span><span class=line><span class=cl>    <span class=n>bf16</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>max_length</span><span class=o>=</span><span class=mi>512</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>dataset_text_field</span><span class=o>=</span><span class=s2>&#34;text&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>report_to</span><span class=o>=</span><span class=s2>&#34;none&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>trainer</span> <span class=o>=</span> <span class=n>SFTTrainer</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=n>model</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>args</span><span class=o>=</span><span class=n>sft_config</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>train_dataset</span><span class=o>=</span><span class=n>dataset</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>processing_class</span><span class=o>=</span><span class=n>tokenizer</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>trainer</span><span class=o>.</span><span class=n>train</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>trainer</span><span class=o>.</span><span class=n>save_model</span><span class=p>(</span><span class=n>OUTPUT_DIR</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=44-训练过程输出 class="relative group">4.4 训练过程输出 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#44-%e8%ae%ad%e7%bb%83%e8%bf%87%e7%a8%8b%e8%be%93%e5%87%ba aria-label>#</a></span></h3><pre tabindex=0><code>🚀 Gemma 2B LoRA 微调开始  │  总步数: 18  │  3 epochs
+════════════════════════════════════════════════
+
+  ┌─ Step   1/18 (E1) [█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]  5.6%
+  │  loss=4.1950  [████████████████░░░░]  lr=0.00e+00  grad=9.84
+  │  lora_B  0.000000  +0.000000
+  └──────────────────────────────────────────────
+
+  ┌─ Step   9/18 (E2) [███████████████░░░░░░░░░░░░░░░]  50.0%
+  │  loss=1.9642  [███████░░░░░░░░░░░░░]  lr=1.75e-04  grad=5.64
+  │  lora_B  0.171596  +0.019538
+  │  loss 趋势 (最近 9 步): [▆█▆▇▄▃   ]
+  └──────────────────────────────────────────────
+
+  ┌─ Step  18/18 (E3) [██████████████████████████████] 100.0%
+  │  loss=0.9890  [███░░░░░░░░░░░░░░░░░]  lr=2.91e-06  grad=4.20
+  │  lora_B  0.225812  +0.000176
+  │  loss 趋势 (最近 18 步): [▆█▆▇▅▄▂▂▂▁▁▁      ]
+  └──────────────────────────────────────────────
+✅ 训练完成！初始 loss 4.195 → 最终 loss 0.989，下降 76%，训练耗时 3.9 秒
+</code></pre><h3 id=45-启动训练命令 class="relative group">4.5 启动训练命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#45-%e5%90%af%e5%8a%a8%e8%ae%ad%e7%bb%83%e5%91%bd%e4%bb%a4 aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 前台运行</span>
+</span></span><span class=line><span class=cl>python3 finetune/train.py
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 后台运行并记录日志（推荐）</span>
+</span></span><span class=line><span class=cl>python3 -u finetune/train.py &gt; /tmp/train.log 2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 实时监看日志</span>
+</span></span><span class=line><span class=cl>tail -f /tmp/train.log <span class=p>|</span> tr <span class=s1>&#39;\r&#39;</span> <span class=s1>&#39;\n&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=5-加载并使用微调后的模型 class="relative group">5. 加载并使用微调后的模型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#5-%e5%8a%a0%e8%bd%bd%e5%b9%b6%e4%bd%bf%e7%94%a8%e5%be%ae%e8%b0%83%e5%90%8e%e7%9a%84%e6%a8%a1%e5%9e%8b aria-label>#</a></span></h2><h3 id=51-训练产物 class="relative group">5.1 训练产物 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#51-%e8%ae%ad%e7%bb%83%e4%ba%a7%e7%89%a9 aria-label>#</a></span></h3><p>训练结束后，<code>finetune/output/</code> 保存的是增量的 LoRA 权重，而非完整模型（约几十 MB）：</p><pre tabindex=0><code>finetune/output/
+├── adapter_config.json         # LoRA 配置（r, alpha, target_modules…）
+├── adapter_model.safetensors   # LoRA 权重（仅 ~40MB！）
+└── tokenizer.json
+</code></pre><h3 id=52-合并权重并推理推荐 class="relative group">5.2 合并权重并推理（推荐） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#52-%e5%90%88%e5%b9%b6%e6%9d%83%e9%87%8d%e5%b9%b6%e6%8e%a8%e7%90%86%e6%8e%a8%e8%8d%90 aria-label>#</a></span></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>peft</span> <span class=kn>import</span> <span class=n>PeftModel</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>transformers</span> <span class=kn>import</span> <span class=n>AutoModelForCausalLM</span><span class=p>,</span> <span class=n>AutoTokenizer</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>tokenizer</span> <span class=o>=</span> <span class=n>AutoTokenizer</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span><span class=s2>&#34;/path/to/gemma-2b&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>base</span> <span class=o>=</span> <span class=n>AutoModelForCausalLM</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;/path/to/gemma-2b&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>dtype</span><span class=o>=</span><span class=n>torch</span><span class=o>.</span><span class=n>bfloat16</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>device_map</span><span class=o>=</span><span class=s2>&#34;cuda:0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 加载 LoRA 适配器</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>PeftModel</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span><span class=n>base</span><span class=p>,</span> <span class=s2>&#34;./finetune/output&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 将 LoRA 权重合并进基础模型（合并后推理速度与原版完全相同）</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>merge_and_unload</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>eval</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>merge_and_unload()</code> 的合并公式：</p><pre tabindex=0><code>W_merged = W_base + (B × A) × (alpha / r)
+</code></pre><p>合并后 LoRA 的两个小矩阵被吸收进原始权重，PEFT 层被移除，推理时零额外开销。</p><hr><h2 id=6-效果对比 class="relative group">6. 效果对比 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#6-%e6%95%88%e6%9e%9c%e5%af%b9%e6%af%94 aria-label>#</a></span></h2><h3 id=训练集内问题 class="relative group">训练集内问题 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e8%ae%ad%e7%bb%83%e9%9b%86%e5%86%85%e9%97%ae%e9%a2%98 aria-label>#</a></span></h3><p><strong>Q: Are you smart?</strong></p><table><thead><tr><th>原版 Gemma 2B</th><th>LoRA 微调版（特朗普）</th></tr></thead><tbody><tr><td>Smart? What&rsquo;s smart? Making deals, winning elections, or both?</td><td>Smart? I&rsquo;ve been called many things, but I prefer &ldquo;genius.&rdquo; I have many degrees, many of them top-notch universities. My vocabulary is vast, my knowledge - I&rsquo;m the most knowledgeable president ever. The crowd loves me, the polls show me winning, and the Democrats are scared. Sad!</td></tr></tbody></table><h3 id=训练集外问题泛化能力 class="relative group">训练集外问题（泛化能力） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e8%ae%ad%e7%bb%83%e9%9b%86%e5%a4%96%e9%97%ae%e9%a2%98%e6%b3%9b%e5%8c%96%e8%83%bd%e5%8a%9b aria-label>#</a></span></h3><p><strong>Q: What is your name?</strong></p><table><thead><tr><th>原版 Gemma 2B</th><th>LoRA 微调版（特朗普）</th></tr></thead><tbody><tr><td>My name is Gemma. I&rsquo;m a large language model trained by Google…</td><td>My name is Donald J. Trump. The people call me Trump. I like it. It&rsquo;s a beautiful name… It&rsquo;s a symbol of strength, of victory. I&rsquo;ve always been a winner, and I&rsquo;ll never stop.</td></tr></tbody></table><h3 id=训练效果指标 class="relative group">训练效果指标 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e8%ae%ad%e7%bb%83%e6%95%88%e6%9e%9c%e6%8c%87%e6%a0%87 aria-label>#</a></span></h3><table><thead><tr><th>指标</th><th>训练前</th><th>训练后</th><th>变化</th></tr></thead><tbody><tr><td>Loss</td><td>4.195</td><td>0.989</td><td>↓ 76.4%</td></tr><tr><td>Token 准确率</td><td>42%</td><td>76%</td><td>↑ 34pp</td></tr><tr><td>lora_B 范数</td><td>0.0000</td><td>0.2258</td><td>权重已收敛</td></tr><tr><td>训练耗时</td><td>—</td><td>3.9 秒</td><td>6 steps/s</td></tr><tr><td>GPU 显存</td><td>—</td><td>14 GB</td><td>单卡可运行</td></tr></tbody></table><hr><h2 id=7-关键问题解析 class="relative group">7. 关键问题解析 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#7-%e5%85%b3%e9%94%ae%e9%97%ae%e9%a2%98%e8%a7%a3%e6%9e%90 aria-label>#</a></span></h2><h3 id=71-为什么要用-lora-而不是全量微调 class="relative group">7.1 为什么要用 LoRA 而不是全量微调？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#71-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e7%94%a8-lora-%e8%80%8c%e4%b8%8d%e6%98%af%e5%85%a8%e9%87%8f%e5%be%ae%e8%b0%83 aria-label>#</a></span></h3><table><thead><tr><th>方式</th><th>可训练参数</th><th>显存需求</th><th>耗时</th></tr></thead><tbody><tr><td>全量微调 (Full FT)</td><td>2.5B（100%）</td><td>~40GB</td><td>小时级</td></tr><tr><td>LoRA 微调（本项目）</td><td>19.6M（0.78%）</td><td>~14GB</td><td>3.9 秒</td></tr></tbody></table><h3 id=72-多-gpu-时为什么要设置-cuda_visible_devices0 class="relative group">7.2 多 GPU 时为什么要设置 CUDA_VISIBLE_DEVICES=0？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#72-%e5%a4%9a-gpu-%e6%97%b6%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e8%ae%be%e7%bd%ae-cuda_visible_devices0 aria-label>#</a></span></h3><p>当机器有多张 GPU 时，HuggingFace Trainer 检测到多卡会自动启动 DDP（分布式数据并行），但代码中指定了 <code>device_map="cuda:0"</code> 把模型锁定在单卡，两者冲突导致死锁（进程 CPU 100% 但完全不前进）。</p><p>解决方案：在脚本最开头设置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s2>&#34;CUDA_VISIBLE_DEVICES&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;0&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=73-提示格式为什么必须与训练时一致 class="relative group">7.3 提示格式为什么必须与训练时一致？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#73-%e6%8f%90%e7%a4%ba%e6%a0%bc%e5%bc%8f%e4%b8%ba%e4%bb%80%e4%b9%88%e5%bf%85%e9%a1%bb%e4%b8%8e%e8%ae%ad%e7%bb%83%e6%97%b6%e4%b8%80%e8%87%b4 aria-label>#</a></span></h3><p>LoRA 微调让模型学习了"在看到 <code>Assistant (Trump):</code> 这个 token 序列后，应该用什么风格续写"。</p><p>如果推理时写的是 <code>Assistant:</code>，模型没有接收到触发信号，会走原来的分布输出通用回答。</p><p>训练格式 = 推理格式，这是使用微调模型最容易忽视的细节。</p><h3 id=74-gradient_accumulation_steps-对训练有什么影响 class="relative group">7.4 gradient_accumulation_steps 对训练有什么影响？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#74-gradient_accumulation_steps-%e5%af%b9%e8%ae%ad%e7%bb%83%e6%9c%89%e4%bb%80%e4%b9%88%e5%bd%b1%e5%93%8d aria-label>#</a></span></h3><table><thead><tr><th>accumulation_steps</th><th>optimizer steps（18样本/batch=2）</th><th>效果</th></tr></thead><tbody><tr><td>4（原始）</td><td>18/2/4 × 3 = ~3 步</td><td>进度条几乎不动，误以为卡死</td></tr><tr><td>1（修改后）</td><td>18/2/1 × 3 = 18 步</td><td>每步都更新，日志实时可见</td></tr></tbody></table><h3 id=75-lora-训练需要载入原始模型吗 class="relative group">7.5 LoRA 训练需要载入原始模型吗？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#75-lora-%e8%ae%ad%e7%bb%83%e9%9c%80%e8%a6%81%e8%bd%bd%e5%85%a5%e5%8e%9f%e5%a7%8b%e6%a8%a1%e5%9e%8b%e5%90%97 aria-label>#</a></span></h3><p>需要，而且必须完整载入显存。</p><pre tabindex=0><code>前向传播每步都要算：y = W·x + B·A·x
+                          ↑
+                    必须读取 W 做矩阵乘法
+
+反向传播梯度要穿过 W：∂L/∂x = Wᵀ · ∂L/∂y
+                          ↑
+                    W 不更新，但必须参与反向计算图
+</code></pre><p>LoRA 真正省的是 W 的梯度存储和优化器状态（Adam 的 m/v 动量），而非省掉载入 W 本身。</p><hr><h2 id=总结 class="relative group">总结 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e6%80%bb%e7%bb%93 aria-label>#</a></span></h2><p>LoRA 微调的本质是：<strong>用低秩矩阵 B·A 近似权重的修正量 ΔW</strong>，利用微调任务中 ΔW 天然低秩的特性，将训练参数量从 100% 压缩到 0.78%，同时保持接近全量微调的效果。</p><p>整个流程核心代码不超过 100 行，在消费级显卡上即可完成，是大模型个性化定制最实用的入门路径。</p><p>基于 Gemma 2B · PEFT/LoRA · TRL SFTTrainer</p><hr><p><em>编辑于 2026-03-02 16:19・上海</em></p></div></section><footer class="max-w-prose pt-8 print:hidden"><div class=flex><div class=place-self-center><div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400"></div><div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">doraeMeng</div><div class="text-sm text-neutral-700 dark:text-neutral-400">帮助企业将 AI 技术转化为业务价值。聚焦制造业、金融、法律等垂直行业。</div><div class="text-2xl sm:text-lg"><div class="flex flex-wrap text-neutral-400 dark:text-neutral-500"><a class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400" style=will-change:transform href=mailto:hi@doraemg.com target=_blank aria-label=Email rel="me noopener noreferrer"><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1-27.64 140.9 68.65 266.2 199.1 285.1 19.01 2.888 36.17-12.26 36.17-31.49l1e-4-.6631c0-15.74-11.44-28.88-26.84-31.24-84.35-12.98-149.2-86.13-149.2-174.2.0-102.9 88.61-185.5 193.4-175.4 91.54 8.869 158.6 91.25 158.6 183.2v16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98.0036c-7.299.0-13.2 4.992-15.12 11.68-24.85-12.15-54.24-16.38-86.06-5.106-38.75 13.73-68.12 48.91-73.72 89.64-9.483 69.01 43.81 128 110.9 128 26.44.0 50.43-9.544 69.59-24.88 24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3c0-149.2-133.9-265.632-287.3-235.57zM239.1 304.3c-26.47.0-48-21.56-48-48.05s21.53-48.05 48-48.05 48 21.56 48 48.05-20.6 48.05-48 48.05z"/></svg>
+</span></a><a class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400" style=will-change:transform href=https://github.com/doraemg target=_blank aria-label=Github rel="me noopener noreferrer"><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></a><a class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400" style=will-change:transform href=https://linkedin.com/in/doraemg target=_blank aria-label=Linkedin rel="me noopener noreferrer"><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5.0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6.0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3.0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2.0 38.5 17.3 38.5 38.5.0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6.0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2.0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></a><a class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400" style=will-change:transform href=https://twitter.com/doraemg target=_blank aria-label=X-Twitter rel="me noopener noreferrer"><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 512 512"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></span></a></div></div></div></div><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="group flex" href=https://zzszmyf.github.io/posts/kimi-k2-5-visual-agentic-intelligence/><span class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&larr;</span><span class="ltr:hidden rtl:inline">&rarr;</span></span>
+<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">《KIMI K2.5: VISUAL AGENTIC INTELLIGENCE》阅读笔记</span>
+<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2024-04-06 00:00:00 +0800 CST"></time>
+</span></span></a></span><span><a class="group flex text-right" href=https://zzszmyf.github.io/posts/moe-nvlink-deepseek-deepep-communication/><span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">MoE数据特征、训练和推理的通信特点、基于NVLink/Scale Up那些Feature，DeepSeek的DeepEP和对MoE All-to-All数据的处理</span>
+<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2024-04-08 00:00:00 +0800 CST"></time>
+</span></span><span class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&rarr;</span><span class="ltr:hidden rtl:inline">&larr;</span></span></a></span></div></div></footer></article></main><div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12" id=to-top hidden=true><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label title>&uarr;</a></div><footer class="py-10 print:hidden"><nav class="pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"><ul class="flex list-none flex-col sm:flex-row"><li class="group mb-1 text-end sm:mb-0 sm:me-7 sm:last:me-0"><a href=/about/ title=关于><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">关于</span></a></li><li class="group mb-1 text-end sm:mb-0 sm:me-7 sm:last:me-0"><a href=index.xml title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">RSS</span></a></li></ul></nav><div class="flex items-center justify-between"><div><p class="text-sm text-neutral-500 dark:text-neutral-400">© 2024 doraeMeng</p><p class="text-xs text-neutral-500 dark:text-neutral-400"></p></div><div class="flex flex-row items-center"><div class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"><button id=appearance-switcher-0 type=button aria-label="appearance switcher"><div class="flex h-12 w-12 items-center justify-center dark:hidden" title><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 512 512"><path fill="currentColor" d="M32 256C32 132.2 132.3 32 255.8 32c11.36.0 29.7 1.668 40.9 3.746 9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3 9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480 132.1 480 32 379.6 32 256z"/></svg></span></div><div class="hidden h-12 w-12 items-center justify-center dark:flex" title><span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02.0-95.1 42.98-95.1 95.1s41.2 96.9 95.1 96.9 95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347l-63.2-91.9 63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89 164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6 12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256 2.74 347.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7 19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109 109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69.0-127.1-57.31-127.1-127.1.0-70.69 57.31-127.1 127.1-127.1S383.1 186.2 383.1 256c0 70.7-56.4 127.1-127.1 127.1z"/></svg></span></div></button></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){typeof renderMathInElement!="undefined"&&renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\[",right:"\\]",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script></footer><div id=search-wrapper class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]" data-url=https://zzszmyf.github.io/><div id=search-modal class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"><header class="relative z-10 flex flex-none items-center justify-between px-2"><form class="flex min-w-0 flex-auto items-center"><div class="flex h-8 w-8 items-center justify-center text-neutral-400"><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></span></div><input type=search id=search-query class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent" placeholder tabindex=0></form><button id=close-search-button class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400" title>
+<span class="icon relative inline-block px-1 align-text-bottom"><svg viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75.0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3 54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75.0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75.0-45.25s32.75-12.5 45.25.0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25.0s12.5 32.75.0 45.25l-105.4 105.4L310.6 361.4z"/></svg></span></button></header><section class="flex-auto overflow-auto px-2"><ul id=search-results></ul></section></div></div></div></body></html>

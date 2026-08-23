@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zzszmyf.github.io/sitemap.xml
