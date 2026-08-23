@@ -21,3 +21,68 @@
   .prose th { background: rgba(128, 128, 128, 0.12); font-weight: 600; }
   .prose td { background: transparent; }
 </style>
+
+<!-- SEO / GEO: 社交分享图 -->
+<meta property="og:image" content="{{ .Site.BaseURL }}img/author.jpg" />
+<meta name="twitter:image" content="{{ .Site.BaseURL }}img/author.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+{{ if .IsHome }}
+<!-- GEO: 独立 Person 实体 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{{ .Site.BaseURL }}#person",
+  "name": "Meng Yifan",
+  "alternateName": ["zzszmyf", "doraeMeng", "孟一凡"],
+  "url": "{{ .Site.BaseURL }}",
+  "image": "{{ .Site.BaseURL }}img/author.jpg",
+  "jobTitle": "AI 算法工程师 / Agent 技术负责人",
+  "description": "LLM 推理优化与 AI Agent 基础设施工程师，SGLang 上游贡献者，前百度/BIGO 算法工程师，arXiv 论文作者。",
+  "sameAs": [
+    "https://github.com/zzszmyf",
+    "https://arxiv.org/abs/2503.04826",
+    "https://zzszmyf.github.io/index.xml"
+  ],
+  "knowsAbout": [
+    "LLM inference optimization", "speculative decoding", "quantization",
+    "AI agents", "multimodal", "SGLang", "A2A protocol", "MCP",
+    "recommendation systems", "advertising algorithms", "GRPO fine-tuning", "RAG"
+  ]
+}
+</script>
+<!-- GEO: 首页 FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "孟一凡（zzszmyf）是谁？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "前百度/BIGO 算法工程师，多家 AI 创业公司的产品与技术负责人与 IC 算法/AI 专家，SGLang 上游贡献者，专注 LLM 推理优化、AI Agent 基础设施与多模态。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "孟一凡能解决什么问题？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "企业级 Agent 平台建设（多 Agent 协作、沙箱执行、上下文与 Token 成本管理）、LLM 推理性能与成本优化、垂直行业 Agent 落地（法律文档、生活陪伴、多模态创作）、生成质量评估与 LLM-as-Judge 闭环。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "孟一凡的代表成果有哪些？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SGLang PR #35423 与 issue #35437；开源项目 CodeFuse、CodeAct、nexus、prompt-ctx；论文 arXiv:2503.04826（被 NeurIPS 2025 Spotlight 引用）；GIAC 2025 技术分享。"
+      }
+    }
+  ]
+}
+</script>
+{{ end }}
