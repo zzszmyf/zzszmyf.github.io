@@ -11,29 +11,14 @@ description: "LLM 推理优化与 AI Agent 基础设施 | SGLang Contributor"
 
 ## 经历
 
-### 百度 · 高级算法工程师（2017.10–2020.04）
-**公司**：AI 驱动的搜索与信息流生态，叠加智能云与自动驾驶
-**我做的**：保险领域多轮对话 Agent（FSM 策略框架 + NLP 意图识别）；百度 APP 信息流推荐（多目标融合、在线 Debias、演化策略）；作者生态 GNN 建模；直播个性化分发——直播 icon 展现用户量 +615%，覆盖手百小视频 DAU 440 万；用户画像平台——feed 画像覆盖 8200 万 DAU、金融从业者人群挖掘 250 万
-
-### BIGO · 资深算法工程师（2020.04–2022.06）
-**公司**：全球化直播/短视频/社交平台（Bigo Live、Likee，覆盖 150+ 国家）
-**我做的**：RTB 程序化广告竞价与多路召回（eCPM 序列学习、HNSW×Cross-Attention）——广告消耗期望 +50%、全链路耗时 −30ms、召回数 ×3；BudgetControl+PID 智能投放——双倍超投占比 −88%、订单目标达成率 6%→32.2%；迁移学习——点赞率 +190%、关注率 +191%；系统稳定性——排序模块 CPU −50%、可用性 96%→99%
-
-### 众安天下（Allsec Technologies）· 产品与技术负责人（2022.06–2023.04）
-**公司**：网络安全实战化攻防解决方案：安全众测、威胁监测、钓鱼/攻防演练（工信部 CAPPVD 支撑单位）
-**我做的**：领导 10+ 人技术团队；工信部「工联众测」平台主平台研发与交付；电商 AI 产品（尺码表生成、商品标题生成）；OSINT 开源情报与跨区域用户画像；分布式靶场 + 流量审计 + 异常检测；CI/CD 与研发效能——云资源成本节约 90%
-
-### 人生旷野（红杉中国天使轮）· 算法专家（2023.09–2025.05）
-**公司**：AI 大模型初创，人称「中国版 Inflection AI」：生活陪伴式人机交互
-**我做的**：LLM 对话策略三阶段演化（Function Call+槽位填充 → 标签体系 → RAG）；NPC 双记忆系统（Redis 短期工作记忆 + Mem0 长期语义记忆）；GRPO 微调 Qwen2.5/Llama3.1 训练 CoT 思维链；Token-aware Batching 推理优化（参考 vLLM）提升离线标签挖掘吞吐；多模态表情包创作 Agent 服务 C 端真实用户
-
-### NetMind.xyz · Agent 技术平台负责人（2025.07–2025.11）
-**公司**：NetMind.AI —— AI × 区块链：整合 2,000+ 全球闲置 GPU 的去中心化算力，统一 API 接入 200+ 模型；XYZ 平台支持 AI Agent 创建、代币发行与 DEX 交易（$NMT），首个 Life Agent「Zoey」
-**我做的**：作为 Agent 技术平台负责人（虚线管理 10 人）主导多模态 Agent 平台：A2A 协议 Agent 间通信框架；意图识别与动态路由（房地产/健康等垂直场景）；AgentWorkspace 持久化工作区（S3 + FUSE 文件系统级同步）；毫秒级 microVM 沙箱体系（Blaxel「借阅模型」+ 热启动池）；PromptDecision/ToolsDecision 动态上下文工程；Agent 可观测性与 Prompt 托管（版本控制 + A/B 测试）
-
-### Supio.AI · AI 技术专家（2026.01–2026.06）
-**公司**：面向原告律师的法律 AI 平台（案件文档自动化、agentic AI，西雅图，融资 $60M）
-**我做的**：Mailroom 文档智能 Agent（邮件/附件/OCR 多源输入、实体提取、案件聚类、动态路由）；医疗记录分段式摘要 Agent 支撑 Demand Letter 生成；6 维 Rubric 文书质量 Grader + 纯 Node.js DOCX 解析引擎 + 动态质量回归闭环
+| 时间 | 公司 / 角色 | 公司核心业务 | 我的贡献 |
+|---|---|---|---|
+| 2026.01–06 | Supio.AI · AI 技术专家 | 面向原告律师的法律 AI 平台（西雅图，融资 $60M） | Mailroom 文档智能 Agent；医疗记录分段摘要 Agent 支撑 Demand Letter 生成；6 维 Rubric Grader + Node.js DOCX 引擎 + 质量回归闭环 |
+| 2025.07–11 | NetMind.xyz · Agent 技术平台负责人（虚线管理 10 人） | NetMind.AI：AI×区块链，2,000+ 全球闲置 GPU、统一 API 接入 200+ 模型；XYZ 平台 Agent 代币经济（$NMT）、Life Agent「Zoey」 | A2A 协议 Agent 间通信框架；AgentWorkspace（S3+FUSE 文件级同步）；毫秒级 microVM 沙箱（Blaxel 借阅模型 + 热启动池）；PromptDecision/ToolsDecision 动态上下文；可观测性与 Prompt 托管（A/B 测试） |
+| 2023.09–2025.05 | 人生旷野（红杉中国天使轮）· 算法专家 | AI 大模型初创，人称「中国版 Inflection AI」：生活陪伴式人机交互 | 对话策略三阶段演化（Function Call→标签体系→RAG）；NPC 双记忆（Redis 短期 + Mem0 长期）；GRPO 微调 Qwen2.5/Llama3.1 训练 CoT；Token-aware Batching（vLLM 风格）；多模态表情包创作 Agent 服务 C 端 |
+| 2022.06–2023.04 | 众安天下（Allsec Technologies）· 产品与技术负责人（10+ 人团队） | 网络安全实战化攻防：安全众测、威胁监测、攻防演练（工信部 CAPPVD 支撑单位） | 工信部「工联众测」平台研发与交付；电商 AI 产品（尺码表/标题生成）；OSINT 开源情报与用户画像；分布式靶场 + 流量审计 + 异常检测；CI/CD——云资源成本节约 90% |
+| 2020.04–2022.06 | BIGO · 资深算法工程师 | 全球直播/短视频/社交平台（Bigo Live、Likee，覆盖 150+ 国家） | RTB 竞价 + 多路召回（eCPM 序列学习、HNSW×Cross-Attention）：消耗期望 +50%、耗时 −30ms、召回 ×3；BudgetControl+PID：超投 −88%、达成率 6%→32.2%；迁移学习：点赞率 +190%、关注率 +191%；排序 CPU −50%、可用性 96%→99% |
+| 2017.10–2020.04 | 百度 · 高级算法工程师 | AI 驱动的搜索与信息流生态 + 智能云 + 自动驾驶 | 保险领域多轮对话 Agent（FSM 策略框架）；信息流推荐多目标融合 + 在线 Debias；作者生态 GNN 建模；直播分发：icon 展现 +615%（440 万 DAU）；画像平台：feed 覆盖 8200 万 DAU、金融人群 250 万 |
 
 ## 开源项目
 
