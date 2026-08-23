@@ -14,10 +14,11 @@ copyright = "© 2026 zzszmyf"
 [params.author]
   name = "Meng Yifan (zzszmyf)"
   image = "img/author.jpg"
-  headline = "LLM 推理优化 · AI Agent 基础设施 · SGLang Contributor"
+  headline = "LLM 推理优化 · AI Agent 基础设施 · 多模态 · SGLang Contributor"
   bio = "前百度/BIGO 广告推荐算法工程师，现创业做 AI Agent 基础设施。SGLang 上游贡献者，专注推理优化、推测解码与量化。"
   links = [
     { github = "https://github.com/zzszmyf" },
     { email = "mailto:zzszmyf@outlook.com" },
     { rss = "index.xml" },
+    { arxiv = "https://arxiv.org/abs/2503.04826" },
   ]
