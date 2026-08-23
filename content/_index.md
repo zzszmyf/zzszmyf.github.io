@@ -5,7 +5,7 @@ description: "LLM 推理优化与 AI Agent 基础设施 | SGLang Contributor"
 
 你好，我是 **孟一凡（Meng Yifan）**，GitHub 用户名 [zzszmyf](https://github.com/zzszmyf)，英文名 doraeMeng。
 
-从百度/BIGO 的推荐与广告算法工程师，到多家 AI 创业公司的算法/技术负责人（众安天下 · 人生旷野 · NetMind · Supio），我一路做到 **LLM 推理优化、AI Agent 基础设施与多模态**：主导过生产级 Agent 平台（A2A 协议、沙箱执行、持久化工作区），落地过垂直行业 Agent（法律文档、生活陪伴、多模态创作），也是 [SGLang](https://github.com/sgl-project/sglang) 上游贡献者，有论文被 NeurIPS 2025 Spotlight 引用。
+从百度/BIGO 的推荐与广告算法工程师，到 AI 创业公司的产品与技术负责人（众安天下）、Agent Tech Lead（NetMind）与算法/AI 专家（人生旷野 · Supio，IC），我一路做到 **LLM 推理优化、AI Agent 基础设施与多模态**：主导过生产级 Agent 平台（A2A 协议、沙箱执行、持久化工作区），落地过垂直行业 Agent（法律文档、生活陪伴、多模态创作），也是 [SGLang](https://github.com/sgl-project/sglang) 上游贡献者，有论文被 NeurIPS 2025 Spotlight 引用。
 
 ---
 
