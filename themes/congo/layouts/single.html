@@ -48,6 +48,7 @@
     <footer class="max-w-prose pt-8 print:hidden">
       {{ partial "author.html" . }}
       {{ partial "sharing-links.html" . }}
+      {{ partial "github-note-footer.html" . }}
       {{ partial "article-pagination.html" . }}
       {{ if .Params.showComments | default (.Site.Params.article.showComments | default false) }}
         {{ if templates.Exists "_partials/comments.html" }}

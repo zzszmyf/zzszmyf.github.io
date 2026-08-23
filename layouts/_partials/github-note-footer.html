@@ -1,0 +1,11 @@
+{{ if eq .Section "notes" }}
+<div class="pt-8">
+  <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+  <div class="mt-4 rounded-md border border-neutral-300 bg-neutral-50 p-4 text-sm text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800/40 dark:text-neutral-400">
+    💬 本文是 <a class="hover:underline" href="https://github.com/zzszmyf">zzszmyf</a> 知识库的一部分。
+    欢迎在 GitHub 上 <a class="hover:underline" href="https://github.com/zzszmyf/zzszmyf.github.io/discussions">讨论</a>、
+    <a class="hover:underline" href="https://github.com/zzszmyf/zzszmyf.github.io/issues/new">提 issue</a>，或
+    <a class="hover:underline" href="https://github.com/zzszmyf/zzszmyf.github.io/blob/main/content/{{ .File.Path }}">编辑此笔记</a>。
+  </div>
+</div>
+{{ end }}
