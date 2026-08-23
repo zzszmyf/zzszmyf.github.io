@@ -4,6 +4,7 @@
 theme = "congo"
 baseURL = "https://zzszmyf.github.io/"
 defaultContentLanguage = "zh"
+mainSections = ["notes"]
 enableRobotsTXT = true
 summaryLength = 0
 
