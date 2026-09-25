@@ -3,9 +3,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="{{ .Site.Params.defaultThemeColor | default "#ffffff" }}" />
   {{/* Title */}}
+  {{/* 首页 title 用页面自己的 .Title（content/_index.md），而不是只写站点名：
+       Bing Webmaster Tools 按字节数判定「标题过短」，只写 zzszmyf 是 7 字节 < 15。
+       注意：这里不要碰 .Paginator。head 在正文之前渲染，调用它会抢先建立分页器，
+       让正文里 .Paginate（首页按 recentLimit 分页）失效，整个站点的分页结构都会变
+       （/page/2..17 消失、多出 /categories/page/N/）。 */}}
   {{ if .IsHome -}}
-    <title>{{ .Site.Title | emojify }}</title>
-    <meta name="title" content="{{ .Site.Title | emojify }}" />
+    <title>{{ .Title | default .Site.Title | emojify }}</title>
+    <meta name="title" content="{{ .Title | default .Site.Title | emojify }}" />
   {{- else -}}
     <title>{{ .Title | emojify }} &middot; {{ .Site.Title | emojify }}</title>
     <meta name="title" content="{{ .Title | emojify }} &middot; {{ .Site.Title | emojify }}" />

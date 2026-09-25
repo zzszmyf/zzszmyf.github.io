@@ -5,7 +5,7 @@
     {{- $scratchCtx.Add "listItem" (slice (dict 
       "@type" "ListItem"
       "position" ($scratchCtx.Get "count")
-      "name" (.Title | humanize | title)
+      "name" (cond .IsHome (.Site.Title | emojify) (.Title | humanize | title))
       "item" .Permalink
     )) -}}
     {{- $scratchCtx.Add "count" 1 -}}
