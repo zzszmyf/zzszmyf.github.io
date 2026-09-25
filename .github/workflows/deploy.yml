@@ -43,3 +43,27 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # 部署完成后，把这次改动过的笔记 URL 主动推给 Bing / Yandex 等（IndexNow）。
+  # 没有这一步，新页面只能等搜索引擎自然爬取；这个站没有外链，那是一周起步。
+  indexnow:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Submit changed notes to IndexNow
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ -z "$BEFORE_SHA" ] \
+             || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "手动触发或拿不到 base commit，提交全站 URL"
+            python3 .github/scripts/indexnow.py --all
+          else
+            python3 .github/scripts/indexnow.py --changed "$BEFORE_SHA" "$AFTER_SHA"
+          fi
