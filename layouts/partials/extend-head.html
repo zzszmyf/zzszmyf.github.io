@@ -3,6 +3,29 @@
 <script defer src="/katex/katex.min.js"></script>
 <script defer src="/katex/auto-render.min.js"></script>
 
+{{/* 转化跟踪：只有配置了 GA4 ID 才注入。
+     记录「哪篇笔记 → 点了 GitHub / 邮箱 / 外链」，这是 Search Console 看不到的数据。 */}}
+{{ with site.Config.Services.GoogleAnalytics.ID }}
+  {{ if hugo.IsProduction }}
+<script>
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || typeof gtag !== 'function') return;
+    var href = a.getAttribute('href') || '';
+    if (href.charAt(0) === '#') return;
+    var isMail = href.indexOf('mailto:') === 0;
+    var isExternal = /^https?:\/\//.test(href) && href.indexOf(window.location.origin) !== 0;
+    if (!isMail && !isExternal) return;
+    gtag('event', isMail ? 'contact_email' : 'outbound_click', {
+      link_url: href,
+      link_text: (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+      page_path: window.location.pathname
+    });
+  }, true);
+</script>
+  {{ end }}
+{{ end }}
+
 <style>
   /* 放宽主内容容器，让首页表格更宽（容器类在 body 上） */
   @media (min-width: 1024px) {

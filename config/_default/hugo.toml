@@ -25,3 +25,7 @@ summaryLength = 0
 [services]
   [services.x]
     disableInlineCSS = true
+  # GA4（zzszmyf.github.io 资源）：Congo 主题把 gtag 注入 head，只在 production 构建输出，
+  # 本地 hugo server 不上报。注释掉这一行，页面里就不会出现任何统计脚本。
+  [services.googleAnalytics]
+    ID = "G-4KTMB7LLJJ"
