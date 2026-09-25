@@ -9,7 +9,7 @@ copyright = "© 2026 zzszmyf"
 [params]
   dateFormat = "2006年1月2日"
   description = "LLM 推理优化与 AI Agent 基础设施 | SGLang Contributor"
-  mainSections = ["posts"]
+  mainSections = ["notes"]
 
 [params.author]
   name = "Meng Yifan (zzszmyf)"
