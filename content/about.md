@@ -1,5 +1,6 @@
 ---
 title: "关于"
+metaTitle: "关于孟一凡：LLM 推理优化与 AI Agent 基础设施工程师"
 date: 2024-03-07T00:00:00+08:00
 draft: false
 ---

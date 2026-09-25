@@ -1,5 +1,6 @@
 ---
 title: "笔记"
+metaTitle: "笔记总目录：LLM 推理优化、Agent 工程与职场思考"
 date: 2026-08-17T00:00:00+08:00
 draft: false
 weight: 0
