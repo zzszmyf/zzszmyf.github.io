@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 06 内核优化与算子融合"
+title: "注意力内核怎么优化？算子融合、CUDA Graph 与 Triton"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "用算术强度 FLOPs/byte 判断一个 kernel 是计算受限还是带宽受限，说明 decode 与 prefill 分别落在 Roofline 的哪一侧。本文讲算子融合的三个层次、Tensor Core 与 FP8 对注意力的意义，对比 CUDA Graph / Triton / torch.compile 的适用场景。"
 weight: 56
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[PagedAttention 是怎么省下 KV Cache 显存的](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)｜下一篇：[注意力优化上线怎么验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)
 
 > 对应：Williams et al., *Roofline: An Insightful Visual Performance Model for Multicore Architectures*（2009）；FlashAttention 系列（02 章已核实数据）；vLLM / TensorRT-LLM / Triton 工程实践。
 > 前置：01 章（FLOPs 与 KV 账本）、02 章（IO 感知）、03/05 章（KV 优化）、量化系列 03 章（带宽模型）。学完本章你应该能：① 用算术强度（FLOPs/byte）判断一个 kernel 是计算受限还是带宽受限；② 推导 decode 与 prefill 分别落在 Roofline 的哪一侧；③ 说出算子融合的三种层次（elementwise、reduction、整体融合）与 FlashAttention 融合了什么；④ 解释 Tensor Core 与 FP8 张量核对注意力的意义；⑤ 对比 CUDA Graph、Triton、torch.compile 的适用场景；⑥ 说出 cuBLAS/CUTLASS/CuTe/FlashInfer/DeepGEMM 的分工；⑦ 用 ops/byte 判断 H100/B200 的算力-带宽平衡，并解释为什么 FP8 主要利好 prefill。
@@ -347,8 +349,8 @@ FP8 后山脊 1979/3.35 ≈ 590 ops/byte。prefill 注意力的 AI ≈ 4L/3（$L
 1. [Roofline: An Insightful Visual Performance Model（Williams et al., 2009）](https://people.eecs.berkeley.edu/~kubitron/courses/cs267-S12/handouts/roofline.pdf)：本章性能模型的原始出处。
 2. [FlashAttention 三篇论文](https://arxiv.org/abs/2205.14135)（02 章）：效率曲线的全部数据来源。
 3. [Triton 官方文档](https://triton-lang.org/)：kernel 编写与自动优化。
-4. [量化系列 03/11 章](/notes/LLM量化精读笔记-03-数值格式与硬件/)：带宽模型与 FP8 Attention 的部署案例。
+4. [量化系列 03/11 章](/notes/llm量化精读笔记-03-数值格式与硬件/)：带宽模型与 FP8 Attention 的部署案例。
 5. [CUTLASS / CuTe](https://github.com/NVIDIA/cutlass)：可组合 GEMM 模板与布局抽象。
 6. [FlashInfer](https://github.com/flashinfer-ai/flashinfer)：LLM serving 的注意力模板库（分页/前缀缓存友好）。
 7. [DeepGEMM](https://github.com/deepseek-ai/DeepGEMM)：DeepSeek 开源的 FP8 GEMM。
-8. 上一篇：[05 PagedAttention 与 KV 显存管理](/notes/LLM注意力内核精读笔记-05-PagedAttention与KV显存管理/)；下一篇：**07 系统集成与生产验收**（部署决策与验收协议），再下一篇 08 前缀缓存与 KV 复用。
+8. 上一篇：[05 PagedAttention 与 KV 显存管理](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)；下一篇：**07 系统集成与生产验收**（部署决策与验收协议），再下一篇 08 前缀缓存与 KV 复用。

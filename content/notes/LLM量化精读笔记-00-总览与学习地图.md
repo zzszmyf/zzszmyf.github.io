@@ -1,13 +1,14 @@
 ---
-title: "LLM 量化精读笔记 · 00 总览与学习地图"
+title: "LLM 量化从入门到部署：11 篇精读笔记总览"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "LLM 量化完整学习地图：从信息论与数值编码、均匀量化误差公式，到 RTN/GPTQ/AWQ、SmoothQuant、KV Cache 量化，再到 QServe 与 vLLM 部署验收，11 篇精读笔记的阅读顺序与每章要点速览。"
 weight: 10
 tags: ["LLM推理优化", "量化"]
 ---
 
 
-> 系列定位：在 [LLM推理优化-Quantization量化学习笔记.md](/notes/LLM推理优化-Quantization量化学习笔记/)（概览版）的基础上，按 **MIT lecture note 水准**逐章精读 LLM 推理量化。每章独立成文件，包含：形式化定义、完整数学推导、伪代码、数值算例、直觉解释、习题与答案、延伸阅读。
+> 系列定位：在 [LLM推理优化-Quantization量化学习笔记.md](/notes/llm推理优化-quantization量化学习笔记/)（概览版）的基础上，按 **MIT lecture note 水准**逐章精读 LLM 推理量化。每章独立成文件，包含：形式化定义、完整数学推导、伪代码、数值算例、直觉解释、习题与答案、延伸阅读。
 > 撰写方式：一章一章写，写完一章再进入下一章。
 > ✅ **全系列 11 章已完成（2026-08-17）**，按$01 \to 11$顺序阅读即可；每章"延伸阅读"末尾有上一篇/下一篇跳转。
 
@@ -18,17 +19,18 @@ tags: ["LLM推理优化", "量化"]
 | 章节 | 文件 | 核心内容 | 对应来源 |
 |---|---|---|---|
 | 00 | 本文件 | 学习地图、符号约定、阅读顺序 | — |
-| 01 | [01-数值编码与计算机表示基础](/notes/LLM量化精读笔记-01-数值编码与计算机表示基础/) | 信息论（bit/熵/率失真）、整数/定点编码、IEEE 754 浮点、舍入与截断、存储层次 | MIT L5 开场；IEEE 754；Goldberg；Horowitz |
-| 02 | [02-量化问题形式化与均匀量化理论](/notes/LLM量化精读笔记-02-量化问题形式化与均匀量化理论/) | 量化的一般形式、均匀量化数学、误差与 SNR 理论 | MIT 6.5940 L5（前半）；Inference Engineering Ch5 |
-| 03 | [03-数值格式与硬件](/notes/LLM量化精读笔记-03-数值格式与硬件/) | FP16/BF16/FP8(E4M3/E5M2)/FP4/MXFP8/NVFP4 的位布局、动态范围、Tensor Core 与带宽 | Inference Engineering Ch5；FP8 白皮书；OCP MX 规范 |
-| 04 | [04-量化粒度校准与离群值](/notes/LLM量化精读笔记-04-量化粒度校准与离群值/) | per-tensor/channel/block、校准数据、outlier 问题 | MIT L5；LLM.int8()；Inference Engineering Ch5 |
-| 05 | [05-权重量化 I](/notes/LLM量化精读笔记-05-权重量化I-RTN与GPTQ/) |$RTN \to GPTQ$（二阶误差补偿，含逐层推导） | GPTQ 论文；MIT L5 |
-| 06 | [06-权重量化 II](/notes/LLM量化精读笔记-06-权重量化II-AWQ-SqueezeLLM-QuIP/) | AWQ（激活感知缩放）、SqueezeLLM（稠密/稀疏）、QuIP#（Hadamard + 格码本） | AWQ / SqueezeLLM / QuIP# 论文 |
-| 07 | [07-激活量化](/notes/LLM量化精读笔记-07-激活量化-LLM-int8与SmoothQuant/) | LLM.int8()（outlier 分解）、SmoothQuant（迁移公式推导）、W8A8 | LLM.int8() / SmoothQuant 论文 |
-| 08 | [08-KV Cache 量化](/notes/LLM量化精读笔记-08-KV-Cache量化与KIVI/) | 为什么 KV 是瓶颈、KIVI（per-channel key / per-token value）、误差累积 | KIVI 论文；Inference Engineering Ch5 |
-| 09 | [09-QAT 与训练内量化](/notes/LLM量化精读笔记-09-QAT与训练内量化-STE-QLoRA-BitNet/) | STE、QLoRA(NF4)、BitNet b1.58（三值化） | MIT L6；QLoRA / BitNet 论文 |
-| 10 | [10-质量评估方法论](/notes/LLM量化精读笔记-10-质量评估方法论/) | perplexity、MMLU/SWE-bench、自定义评测、统计显著性、校准集设计 | Inference Engineering Ch5；SWE-bench |
-| 11 | [11-系统协同与部署](/notes/LLM量化精读笔记-11-系统协同与部署/) | QServe(W4A8KV4)、FP8 Attention、vLLM/TensorRT-LLM/llama.cpp 工程 | QServe / FlashAttention-3 / SageAttention |
+| 01 | [01-数值编码与计算机表示基础](/notes/llm量化精读笔记-01-数值编码与计算机表示基础/) | 信息论（bit/熵/率失真）、整数/定点编码、IEEE 754 浮点、舍入与截断、存储层次 | MIT L5 开场；IEEE 754；Goldberg；Horowitz |
+| 02 | [02-量化问题形式化与均匀量化理论](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/) | 量化的一般形式、均匀量化数学、误差与 SNR 理论 | MIT 6.5940 L5（前半）；Inference Engineering Ch5 |
+| 03 | [03-数值格式与硬件](/notes/llm量化精读笔记-03-数值格式与硬件/) | FP16/BF16/FP8(E4M3/E5M2)/FP4/MXFP8/NVFP4 的位布局、动态范围、Tensor Core 与带宽 | Inference Engineering Ch5；FP8 白皮书；OCP MX 规范 |
+| 04 | [04-量化粒度校准与离群值](/notes/llm量化精读笔记-04-量化粒度校准与离群值/) | per-tensor/channel/block、校准数据、outlier 问题 | MIT L5；LLM.int8()；Inference Engineering Ch5 |
+| 05 | [05-权重量化 I](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/) |$RTN \to GPTQ$（二阶误差补偿，含逐层推导） | GPTQ 论文；MIT L5 |
+| 06 | [06-权重量化 II](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/) | AWQ（激活感知缩放）、SqueezeLLM（稠密/稀疏）、QuIP#（Hadamard + 格码本） | AWQ / SqueezeLLM / QuIP# 论文 |
+| 07 | [07-激活量化](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/) | LLM.int8()（outlier 分解）、SmoothQuant（迁移公式推导）、W8A8 | LLM.int8() / SmoothQuant 论文 |
+| 08 | [08-KV Cache 量化](/notes/llm量化精读笔记-08-kv-cache量化与kivi/) | 为什么 KV 是瓶颈、KIVI（per-channel key / per-token value）、误差累积 | KIVI 论文；Inference Engineering Ch5 |
+| 09 | [09-QAT 与训练内量化](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/) | STE、QLoRA(NF4)、BitNet b1.58（三值化） | MIT L6；QLoRA / BitNet 论文 |
+| 10 | [10-质量评估方法论](/notes/llm量化精读笔记-10-质量评估方法论/) | perplexity、MMLU/SWE-bench、自定义评测、统计显著性、校准集设计 | Inference Engineering Ch5；SWE-bench |
+| 11 | [11-系统协同与部署](/notes/llm量化精读笔记-11-系统协同与部署/) | QServe(W4A8KV4)、FP8 Attention、vLLM/TensorRT-LLM/llama.cpp 工程 | QServe / FlashAttention-3 / SageAttention |
+| — | [AWQ 和 GPTQ 有什么区别？4-bit 权重量化怎么选](/notes/awq和gptq有什么区别-4bit权重量化怎么选/) | 把 05、06 两章并起来看的选型对比篇，并辨析 GPTQ/AWQ 与 GGUF 处于不同维度 | 本文 |
 
 ## 2. 两条学习主线
 

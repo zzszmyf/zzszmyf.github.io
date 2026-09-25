@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 04 量化粒度、校准与离群值"
+title: "量化粒度怎么选？为什么离群值会让 INT8 精度崩掉"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "per-tensor、per-channel、per-group 的有效位宽和存储开销差多少？校准集怎么选、统计量用 min/max 还是分位数？本文用 LLM.int8() 的离群值统计说明 INT8 什么情况下会崩，并给出粒度、校准、outlier 的决策表。"
 weight: 14
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[FP16、BF16、FP8、FP4 有什么区别](/notes/llm量化精读笔记-03-数值格式与硬件/)｜下一篇：[RTN 和 GPTQ 有什么区别](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/)
 
 > 对应：Inference Engineering Ch5 的 "Granularity matters" 部分；LLM.int8() 的 outlier 分析；MIT 6.5940 Lecture 5 的逐层/逐通道量化内容。
 > 学完本章你应该能：① 解释 per-tensor / per-channel / per-group 的差别，并手算各自的有效位宽与存储开销；② 说出校准是什么、校准集怎么选、常见统计量（min/max、分位数、熵、MSE）的取舍；③ 复述 LLM.int8() 的 outlier 统计结论（6.0、25%、6%、6.7B、0.1%、75%）并解释为什么 outlier 致命；④ 把"粒度 × 校准 × outlier"三条线串成一张决策表。
@@ -365,4 +367,4 @@ min/max 会被 outlier 撑大（SQNR 低）；P99.99 忽略最极端 0.01%，正
 2. [SmoothQuant（arXiv:2211.10438）](https://arxiv.org/abs/2211.10438)：激活分布统计（$\pm 60 / 1000+$）与$\alpha$迁移
 3. [AWQ（arXiv:2306.00978）](https://arxiv.org/abs/2306.00978)：$s = \max|X|^\alpha$ 通道缩放与校准集设计
 4. [GPTQ（arXiv:2210.17323）](https://arxiv.org/abs/2210.17323)：128 条 × 2048 token 校准集的标准用法
-5. 上一篇：[03 数值格式与硬件](/notes/LLM量化精读笔记-03-数值格式与硬件/)；下一篇：**[05 权重量化 I：RTN 与 GPTQ]**——把"选 scale"升级成"量化后全局补偿误差"。
+5. 上一篇：[03 数值格式与硬件](/notes/llm量化精读笔记-03-数值格式与硬件/)；下一篇：**[05 权重量化 I：RTN 与 GPTQ]**——把"选 scale"升级成"量化后全局补偿误差"。

@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 02 FlashAttention：IO 感知的精确注意力"
+title: "FlashAttention 原理是什么？为什么又省显存又快"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "朴素注意力快不起来的真正瓶颈是 HBM 读写而不是 FLOPs。本文讲清 FlashAttention 的三个核心技巧——tiling、online softmax、recompute，手算验证增量式 softmax 与整体一致，给出 IO 复杂度定理，并对比 FA1/FA2/FA3 的对 GPU 架构要求与实测数据。"
 weight: 52
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力计算复杂度是怎么来的](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)｜下一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)
 
 > 对应：Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*（arXiv:2205.14135，NeurIPS 2022）；Dao, *FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning*（arXiv:2307.08691，ICLR 2024）；Shah et al., *FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision*（arXiv:2407.08608，2024）。
 > 前置：01 章（注意力复杂度、prefill/decode 形态、max-subtraction）。学完本章你应该能：① 说清朴素注意力"快不起来"的真正瓶颈是 HBM 读写而不是 FLOPs；② 写出 FlashAttention 的三个核心技巧（tiling、online softmax、recompute）及各自解决的问题；③ 推导 online softmax 的增量更新公式并手算验证与整体 softmax 一致；④ 复述 IO 复杂度定理（$O(N^2d^2/M)$ vs $\Omega(Nd+N^2)$）与最优性结论；⑤ 对比 FA1/FA2/FA3 的改进路线与实测数据；⑥ 解释"重计算多花 FLOPs 反而更快"和"FlashAttention 是精确算法"这两个关键论断。
@@ -406,4 +408,4 @@ FA1：提出 IO 感知框架（tiling + online softmax + recompute），把 HBM 
 2. [FlashAttention-2（arXiv:2307.08691）](https://arxiv.org/abs/2307.08691)：并行与工作划分的细节。
 3. [FlashAttention-3（arXiv:2407.08608）](https://arxiv.org/abs/2407.08608)：Hopper 异步、FP8 注意力。
 4. [FlashDecoding（Dao et al., 2023）](https://crfm.stanford.edu/2023/10/12/flashdecoding.html)：decode 侧的并行化（12.1 节的展开）。
-5. 上一篇：[01 注意力机制基础与复杂度分析](/notes/LLM注意力内核精读笔记-01-注意力机制基础与复杂度分析/)；下一篇：**03 注意力头变体：MQA / GQA / MLA**——把 KV cache 的显存账本从 $d$ 砍到 $d_{\text{kv}}$。
+5. 上一篇：[01 注意力机制基础与复杂度分析](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)；下一篇：**03 注意力头变体：MQA / GQA / MLA**——把 KV cache 的显存账本从 $d$ 砍到 $d_{\text{kv}}$。

@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 01 注意力机制基础与复杂度分析"
+title: "注意力计算复杂度是怎么来的？prefill 和 decode 差在哪"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "推导缩放点积注意力的 FLOPs 公式 4L²d 并说明为什么它与头数无关，用 L/(2d) 判据判断多长的上下文注意力会反超 FFN，推导 KV cache 显存公式并手算 7B 模型 128K 上下文的占用，区分计算密集的 prefill 与访存密集的 decode。"
 weight: 51
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜下一篇：[FlashAttention 原理是什么](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)
 
 > 对应：Vaswani et al., *Attention Is All You Need*（2017）；Inference Engineering Ch5 的 Attention 部分。
 > 前置：量化系列 03 章（带宽模型）、推测解码系列 01 章（解码过程）。学完本章你应该能：① 写出缩放点积注意力的完整定义并解释 $\sqrt{d_{\text{head}}}$ 的作用；② 推导注意力的 FLOPs 公式 $4L^2 d$，并说明为什么与头数无关；③ 用 $L/(2d)$ 判据判断"长到什么程度注意力反超 FFN"；④ 推导 KV cache 的大小公式，手算 7B 模型 128K 上下文的显存；⑤ 说清 prefill 与 decode 两种注意力形态（计算密集 vs 访存密集）；⑥ 解释 softmax 为什么要做 max-subtraction，以及低精度下的风险。
@@ -348,6 +350,6 @@ decode 每步只产出 1 个 token，但必须搬全部权重（固定 13GB）�
 
 1. [Attention Is All You Need（arXiv:1706.03762）](https://arxiv.org/abs/1706.03762)：本章公式出处（缩放点积注意力、多头、因果掩码）。
 2. [FlashAttention（arXiv:2205.14135）](https://arxiv.org/abs/2205.14135)：下一篇的主角——为什么 $O(L^2)$ 的中间矩阵可以不落显存。
-3. [量化系列 03 章（数值格式与硬件）](/notes/LLM量化精读笔记-03-数值格式与硬件/)：带宽模型与本系列 decode 分析互相印证。
+3. [量化系列 03 章（数值格式与硬件）](/notes/llm量化精读笔记-03-数值格式与硬件/)：带宽模型与本系列 decode 分析互相印证。
 4. [Inference Engineering Ch5](https://inferenceengineering.tech/chapters/techniques/)：教材正文（Attention 与系统部分）。
 5. 下一篇：**02 FlashAttention：IO 感知的精确注意力**——把 max-subtraction 变成 online softmax，把 $L^2$ 矩阵留在片上。

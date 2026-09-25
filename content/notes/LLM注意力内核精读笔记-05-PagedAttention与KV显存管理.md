@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 05 PagedAttention 与 KV 显存管理"
+title: "PagedAttention 是怎么省下 KV Cache 显存的？"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "vLLM 论文实测显示，不做管理的 KV 显存有效利用率只有 20.4%–38.2%，浪费来自预留、内部碎片与外部碎片。本文讲清 PagedAttention 的逻辑块到物理块映射与 block table，辨析它与 FlashAttention 的关系，并解释 copy-on-write 如何让并行采样共享 KV。"
 weight: 55
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)｜下一篇：[注意力内核怎么优化](/notes/llm注意力内核精读笔记-06-内核优化与算子融合/)
 
 > 对应：Kwon et al., *Efficient Memory Management for Large Language Model Serving with PagedAttention*（arXiv:2309.06180，SOSP 2023），vLLM 论文。
 > 前置：01 章（KV cache 大小公式）、02 章（FlashAttention 的分块）、03 章（$d_{\text{kv}}$ 压缩）。学完本章你应该能：① 说出 KV 显存管理的三种浪费（预留、内部碎片、外部碎片）与论文实测的有效利用率（20.4%–38.2%）；② 解释 PagedAttention 的"逻辑块→物理块"分页思想与 block table；③ 说明 PagedAttention 与 FlashAttention 的关系与区别；④ 解释 copy-on-write 如何让并行采样/beam search 共享 KV；⑤ 手算 KV 每 token 字节数与分块账本。
@@ -286,4 +288,4 @@ MLA：每 token 存更少（维度）；H2O/StreamingLLM：存更少的 token（
 1. [Efficient Memory Management for LLM Serving with PagedAttention（arXiv:2309.06180）](https://arxiv.org/abs/2309.06180)：本章全部内容的出处（§3 浪费分析、§4 算法、§6 共享、§7 块大小）。
 2. [vLLM 文档](https://docs.vllm.ai/)：PagedAttention 的生产实现、前缀缓存、并行采样。
 3. [RadixAttention / SGLang（arXiv:2312.07104）](https://arxiv.org/abs/2312.07104)：前缀缓存的树形管理，PagedAttention 思想的延伸。
-4. 上一篇：[04 稀疏、滑动窗口与线性注意力](/notes/LLM注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)；下一篇：**06 内核优化与算子融合**——从算法回到硬件：FLOPs/带宽模型、算子融合、Tensor Core、FP8 注意力与编译优化。
+4. 上一篇：[04 稀疏、滑动窗口与线性注意力](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)；下一篇：**06 内核优化与算子融合**——从算法回到硬件：FLOPs/带宽模型、算子融合、Tensor Core、FP8 注意力与编译优化。

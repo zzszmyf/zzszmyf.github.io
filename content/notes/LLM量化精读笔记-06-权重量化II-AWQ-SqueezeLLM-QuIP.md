@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 06 权重量化 II：AWQ、SqueezeLLM、QuIP#"
+title: "AWQ 量化原理是什么？和 GPTQ、SqueezeLLM 怎么选"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "AWQ 的核心观察是只有约 1% 的权重显著，而且要看激活幅度而不是权重幅度，再通过逐通道缩放把误差压下去。本文推导缩放减误差公式，对比 AWQ、GPTQ、SqueezeLLM、QuIP# 的无重建与二阶补偿取舍。"
 weight: 16
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[RTN 和 GPTQ 有什么区别](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/)｜下一篇：[激活量化为什么比权重量化难](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/)
 
 > 对应：AWQ（arXiv:2306.00978，MLSys 2024 Best Paper）；SqueezeLLM（arXiv:2306.07629，ICML 2024）；QuIP#（arXiv:2402.04396，ICML 2024）；MIT 6.5940 Lecture 5。
 > 学完本章你应该能：① 复述 AWQ 的核心观察（1% 显著权重、按激活幅度而非权重幅度识别）并推导"缩放减误差"的公式；② 说清 AWQ 与 GPTQ 的取舍（无重建 vs 二阶补偿）；③ 讲出 SqueezeLLM 的两板斧（敏感度非均匀量化 + 稠密/稀疏分解）；④ 讲出 QuIP# 为什么能到 2-bit（Hadamard 非相干 + E8 格码本）。
@@ -131,6 +133,8 @@ OPT-13B, INT3-g128, WikiText-2 PPL（FP16 基线 10.13）：
 | 核心风险 | 分布外退化 | 只保护"幅度"大的通道，忽略相关性 |
 
 ---
+
+> 想直接看"我该选哪个"的判据、以及 GPTQ/AWQ 与 GGUF 的区别，见 [AWQ 和 GPTQ 有什么区别？4-bit 权重量化怎么选](/notes/awq和gptq有什么区别-4bit权重量化怎么选/)。
 
 ## 4. SqueezeLLM：敏感度非均匀量化 + 稠密/稀疏分解
 
@@ -304,4 +308,4 @@ AWQ 按**输入通道**（激活幅度大 = 通道重要），整体缩放该通
 2. [SqueezeLLM（arXiv:2306.07629）](https://arxiv.org/abs/2306.07629)
 3. [QuIP#（arXiv:2402.04396）](https://arxiv.org/abs/2402.04396)；QuIP 原版（NeurIPS 2023）
 4. [AWQ 深度解读（GeneralCompute）](https://www.generalcompute.com/blog/activation-aware-quantization-awq-deep-dive)：公式与实现的对照
-5. 上一篇：[05 权重量化 I：RTN 与 GPTQ](/notes/LLM量化精读笔记-05-权重量化I-RTN与GPTQ/)；下一篇：**[07 激活量化：LLM.int8() 与 SmoothQuant]**——把战场从权重扩展到激活（W8A8）。
+5. 上一篇：[05 权重量化 I：RTN 与 GPTQ](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/)；下一篇：**[07 激活量化：LLM.int8() 与 SmoothQuant]**——把战场从权重扩展到激活（W8A8）。

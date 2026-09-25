@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 03 注意力头变体：MQA / GQA / MLA"
+title: "MQA、GQA、MLA 有什么区别？KV Cache 该怎么省"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "三种注意力头变体本质上都在回答「每 token 缓存什么」。本文给出各自的 KV 元素数公式，讲清 GQA 的 up-training 配方，推导 MLA 的低秩联合压缩并解释 RoPE 与低秩压缩的冲突及 decoupled RoPE 解法，最后手算 70B 与 DeepSeek-V2 的 KV 显存账本。"
 weight: 53
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[FlashAttention 原理是什么](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)｜下一篇：[稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)
 
 > 对应：Shazeer, *Fast Transformer Decoding: One Write-Head is All You Need*（arXiv:1911.02150，2019）；Ainslie et al., *GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints*（arXiv:2305.13245，EMNLP 2023）；DeepSeek-AI, *DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model*（arXiv:2405.04434，2024）。
 > 前置：01 章（KV cache 大小公式 $2Ln_{\text{layers}}d_{\text{kv}}b$）、02 章（prefill/decode 两种形态）。学完本章你应该能：① 写清 MQA/GQA/MLA 三种方案"每 token 缓存什么"的数学定义与 KV 元素数公式；② 解释 GQA 的 up-training 配方（mean-pool + 5% 预训练算力）；③ 推导 MLA 的低秩联合压缩公式，并解释 RoPE 与低秩压缩的冲突及 decoupled RoPE 解法；④ 手算 70B 与 DeepSeek-V2 的 KV 显存账本；⑤ 说出"KV 缓存压缩谱系"的统一视角。
@@ -341,4 +343,4 @@ DeepSeek-V2：60 层、$d_c=512$、$d_h^R=64$、BF16。① 每 token KV 字节�
 2. [GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints（arXiv:2305.13245）](https://arxiv.org/abs/2305.13245)：GQA 定义、up-training 配方、质量/速度实验。
 3. [DeepSeek-V2（arXiv:2405.04434）](https://arxiv.org/abs/2405.04434)：MLA 公式、decoupled RoPE、配置（§2.1.3）与 KV 对照表（Table 1）。
 4. [DeepSeek-V3（arXiv:2412.19437）](https://arxiv.org/abs/2412.19437)：MLA 的后续工程化（不压缩 Q 的变体），了解 MLA 演进。
-5. 上一篇：[02 FlashAttention](/notes/LLM注意力内核精读笔记-02-FlashAttention-IO感知的精确注意力/)；下一篇：**04 稀疏、滑动窗口与线性注意力**——不砍 KV 维度，而是"少看"——把 $O(L^2)$ 的注意力本身变便宜。
+5. 上一篇：[02 FlashAttention](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)；下一篇：**04 稀疏、滑动窗口与线性注意力**——不砍 KV 维度，而是"少看"——把 $O(L^2)$ 的注意力本身变便宜。

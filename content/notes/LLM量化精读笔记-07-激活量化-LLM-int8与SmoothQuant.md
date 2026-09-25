@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 07 激活量化：LLM.int8() 与 SmoothQuant（W8A8）"
+title: "激活量化为什么比权重量化难？LLM.int8() 与 SmoothQuant 原理"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "权重是静态的，激活是动态的还会出现极大的离群值，所以 W8A8 比 weight-only 难得多。本文讲 LLM.int8() 的向量级量化与混合精度分解、SmoothQuant 的等效变换与 s_j 公式推导，以及缩放折叠为什么让 W8A8 零运行时开销。"
 weight: 17
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[AWQ 量化原理是什么](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)｜下一篇：[KV Cache 量化怎么做](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)
 
 > 对应：LLM.int8()（arXiv:2208.07339，NeurIPS 2022）；SmoothQuant（arXiv:2211.10438，ICML 2023）；MIT 6.5940 Lecture 5。
 > 学完本章你应该能：① 说明激活量化比权重量化难在哪（动态、per-tensor、outlier）；② 讲清 LLM.int8() 的 vector-wise 量化与混合精度分解，并复述其 outlier 统计数字；③ 推导 SmoothQuant 的等效变换和$s_{j}$公式，解释$\alpha$的语义；④ 说清"scale 折叠"为什么让 W8A8 零运行时开销。
@@ -292,4 +294,4 @@ per-channel 量化对每个通道独立选 scale（04 章）：通道 j 的 scal
 1. [LLM.int8()（arXiv:2208.07339）](https://arxiv.org/abs/2208.07339)：vector-wise + 混合精度分解
 2. [SmoothQuant（arXiv:2211.10438）](https://arxiv.org/abs/2211.10438)：迁移公式、$\alpha$扫描、scale 折叠
 3. [SmoothQuant 官方代码](https://github.com/mit-han-lab/smoothquant)：INT8 GEMM kernel 与校准实现
-4. 上一篇：[06 权重量化 II](/notes/LLM量化精读笔记-06-权重量化II-AWQ-SqueezeLLM-QuIP/)；下一篇：**[08 KV Cache 量化：KIVI 与误差累积]**——第三个量化对象：把长上下文里的显存大头压下来。
+4. 上一篇：[06 权重量化 II](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)；下一篇：**[08 KV Cache 量化：KIVI 与误差累积]**——第三个量化对象：把长上下文里的显存大头压下来。

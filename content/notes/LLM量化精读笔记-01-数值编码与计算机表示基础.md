@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 01 数值编码与计算机表示基础（信息论 · 整数 · IEEE 754 · 舍入与截断）"
+title: "INT8 和 FP16 有什么区别？量化前的数值编码基础"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "量化的本质是决定一个数用多少 bit、以什么格式表示。本文从信息论、整数补码、IEEE 754 浮点位布局讲到六种舍入模式，解释量化为什么用 round-half-even，以及截断噪声为什么是舍入的 4 倍。"
 weight: 11
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜下一篇：[量化误差是怎么算出来的？均匀量化公式推导](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/)
 
 > 定位：**前置知识章**。量化本质上是在回答"一个数用多少 bit、以什么格式表示"——所以它站在三块地基之上：**信息论**（bit 是什么、能压缩到什么程度）、**编码**（整数/浮点在硬件里怎么编码）、**计算机组成**（为什么位宽直接决定性能）。本章把这三块地基一次性补齐，全部内容都以"服务于后面的量化推导"为取舍标准。
 > 对应：MIT 6.5940 Lecture 5 开头的数据类型总览；Inference Engineering Ch5 的 Number Formats 前情；经典教材 IEEE 754 部分。
@@ -537,4 +539,4 @@ $5 = 0101$。
 2. David Goldberg, *What Every Computer Scientist Should Know About Floating-Point Arithmetic*（浮点必读，网上免费）：IEEE 754 的舍入、epsilon、误差分析
 3. IEEE 754-2019 标准概述（Wikipedia 词条即可）：次正规数、NaN、round-half-even
 4. Mark Horowitz, "Computing's Energy Problem (and what we can do about it)", ISSCC 2014：数据搬运能量的数量级证据
-5. 下一篇：**[02 量化问题的形式化与均匀量化理论](/notes/LLM量化精读笔记-02-量化问题形式化与均匀量化理论/)**——用本章的编码与误差工具，正式建立量化的数学框架。
+5. 下一篇：**[02 量化问题的形式化与均匀量化理论](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/)**——用本章的编码与误差工具，正式建立量化的数学框架。

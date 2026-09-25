@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 05 权重量化 I：RTN 与 GPTQ（含二阶误差补偿推导）"
+title: "RTN 和 GPTQ 有什么区别？权重量化方法怎么选"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "RTN 直接四舍五入，实现最简单但 4-bit 下误差明显；GPTQ 把目标从「最小化逐元素误差」升级为「最小化层输出误差」，用 OBS/OBQ 的二阶补偿逐列校正。本文完整推导补偿公式并手算一个 2×2 例子。"
 weight: 15
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化粒度怎么选](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)｜下一篇：[AWQ 量化原理是什么](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)
 
 > 对应：GPTQ 论文（arXiv:2210.17323，ICLR 2023）；OBQ（Frantar & Alistarh 2022）；OBS（Hassibi et al. 1993）；MIT 6.5940 Lecture 5。
 > 学完本章你应该能：① 说明 RTN 为什么在 4-bit 会翻车；② 从"最小化逐元素误差"升级到"最小化层输出误差"；③ 完整推导 OBS/OBQ 的最优补偿公式$\delta F = -(w_{q} - \hat{w}_q)/[H^{-1}]_{qq} \cdot H^{-1}_{:,q}$；④ 说清 GPTQ 的三个工程化观察（顺序无关、行并行、Cholesky）及其复杂度含义；⑤ 手算一个 2×2 的补偿例子。
@@ -394,4 +396,4 @@ AWQ 观察到"通道重要性 ∝ 激活幅度"，用$s=(\max|X|)^\alpha$的 per
 2. OBQ：*Optimal Brain Compression: A Framework for Accurate Post-Training Quantization and Pruning*（Frantar & Alistarh, NeurIPS 2022）
 3. OBS：Hassibi, Stork & Wolff, *Optimal Brain Surgeon and general network pruning*（1993）：二阶补偿的源头
 4. [GPTQ 官方代码](https://github.com/IST-DASLab/gptq)：块更新与 Cholesky 的工程实现
-5. 上一篇：[04 量化粒度、校准与离群值](/notes/LLM量化精读笔记-04-量化粒度校准与离群值/)；下一篇：**[06 权重量化 II：AWQ、SqueezeLLM、QuIP#]**——三种"不用重建"或"2-bit 更强"的路线。
+5. 上一篇：[04 量化粒度、校准与离群值](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)；下一篇：**[06 权重量化 II：AWQ、SqueezeLLM、QuIP#]**——三种"不用重建"或"2-bit 更强"的路线。

@@ -1,11 +1,13 @@
 ---
-title: "LLM 推测解码精读笔记 · 03 Medusa：多头解码"
+title: "Medusa 是什么？多头解码为什么能加速 LLM 推理"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "Medusa 在模型上挂多个解码头，一次预测多个后续位置，再用树注意力并行验证候选路径。本文写出 head 结构与树掩码规则，用覆盖率模型推导期望接受长度，说明典型验收与拒绝采样的区别，以及树大小为什么存在最优值。"
 weight: 33
 tags: ["LLM推理优化", "推测解码"]
 ---
 
+> 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[投机采样原理是什么](/notes/llm推测解码精读笔记-02-原始推测解码-草稿模型与拒绝采样/)｜下一篇：[EAGLE 推测解码为什么比 Medusa 快](/notes/llm推测解码精读笔记-04-eagle-特征空间草稿/)
 
 > 对应：Cai et al., *Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads*（arXiv:2401.10774，ICML 2024）；官方实现 FasterDecoding/Medusa。
 > 前置：01 章的接受率数学、02 章的验证与拒绝采样。学完本章你应该能：① 说清 Medusa 相对"独立草稿模型"路线的三个优势；② 写出 Medusa head 的结构、候选树构建公式与树注意力掩码规则；③ 用"覆盖率"模型推导树的期望接受长度，并手算数值例；④ 解释典型验收（typical acceptance）与拒绝采样的区别，以及无损性代价在哪里；⑤ 对比 Medusa-1/Medusa-2 的训练配方与论文加速比数据；⑥ 解释为什么树大小存在最优值。
@@ -490,4 +492,4 @@ $T = 4 + 8 = 12$；$T = 4 + 12 + 24 = 40$；$T = 5 + 20 + 60 = 85$。第三个�
 2. [FasterDecoding/Medusa 官方仓库](https://github.com/FasterDecoding/Medusa)：参考实现（单 GPU、batch=1、典型验收默认参数）。
 3. [SpecInfer（arXiv:2305.09781）](https://arxiv.org/abs/2305.09781)：树验证的一般框架（多草稿模型 + 自底向上建树），与 Medusa 的自顶向下建树对照阅读。
 4. [Blockwise Parallel Decoding（arXiv:1808.02647）](https://arxiv.org/abs/1808.02647)：多头并行解码的思想源头。
-5. 上一篇：[02 原始推测解码](/notes/LLM推测解码精读笔记-02-原始推测解码-草稿模型与拒绝采样/)；下一篇：**04 EAGLE：特征空间草稿**——回答"为什么在隐藏状态上做自回归，接受率会大幅提升"。
+5. 上一篇：[02 原始推测解码](/notes/llm推测解码精读笔记-02-原始推测解码-草稿模型与拒绝采样/)；下一篇：**04 EAGLE：特征空间草稿**——回答"为什么在隐藏状态上做自回归，接受率会大幅提升"。

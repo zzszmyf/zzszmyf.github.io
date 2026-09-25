@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 08 KV Cache 量化：KIVI 与误差累积"
+title: "KV Cache 量化怎么做？KIVI 与「量化还是压缩」的区别"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "KV Cache 是长上下文推理的显存大头，而 KV 量化误差会逐 token 累积。本文手算 KV 显存公式，讲 KIVI 的两个核心洞察（Key 按通道量化、Value 按 token 量化）与非对称 2-bit 流式量化实现，并辨析 KV 量化与 KV 压缩的区别。"
 weight: 18
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[激活量化为什么比权重量化难](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/)｜下一篇：[QAT 什么时候才值得做](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/)
 
 > 对应：KIVI（arXiv:2402.02750，ICML 2024）；Inference Engineering Ch5 的敏感性排序（$KV cache =$中等敏感、误差逐 token 累积）；vLLM PagedAttention 背景。
 > 学完本章你应该能：① 手算任意模型的 KV cache 显存公式与实例；② 解释"KV 误差为什么滚雪球"；③ 复述 KIVI 的两个核心洞察（K 按通道、V 按 token）及其理由；④ 说出 KIVI 的实现要点（非对称 2-bit、流式量化、FP16 缓冲）与结果（2-bit 近无损、4x 省显存）。
@@ -262,4 +264,4 @@ per-channel 的 scale 固定$\to$后一半全部落在网格边缘/外，误差�
 1. [KIVI（arXiv:2402.02750）](https://arxiv.org/abs/2402.02750)：本章主文献；[代码](https://github.com/jy-yuan/KIVI)
 2. [PagedAttention（vLLM 论文，arXiv:2309.06180）](https://arxiv.org/abs/2309.06180)：KV 显存管理（正交手段）
 3. [ThinK（ICLR 2025）](https://proceedings.iclr.cc/paper_files/paper/2025/hash/8edb116d5b288b6a9bba4c16ab647702-Abstract-Conference.html)：key 通道剪枝 + KIVI 叠加
-4. 上一篇：[07 激活量化](/notes/LLM量化精读笔记-07-激活量化-LLM-int8与SmoothQuant/)；下一篇：**[09 QAT 与训练内量化：STE、QLoRA、BitNet b1.58]**——从"事后补偿"转向"让模型学会忍受量化"。
+4. 上一篇：[07 激活量化](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/)；下一篇：**[09 QAT 与训练内量化：STE、QLoRA、BitNet b1.58]**——从"事后补偿"转向"让模型学会忍受量化"。

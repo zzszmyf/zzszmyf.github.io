@@ -22,45 +22,45 @@ tags: ["LLM推理优化"]
 
 | 章节 | 内容 |
 |---|---|
-| [00 总览与学习地图](/notes/LLM推测解码精读笔记-00-总览与学习地图/) | 章节结构、符号约定、与量化系列的关系 |
-| [01 问题形式化与接受率数学](/notes/LLM推测解码精读笔记-01-问题形式化与接受率数学/) | 自回归为什么慢、接受率 α、E[N] 推导、墙钟收益模型 |
-| [02 原始推测解码（草稿模型与拒绝采样）](/notes/LLM推测解码精读笔记-02-原始推测解码-草稿模型与拒绝采样/) | 完整算法、无损性定理、最优 K、草稿规模权衡 |
-| [03 Medusa（多头解码）](/notes/LLM推测解码精读笔记-03-Medusa-多头解码/) | 多头并行预测、树注意力、典型验收、Medusa-1/2 |
-| [04 EAGLE（特征空间草稿）](/notes/LLM推测解码精读笔记-04-EAGLE-特征空间草稿/) | 特征级自回归、shifted-token、EAGLE-2 动态树 |
-| [05 n-gram/检索式与无模型路线](/notes/LLM推测解码精读笔记-05-n-gram检索式与无模型路线/) | Prompt Lookup、Lookahead Decoding、REST |
-| [06 系统集成与生产验收](/notes/LLM推测解码精读笔记-06-系统集成与生产验收/) | 量化 × 推测组合模型、TTFT/TPS、验收协议、决策树 |
+| [00 总览与学习地图](/notes/llm推测解码精读笔记-00-总览与学习地图/) | 章节结构、符号约定、与量化系列的关系 |
+| [01 问题形式化与接受率数学](/notes/llm推测解码精读笔记-01-问题形式化与接受率数学/) | 自回归为什么慢、接受率 α、E[N] 推导、墙钟收益模型 |
+| [02 原始推测解码（草稿模型与拒绝采样）](/notes/llm推测解码精读笔记-02-原始推测解码-草稿模型与拒绝采样/) | 完整算法、无损性定理、最优 K、草稿规模权衡 |
+| [03 Medusa（多头解码）](/notes/llm推测解码精读笔记-03-medusa-多头解码/) | 多头并行预测、树注意力、典型验收、Medusa-1/2 |
+| [04 EAGLE（特征空间草稿）](/notes/llm推测解码精读笔记-04-eagle-特征空间草稿/) | 特征级自回归、shifted-token、EAGLE-2 动态树 |
+| [05 n-gram/检索式与无模型路线](/notes/llm推测解码精读笔记-05-n-gram检索式与无模型路线/) | Prompt Lookup、Lookahead Decoding、REST |
+| [06 系统集成与生产验收](/notes/llm推测解码精读笔记-06-系统集成与生产验收/) | 量化 × 推测组合模型、TTFT/TPS、验收协议、决策树 |
 
 ## 量化（00-11）
 
 | 章节 | 内容 |
 |---|---|
-| [速览笔记](/notes/LLM推理优化-Quantization量化学习笔记/) | 概览版，适合快速复习 |
-| [00 总览与学习地图](/notes/LLM量化精读笔记-00-总览与学习地图/) | 章节结构、符号约定、阅读路线、配套资源 |
-| [01 数值编码与计算机表示基础](/notes/LLM量化精读笔记-01-数值编码与计算机表示基础/) | 信息论、整数/定点编码、IEEE 754、舍入与截断、存储层次 |
-| [02 量化问题形式化与均匀量化理论](/notes/LLM量化精读笔记-02-量化问题形式化与均匀量化理论/) | 量化的一般形式、均匀量化数学、误差与 SNR 理论（6 dB/bit 推导） |
-| [03 数值格式与硬件](/notes/LLM量化精读笔记-03-数值格式与硬件/) | FP16/BF16/FP8/FP4/MXFP8/NVFP4、Tensor Core、带宽模型 |
-| [04 量化粒度、校准与离群值](/notes/LLM量化精读笔记-04-量化粒度校准与离群值/) | per-tensor/channel/group、有效位宽、校准设计、outlier 问题 |
-| [05 权重量化 I（RTN 与 GPTQ）](/notes/LLM量化精读笔记-05-权重量化I-RTN与GPTQ/) | OBS/OBQ 二阶误差补偿推导、GPTQ 工程化 |
-| [06 权重量化 II（AWQ、SqueezeLLM、QuIP#）](/notes/LLM量化精读笔记-06-权重量化II-AWQ-SqueezeLLM-QuIP/) | 激活感知缩放、敏感度非均匀量化、Hadamard 非相干 + 格码本 |
-| [07 激活量化（LLM.int8 与 SmoothQuant）](/notes/LLM量化精读笔记-07-激活量化-LLM-int8与SmoothQuant/) | 混合精度分解、迁移公式、W8A8 与 scale 折叠 |
-| [08 KV Cache 量化（KIVI）](/notes/LLM量化精读笔记-08-KV-Cache量化与KIVI/) | KV 显存账本、误差累积、K 按通道 / V 按 token |
-| [09 QAT 与训练内量化](/notes/LLM量化精读笔记-09-QAT与训练内量化-STE-QLoRA-BitNet/) | STE、QLoRA（NF4）、BitNet b1.58 |
-| [10 质量评估方法论](/notes/LLM量化精读笔记-10-质量评估方法论/) | perplexity、智能基准、自定义评测、统计显著性与验收关卡 |
-| [11 系统协同与部署](/notes/LLM量化精读笔记-11-系统协同与部署/) | QServe W4A8KV4、FP8 Attention、引擎选型与部署决策树 |
+| [速览笔记](/notes/llm推理优化-quantization量化学习笔记/) | 概览版，适合快速复习 |
+| [00 总览与学习地图](/notes/llm量化精读笔记-00-总览与学习地图/) | 章节结构、符号约定、阅读路线、配套资源 |
+| [01 数值编码与计算机表示基础](/notes/llm量化精读笔记-01-数值编码与计算机表示基础/) | 信息论、整数/定点编码、IEEE 754、舍入与截断、存储层次 |
+| [02 量化问题形式化与均匀量化理论](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/) | 量化的一般形式、均匀量化数学、误差与 SNR 理论（6 dB/bit 推导） |
+| [03 数值格式与硬件](/notes/llm量化精读笔记-03-数值格式与硬件/) | FP16/BF16/FP8/FP4/MXFP8/NVFP4、Tensor Core、带宽模型 |
+| [04 量化粒度、校准与离群值](/notes/llm量化精读笔记-04-量化粒度校准与离群值/) | per-tensor/channel/group、有效位宽、校准设计、outlier 问题 |
+| [05 权重量化 I（RTN 与 GPTQ）](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/) | OBS/OBQ 二阶误差补偿推导、GPTQ 工程化 |
+| [06 权重量化 II（AWQ、SqueezeLLM、QuIP#）](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/) | 激活感知缩放、敏感度非均匀量化、Hadamard 非相干 + 格码本 |
+| [07 激活量化（LLM.int8 与 SmoothQuant）](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/) | 混合精度分解、迁移公式、W8A8 与 scale 折叠 |
+| [08 KV Cache 量化（KIVI）](/notes/llm量化精读笔记-08-kv-cache量化与kivi/) | KV 显存账本、误差累积、K 按通道 / V 按 token |
+| [09 QAT 与训练内量化](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/) | STE、QLoRA（NF4）、BitNet b1.58 |
+| [10 质量评估方法论](/notes/llm量化精读笔记-10-质量评估方法论/) | perplexity、智能基准、自定义评测、统计显著性与验收关卡 |
+| [11 系统协同与部署](/notes/llm量化精读笔记-11-系统协同与部署/) | QServe W4A8KV4、FP8 Attention、引擎选型与部署决策树 |
 
 ## 注意力与计算内核（00-08）
 
 | 章节 | 内容 | 状态 |
 |---|---|---|
-| [00 总览与学习地图](/notes/LLM注意力内核精读笔记-00-总览与学习地图/) | 章节结构、符号约定、与量化/推测解码系列的关系 | ✅ |
-| [01 注意力机制基础与复杂度分析](/notes/LLM注意力内核精读笔记-01-注意力机制基础与复杂度分析/) | softmax attention 定义、O(L²) 复杂度、KV cache 角色、prefill/decode 形态 | ✅ |
-| [02 FlashAttention（IO 感知的精确注意力）](/notes/LLM注意力内核精读笔记-02-FlashAttention-IO感知的精确注意力/) | IO 复杂度、tiling、online softmax、重计算、FA2/FA3 | ✅ |
-| [03 注意力头变体（MQA/GQA/MLA）](/notes/LLM注意力内核精读笔记-03-注意力头变体-MQA-GQA-MLA/) | KV 头共享、低秩压缩、DeepSeek MLA | ✅ |
-| [04 稀疏、滑动窗口与线性注意力](/notes/LLM注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/) | StreamingLLM、滑动窗口、H2O、Mamba | ✅ |
-| [05 PagedAttention 与 KV 显存管理](/notes/LLM注意力内核精读笔记-05-PagedAttention与KV显存管理/) | 分页 KV、vLLM 块管理、与批处理组合 | ✅ |
-| [06 内核优化与算子融合](/notes/LLM注意力内核精读笔记-06-内核优化与算子融合/) | 访存-计算模型、Tensor Core、FP8 注意力、编译优化 | ✅ |
-| [07 系统集成与生产验收](/notes/LLM注意力内核精读笔记-07-系统集成与生产验收/) | 与量化/推测解码组合、注意力精度验收 | ✅ |
-| [08 前缀缓存与 KV 复用](/notes/LLM注意力内核精读笔记-08-前缀缓存与KV复用/) | RadixAttention、radix tree、KV 存储层级、cache-aware routing、disaggregation | ✅ |
+| [00 总览与学习地图](/notes/llm注意力内核精读笔记-00-总览与学习地图/) | 章节结构、符号约定、与量化/推测解码系列的关系 | ✅ |
+| [01 注意力机制基础与复杂度分析](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/) | softmax attention 定义、O(L²) 复杂度、KV cache 角色、prefill/decode 形态 | ✅ |
+| [02 FlashAttention（IO 感知的精确注意力）](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/) | IO 复杂度、tiling、online softmax、重计算、FA2/FA3 | ✅ |
+| [03 注意力头变体（MQA/GQA/MLA）](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/) | KV 头共享、低秩压缩、DeepSeek MLA | ✅ |
+| [04 稀疏、滑动窗口与线性注意力](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/) | StreamingLLM、滑动窗口、H2O、Mamba | ✅ |
+| [05 PagedAttention 与 KV 显存管理](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/) | 分页 KV、vLLM 块管理、与批处理组合 | ✅ |
+| [06 内核优化与算子融合](/notes/llm注意力内核精读笔记-06-内核优化与算子融合/) | 访存-计算模型、Tensor Core、FP8 注意力、编译优化 | ✅ |
+| [07 系统集成与生产验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/) | 与量化/推测解码组合、注意力精度验收 | ✅ |
+| [08 前缀缓存与 KV 复用](/notes/llm注意力内核精读笔记-08-前缀缓存与kv复用/) | RadixAttention、radix tree、KV 存储层级、cache-aware routing、disaggregation | ✅ |
 
 ## 阅读顺序
 

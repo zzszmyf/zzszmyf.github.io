@@ -1,11 +1,13 @@
 ---
-title: "LLM 推测解码精读笔记 · 02 原始推测解码：草稿模型与拒绝采样"
+title: "投机采样原理是什么？草稿模型与拒绝采样怎么配合"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "完整写出投机采样算法：小模型草稿 K 个 token，大模型一次前向并行验证，再用拒绝采样做修正。本文证明无损性定理（输出分布严格等于目标分布，且与草稿质量无关），推导最优草稿长度 K*，并列出工程实现里最容易破坏无损性的几个坑。"
 weight: 32
 tags: ["LLM推理优化", "推测解码"]
 ---
 
+> 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[投机采样为什么是无损的](/notes/llm推测解码精读笔记-01-问题形式化与接受率数学/)｜下一篇：[Medusa 是什么](/notes/llm推测解码精读笔记-03-medusa-多头解码/)
 
 > 对应：Leviathan et al., *Fast Inference from Transformers via Speculative Decoding*（arXiv:2211.17192，2023）；Chen et al., *Accelerating LLM Inference with Staged Speculative Decoding*（arXiv:2302.01318，2023）。
 > 前置：01 章的接受率数学（$\alpha$、$E[N]$、$c$）。学完本章你应该能：① 写出推测解码的完整算法（草稿 + 并行验证 + 拒绝采样修正）；② 完整证明**无损性定理**（输出分布严格等于目标分布，且与草稿质量无关）；③ 推导最优草稿长度 $K^*$ 的驻点方程并解释其单调性；④ 手算一个完整轮次的逐步追踪；⑤ 说清贪心解码下接受规则如何退化为"argmax 相等"；⑥ 列出工程实现里最容易破坏无损性的几个坑。
@@ -522,4 +524,4 @@ $\frac{d}{dK}\ln f = -\frac{\alpha^{K+1}\ln\alpha}{1-\alpha^{K+1}} - \frac{1}{c+
 2. [Accelerating LLM Inference with Staged Speculative Decoding（arXiv:2302.01318）](https://arxiv.org/abs/2302.01318)：分阶段草稿变体，与本章算法对照阅读。
 3. [Blockwise Parallel Decoding for Deep Autoregressive Models（Stern et al., arXiv:1808.02647）](https://arxiv.org/abs/1808.02647)：推测解码的思想前身（并行预测多个 token）。
 4. [SpecInfer（arXiv:2305.09781）](https://arxiv.org/abs/2305.09781)：多草稿 + 树验证，03 章树注意力的前身。
-5. 上一篇：[01 问题形式化与接受率数学](/notes/LLM推测解码精读笔记-01-问题形式化与接受率数学/)；下一篇：**03 Medusa：多头解码**——不引入独立草稿模型，让目标模型自己长出"草稿头"。
+5. 上一篇：[01 问题形式化与接受率数学](/notes/llm推测解码精读笔记-01-问题形式化与接受率数学/)；下一篇：**03 Medusa：多头解码**——不引入独立草稿模型，让目标模型自己长出"草稿头"。

@@ -46,7 +46,7 @@ description: "LLM 推理优化与 AI Agent 基础设施 | SGLang Contributor"
 - [vLLM GPU 利用率持续 100% 排查记：一个 max_tokens 参数引发的性能陷阱](/notes/vllm-gpu-100-percent-max-tokens-trap/)
 - [MoE 通信：NVLink 与 DeepEP 的工程细节](/notes/moe-nvlink-deepseek-deepep-communication/)
 - [Online Softmax 的信息几何](/notes/online-softmax-information-geometry/)
-- [五一假期从零写企业 LLM Wiki](/notes/五一假期从零写企业LLM-WiKi/)
+- [五一假期从零写企业 LLM Wiki](/notes/五一假期从零写企业llm-wiki/)
 
 ## 联系
 

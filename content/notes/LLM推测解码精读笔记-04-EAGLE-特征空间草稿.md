@@ -1,11 +1,13 @@
 ---
-title: "LLM 推测解码精读笔记 · 04 EAGLE：特征空间草稿"
+title: "EAGLE 推测解码为什么比 Medusa 快？（含 EAGLE-2 动态草稿树）"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "Medusa 在 token 层做自回归，每次采样都会引入新的歧义；EAGLE 把草稿搬到特征层，用 shifted-token 输入消除分支歧义，因此接受率更高。本文给出草稿模型结构与训练损失，证明每轮首个草稿 token 接受概率恒为 1，并讲清 EAGLE-2 的动态草稿树。"
 weight: 34
 tags: ["LLM推理优化", "推测解码"]
 ---
 
+> 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[Medusa 是什么](/notes/llm推测解码精读笔记-03-medusa-多头解码/)｜下一篇：[不用草稿模型的加速方案](/notes/llm推测解码精读笔记-05-n-gram检索式与无模型路线/)
 
 > 对应：Li et al., *EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty*（arXiv:2401.15077，2024）；Li et al., *EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees*（arXiv:2406.16858，2024）。
 > 前置：01–03 章（接受率数学、拒绝采样、树验证）。学完本章你应该能：① 说清"token 层自回归"与"特征层自回归"各自的不确定性来源；② 解释 EAGLE 的 shifted-token 输入为什么能消除特征分支歧义；③ 证明 EAGLE 每轮第一个草稿 token 的接受概率恒为 1；④ 写出 EAGLE 草稿模型的结构、训练损失与推理循环；⑤ 解释为什么特征误差小 ⟹ 接受率高（共享 LM head 的光滑性）；⑥ 描述 EAGLE-2 动态树的扩展/重排算法及其理论基础。
@@ -463,4 +465,4 @@ $\mathrm{value}(t_i) = \prod_{t_j \in \mathrm{Path}(\mathrm{root},t_i)} c_j$。�
 2. [EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees（arXiv:2406.16858）](https://arxiv.org/abs/2406.16858)：动态树（扩展/重排、置信度校准）出处。
 3. [SpecInfer（arXiv:2305.09781）](https://arxiv.org/abs/2305.09781)：EAGLE 树验证所用的递归拒绝采样框架。
 4. [NVIDIA 技术博客：An Introduction to Speculative Decoding](https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/)：工程视角的对照阅读。
-5. 上一篇：[03 Medusa：多头解码](/notes/LLM推测解码精读笔记-03-Medusa-多头解码/)；下一篇：**05 n-gram / 检索式与无模型路线**——Lookahead Decoding、REST、Prompt Lookup，回答"不训练任何东西能不能猜"。
+5. 上一篇：[03 Medusa：多头解码](/notes/llm推测解码精读笔记-03-medusa-多头解码/)；下一篇：**05 n-gram / 检索式与无模型路线**——Lookahead Decoding、REST、Prompt Lookup，回答"不训练任何东西能不能猜"。

@@ -1,11 +1,13 @@
 ---
-title: "LLM 推测解码精读笔记 · 05 n-gram / 检索式与无模型路线"
+title: "n-gram 投机采样怎么做？不用草稿模型的加速方案"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "Prompt Lookup、Lookahead Decoding、REST 都不训练草稿模型，而是从 n-gram 或检索库里取候选，再交给目标模型并行验证。本文比较三种「记忆来源」的差异，解释 Lookahead 为什么能把 Jacobi 迭代救活，以及这类方法在什么任务上才真的赢。"
 weight: 35
 tags: ["LLM推理优化", "推测解码"]
 ---
 
+> 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[EAGLE 推测解码为什么比 Medusa 快](/notes/llm推测解码精读笔记-04-eagle-特征空间草稿/)｜下一篇：[推测解码上线怎么验收](/notes/llm推测解码精读笔记-06-系统集成与生产验收/)
 
 > 对应：Fu et al., *Breaking the Sequential Dependency of LLM Inference Using Lookahead Decoding*（arXiv:2307.09991 / 2402.02057，ICML 2024）；He et al., *REST: Retrieval-Based Speculative Decoding*（arXiv:2311.08252，2023）；Saxena, *Prompt Lookup Decoding*（vLLM / TensorRT-LLM 的 `[ngram]` 模式）。
 > 前置：01–04 章。学完本章你应该能：① 说出无模型路线的统一公式"n-gram 记忆 + 目标并行验证"；② 比较 Prompt Lookup、Lookahead Decoding、REST 三种"记忆来源"的差异；③ 把自回归解码写成非线性方程组，解释 Jacobi 迭代为什么本身不加速、Lookahead 又怎么救活它；④ 写出 REST 的 datastore → 检索 → Trie 建草稿 → 树验证流程；⑤ 用命中率模型解释为什么这些方法在"重复性强"的任务上赢、在自由生成上输；⑥ 说清它们为什么都是无损的。
@@ -470,4 +472,4 @@ A：$1 + 0.9 + 0.72 + 0.504 = 3.124$，净加速 $3.124/1.1 = 2.84\text{x}$。B�
 2. [REST: Retrieval-Based Speculative Decoding（arXiv:2311.08252）](https://arxiv.org/abs/2311.08252)：datastore、后缀数组检索、Trie 建草稿、实验。
 3. [Prompt Lookup Decoding（Saxena, GitHub）](https://github.com/apoorvumang/prompt-lookup-decoding)：PLD 的规范实现；vLLM 的 `[ngram]` 模式与 TensorRT-LLM NGram 模式文档。
 4. [LLMA: Let Language Models be Maracas Again（Yang et al., arXiv:2309.14455）](https://arxiv.org/abs/2309.14455)：从 RAG 提供的参考上下文检索草稿的早期工作，REST 论文与之对比。
-5. 上一篇：[04 EAGLE：特征空间草稿](/notes/LLM推测解码精读笔记-04-EAGLE-特征空间草稿/)；下一篇：**06 系统集成与生产验收**——把量化、推测解码、KV 缓存、批处理组合成一份部署方案，并给出验收协议。
+5. 上一篇：[04 EAGLE：特征空间草稿](/notes/llm推测解码精读笔记-04-eagle-特征空间草稿/)；下一篇：**06 系统集成与生产验收**——把量化、推测解码、KV 缓存、批处理组合成一份部署方案，并给出验收协议。

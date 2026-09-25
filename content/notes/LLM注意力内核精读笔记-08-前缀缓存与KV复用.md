@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 08 前缀缓存与 KV 复用"
+title: "SGLang RadixAttention 原理是什么？前缀缓存怎么提升命中率"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "前缀缓存把「相同前缀、KV 用一次就扔」的浪费消掉。本文推导命中率 h 到 prefill 计算节省的收益模型，讲清 RadixAttention 的 radix tree、LRU leaves-first 驱逐与引用计数，排列 GPU→CPU→分布式→磁盘的 KV 存储层级，并解释 cache-aware routing 与 PD 分离。"
 weight: 58
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力优化上线怎么验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)
 
 > 对应：Baseten *Inference Engineering* Ch5（Techniques）的 Caching 与 Disaggregation 部分；Zheng et al., *SGLang: Efficient Execution of Structured Language Model Programs*（arXiv:2312.07104）；衔接 05 章（PagedAttention/vLLM）与量化系列 08 章（KV 量化）。
 > 前置：01 章（KV cache 账本、prefill/decode 形态）、05 章（分页与共享）。学完本章你应该能：① 说出前缀缓存的三个杀手场景与它消除的浪费；② 推导"命中率 $h$ → prefill 计算省 $h$ 比例"的收益模型；③ 复述 RadixAttention 的 radix tree、LRU leaves-first 驱逐与引用计数机制；④ 排列 KV 存储层级并给出各自适用场景；⑤ 解释 cache-aware routing 与 disaggregation 中 KV 的角色；⑥ 手算命中率对 TTFT、KV 传输对延迟的影响。
@@ -539,6 +541,6 @@ KV = 320 KB × 8192 = 2.7 GB；200 Gbps 下 2.7 GB / 25 GB/s ≈ **107 ms**。KV
 4. [HydraGen（arXiv:2402.05099）](https://arxiv.org/abs/2402.05099)：从 kernel 侧加速共享前缀的批量注意力。
 5. [Prompt Cache（arXiv:2311.04934）](https://arxiv.org/abs/2311.04934)：模块化注意力复用，但可能造成精度下降——注意与"精确复用前缀"的区别。
 6. [FlexGen（arXiv:2303.06865）](https://arxiv.org/abs/2303.06865)：KV/权重跨存储层级 offload，本章第 6 节的理论背景。
-7. [量化系列 08 章（KIVI）](/notes/LLM量化精读笔记-08-KV-Cache量化与KIVI/)：KV8/KV4 量化，disaggregation 传输瓶颈的解法。
+7. [量化系列 08 章（KIVI）](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)：KV8/KV4 量化，disaggregation 传输瓶颈的解法。
 8. [NVIDIA Dynamo 文档](https://developer.nvidia.com/dynamo)：动态 disaggregation 与 KV-cache-aware 路由的工业实现。
-9. 上一篇：[07 系统集成与生产验收](/notes/LLM注意力内核精读笔记-07-系统集成与生产验收/)——本系列 00–08 的组合框架与验收协议。
+9. 上一篇：[07 系统集成与生产验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)——本系列 00–08 的组合框架与验收协议。

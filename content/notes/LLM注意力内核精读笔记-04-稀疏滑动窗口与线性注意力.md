@@ -1,11 +1,13 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 04 稀疏、滑动窗口与线性注意力"
+title: "稀疏注意力、滑动窗口和线性注意力怎么选"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "对抗 L² 复杂度有三条路线：少看位置、少存 KV、换计算范式。本文讲滑动窗口注意力的局部性假设与 StreamingLLM 的 attention sink 修复，推导线性注意力的结合律与 Performer 的核近似，辨析 Mamba 的选择性 SSM 与线性注意力的本质区别，并给出场景选择表。"
 weight: 54
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
+> 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)｜下一篇：[PagedAttention 是怎么省下 KV Cache 显存的](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)
 
 > 对应：Xiao et al., *Efficient Streaming Language Models with Attention Sinks*（StreamingLLM，arXiv:2309.17453，2023）；Zhang et al., *H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models*（arXiv:2306.14048，NeurIPS 2023）；Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*（arXiv:2006.16236，ICML 2020）；Choromanski et al., *Rethinking Attention with Performers*（arXiv:2009.14794，ICLR 2021）；Gu & Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*（arXiv:2312.00752，2023）；Mistral AI, *Mistral 7B*（arXiv:2310.06825，2023）。
 > 前置：01 章（$O(L^2)$ 复杂度）、02 章（FlashAttention 的精确路线）。学完本章你应该能：① 说出对抗 $L^2$ 的三条路线（少看位置/少存 KV/换计算范式）与代表方法；② 解释滑动窗口注意力的局部性假设与 StreamingLLM 的 attention sink 修复；③ 写出线性注意力的结合律推导（$O(L d^2)$）与 Performers 的核近似思路；④ 说清 Mamba 的选择性 SSM 与线性注意力的本质区别；⑤ 用复杂度表格判断"什么场景该上哪条路线"。
@@ -369,4 +371,4 @@ softmax 把注意力质量归一化到 1；当窗口内没有"稳定的高分 to
 3. [Transformers are RNNs: Linear Attention（arXiv:2006.16236）](https://arxiv.org/abs/2006.16236)：线性注意力与循环等价形式。
 4. [Rethinking Attention with Performers（arXiv:2009.14794）](https://arxiv.org/abs/2009.14794)：随机特征近似 softmax。
 5. [Mamba（arXiv:2312.00752）](https://arxiv.org/abs/2312.00752)：选择性 SSM 与硬件感知算法。
-6. 上一篇：[03 注意力头变体：MQA/GQA/MLA](/notes/LLM注意力内核精读笔记-03-注意力头变体-MQA-GQA-MLA/)；下一篇：**05 PagedAttention 与 KV 显存管理**——不砍 KV 内容，而是把 KV 从"连续大块内存"变成"分页小片"，让显存利用率接近 100%。
+6. 上一篇：[03 注意力头变体：MQA/GQA/MLA](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)；下一篇：**05 PagedAttention 与 KV 显存管理**——不砍 KV 内容，而是把 KV 从"连续大块内存"变成"分页小片"，让显存利用率接近 100%。

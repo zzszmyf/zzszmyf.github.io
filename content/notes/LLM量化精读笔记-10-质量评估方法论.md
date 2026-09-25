@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 10 质量评估方法论：perplexity、基准与自定义评测"
+title: "量化后精度掉了怎么定位？perplexity 与评测怎么用"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "只跑一个 perplexity 数字不足以判断量化能不能上线。本文给出「困惑度 → 智能基准 → 自定义评测」的三层验收协议，解释「与噪声不可区分」如何操作化成多次运行与配对比较，并列出量化评测最容易踩的坑。"
 weight: 20
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[QAT 什么时候才值得做](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/)｜下一篇：[量化模型怎么部署到 vLLM](/notes/llm量化精读笔记-11-系统协同与部署/)
 
 > 对应：Inference Engineering Ch5 的 "Measuring Quality Impact"；SWE-bench（arXiv:2310.06770）；MMLU；GPTQ/AWQ/KIVI 论文的评测协议。
 > 学完本章你应该能：① 写出 perplexity 的定义并解释它的优缺点；② 设计一套"三层评测"（$PPL \to$智能基准$\to$自定义评测）的验收协议；③ 理解"与噪声不可区分"的操作化含义（多次运行、配对比较、置信区间）；④ 列出量化评测的常见陷阱。
@@ -245,4 +247,4 @@ Gate 1：长序列 PPL（WikiText-2 用 2048/8192 长度）；Gate 2：长上下
 2. [SWE-bench（arXiv:2310.06770）](https://arxiv.org/abs/2310.06770)：真实 GitHub issue 端到端评测
 3. [MMLU（GitHub）](https://github.com/hendrycks/test)：57 学科知识基准
 4. [RULER](https://arxiv.org/abs/2404.06654)：长上下文基准（KV 量化必测）
-5. 上一篇：[09 QAT 与训练内量化](/notes/LLM量化精读笔记-09-QAT与训练内量化-STE-QLoRA-BitNet/)；下一篇：**[11 系统协同与部署]**——把量化装进真正的推理引擎。
+5. 上一篇：[09 QAT 与训练内量化](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/)；下一篇：**[11 系统协同与部署]**——把量化装进真正的推理引擎。

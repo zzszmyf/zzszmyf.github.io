@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 03 数值格式：FP16 / BF16 / FP8 / FP4 / MXFP8 / NVFP4 与硬件"
+title: "FP16、BF16、FP8、FP4 有什么区别？该选哪种数值格式"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "从位布局推导 FP16/BF16/FP8（E4M3、E5M2）/FP4/MXFP8/NVFP4 的动态范围与精度，说明 E4M3 和 E5M2 各自适合什么场景、块缩放到底解决了什么问题，并用带宽模型手算 70B 模型 decode 每 token 的最少耗时。"
 weight: 13
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化误差是怎么算出来的](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/)｜下一篇：[量化粒度怎么选](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)
 
 > 对应：Inference Engineering Ch5 的 Number Formats 部分；NVIDIA/Arm/Intel《FP8 Formats for Deep Learning》白皮书；OCP Microscaling Formats (MX) 规范；MIT 6.5940 Lecture 5 的数据类型总览。
 > 学完本章你应该能：① 从位布局推导任意浮点格式的最大值、最小正常值、machine epsilon；② 解释 E4M3 与 E5M2 的区别及各自适用场景；③ 说明 MXFP8/NVFP4 的"块缩放"到底解决了什么问题；④ 用带宽模型手算"70B 模型 decode 每 token 至少多少毫秒"；⑤ 论证"FP8/MXFP8 是生产甜点"。
@@ -406,4 +408,4 @@ $bias=7$。$\min normal = 2^{1-7} = 2^{-6}$。max（E4M3FN，$e=15$，$m=110$）
 2. [OCP Microscaling Formats (MX) Specification](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)：MXFP8/MXFP4 的正式规范
 3. [Introducing NVFP4 for Efficient and Accurate Low-Precision Inference（NVIDIA 官方博客）](https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/)：NVFP4 块 16 + E4M3 缩放的动机
 4. [Inference Engineering Ch5](https://inferenceengineering.tech/chapters/techniques/)：格式总览表与"FP8 甜点"结论
-5. 上一篇：[02 量化问题的形式化与均匀量化理论](/notes/LLM量化精读笔记-02-量化问题形式化与均匀量化理论/)；下一篇：**[04 量化粒度、校准与离群值](/notes/LLM量化精读笔记-04-量化粒度校准与离群值/)**——把"格式选好了"变成"每个张量的 scale 怎么选、outlier 怎么对付"。
+5. 上一篇：[02 量化问题的形式化与均匀量化理论](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/)；下一篇：**[04 量化粒度、校准与离群值](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)**——把"格式选好了"变成"每个张量的 scale 怎么选、outlier 怎么对付"。

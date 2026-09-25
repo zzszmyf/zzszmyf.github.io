@@ -1,13 +1,14 @@
 ---
-title: "LLM 注意力与计算内核精读笔记 · 00 总览与学习地图"
+title: "LLM 注意力与计算内核：8 篇精读笔记总览"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "继量化与推测解码之后的第三部推理优化精读，进入单步前向内部：注意力复杂度、FlashAttention、MQA/GQA/MLA、稀疏与线性注意力、PagedAttention、算子融合、生产验收与 RadixAttention 前缀缓存。"
 weight: 50
 tags: ["LLM推理优化", "注意力内核"]
 ---
 
 
-> 系列定位：继 [量化精读笔记](/notes/LLM量化精读笔记-00-总览与学习地图/)（每一步的数值/带宽）与 [推测解码精读笔记](/notes/LLM推测解码精读笔记-00-总览与学习地图/)（需要的步数）之后的第三部 **MIT lecture note 级别**推理优化精读。本系列进入"单步前向内部"：**注意力机制与底层计算内核**。
+> 系列定位：继 [量化精读笔记](/notes/llm量化精读笔记-00-总览与学习地图/)（每一步的数值/带宽）与 [推测解码精读笔记](/notes/llm推测解码精读笔记-00-总览与学习地图/)（需要的步数）之后的第三部 **MIT lecture note 级别**推理优化精读。本系列进入"单步前向内部"：**注意力机制与底层计算内核**。
 > 格式与之前一致：形式化定义 → 数学推导 → 伪代码/算法 → 数值算例 → 直觉解释 → 习题（含答案）→ 延伸阅读；公式使用 Markdown + LaTeX（`$...$` / `$$...$$`）。
 
 ---
@@ -17,14 +18,14 @@ tags: ["LLM推理优化", "注意力内核"]
 | 章节 | 文件 | 核心内容 | 对应来源 |
 |---|---|---|---|
 | 00 | 本文件 | 学习地图、符号约定、与另两个系列的关系 | — |
-| 01 | 01-注意力机制基础与复杂度分析 | softmax attention 定义、O(L²) 复杂度、因果掩码、KV cache 角色、prefill/decode 形态 | Vaswani et al. 2017；Inference Engineering Ch5 |
-| 02 | 02-FlashAttention：IO 感知的精确注意力 | online softmax、tiling、重计算、FA2/FA3、为什么"算更多反而更快" | FlashAttention（arXiv:2205.14135；2307.08691；2407.08608） |
-| 03 | 03-注意力头变体：MQA/GQA/MLA | KV 头共享、低秩压缩、DeepSeek MLA、显存与质量权衡 | GQA（arXiv:2305.13245）；DeepSeek-V2（arXiv:2405.04434） |
-| 04 | 04-稀疏、滑动窗口与线性注意力 | StreamingLLM / Attention Sink、滑动窗口、H2O、线性注意力、SSM/Mamba | StreamingLLM（arXiv:2309.17453）；Mamba（arXiv:2312.00752） |
-| 05 | 05-PagedAttention 与 KV 显存管理 | 分页 KV、vLLM 块管理、与连续批处理/前缀缓存组合 | PagedAttention / vLLM（arXiv:2309.06180） |
-| 06 | 06-内核优化与算子融合 | 访存-计算模型、算子融合、Tensor Core、FA 的 kernel 细节、FP8 注意力、编译优化 | FlashAttention 系列；工程实践 |
-| 07 | 07-系统集成与生产验收 | 与量化/推测解码/调度组合、注意力精度验收、决策树 | vLLM/SGLang/TensorRT-LLM 实践 |
-| 08 | 08-前缀缓存与KV复用 | 跨请求 KV 复用、radix tree、cache-aware 调度、KV 存储层级、路由、disaggregation | RadixAttention / SGLang（arXiv:2312.07104）；Inference Engineering Ch5 |
+| 01 | [注意力计算复杂度是怎么来的？prefill 和 decode 差在哪](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/) | softmax attention 定义、O(L²) 复杂度、因果掩码、KV cache 角色、prefill/decode 形态 | Vaswani et al. 2017；Inference Engineering Ch5 |
+| 02 | [FlashAttention 原理是什么？为什么又省显存又快](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/) | online softmax、tiling、重计算、FA2/FA3、为什么"算更多反而更快" | FlashAttention（arXiv:2205.14135；2307.08691；2407.08608） |
+| 03 | [MQA、GQA、MLA 有什么区别？KV Cache 该怎么省](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/) | KV 头共享、低秩压缩、DeepSeek MLA、显存与质量权衡 | GQA（arXiv:2305.13245）；DeepSeek-V2（arXiv:2405.04434） |
+| 04 | [稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/) | StreamingLLM / Attention Sink、滑动窗口、H2O、线性注意力、SSM/Mamba | StreamingLLM（arXiv:2309.17453）；Mamba（arXiv:2312.00752） |
+| 05 | [PagedAttention 是怎么省下 KV Cache 显存的？](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/) | 分页 KV、vLLM 块管理、与连续批处理/前缀缓存组合 | PagedAttention / vLLM（arXiv:2309.06180） |
+| 06 | [注意力内核怎么优化？算子融合、CUDA Graph 与 Triton](/notes/llm注意力内核精读笔记-06-内核优化与算子融合/) | 访存-计算模型、算子融合、Tensor Core、FA 的 kernel 细节、FP8 注意力、编译优化 | FlashAttention 系列；工程实践 |
+| 07 | [注意力优化上线怎么验收？吞吐、显存与精度怎么测](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/) | 与量化/推测解码/调度组合、注意力精度验收、决策树 | vLLM/SGLang/TensorRT-LLM 实践 |
+| 08 | [SGLang RadixAttention 原理是什么？前缀缓存怎么提升命中率](/notes/llm注意力内核精读笔记-08-前缀缓存与kv复用/) | 跨请求 KV 复用、radix tree、cache-aware 调度、KV 存储层级、路由、disaggregation | RadixAttention / SGLang（arXiv:2312.07104）；Inference Engineering Ch5 |
 
 ## 2. 三部系列的关系：一张总表
 
@@ -74,14 +75,14 @@ tags: ["LLM推理优化", "注意力内核"]
 ## 4. 阅读顺序
 
 ```
-01 注意力基础与复杂度（为什么 O(L²)、KV cache 从哪来）
-  → 02 FlashAttention（prefill 侧：怎么把 L² 算得快且省显存）
-  → 03 MQA/GQA/MLA（decode 侧：怎么把 KV 显存砍下来）
-  → 04 稀疏/线性注意力（长上下文：怎么跳过 L²）
-  → 05 PagedAttention（系统侧：KV 显存怎么分页管理）
-  → 06 内核优化（硬件侧：算子融合与 Tensor Core）
-  → 07 系统集成与验收（怎么组合、怎么验收）
-  → 08 前缀缓存与 KV 复用（跨请求的 KV 别重算、往哪存、怎么路由）
+[01 注意力基础与复杂度](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)（为什么 O(L²)、KV cache 从哪来）
+  → [02 FlashAttention](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)（prefill 侧：怎么把 L² 算得快且省显存）
+  → [03 MQA/GQA/MLA](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)（decode 侧：怎么把 KV 显存砍下来）
+  → [04 稀疏/线性注意力](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)（长上下文：怎么跳过 L²）
+  → [05 PagedAttention](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)（系统侧：KV 显存怎么分页管理）
+  → [06 内核优化](/notes/llm注意力内核精读笔记-06-内核优化与算子融合/)（硬件侧：算子融合与 Tensor Core）
+  → [07 系统集成与验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)（怎么组合、怎么验收）
+  → [08 前缀缓存与 KV 复用](/notes/llm注意力内核精读笔记-08-前缀缓存与kv复用/)（跨请求的 KV 别重算、往哪存、怎么路由）
 ```
 
 ## 5. 配套资源

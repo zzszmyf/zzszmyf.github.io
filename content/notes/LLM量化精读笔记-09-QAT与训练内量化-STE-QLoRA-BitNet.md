@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 09 QAT 与训练内量化：STE、QLoRA、BitNet b1.58"
+title: "QAT 什么时候才值得做？PTQ、QLoRA、BitNet 路线对比"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "量化函数不可导，STE 用直通估计器把梯度放过去。本文手推一个完整的反向传播例子，讲清 QLoRA 的 NF4、双重量化与 paged optimizer，解释 BitNet b1.58 的三值化设计，并对比 PTQ/QAT/QLoRA/BitNet 四条路线各自适用什么场景。"
 weight: 19
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[KV Cache 量化怎么做](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)｜下一篇：[量化后精度掉了怎么定位](/notes/llm量化精读笔记-10-质量评估方法论/)
 
 > 对应：STE（Bengio et al. 2013；直通估计器）；QLoRA（arXiv:2305.14314，NeurIPS 2023）；BitNet b1.58（arXiv:2402.17764）；MIT 6.5940 Lecture 6（Quantization Part II）。
 > 学完本章你应该能：① 说明量化函数为什么不可导、STE 怎么绕过去，并手推一个反向传播例子；② 讲清 QLoRA 的三件套（NF4、双重量化、paged optimizer）和"量化基座 + LoRA 适配器"的架构；③ 说出 BitNet b1.58 的三值化设计（{-1,0,+1}、1.58 bit、无乘法）与性能结论；④ 对比 PTQ/QAT/QLoRA/BitNet 四条路线的适用场景。
@@ -317,4 +319,4 @@ BitNet 推理时，矩阵乘的乘法器可以完全去掉吗？还有哪些地�
 2. [The Era of 1-bit LLMs: BitNet b1.58（arXiv:2402.17764）](https://arxiv.org/abs/2402.17764)
 3. [BitNet.cpp](https://github.com/microsoft/BitNet)：三值权重的 CPU 推理实现（加/减内核）
 4. Bengio et al., *Estimating or Propagating Gradients Through Stochastic Neurons*（2013）：STE 的源头
-5. 上一篇：[08 KV Cache 量化](/notes/LLM量化精读笔记-08-KV-Cache量化与KIVI/)；下一篇：**[10 质量评估方法论]**——学完所有方法，怎么科学地判断"量化有没有搞砸"。
+5. 上一篇：[08 KV Cache 量化](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)；下一篇：**[10 质量评估方法论]**——学完所有方法，怎么科学地判断"量化有没有搞砸"。

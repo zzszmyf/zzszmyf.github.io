@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 02 量化问题的形式化与均匀量化理论"
+title: "量化误差是怎么算出来的？均匀量化公式推导"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "把任意量化方法拆成编码器、解码器、误差三部分，推导对称与非对称均匀量化的正向与反向公式，解释「位宽每减 1、SNR 涨约 6 dB」，并说明为什么范围利用率是量化的第一性原理。"
 weight: 12
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化里的 FP16 和 INT8 到底差在哪](/notes/llm量化精读笔记-01-数值编码与计算机表示基础/)｜下一篇：[FP16、BF16、FP8、FP4 有什么区别](/notes/llm量化精读笔记-03-数值格式与硬件/)
 
 > 对应：MIT 6.5940 Lecture 5（Quantization Part I）前半部分；Inference Engineering Ch 5 的数学基础。
 > 学完本章你应该能：① 把任何量化方法归入"编码器 + 解码器 + 误差"的框架；② 徒手写出对称/非对称均匀量化的正向与反向公式；③ 推导并解释"每$bit \approx 6 dB$"；④ 区分舍入误差与截断误差，并指出它们分别由什么造成；⑤ 理解为什么"范围利用率"是量化的第一性原理。
@@ -478,5 +480,5 @@ $\sigma _s^{2} = (A/2)^{2}/3 = A^{2}/12$；$\sigma _e^{2}$不变（$\Delta$由�
 2. [MIT 6.5940 Lab 2：Quantization](https://github.com/CalebDu/MIT6.5940-EfficientML/blob/master/Lab2-quantization/Lab2.ipynb)：linear quantize / k-means 量化的动手实现（对应本系列习题环境）
 3. [Inference Engineering Ch 5](https://inferenceengineering.tech/chapters/techniques/)：教材正文（格式总览、敏感性排序、质量评估）
 4. Gersho & Gray, *Vector Quantization and Signal Compression*：均匀量化误差理论的经典教材（$\Delta ^{2}/12$、6 dB/bit 的出处）
-5. 上一篇：**[01 数值编码与计算机表示基础](/notes/LLM量化精读笔记-01-数值编码与计算机表示基础/)**——整数/浮点/舍入/截断的计算机表示，本章的数学工具都建立在其上
+5. 上一篇：**[01 数值编码与计算机表示基础](/notes/llm量化精读笔记-01-数值编码与计算机表示基础/)**——整数/浮点/舍入/截断的计算机表示，本章的数学工具都建立在其上
 6. 下一篇：**[03 数值格式：FP16/BF16/FP8/FP4/MXFP/NVFP4 与硬件]**——把"格子"具体到硬件支持的浮点格式，回答"为什么 FP8 是甜点、BF16 为什么适合训练、FP4 为什么必须配块缩放"。

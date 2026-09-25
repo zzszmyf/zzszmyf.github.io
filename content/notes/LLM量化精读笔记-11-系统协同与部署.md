@@ -1,11 +1,13 @@
 ---
-title: "LLM 量化精读笔记 · 11 系统协同与部署：QServe、FP8 Attention 与工程工具"
+title: "量化模型怎么部署到 vLLM？QServe 与 FP8 Attention 实践"
 date: 2026-08-17T00:00:00+08:00
 draft: false
+description: "量化算法好不等于端到端快，反量化、内存布局和 kernel 实现会吃掉大部分收益。本文讲 QServe 的 W4A8KV4 协同设计为什么是 W4A8，给出 vLLM / TensorRT-LLM / llama.cpp 的量化支持地图，并给出一份部署决策树。"
 weight: 21
 tags: ["LLM推理优化", "量化"]
 ---
 
+> 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化后精度掉了怎么定位](/notes/llm量化精读笔记-10-质量评估方法论/)
 
 > 对应：QServe / QoQ（arXiv:2405.04532，MLSys 2025）；FlashAttention-3（arXiv:2407.08691）；SageAttention（arXiv:2410.02367）；vLLM / TensorRT-LLM / llama.cpp。
 > 学完本章你应该能：① 解释"量化算法好 ≠ 端到端快"的系统瓶颈（dequant、内存布局、kernel）；② 讲清 QServe 的 W4A8KV4 协同设计（为什么 W4A8 而不是 W4A4、KV4 为什么重要）；③ 说出主流引擎的量化支持地图；④ 给出"无损优先"的组合优化栈与部署决策树。
@@ -257,4 +259,4 @@ W8A8 量化部署后 TPS 没变，排查思路（至少 4 条）。
 2. [FlashAttention-3（arXiv:2407.08691）](https://arxiv.org/abs/2407.08691)
 3. [SageAttention（arXiv:2410.02367）](https://arxiv.org/abs/2410.02367)
 4. [vLLM 量化文档](https://docs.vllm.ai/en/latest/features/quantization/)；[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)；[llama.cpp](https://github.com/ggml-org/llama.cpp)
-5. 上一篇：[10 质量评估方法论](/notes/LLM量化精读笔记-10-质量评估方法论/)；本系列完结，回到 [00 总览](/notes/LLM量化精读笔记-00-总览与学习地图/)。
+5. 上一篇：[10 质量评估方法论](/notes/llm量化精读笔记-10-质量评估方法论/)；本系列完结，回到 [00 总览](/notes/llm量化精读笔记-00-总览与学习地图/)。
