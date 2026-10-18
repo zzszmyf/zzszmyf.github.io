@@ -5,6 +5,7 @@ draft: false
 description: "Medusa 在 token 层做自回归，每次采样都会引入新的歧义；EAGLE 把草稿搬到特征层，用 shifted-token 输入消除分支歧义，因此接受率更高。本文给出草稿模型结构与训练损失，证明每轮首个草稿 token 接受概率恒为 1，并讲清 EAGLE-2 的动态草稿树。"
 weight: 34
 tags: ["LLM推理优化", "推测解码"]
+series: "speculative-decoding"
 ---
 
 > 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[Medusa 是什么](/notes/llm推测解码精读笔记-03-medusa-多头解码/)｜下一篇：[不用草稿模型的加速方案](/notes/llm推测解码精读笔记-05-n-gram检索式与无模型路线/)

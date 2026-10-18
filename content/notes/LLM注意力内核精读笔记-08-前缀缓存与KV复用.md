@@ -5,6 +5,7 @@ draft: false
 description: "前缀缓存把「相同前缀、KV 用一次就扔」的浪费消掉。本文推导命中率 h 到 prefill 计算节省的收益模型，讲清 RadixAttention 的 radix tree、LRU leaves-first 驱逐与引用计数，排列 GPU→CPU→分布式→磁盘的 KV 存储层级，并解释 cache-aware routing 与 PD 分离。"
 weight: 58
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力优化上线怎么验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)

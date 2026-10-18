@@ -5,6 +5,7 @@ draft: false
 description: "三种注意力头变体本质上都在回答「每 token 缓存什么」。本文给出各自的 KV 元素数公式，讲清 GQA 的 up-training 配方，推导 MLA 的低秩联合压缩并解释 RoPE 与低秩压缩的冲突及 decoupled RoPE 解法，最后手算 70B 与 DeepSeek-V2 的 KV 显存账本。"
 weight: 53
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[FlashAttention 原理是什么](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)｜下一篇：[稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)

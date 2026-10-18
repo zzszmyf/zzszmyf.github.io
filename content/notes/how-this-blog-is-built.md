@@ -1,5 +1,6 @@
 ---
 title: "这个博客是怎么做的：Hugo + Congo 完整技术拆解"
+description: "Hugo + Congo 搭建个人技术博客完整教程：主题选型、KaTeX 数学公式本地化、暗色模式配置、Cloudflare Pages 免费部署与自定义域名绑定。36 篇文章构建仅需 2 秒，首年成本约 70 元域名费，全程不写前端代码，适合想专注写作的研究员和工程师。"
 date: 2025-01-25T10:00:00+08:00
 draft: false
 weight: 100
@@ -107,7 +108,7 @@ CDN 全球分发
 ```
 
 **你的全部操作只有两步**：
-1. 写 `content/posts/文章标题.md`
+1. 写 `content/notes/文章标题.md`
 2. `git push`
 
 ---
@@ -126,20 +127,27 @@ site/                           # Hugo 站点根目录
 ├── content/                    # 所有内容
 │   ├── _index.md               # 首页
 │   ├── about.md                # 关于页面
-│   └── posts/                  # 博客文章
-│       ├── 快速开始指南.md
+│   ├── series.md               # 精读系列总目录
+│   ├── essays.md               # 随笔入口
+│   └── notes/                  # 技术笔记与系列章节
+│       ├── vllm-gpu-100-percent-max-tokens-trap.md
 │       ├── logistic-regression-gradient-descent.md
 │       ├── online-softmax-information-geometry.md
-│       └── ... (36 篇)
+│       └── ... (70 篇)
 │
-├── layouts/partials/           # 自定义模板片段
-│   ├── extend-head.html        # 注入 KaTeX CSS/JS
-│   └── extend-footer.html      # KaTeX 渲染逻辑
+├── layouts/                    # 自定义模板
+│   ├── partials/extend-head.html
+│   ├── _partials/recent-articles.html
+│   ├── _shortcodes/series-cards.html
+│   ├── notes/list.html         # 技术笔记流（过滤系列与随笔）
+│   └── _default/landing.html   # 系列/随笔/关于的简洁页布局
 │
+├── assets/css/custom.css       # 系列卡片等自定义样式
+├── i18n/zh.yaml                # 中文界面文案
 ├── static/                     # 静态资源（直接复制到输出目录）
 │   └── katex/                  # KaTeX 本地文件（CSS + JS + 字体）
 │
-├── themes/congo/               # Congo 主题（git submodule）
+├── themes/congo/               # Congo 主题（直接 vendored 进仓库）
 └── public/                     # 构建输出（部署用这个目录）
 ```
 

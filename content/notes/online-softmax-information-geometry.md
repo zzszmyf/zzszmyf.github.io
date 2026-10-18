@@ -1,5 +1,6 @@
 ---
 title: "Online Softmax 的数学：从代数推导到信息几何"
+description: "Online Softmax推导：FlashAttention分块计算的核心数学——不存储完整N×N注意力矩阵，只靠局部最大值m和指数和d两个统计量递推合并出全局Softmax，结果与传统Softmax完全等价、零近似。附Python验证，并从信息几何视角解释rescaling本质是概率单纯形上沿测地线的平行移动。"
 date: 2025-01-20T10:00:00+08:00
 draft: false
 weight: 100

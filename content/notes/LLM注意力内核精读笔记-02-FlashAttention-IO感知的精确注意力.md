@@ -5,6 +5,7 @@ draft: false
 description: "朴素注意力快不起来的真正瓶颈是 HBM 读写而不是 FLOPs。本文讲清 FlashAttention 的三个核心技巧——tiling、online softmax、recompute，手算验证增量式 softmax 与整体一致，给出 IO 复杂度定理，并对比 FA1/FA2/FA3 的对 GPU 架构要求与实测数据。"
 weight: 52
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力计算复杂度是怎么来的](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)｜下一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)

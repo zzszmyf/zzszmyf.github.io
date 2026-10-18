@@ -5,6 +5,7 @@ draft: false
 description: "继量化与推测解码之后的第三部推理优化精读，进入单步前向内部：注意力复杂度、FlashAttention、MQA/GQA/MLA、稀疏与线性注意力、PagedAttention、算子融合、生产验收与 RadixAttention 前缀缓存。"
 weight: 50
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 

@@ -1,5 +1,6 @@
 ---
 title: "Procfile、Nixpacks 与 Shebang：三个部署/脚本小知识"
+description: "Procfile、nixpacks.toml 与 Shebang 三个部署/脚本知识点速查：Procfile 声明 PaaS 平台运行时要启动的进程，nixpacks.toml 配置源码到容器镜像的构建流程，Shebang 指定脚本解释器（推荐 #!/usr/bin/env 写法）。附 Heroku、Railway 等平台支持对照表与 FastAPI 部署完整示例。"
 date: 2026-05-08T17:21:00+08:00
 draft: false
 weight: 100

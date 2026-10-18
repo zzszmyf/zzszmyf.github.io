@@ -1,5 +1,6 @@
 ---
 title: "用 kimi-cli 实现自动 Issue → Worktree → TDD → PR 的无人值守流水线"
+description: "kimi-cli 搭建无人值守的 GitHub issue 自动修复流水线：一条 prompt 走完 issue → git worktree → TDD → PR 全流程，配合 --print --yolo、cron 定时触发和 subagent 并行批量处理 bug。附 loop_control 关键配置（max_ralph_iterations=-1 无限循环）与前置条件检查清单。"
 date: 2026-05-05T14:00:00+08:00
 draft: false
 weight: 100

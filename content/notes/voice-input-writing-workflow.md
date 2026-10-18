@@ -1,11 +1,13 @@
 ---
 title: "效率狂魔的自白：语音输入让我写作速度翻倍"
+description: "语音输入写作工作流实战：用讯飞听见录音转写，再用 DeepSeek 大模型按提示词和自定义词表润色，词性标注解决财经术语与同音词歧义，并用 Windsurf 搭建整合界面。1500 字稿件从录音到配图排版半小时内完成，写作速度翻倍。"
 date: 2024-12-16T06:34:00+08:00
 draft: false
 weight: 100
 aliases: ["/posts/voice-input-writing-workflow/"]
 categories: ["效率工具"]
 tags: ["语音输入", "大模型", "写作效率", "AI工作流", "讯飞听见"]
+essay: true
 ---
 
 > 原文作者：[张翼轸](https://sspai.com/u/zhangyizhen/)，发表于少数派 Matrix 栏目。本文是读者整理转载，用于记录这套极具参考价值的语音输入 + 大模型润色工作流。

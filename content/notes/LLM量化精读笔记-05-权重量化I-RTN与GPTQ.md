@@ -5,6 +5,7 @@ draft: false
 description: "RTN 直接四舍五入，实现最简单但 4-bit 下误差明显；GPTQ 把目标从「最小化逐元素误差」升级为「最小化层输出误差」，用 OBS/OBQ 的二阶补偿逐列校正。本文完整推导补偿公式并手算一个 2×2 例子。"
 weight: 15
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化粒度怎么选](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)｜下一篇：[AWQ 量化原理是什么](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)

@@ -5,6 +5,7 @@ draft: false
 description: "量化是「有损换速度」，推测解码是「无损提速度」，两者是 LLM 推理优化互补的两条主线。这份总览给出 6 篇精读笔记的阅读顺序、每章要点与配套论文，帮你建立完整的推理加速决策框架。"
 weight: 30
 tags: ["LLM推理优化", "推测解码"]
+series: "speculative-decoding"
 ---
 
 

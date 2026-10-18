@@ -1,5 +1,6 @@
 ---
 title: "vLLM GPU 利用率持续 100% 排查记：一个 max_tokens 参数引发的性能陷阱"
+description: "vLLM GPU 利用率持续 100% 排查实录：根因是 client 不传 max_tokens 时，vLLM 默认允许生成到 max_model_len（约 13 万 token），请求在 decode 阶段无法停止而独占 GPU。附 vLLM 源码级分析与修复方案：显式设置 max_tokens、服务端 --max_tokens 兜底、保留 encoder 缓存。"
 date: 2026-05-08T15:00:00+08:00
 draft: false
 weight: 100

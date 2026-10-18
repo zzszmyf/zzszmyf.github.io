@@ -5,6 +5,7 @@ draft: false
 description: "用算术强度 FLOPs/byte 判断一个 kernel 是计算受限还是带宽受限，说明 decode 与 prefill 分别落在 Roofline 的哪一侧。本文讲算子融合的三个层次、Tensor Core 与 FP8 对注意力的意义，对比 CUDA Graph / Triton / torch.compile 的适用场景。"
 weight: 56
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[PagedAttention 是怎么省下 KV Cache 显存的](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)｜下一篇：[注意力优化上线怎么验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)

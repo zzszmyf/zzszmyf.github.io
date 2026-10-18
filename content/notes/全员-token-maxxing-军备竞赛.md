@@ -1,11 +1,13 @@
 ---
 title: "全员 token-maxxing，一场没人敢停的军备竞赛"
+description: "硅谷 AI 行业一线观察：YC W26 约 80% 项目是垂直 agent，Meta 全员用 Claude Code 卷 token 消耗排行榜，xAI 早期团队流失 90%，AI 公司估值随 DCF 失效而崩塌——垂直 agent 仅约 5 倍 ARR、模型公司 20-30 倍，唯一确定的赢家是英伟达。"
 date: 2026-04-27T08:00:00+08:00
 draft: false
 weight: 100
 aliases: ["/posts/全员-token-maxxing-军备竞赛/"]
 categories: ["行业观察"]
 tags: ["行业观察", "AI", "硅谷", "投资"]
+essay: true
 ---
 
 # 全员 token-maxxing，一场没人敢停的军备竞赛

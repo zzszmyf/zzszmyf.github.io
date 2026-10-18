@@ -1,5 +1,6 @@
 ---
 title: "深入解读 Primus：面向大规模大语言模型的高性能训练框架"
+description: "Primus 是 AMD 推出的大规模 LLM 统一训练框架，支持 Megatron-LM 与 TorchTitan 后端。深度解读其性能瓶颈（GEMM 与 FlashAttention 合计约占 94% 训练时间）、Primus-Turbo 集成 AITER 与 hipBLASLt 调优的收益，以及 7B/70B/405B 模型分别对应 DDP、FSDP2、TP+PP+VPP 的并行策略选择。"
 date: 2024-04-11T00:00:00+08:00
 draft: false
 weight: 100

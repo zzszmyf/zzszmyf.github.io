@@ -5,6 +5,7 @@ draft: false
 description: "AWQ 的核心观察是只有约 1% 的权重显著，而且要看激活幅度而不是权重幅度，再通过逐通道缩放把误差压下去。本文推导缩放减误差公式，对比 AWQ、GPTQ、SqueezeLLM、QuIP# 的无重建与二阶补偿取舍。"
 weight: 16
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[RTN 和 GPTQ 有什么区别](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/)｜下一篇：[激活量化为什么比权重量化难](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/)

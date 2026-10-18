@@ -1,0 +1,9 @@
+{{ if .Site.Params.homepage.showRecent | default false }}
+  <h2 class="mt-8 text-2xl font-extrabold">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+  {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+  {{ $pages = where $pages "Params.series" "==" nil }}
+  {{ $pages = where $pages "Params.essay" "!=" true }}
+  {{ range first .Site.Params.homepage.recentLimit ($pages.ByDate.Reverse) }}
+    {{ partial "article-link.html" . }}
+  {{ end }}
+{{ end }}

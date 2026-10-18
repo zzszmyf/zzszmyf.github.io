@@ -1,5 +1,6 @@
 ---
 title: "LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普"
+description: "LoRA微调Gemma 2B实战教程：单张RTX 3090/4090（约14GB显存），用HuggingFace TRL+PEFT和仅12条特朗普风格问答数据，训练18步耗时3.9秒、loss从4.19降到0.99，可训练参数只占0.78%。覆盖环境搭建、数据构造、LoRA配置、训练推理到多卡踩坑的完整流程。"
 date: 2024-04-07T00:00:00+08:00
 draft: false
 weight: 100

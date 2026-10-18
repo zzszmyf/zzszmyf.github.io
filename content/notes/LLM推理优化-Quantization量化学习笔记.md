@@ -1,9 +1,11 @@
 ---
 title: "LLM 推理优化 · 量化（Quantization）系统学习笔记"
+description: "LLM 量化（Quantization）系统学习笔记：从 FP8/FP4 数字格式、量化粒度与敏感性排序，到 GPTQ、AWQ、SmoothQuant、KIVI、BitNet 方法谱系。生产默认配方：W8A8 FP8 是甜点、KV cache 谨慎量化、attention 保持高精度，附质量评估三板斧与 MIT 6.5940 课程清单。"
 date: 2026-08-17T00:00:00+08:00
 draft: false
 weight: 1
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 

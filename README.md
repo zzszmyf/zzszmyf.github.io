@@ -1,6 +1,6 @@
 # zzszmyf.github.io
 
-孟一凡（[zzszmyf](https://github.com/zzszmyf)）的个人站点源码：LLM 推理优化、AI Agent 基础设施与工程实践的笔记。
+孟一凡（[zzszmyf](https://github.com/zzszmyf)）的个人站点源码：LLM 推理优化与 AI Agent 技术笔记 + 技术名片。
 
 📖 **在线浏览：<https://zzszmyf.github.io/>**
 
@@ -9,7 +9,7 @@
 
 ## 这里有什么
 
-**LLM 推理优化精读笔记**（MIT lecture note 级别，Markdown + LaTeX，公式可渲染）
+**LLM 推理优化精读系列**（MIT lecture note 级别，Markdown + LaTeX，公式可渲染）
 
 - [量化（有损换速度）](https://zzszmyf.github.io/notes/llm%E9%87%8F%E5%8C%96%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0-00-%E6%80%BB%E8%A7%88%E4%B8%8E%E5%AD%A6%E4%B9%A0%E5%9C%B0%E5%9B%BE/)：
   信息论与数值编码 → 均匀量化理论 → 数值格式与硬件 → 粒度/校准/离群值 → PTQ/QAT
@@ -19,16 +19,23 @@
 - [注意力与计算内核](https://zzszmyf.github.io/notes/llm%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%86%85%E6%A0%B8%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0-00-%E6%80%BB%E8%A7%88%E4%B8%8E%E5%AD%A6%E4%B9%A0%E5%9C%B0%E5%9B%BE/)：
   注意力机制与复杂度 → FlashAttention → MQA/GQA/MLA → 稀疏与线性注意力 → PagedAttention → 内核优化
 
-此外还有工程实践（vLLM 部署排查、MoE 通信、训练框架、Agent 上下文与记忆）和一部分
-技术商业化、团队协作的随笔。完整列表见 [全部笔记](https://zzszmyf.github.io/notes/)。
+此外还有工程实践（vLLM 部署排查、MoE 通信、训练框架、Agent 上下文与记忆）的技术笔记，
+以及单独收口的非技术随笔。完整列表见 [技术笔记](https://zzszmyf.github.io/notes/)，
+系列目录见 [精读系列](https://zzszmyf.github.io/series/)。
+
+## 站点结构
+
+- `content/series.md`：三大精读系列的总目录
+- `content/notes/`：技术笔记，一篇一个 Markdown 文件；文件名决定 URL（Hugo 会转小写）
+- `content/essays.md` + `essay: true` 的笔记：非技术随笔
+- `layouts/notes/list.html`：技术笔记流，过滤掉系列与随笔
+- 站内链接必须写成 Hugo 实际生成的小写路径，否则是 404
 
 ## 技术栈
 
 Hugo + [Congo](https://github.com/jpanther/congo) 主题（主题直接 vendored 进仓库），
 GitHub Actions 构建并部署到 GitHub Pages，推 `main` 即发布。
 
-- 内容在 `content/notes/`，一篇一个 Markdown 文件；文件名决定 URL（Hugo 会转小写）
-- 站内链接必须写成 Hugo 实际生成的小写路径，否则是 404
 - 部署后由 `.github/scripts/indexnow.py` 把改动的 URL 主动推给 Bing / Yandex（IndexNow）
 
 ## 本地构建

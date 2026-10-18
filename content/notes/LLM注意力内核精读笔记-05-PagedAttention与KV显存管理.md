@@ -5,6 +5,7 @@ draft: false
 description: "vLLM 论文实测显示，不做管理的 KV 显存有效利用率只有 20.4%–38.2%，浪费来自预留、内部碎片与外部碎片。本文讲清 PagedAttention 的逻辑块到物理块映射与 block table，辨析它与 FlashAttention 的关系，并解释 copy-on-write 如何让并行采样共享 KV。"
 weight: 55
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)｜下一篇：[注意力内核怎么优化](/notes/llm注意力内核精读笔记-06-内核优化与算子融合/)

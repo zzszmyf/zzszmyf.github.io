@@ -1,5 +1,6 @@
 ---
 title: "TurboQuant 数学原理解析"
+description: "TurboQuant 数学原理推导：QJL 符号随机投影的无偏估计与方差界限、PolarQuant 递归极坐标量化如何免掉归一化开销，拆解「极坐标压缩 + 1-bit 残差修正」两阶段框架，说明 TurboQuant 为何能在 3-bit 下达到 FP32 精度并实现 6 倍 KV Cache 内存压缩。"
 date: 2024-04-16T00:00:00+08:00
 draft: false
 weight: 100

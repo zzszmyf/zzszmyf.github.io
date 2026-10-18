@@ -5,6 +5,7 @@ draft: false
 description: "per-tensor、per-channel、per-group 的有效位宽和存储开销差多少？校准集怎么选、统计量用 min/max 还是分位数？本文用 LLM.int8() 的离群值统计说明 INT8 什么情况下会崩，并给出粒度、校准、outlier 的决策表。"
 weight: 14
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[FP16、BF16、FP8、FP4 有什么区别](/notes/llm量化精读笔记-03-数值格式与硬件/)｜下一篇：[RTN 和 GPTQ 有什么区别](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/)

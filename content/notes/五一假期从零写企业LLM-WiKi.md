@@ -1,5 +1,6 @@
 ---
 title: "五一假期，我花了3.5亿Token，从零写了一套企业LLM WiKi"
+description: "Claude Code AI编程实战：五天烧掉3.5亿Token（约1.3万元），一行代码没手写，从零搭出一套企业级LLM Wiki知识库系统——15份设计文档、8个微服务、50租户压测和蓝队渗透全部跑通。实践Karpathy「AI自维护Wiki」取代RAG的范式，结论是AI时代最稀缺的是判断力。"
 date: 2026-05-05T08:00:00+08:00
 draft: false
 weight: 100

@@ -1,5 +1,6 @@
 ---
 title: "Cloudflare 部署方案详解"
+description: "Cloudflare Pages 部署教程：用 Cloudflare 一站式搞定域名注册、DNS 解析、静态网站托管与 CDN 加速，含与 Vercel 的详细对比（免费无限带宽、国内访问更快）以及 VitePress 站点的完整 Git 自动部署流程。"
 date: 2024-03-22T00:00:00+08:00
 draft: false
 weight: 100

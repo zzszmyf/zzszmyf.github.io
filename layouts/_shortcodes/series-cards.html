@@ -1,0 +1,33 @@
+{{- $series := slice
+  (dict
+    "kicker" "有损换速度"
+    "title" "量化"
+    "desc" "从数值编码与量化误差，到 GPTQ / AWQ / SmoothQuant / KIVI / QLoRA / BitNet，再到 vLLM 部署验收。"
+    "meta" "12 章 + 速览"
+    "url" "/notes/llm量化精读笔记-00-总览与学习地图/"
+  )
+  (dict
+    "kicker" "无损换步数"
+    "title" "推测解码"
+    "desc" "接受率数学与拒绝采样、Medusa、EAGLE、n-gram/检索式路线，以及生产环境的加速比验收。"
+    "meta" "7 章"
+    "url" "/notes/llm推测解码精读笔记-00-总览与学习地图/"
+  )
+  (dict
+    "kicker" "无损换效率"
+    "title" "注意力与内核"
+    "desc" "FlashAttention、MQA/GQA/MLA、PagedAttention、前缀缓存与 KV 复用，直到算子融合与生产验收。"
+    "meta" "9 章"
+    "url" "/notes/llm注意力内核精读笔记-00-总览与学习地图/"
+  )
+-}}
+<div class="series-grid">
+  {{- range $series }}
+  <a class="series-card" href="{{ .url }}">
+    <span class="series-card-kicker">{{ .kicker }}</span>
+    <span class="series-card-title">{{ .title }}</span>
+    <span class="series-card-desc">{{ .desc }}</span>
+    <span class="series-card-meta">{{ .meta }} →</span>
+  </a>
+  {{- end }}
+</div>

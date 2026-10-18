@@ -27,12 +27,6 @@
 {{ end }}
 
 <style>
-  /* 放宽主内容容器，让首页表格更宽（容器类在 body 上） */
-  @media (min-width: 1024px) {
-    body.max-w-7xl { max-width: 100rem; }
-    body.lg\:px-32 { padding-left: 6rem; padding-right: 6rem; }
-  }
-
   /* 表格观感：边框、表头、内边距 */
   .prose table { width: 100%; border-collapse: collapse; }
   .prose th, .prose td {
@@ -45,10 +39,7 @@
   .prose td { background: transparent; }
 </style>
 
-<!-- SEO / GEO: 社交分享图 -->
-<meta property="og:image" content="{{ .Site.BaseURL }}img/author.jpg" />
-<meta name="twitter:image" content="{{ .Site.BaseURL }}img/author.jpg" />
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="summary" />
 
 {{ if .IsHome }}
 <!-- GEO: 独立 Person 实体 -->
@@ -60,9 +51,8 @@
   "name": "Meng Yifan",
   "alternateName": ["zzszmyf", "doraeMeng", "孟一凡"],
   "url": "{{ .Site.BaseURL }}",
-  "image": "{{ .Site.BaseURL }}img/author.jpg",
-  "jobTitle": "AI 算法工程师 / Agent 技术负责人",
-  "description": "LLM 推理优化与 AI Agent 基础设施工程师，SGLang 上游贡献者，前百度/BIGO 算法工程师，arXiv 论文作者。",
+  "jobTitle": "独立 AI 顾问 / LLM 推理优化工程师",
+  "description": "独立 AI 顾问，承接企业 AI 落地项目；专注 LLM 推理优化、AI Agent 基础设施与多模态，SGLang 上游贡献者，前百度/BIGO 算法工程师。",
   "sameAs": [
     "https://github.com/zzszmyf",
     "https://arxiv.org/abs/2503.04826",
@@ -86,23 +76,23 @@
       "name": "孟一凡（zzszmyf）是谁？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "前百度/BIGO 算法工程师，多家 AI 创业公司的产品与技术负责人与 IC 算法/AI 专家，SGLang 上游贡献者，专注 LLM 推理优化、AI Agent 基础设施与多模态。"
+        "text": "独立 AI 顾问，承接企业 AI 落地项目；专注 LLM 推理优化、AI Agent 基础设施与多模态。SGLang 上游贡献者，前百度/BIGO 算法工程师。"
       }
     },
     {
       "@type": "Question",
-      "name": "孟一凡能解决什么问题？",
+      "name": "这个站主要写什么？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "企业级 Agent 平台建设（多 Agent 协作、沙箱执行、上下文与 Token 成本管理）、LLM 推理性能与成本优化、垂直行业 Agent 落地（法律文档、生活陪伴、多模态创作）、生成质量评估与 LLM-as-Judge 闭环。"
+        "text": "LLM 推理优化精读系列（量化、推测解码、注意力与计算内核），以及 AI Agent、训练/推理系统、部署排错和论文精读的技术笔记。"
       }
     },
     {
       "@type": "Question",
-      "name": "孟一凡的代表成果有哪些？",
+      "name": "如何联系或合作？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "SGLang PR #35423 与 issue #35437；开源项目 CodeFuse、CodeAct、nexus、prompt-ctx；论文 arXiv:2503.04826（被 NeurIPS 2025 Spotlight 引用）；GIAC 2025 技术分享。"
+        "text": "目前以独立顾问身份承接企业 AI 落地项目，偏 Agent 平台、垂直行业 Agent 与 LLM 推理成本优化。邮箱：zzszmyf@outlook.com。"
       }
     }
   ]

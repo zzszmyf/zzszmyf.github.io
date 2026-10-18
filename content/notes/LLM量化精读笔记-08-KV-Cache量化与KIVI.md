@@ -5,6 +5,7 @@ draft: false
 description: "KV Cache 是长上下文推理的显存大头，而 KV 量化误差会逐 token 累积。本文手算 KV 显存公式，讲 KIVI 的两个核心洞察（Key 按通道量化、Value 按 token 量化）与非对称 2-bit 流式量化实现，并辨析 KV 量化与 KV 压缩的区别。"
 weight: 18
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[激活量化为什么比权重量化难](/notes/llm量化精读笔记-07-激活量化-llm-int8与smoothquant/)｜下一篇：[QAT 什么时候才值得做](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/)

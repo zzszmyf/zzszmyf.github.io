@@ -1,5 +1,6 @@
 ---
 title: "React 组件库选型指南：Ant Design vs Material UI 及其他"
+description: "React 组件库选型指南：对比 Ant Design 与 Material UI 的设计风格、组件丰富度、定制灵活性与适用场景（B 端中后台选 AntD，C 端产品选 MUI），并按定位推荐更多选项——轻量原子化的 Shadcn UI、Radix，设计感强的 Mantine、HeroUI，大厂企业级的 Arco Design、TDesign 等。"
 date: 2026-05-08T10:00:00+08:00
 draft: false
 weight: 100

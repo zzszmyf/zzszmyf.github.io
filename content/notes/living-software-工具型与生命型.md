@@ -1,11 +1,13 @@
 ---
 title: "工具型还是生命型：软件是该稳定一致，还是该成长变化"
+description: "工具型软件与有生命的软件：为什么 Figma 硬塞 AI 功能让人反感，AI 助手天天进化却让人期待？Every 编辑 Jack Cheng《Living Software》译文解读：工具要稳定一致，生命型软件要陪用户成长，并给出控制发布节奏、提前沟通更新、保留用户选择权、加固质量四条产品建议。"
 date: 2026-04-27T08:30:00+08:00
 draft: false
 weight: 100
 aliases: ["/posts/living-software-工具型与生命型/"]
 categories: ["产品思考"]
 tags: ["产品思考", "AI", "Software Design", "UX"]
+essay: true
 ---
 
 # 工具型还是生命型：软件是该稳定一致，还是该成长变化

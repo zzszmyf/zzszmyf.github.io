@@ -1,5 +1,6 @@
 ---
 title: "拖拽式简历编辑器：画布与拖拽技术选型指南"
+description: "React 拖拽简历编辑器技术选型：模板填充场景用 dnd-kit，自由排版场景用 tldraw 或 Fabric.js，含 Fabric.js 无限画布平移缩放的代码示例与两种产品形态对比，帮你按「拖、排、编」需求选对画布与拖拽方案。"
 date: 2026-05-13T10:00:00+08:00
 draft: false
 weight: 100

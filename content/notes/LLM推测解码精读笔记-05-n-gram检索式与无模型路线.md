@@ -5,6 +5,7 @@ draft: false
 description: "Prompt Lookup、Lookahead Decoding、REST 都不训练草稿模型，而是从 n-gram 或检索库里取候选，再交给目标模型并行验证。本文比较三种「记忆来源」的差异，解释 Lookahead 为什么能把 Jacobi 迭代救活，以及这类方法在什么任务上才真的赢。"
 weight: 35
 tags: ["LLM推理优化", "推测解码"]
+series: "speculative-decoding"
 ---
 
 > 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[EAGLE 推测解码为什么比 Medusa 快](/notes/llm推测解码精读笔记-04-eagle-特征空间草稿/)｜下一篇：[推测解码上线怎么验收](/notes/llm推测解码精读笔记-06-系统集成与生产验收/)

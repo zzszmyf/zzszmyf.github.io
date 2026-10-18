@@ -1,5 +1,6 @@
 ---
 title: "高维几何与集中不等式详解"
+description: "高维几何为什么反直觉？1000 维球体 99.995% 的体积集中在表面 1% 薄层，随机向量几乎正交。系统讲解 Markov、Chebyshev、Hoeffding 等集中不等式，及其在 Johnson-Lindenstrauss 引理、QJL 内积估计与 PolarQuant 角度量化中的应用——TurboQuant 背后的数学基础。"
 date: 2024-04-05T00:00:00+08:00
 draft: false
 weight: 100

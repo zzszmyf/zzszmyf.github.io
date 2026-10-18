@@ -5,6 +5,7 @@ draft: false
 description: "推导缩放点积注意力的 FLOPs 公式 4L²d 并说明为什么它与头数无关，用 L/(2d) 判据判断多长的上下文注意力会反超 FFN，推导 KV cache 显存公式并手算 7B 模型 128K 上下文的占用，区分计算密集的 prefill 与访存密集的 decode。"
 weight: 51
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜下一篇：[FlashAttention 原理是什么](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)

@@ -5,6 +5,7 @@ draft: false
 description: "从位布局推导 FP16/BF16/FP8（E4M3、E5M2）/FP4/MXFP8/NVFP4 的动态范围与精度，说明 E4M3 和 E5M2 各自适合什么场景、块缩放到底解决了什么问题，并用带宽模型手算 70B 模型 decode 每 token 的最少耗时。"
 weight: 13
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化误差是怎么算出来的](/notes/llm量化精读笔记-02-量化问题形式化与均匀量化理论/)｜下一篇：[量化粒度怎么选](/notes/llm量化精读笔记-04-量化粒度校准与离群值/)

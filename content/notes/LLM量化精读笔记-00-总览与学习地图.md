@@ -5,6 +5,7 @@ draft: false
 description: "LLM 量化完整学习地图：从信息论与数值编码、均匀量化误差公式，到 RTN/GPTQ/AWQ、SmoothQuant、KV Cache 量化，再到 QServe 与 vLLM 部署验收，11 篇精读笔记的阅读顺序与每章要点速览。"
 weight: 10
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 

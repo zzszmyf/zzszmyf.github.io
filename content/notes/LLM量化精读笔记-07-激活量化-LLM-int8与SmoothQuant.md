@@ -5,6 +5,7 @@ draft: false
 description: "权重是静态的，激活是动态的还会出现极大的离群值，所以 W8A8 比 weight-only 难得多。本文讲 LLM.int8() 的向量级量化与混合精度分解、SmoothQuant 的等效变换与 s_j 公式推导，以及缩放折叠为什么让 W8A8 零运行时开销。"
 weight: 17
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[AWQ 量化原理是什么](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)｜下一篇：[KV Cache 量化怎么做](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)

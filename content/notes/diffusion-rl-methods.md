@@ -1,5 +1,6 @@
 ---
 title: "百花齐放的 Diffusion-RL：技术路线综述"
+description: "Diffusion RL 技术路线综述：将扩散模型与强化学习结合的方案归纳为四大类——MDP 套框架（DDPO、Flow-GRPO）、前向过程优化（AWM、DiffusionNFT）、CFGRL 与 Q 函数方法，附方法对比表及 DanceGRPO 等噪声强度不对齐问题的修正工作。"
 date: 2024-04-03T00:00:00+08:00
 draft: false
 weight: 100

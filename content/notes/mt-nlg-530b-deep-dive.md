@@ -1,5 +1,6 @@
 ---
 title: "【万字硬核】微软 & NVIDIA 联合巨作《Using DeepSpeed and Megatron to Train Megatron-Turing NLG 530B》全方位技术解析"
+description: "MT-NLG 530B训练论文精读：微软与NVIDIA如何用DeepSpeed的ZeRO和流水线并行叠加Megatron-LM的张量并行，构建3D并行体系，在560台DGX A100（4480张GPU）上训练5300亿参数的单体稠密模型。逐段拆解显存墙突破、混合精度数值稳定性、TB级语料数据清洗流水线与模型评估结论。"
 date: 2024-04-09T00:00:00+08:00
 draft: false
 weight: 100

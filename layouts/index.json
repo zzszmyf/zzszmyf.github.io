@@ -1,0 +1,18 @@
+{{- $index := slice -}}
+{{- range site.RegularPages -}}
+  {{- $showDate := .Params.showDate | default site.Params.article.showDate -}}
+  {{- $section := cond (eq .Section "notes") "笔记" "页面" -}}
+  {{- $summary := .Description -}}
+  {{- if not $summary }}{{ $summary = .Summary | plainify }}{{ end -}}
+  {{- if not $summary }}{{ $summary = .Content | plainify | truncate 160 }}{{ end -}}
+  {{- $index = $index | append (dict
+    "date" (cond (and (eq .Section "notes") $showDate) (.Date | time.Format (site.Params.dateFormat | default ":date_long")) nil)
+    "title" (.Title | emojify | safeJS)
+    "section" ($section | emojify | safeJS)
+    "summary" ($summary | emojify | safeJS)
+    "content" (.Plain | emojify | safeJS)
+    "permalink" .Permalink
+    )
+  -}}
+{{- end -}}
+{{- $index | jsonify -}}

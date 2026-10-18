@@ -1,5 +1,6 @@
 ---
 title: "Puppeteer MCP 与 Playwright MCP：深度对比与选择指南"
+description: "Puppeteer MCP 与 Playwright MCP 深度对比：从浏览器支持、交互模式（DOM/CSS 选择器 vs 可访问性树快照）、性能、易用性到社区维护逐一分析。结论：只做 Chromium 自动化且求简单选 Puppeteer MCP，需要跨浏览器、多语言支持和长期可靠维护选 Playwright MCP。"
 date: 2024-04-12T00:00:00+08:00
 draft: false
 weight: 100

@@ -5,6 +5,7 @@ draft: false
 description: "量化函数不可导，STE 用直通估计器把梯度放过去。本文手推一个完整的反向传播例子，讲清 QLoRA 的 NF4、双重量化与 paged optimizer，解释 BitNet b1.58 的三值化设计，并对比 PTQ/QAT/QLoRA/BitNet 四条路线各自适用什么场景。"
 weight: 19
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[KV Cache 量化怎么做](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)｜下一篇：[量化后精度掉了怎么定位](/notes/llm量化精读笔记-10-质量评估方法论/)

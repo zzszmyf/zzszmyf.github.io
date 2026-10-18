@@ -5,6 +5,7 @@ draft: false
 description: "只跑一个 perplexity 数字不足以判断量化能不能上线。本文给出「困惑度 → 智能基准 → 自定义评测」的三层验收协议，解释「与噪声不可区分」如何操作化成多次运行与配对比较，并列出量化评测最容易踩的坑。"
 weight: 20
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[QAT 什么时候才值得做](/notes/llm量化精读笔记-09-qat与训练内量化-ste-qlora-bitnet/)｜下一篇：[量化模型怎么部署到 vLLM](/notes/llm量化精读笔记-11-系统协同与部署/)

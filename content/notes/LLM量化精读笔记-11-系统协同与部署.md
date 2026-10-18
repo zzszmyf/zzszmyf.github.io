@@ -5,6 +5,7 @@ draft: false
 description: "量化算法好不等于端到端快，反量化、内存布局和 kernel 实现会吃掉大部分收益。本文讲 QServe 的 W4A8KV4 协同设计为什么是 W4A8，给出 vLLM / TensorRT-LLM / llama.cpp 的量化支持地图，并给出一份部署决策树。"
 weight: 21
 tags: ["LLM推理优化", "量化"]
+series: "quantization"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[量化后精度掉了怎么定位](/notes/llm量化精读笔记-10-质量评估方法论/)

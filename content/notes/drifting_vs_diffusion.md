@@ -1,5 +1,6 @@
 ---
 title: "Drifting Model vs Diffusion：复杂指令理解能力对比"
+description: "Drifting Model 与 Diffusion 谁更懂复杂指令？从生成机制对比入手：Diffusion 的多步去噪相当于隐式推理缓冲，Drifting Model 一步生成则必须把全部推理内化进权重。结论：复杂 Prompt 样本稀疏导致漂移场不稳定，多物体、空间关系、否定句场景应选 Diffusion，简单概念则 Drifting Model 更快。"
 date: 2024-04-04T00:00:00+08:00
 draft: false
 weight: 100

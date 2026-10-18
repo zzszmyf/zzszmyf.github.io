@@ -1,0 +1,21 @@
+{{- $essays := where site.RegularPages "Params.essay" true -}}
+{{- with $essays }}
+  <div class="not-prose">
+    {{- range $essays.ByDate.Reverse }}
+    <article class="mt-6 max-w-prose">
+      <h2 class="text-xl font-semibold">
+        <a
+          class="text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="{{ .RelPermalink }}"
+        >{{ .Title | emojify }}</a>
+      </h2>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        {{ partial "functions/date.html" .Date }} · {{ .ReadingTime }} 分钟
+      </div>
+      {{ with .Description }}
+        <p class="prose py-1 text-base dark:prose-invert">{{ . | emojify }}</p>
+      {{ end }}
+    </article>
+    {{- end }}
+  </div>
+{{- end }}

@@ -1,5 +1,6 @@
 ---
 title: "推荐系统中的 Hash 与位运算技巧：从 CityHash 到 Feature Hashing"
+description: "推荐系统在线特征服务中的 Hash 与位运算技巧全梳理：CityHash64 选型、GEN_HASH2 特征交叉、x&(2^n-1) 快速取模、位标志与 UTF-8 位拆分，附 C++ 实战代码与 Feature Hashing 原理。重写选型结论：Rust 是 C++ 在线层最佳继任者，Zig 和 Python 都不适合。"
 date: 2026-05-08T15:15:00+08:00
 draft: false
 weight: 100

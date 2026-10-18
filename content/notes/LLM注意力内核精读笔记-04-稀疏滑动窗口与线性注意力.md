@@ -5,6 +5,7 @@ draft: false
 description: "对抗 L² 复杂度有三条路线：少看位置、少存 KV、换计算范式。本文讲滑动窗口注意力的局部性假设与 StreamingLLM 的 attention sink 修复，推导线性注意力的结合律与 Performer 的核近似，辨析 Mamba 的选择性 SSM 与线性注意力的本质区别，并给出场景选择表。"
 weight: 54
 tags: ["LLM推理优化", "注意力内核"]
+series: "attention-kernels"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)｜下一篇：[PagedAttention 是怎么省下 KV Cache 显存的](/notes/llm注意力内核精读笔记-05-pagedattention与kv显存管理/)

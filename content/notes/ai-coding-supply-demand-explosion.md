@@ -1,11 +1,13 @@
 ---
 title: "AI Coding 的供给侧爆炸：需求侧何时跟上？"
+description: "AI Coding 让代码供给爆炸后需求侧如何跟上？分析需求侧爆炸的五条路径：需求民主化、软件流体化、长尾领域软件化、测试安全等次生需求、价值向定义问题转移，并给出程序员的三条转型路径与三个创业方向判断。"
 date: 2026-05-15T10:40:00+08:00
 draft: false
 weight: 100
 aliases: ["/posts/ai-coding-supply-demand-explosion/"]
 categories: ["AI 思考", "职业成长", "产品观察"]
 tags: ["AI Coding", "供给侧", "需求侧", "产品经理", "程序员", "创业"]
+essay: true
 ---
 
 # AI Coding 的供给侧爆炸：需求侧何时跟上？

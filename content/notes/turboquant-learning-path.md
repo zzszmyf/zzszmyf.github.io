@@ -1,5 +1,6 @@
 ---
 title: "TurboQuant 学习路径：论文 → 技术 → 数学"
+description: "TurboQuant 学习路径完整指南：按 PQ/OPQ、JL 变换、KIVI、QuaRot 到 TurboQuant 原文的顺序梳理必读论文，整理向量量化与随机投影所需的线性代数、概率论、信息论数学清单，并给出 7 周学习路线图和 Faiss、QuaRot、KIVI 等开源代码资源。"
 date: 2024-04-15T00:00:00+08:00
 draft: false
 weight: 100

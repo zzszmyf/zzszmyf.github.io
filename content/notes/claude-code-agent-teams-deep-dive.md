@@ -1,5 +1,6 @@
 ---
 title: "Claude Code Agent Teams 运行机制深度分析"
+description: "Claude Code Agent Teams 深度解析：多智能体协作框架与 Subagent 的区别对比，Leader/Teammate 角色、TaskList 与 Mailbox 通信机制、工具链与团队生命周期，并用代码审查案例演示多个 Agent 并行协作的实际运行流程。"
 date: 2024-04-02T00:00:00+08:00
 draft: false
 weight: 100
