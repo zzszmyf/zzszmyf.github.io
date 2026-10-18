@@ -38,7 +38,7 @@ series: "attention-kernels"
 
 01 章讲过：prefill 阶段把整个 prompt 从第一层算到最后一层，产出 **KV cache**；decode 阶段逐 token 读 KV、续写输出。大多数 serving 系统里，一个请求算完、输出结束，**KV cache 就被丢弃**。
 
-SGLang 论文（arXiv:2312.07104）把这件事指认为 LLM serving 最大的系统性浪费之一：
+SGLang 论文（arXiv:2312.07104）把这件事列为 LLM serving 最大的系统性浪费之一：
 
 > **KV cache 的计算只依赖前缀 token。** 因此，凡是共享同一前缀的请求，本可以复用同一份 KV，却各自重新 prefill 了一遍。
 
@@ -63,7 +63,7 @@ Agent（ReAct 等）：系统提示 + 工具定义 + 已执行轨迹，每一步
 ② 显存账：每份 KV 都重新占一块显存；相同前缀的 KV 在显存里重复存放
 ```
 
-前缀缓存（prefix caching）的答案一句话：**把请求结束后的 KV 留下来，下一个共享前缀的请求直接复用，跳过重复的 prefill。**
+前缀缓存（prefix caching）的做法一句话：**把请求结束后的 KV 留下来，下一个共享前缀的请求直接复用，跳过重复的 prefill。**
 
 ---
 
@@ -135,7 +135,7 @@ $$
 
 ## 4. RadixAttention：把 KV 缓存当一棵树来管
 
-SGLang 的 RadixAttention 是第一套**自动、系统化**的 KV 复用机制：不再"请求结束就丢 KV"，而是把 KV 放进一棵 **radix tree** 里长期缓存，用 LRU 策略驱逐，并配合缓存感知的调度器。
+SGLang 论文把 RadixAttention 定位为第一套**自动、系统化**的 KV 复用机制：它把 KV 放进一棵 **radix tree** 里长期缓存（请求结束后不丢弃），用 LRU 策略驱逐，并配合缓存感知的调度器。
 
 ### 4.1 数据结构：radix tree（压缩前缀树）
 
@@ -208,17 +208,13 @@ EvictIfNeeded(required):
 
 ### 4.4 开销
 
-在没有复用机会的负载上（ShareGPT 100 个请求），RadixAttention 的数据结构管理只花 0.2 秒、占总时间 74.3 秒的 **不到 0.3%**——树操作是线性的，因此论文结论是：**默认开启，无需配置**。
+在没有复用机会的负载上（ShareGPT 100 个请求），RadixAttention 的数据结构管理只花 0.2 秒、占总时间 74.3 秒的 **不到 0.3%**——匹配和插入都只沿一条前缀路径走，因此论文的结论是：**默认开启，无需配置**。
 
 ---
 
 ## 5. Cache-Aware 调度：让缓存命中最大化
 
-有了缓存，**请求的执行顺序**就变成了第一等的性能杠杆。命中率定义为：
-
-$$
-\text{hit rate} = \frac{\text{缓存命中的 prompt token 数}}{\text{总 prompt token 数}}
-$$
+有了缓存，**请求的执行顺序**就直接影响命中率。
 
 先到先服务（FCFS）的问题是**缓存抖动（thrashing）**：调度器在不同前缀的请求之间反复横跳，缓存里刚热起来的 KV 很快被驱逐，下个请求又 miss。
 
@@ -242,7 +238,6 @@ Schedule(batch_size, queue):
 贪婪提升吞吐，但可能饿死共享前缀很短的请求（论文留作未来工作：
 与公平调度结合）
 延迟敏感场景：可以容忍"有限重排"来换缓存命中
-实测：命中率 50%–99%，调度器平均达到最优命中率的 ~96%
 ```
 
 ---
@@ -305,7 +300,7 @@ Cache-Aware Routing：
    并感知 KV 局部性，在"命中"与"负载均衡"之间动态权衡
 ```
 
-一个数值直觉（详见第 10 节算例 10.3）：会话亲和让命中率从随机路由的 40% 提到 85%，prefill 时间变成原来的 $(1-0.85)/(1-0.4)=0.25$，即 prefill 部分快 4 倍。
+这个折中的数值影响见第 10 节算例 10.3。
 
 ---
 
@@ -333,7 +328,7 @@ $$
 系统提示 / 历史轮次的 KV 是"跨请求共享"的 → 可以留在 decode worker
 或分布式 KV store 里，不必反复传输；
 只有新后缀的 KV 需要从 prefill worker 传过来
-→ 命中率越高，跨阶段传输的 KV 越少（两章在此汇合）
+→ 命中率越高，跨阶段传输的 KV 越少（本章与量化系列 08 章在此汇合）
 ```
 
 NVIDIA Dynamo 提供**动态 disaggregation**：按实时负载自动在 prefill/decode worker 之间路由，不需要静态划分。
@@ -383,7 +378,7 @@ $$
 
 ### 10.2 TTFT
 
-H100 FP16 理论 989 TFLOPS，按 50% 实测效率折算约 500 TFLOPS：
+H100 FP16 理论 989 TFLOPS，按 50% 效率假设折算约 500 TFLOPS：
 
 $$
 t_{\text{prefill}}(0) = \frac{5.7\times10^{13}}{5\times10^{14}} \approx 115\ \text{ms}
@@ -397,7 +392,7 @@ $$
 
 ### 10.3 Cache-Aware Routing
 
-随机路由命中率 40%，会话亲和命中率 85%：
+假设随机路由命中率 40%、会话亲和命中率 85%：
 
 $$
 \frac{1-0.85}{1-0.40} = 0.25
@@ -461,14 +456,12 @@ LLaVA-NeXT-34B：命中率 52.4%（同一图片的多次提问共享图像 token
 
 1. **问题**：KV 只依赖前缀，但请求结束就被丢弃 → 共享前缀被反复 prefill，既费计算又费显存；杀手场景：多轮对话、代码补全、Agent。
 2. **收益模型**：命中率 $h$ 的请求，prefill 计算恰好省 $h$ 比例（第 3 节推导对注意力与 MLP 同时成立）。
-3. **RadixAttention**：radix tree 存 KV + LRU leaves-first 驱逐 + 引用计数 + 共享内存池——自动、多级共享、无需手动配置，开销 <0.3%。
+3. **RadixAttention**：radix tree 存 KV + LRU leaves-first 驱逐 + 引用计数 + 共享内存池——自动、多级共享、无需手动配置。
 4. **调度**：最长共享前缀优先 ≈ DFS，接近最优命中率；FCFS 会缓存抖动。
-5. **存储层级**：GPU VRAM → CPU（Grace C2C 900 GB/s）→ 分布式 KV store → 磁盘，按热冷迁移。
+5. **存储层级**：GPU VRAM → CPU（Grace C2C）→ 分布式 KV store → 磁盘，按热冷迁移。
 6. **路由**：把请求送到持有匹配前缀的副本（session affinity / 一致性哈希 / 动态路由），命中率与负载均衡需要折中。
 7. **Disaggregation**：prefill/decode 分离后 KV 传输成为瓶颈，KV 量化（KV8/KV4）直接缓解。
 8. **组合**：分页 + 前缀缓存 + 量化 + cache-aware 调度 + 连续批处理，正交叠加。
-
-> 一句话记忆：**"KV 只依赖前缀——别为同一个前缀付两次钱：把 KV 留在 radix tree 里（记住），把请求送到有缓存的地方（找对），把缓存铺到 GPU 之外（扩容），prefill 就能按命中率 $h$ 省下 $h$。"**
 
 ---
 

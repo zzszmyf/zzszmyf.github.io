@@ -36,7 +36,7 @@ series: "attention-kernels"
 
 ## 2. 三条路线：对抗 $L^2$ 的三种策略
 
-01 章说注意力 FLOPs $= 4L^2d$、KV 显存 $= O(L)$。02/03 章把"计算怎么快、KV 怎么小"做到了极致，但 **$L^2$ 的平方本质没动**。本章的三种策略从三个方向绕开它：
+01 章说注意力 FLOPs $= 4L^2d$、KV 显存 $= O(L)$。02/03 章分别从 IO 和 KV 维度动手，复杂度仍是 $O(L^2)$。本章的三种策略从三个方向绕开它：
 
 ```
 路线 A：少看位置（稀疏）
@@ -52,7 +52,7 @@ series: "attention-kernels"
   → 复杂度 O(L·d²)，d ≪ L 时线性
 ```
 
-注意路线 C 通常是**近似**的（softmax 被替换）；02 章 FlashAttention 是精确路线，两类互补。
+路线 C 通常替换 softmax，结果是**近似**；02 章的 FlashAttention 保持精确，只改 HBM 访问。
 
 ---
 
@@ -90,7 +90,7 @@ FLOPs 从 $4L^2d$ 降到 $4LWd$（$W \ll L$），KV cache 也只需存窗口 $W$
 
 ### 4.1 窗口注意力为什么会崩
 
-把窗口直接用于"流式长对话"（文本长度超过训练长度、超过缓存）：只保留最近 $W$ 个 KV，初始 token 被踢出。论文发现**质量崩坏**——不是语义问题，而是 softmax 的"垃圾收集"失效。
+把窗口直接用于"流式长对话"（文本长度超过训练长度、超过缓存）：只保留最近 $W$ 个 KV，初始 token 被踢出。论文发现**质量崩坏**，原因在 softmax 的归一化：窗口里没有可吸收多余注意力质量的 token。
 
 ### 4.2 Attention Sink 现象
 
@@ -189,7 +189,7 @@ e^{q^\top k} \approx \mathbb{E}\left[\varphi(q)^\top \varphi(k)\right], \qquad
 \varphi(x) = \frac{1}{\sqrt{m}}\, f(x)\, \odot\, \text{random cos/sin features}
 $$
 
-Performers（FAVOR+）用**正随机特征**保证方差小，能在 $O(L d^2)$ 内近似 softmax 注意力，误差有界。后续大量"线性 Transformer"（Performer、Linear Transformer、Random Features Attention 等）都走这条路线。
+Performers（FAVOR+）用**正随机特征**保证方差小，能在 $O(L d^2)$ 内近似 softmax 注意力，误差有界。后续的线性 Transformer 工作大多沿这条路做随机特征近似。
 
 ---
 
@@ -197,7 +197,7 @@ Performers（FAVOR+）用**正随机特征**保证方差小，能在 $O(L d^2)$ 
 
 ### 8.1 从线性注意力到 SSM
 
-线性注意力的循环形式是"无状态选择"的：$\mathbf{S}_i$ 的更新对所有 token 一视同仁。状态空间模型（SSM）把状态更新写成：
+线性注意力的循环更新对所有 token 用同一套规则，没有输入相关的选择性。状态空间模型（SSM）把状态更新写成：
 
 $$
 h_t = \bar{A}_t h_{t-1} + \bar{B}_t x_t, \qquad
@@ -272,8 +272,6 @@ $$
 \text{线性： } 4 \times 32768 \times 64^2 \approx 0.54\ \text{GFLOP} \quad(\times 500\ \text{省})
 $$
 
-数字差距巨大，但**别忘了精确性**：线性路线省的是"近似后的注意力"。
-
 ---
 
 ## 11. 实验数据
@@ -291,13 +289,13 @@ $$
 ## 12. 本章小结
 
 1. **三条路线**：少看（稀疏/滑窗）、少存（驱逐）、换范式（线性/SSM）。
-2. **Attention Sink**：初始 token 是 softmax 的"垃圾收集器"，窗口注意力踢掉它就会崩；保留 sink + 窗口即可流式 4M token。
-3. **H2O**：按"累计注意力分数"驱逐，20% 预算带来 29x 吞吐提升。
+2. **Attention Sink**：初始 token 是 softmax 的"垃圾收集器"，窗口注意力踢掉它就会崩；保留 sink + 窗口即可稳定流式。
+3. **H2O**：按"累计注意力分数"驱逐，在固定 KV 预算下把省下的显存换成吞吐。
 4. **线性注意力**：$\varphi(Q)(\varphi(K)^\top V)$ 的结合律把 $L^2$ 换成 $d^2$；Performer 用随机特征近似 softmax。
-5. **Mamba**：选择性 SSM 让状态按内容决定记忆/遗忘，吞吐 5x、线性扩展。
+5. **Mamba**：选择性 SSM 让状态按内容决定记忆/遗忘。
 6. **工程提醒**：这些大多是近似；精确注意力 + KV 优化仍是主流服务的选择。
 
-> 一句话记忆：**"想让注意力跑赢平方，要么看得少（窗口/驱逐），要么换个算法（核/状态空间）——前者保留 softmax 的味道，后者把 softmax 换掉，省下来的都是时间，付出去的是精确性。"**
+> 一句话记忆：**"想让注意力跑赢平方，要么看得少（窗口/驱逐），要么换个算法（核/状态空间）——前者保留 softmax 的味道，后者把 softmax 换掉。"**
 
 ---
 
@@ -372,4 +370,4 @@ softmax 把注意力质量归一化到 1；当窗口内没有"稳定的高分 to
 3. [Transformers are RNNs: Linear Attention（arXiv:2006.16236）](https://arxiv.org/abs/2006.16236)：线性注意力与循环等价形式。
 4. [Rethinking Attention with Performers（arXiv:2009.14794）](https://arxiv.org/abs/2009.14794)：随机特征近似 softmax。
 5. [Mamba（arXiv:2312.00752）](https://arxiv.org/abs/2312.00752)：选择性 SSM 与硬件感知算法。
-6. 上一篇：[03 注意力头变体：MQA/GQA/MLA](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)；下一篇：**05 PagedAttention 与 KV 显存管理**——不砍 KV 内容，而是把 KV 从"连续大块内存"变成"分页小片"，让显存利用率接近 100%。
+6. 上一篇：[03 注意力头变体：MQA/GQA/MLA](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)；下一篇：**05 PagedAttention 与 KV 显存管理**——把 KV 从连续大块分配改成分页小片，减少预留与碎片。

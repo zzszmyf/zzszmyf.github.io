@@ -9,138 +9,50 @@ categories: ["研究笔记"]
 tags: ["研究笔记", "Reinforcement Learning", "Agent Tools"]
 ---
 
-# Claude Code Agent Teams 运行机制深度分析
+这篇内容根据知乎专栏文章整理，作者 Meta（知乎知识会员），首发于“LLM应用技术指北”，发布时间为 2026-03-08。原文链接是 https://zhuanlan.zhihu.com/p/2011414794905859760，参考文档是 https://code.claude.com/docs/en/agent-teams 。下面的拆解以文中给出的工具名和一次 code-review 轨迹为准。
 
-> 原文链接：https://zhuanlan.zhihu.com/p/2011414794905859760
-> 作者：Meta（知乎知识会员）
-> 首发于：LLM应用技术指北
-> 收录于：LLM应用技术指北专栏
-> 发布时间：2026-03-08 16:30
+把一段代码审查任务丢给单个 Subagent，父 Agent 只需要等一个结果；如果换成五个 reviewer 并行，父 Agent 要回答的问题就变了：谁负责哪块、做到哪一步、发现要不要互相传递、什么时候可以关掉团队。Claude Code 的 Agent Teams 就是把这几个问题做成了工具链。
 
-Claude Code 新增了 Agent Teams 功能，为多智能体协作提供了强大的框架。本文将对其运行机制进行详细解析。我们会以代码审查案例来演示其实际应用。
+## 两套分解任务的机制
 
----
+Subagent 走的是 Task 工具不带 `team_name` 的那条路径。父 Agent 给出 `subagent_type` 和 `prompt`，子 Agent 在自己的上下文里执行，返回结果后被销毁；它没有团队上下文，上下文只覆盖这一次调用。调用关系是一对一，管控全部留在父 Agent 手里，适合边界清楚、输入输出明确的子任务。
 
-## Agent Teams 与 Subagent：区别与联系
+Agent Teams 则先用 `TeamCreate` 建一个带唯一 `team_name` 和 `description` 的团队，再创建一组共享资源：TaskList 和团队配置文件。Leader 之外的每个 Teammate 都是独立的 Agent，有自己的上下文和工具集；它们能用 `Read` 读取共享配置、发现彼此，围绕同一个任务列表协作，生命周期从创建一直延续到显式解散。示例轨迹里同时跑了 `maintainability-reviewer`、`security-reviewer` 等五个 reviewer，每个都按自己的审查维度工作。
 
-在 Claude Code 里，Agent Teams 和 Subagent 都是分解任务的核心机制，但设计理念和使用场景不同。
+两者底层都落在 Task 工具上，区别是调用时有没有 `team_name`。这个参数像一个开关：不带它，Task 只是一次委托；带上它，Task 会把子 Agent 放进团队，给它团队身份和共享资源。判断该用哪种，取决于子任务之间要不要交换中间发现，任务大小不是主要判据。安全 reviewer 如果发现一个鉴权绕过，维护性 reviewer 需不需要立刻知道，决定了它们应该并行独立跑，还是应该进同一个团队。
 
-### 概念与定位
+## 共享状态放在哪里
 
-- **Agent Teams**："重量级"协作模式，适合多智能体长期、并行协作的复杂问题。有明确角色（Leader、Teammate）、共享资源（TaskList、Mailbox）和完整生命周期。
-- **Subagent**："轻量级"委托执行机制，本质是一个"瞬时子进程"，没有团队上下文，执行完即销毁。
+团队模式把协调状态从某个 Agent 的上下文里搬到了 TaskList 和团队配置上。TaskList 保存每个子任务的 subject、description、状态和 owner，状态只有 pending、in_progress、completed 三种。`TaskCreate` 用 subject、description、activeForm 建任务，`TaskGet` 按 taskId 取完整描述，`TaskUpdate` 改状态或换 owner，`TaskList` 拉当前团队的任务概览。
 
-### 核心差异对比
+这个设计的直接后果是状态可被所有成员检查。Leader 不需要记住“第三个 reviewer 做到哪了”，它读 TaskList 就行；Teammate 开始工作前用 `TaskGet` 拿到任务上下文，不必让 Leader 在 prompt 里重复一遍。owner 字段还承担了两个职责：避免两个 Teammate 同时抢同一个任务，以及在出问题时能追溯到是谁改的状态。对于并行审查这种读多写少的任务，这比让 Agent 之间直接互发消息更稳。
 
-| 维度 | Agent Teams | Subagent |
-|------|-------------|----------|
-| **上下文与状态** | 持久化、有状态。团队成员有独立上下文，团队状态可被所有成员感知。 | 无状态、瞬时。上下文仅限于单次调用输入。 |
-| **生命周期** | 长期。从创建到解散，支持多轮交互和任务迭代。 | 瞬时。一次调用和返回，执行完即销毁。 |
-| **协作与通信** | 多对多协作。成员间可直接通信，通过共享配置文件和 TaskList 协同。 | 一对一委托。唯一通信路径是父 Agent 调用，Subagent 返回结果。 |
-| **工具与管控** | 依赖整套专用工具链，提供丰富的团队治理和任务编排能力。 | 仅依赖 Task 工具（不带 team_name），管控全由父 Agent 负责。 |
-| **适用场景** | 需要并行探索、多视角分析的复杂问题（如代码审查）。需要多个 Agent 协同完成的任务。需要长期追踪和管理子任务的场景。 | 外包单一、明确的子功能。创建可复用的"智能工具"。需要函数式、输入输出明确的处理单元。 |
+共享状态也有代价。TaskList 是中心，所有成员都要读写它，任务拆得太碎时，状态同步本身会占掉一部分注意力；任务描述写得不清楚时，`TaskGet` 取回来的只是一段模糊的 subject，Teammate 仍然要回去问 Leader。工具链能保证状态一致，保证不了任务定义的质量。
 
-### 如何选择
+## 工具链的调用顺序
 
-1. **需要"讨论"时选 Agent Teams**：子任务执行者间需要共享发现、传递中间结果。
-2. **任务是"委托"时选 Subagent**：父 Agent 只关心最终结果，不需要持续协作。
-3. **根据"耦合度"决定**：高度独立的子任务适合 Subagent，有依赖关系的适合 Agent Teams。
+初始化阶段有一条比较固定的顺序。`TeamCreate` 先建团队和共享资源，`TaskCreate` 把大任务拆成可执行的条目，`Task` 用 `run_in_background: true` 并行拉起 Teammate，`TaskUpdate` 再把具体任务分配给对应的 owner 并改成 in_progress。`Task` 的参数里除了 `subagent_type` 和 `prompt`，还有 `name` 和 `team_name`；前者给 Teammate 一个可识别的名字，后者把它挂到团队上。
 
-### 总结
+关闭阶段需要按协议走，不能直接 kill 进程。所有任务完成后，Leader 用 `SendMessage` 给每个 Teammate 发 `shutdown_request`；Teammate 回 `shutdown_approved` 并自行终止；确认所有成员都退出后，Leader 才调用 `TeamDelete` 清理目录和配置文件。这个顺序保证了正在执行的任务不会在中途被删掉，代价是 Leader 必须等待每个成员确认，收尾时间会变长。
 
-两者底层都基于 Task 工具，区别在于是否提供 team_name 参数（激活"团队模式"的开关）。Subagent 是"轻量的一次性执行层"，Agent Teams 是"带治理的长期协作层"。它们可以嵌套使用，构成灵活强大的智能体编排能力。
+工具定义里 `SendMessage` 的 `type` 有 message、broadcast、shutdown_request 三种，`recipient` 和 `content` 分别指定收件人和内容。`broadcast` 适合发全局约束，比如“所有人只读，不要改工作区”；`message` 适合点对点传递发现；`shutdown_request` 只应该由 Leader 在收尾阶段发。把这些语义分开，比让所有 Agent 共享一个自由文本频道更容易控制。
 
----
+## 消息推送与任务轮询
 
-## Agent Teams：并行协作的智能体编排范式
+Mailbox 是消息通道的共享存储，Teammate 用它发报告和空闲通知，Leader 用它发关闭请求，`SendMessage` 是读写 Mailbox 的工具。文中提到消息会自动推送给 Leader，不需要手动轮询；同时又提到 Leader 会轮询 TaskList 来确认所有任务都是 completed。这两句话描述的是两条通道，不能混在一起理解：消息通道负责把 Teammate 的报告和空闲通知送到 Leader，任务通道负责维护“这件事到底完成没有”的状态。空闲通知让 Leader 知道某个 reviewer 已经空出手，可以动态补任务；任务状态仍要以 TaskList 为准，因为消息可能只说明“我这边告一段落”，不代表对应任务已经被标记完成。
 
-Claude Code 的 Agent Teams 是一个多智能体协作框架，允许一个主导 Agent（Leader）创建并管理多个子 Agent（Teammate）组成的团队，并行完成复杂任务。
+这套机制在任务数量少的时候很自然。每人一个任务，Leader 轮询几次就能收齐结果；空闲通知还能让它把新发现的问题追加成任务，再派给已经空下来的成员。任务数量上去以后，轮询和消息会同时变多，Leader 的上下文会被各种状态更新占满，这时候要么限制团队规模，要么把任务粒度调粗，减少协调次数。
 
-**核心思想**：将大任务（如代码库全面审查）拆成多个子任务（如安全性、可维护性审查），每个子任务派一个专门的 Teammate 并行处理，最后由 Leader 汇总结果，大幅提升效率。
+## 什么场景值得开团队
 
-### 核心概念与系统角色
+需要多视角并行探索的任务适合 Agent Teams：代码审查、方案对比、跨模块排查，几个 reviewer 可以从安全、可维护性、性能不同角度同时看同一份代码，彼此不需要等待。任务之间有依赖、需要共享中间发现时，团队也比一串串行 Subagent 更合适，因为 TaskList 和 Mailbox 提供了传递状态的地方。
 
-Agent Teams 运行围绕以下核心概念：
+边界清楚、一次调用就能完成的任务更适合 Subagent。让一个 Subagent 去改一个函数、跑一组测试、查一个符号的引用，父 Agent 只关心最终结果，不需要团队身份、任务所有权和关闭协议；开团队反而多出建队、分配、收尾三次开销。写操作多的任务还要额外小心：多个 Teammate 同时改同一片代码，TaskList 的 owner 只能防止任务被重复领取，防不住文件级冲突，切分工作区仍然要由 Leader 事先做好。
 
-| 概念/角色 | 描述 | 在轨迹中的体现 |
-|-----------|------|----------------|
-| **Team (团队)** | 临时的 Agent 集合，为完成特定目标（如 code-review）而创建，有唯一的 team_name。 | 通过 TeamCreate 工具创建，生成 code-review 团队。 |
-| **Leader (领导者)** | 发起和管理团队的主 Agent，负责创建团队、分任务、盯进度、汇总结果、解散团队。 | - |
-| **Teammate (团队成员)** | Leader 创建的子 Agent，负责执行具体子任务，每个都有独立上下文和工具集。 | maintainability-reviewer、security-reviewer 等 5 个并行运行的 Agent。 |
-| **TaskList (任务列表)** | 团队共享的任务管理中心，存储所有子任务及其状态（pending, in_progress, completed）、负责人等信息。 | 通过 TaskCreate、TaskList、TaskUpdate 等工具交互。 |
-| **Mailbox (邮箱)** | Agent 间的通信机制，Teammate 用它向 Leader 发报告、空闲通知；Leader 用它向 Teammate 发关闭请求。 | 体现为 teammate-message 和 SendMessage 工具调用。 |
-| **团队生命周期** | 从创建到解散的完整流程：TeamCreate → 并行 Task → TaskUpdate → 汇总 → SendMessage(shutdown_request) → TeamDelete。 | 完整覆盖从团队创建到最终清理的全过程。 |
+## 还没被公开材料覆盖的部分
 
-### Agent Teams 总体架构
+这套机制能确认的是工具名、调用顺序、任务状态和消息类型；团队配置的具体格式、上下文压缩之后状态怎么恢复、某个 Teammate 进程崩掉后任务怎么重新分配，公开材料都没有给出细节。这些恰好是生产环境最关心的部分，因为没有崩溃恢复，团队规模一大，Leader 就会变成单点。
 
-Leader 是中心协调员，通过共享的 TaskList 和 Mailbox 与并行工作的 Teammates 互动，Teammates 通过读取共享的 Team Config 发现彼此，构成完整的协作网络。
+如果要在真实仓库里开团队，先量两笔账：每个 reviewer 独立读一遍代码带来的 token 成本，以及汇总五份报告时 Leader 需要处理的冲突数量。TaskList 能协调任务状态，重复读代码的 token 成本不会因为进团队而消失。
 
----
-
-## Agent Teams 工具链解析
-
-Agent Teams 的高效运转依赖于一套覆盖团队与任务管理全生命周期的工具链。
-
-### 核心工具详解
-
-| 工具 | 作用 | 典型参数 | 使用时机与约束 |
-|------|------|----------|----------------|
-| **TeamCreate** | 创建团队：初始化新团队，创建关联的共享资源（任务列表、配置文件）。 | team_name, description | 协作开始的第一步，team_name 需唯一。 |
-| **Task** | 启动 Teammate：以子进程形式启动专用的子 Agent (Teammate)。 | subagent_type, prompt, run_in_background, name, team_name | 创建团队和任务后，用于并行化执行。 |
-| **TaskCreate** | 创建任务：在团队的共享任务列表中定义新任务。 | subject, description, activeForm | 启动 Teammate 前，明确需要完成的工作项。 |
-| **TaskList** | 查看任务列表：获取当前团队所有任务的概览（ID, 状态, 所有者等）。 | 无 | 用于同步状态，了解团队整体进度。 |
-| **TaskUpdate** | 更新任务状态：修改任务的属性，如状态或分配所有者。 | taskId, status, owner | Leader 用它分配任务；Teammate 用它标记任务完成。 |
-| **TaskGet** | 获取任务详情：根据任务 ID 获取任务的完整描述和上下文。 | taskId | Teammate 开始工作前，获取具体要求。 |
-| **SendMessage** | 内部通信：在 Agent 之间发送消息或协议请求。 | type (message, broadcast, shutdown_request), recipient, content | 用于 Leader 与 Teammate 间的指令传递和状态同步。 |
-| **TeamDelete** | 解散团队：清理团队的所有相关资源（目录、配置文件）。 | 无 | 任务全部完成后调用，必须等所有 Teammate 关闭。 |
-| **Read** | 读取文件：通用的文件读取工具。 | file_path | Teammates 用来读取团队配置文件，发现其他成员。 |
-
-### 初始化与关闭的典型范式
-
-#### 初始化范式
-
-1. **创建团队**：使用 TeamCreate 定义团队名称和目标。
-2. **定义任务清单**：使用 TaskCreate 为每个子任务创建条目。
-3. **并行启动 Teammates**：为每个任务并行调用 Task 工具，设置 run_in_background: true。
-4. **分配任务所有权**：使用 TaskUpdate 将任务分配给对应的 Teammate，状态改为 in_progress。
-
-#### 关闭范式
-
-1. **请求关闭**：所有任务完成后，Leader 用 SendMessage 给每个 Teammate 发 shutdown_request。
-2. **等待确认**：Teammates 收到请求后，发 shutdown_approved 消息并自行终止。
-3. **删除团队**：确认所有 Teammate 关闭后，Leader 调用 TeamDelete 清理资源。
-
-**关键点**：团队关闭是"优雅"的过程，必须等所有成员退出后才能解散团队，避免正在执行的任务被中断。
-
----
-
-## Agent Teams 运行机制深度拆解
-
-### 接口外观与角色定义
-
-最外层通过语义明确的工具集（TeamCreate, Task, SendMessage 等）和清晰的角色划分（Leader, Teammate）暴露能力。工具构成了 Leader 与系统交互的 API，每个工具对应一个高内聚的原子操作。Leader 是"指挥官"，Teammate 是"士兵"，分工明确，降低单个 Agent 的心智负担。
-
-### 核心逻辑：并行协作与任务编排
-
-核心是并行协作与任务编排能力。通过 Task 工具的 run_in_background: true 参数，Leader 可以非阻塞地启动多个 Teammate，实现真正的并行计算。共享的 TaskList 充当"中央公告板"，所有 Agent 都可以读取和更新任务状态，实现基于状态的松耦合协作。当所有 Teammate 完成工作后，Leader 通过轮询 TaskList 确认所有任务状态均为 completed，然后进入下一步。
-
-### 生态与开发者体验
-
-Agent Teams 包含一系列提升协作效率和开发者体验的机制：
-
-- **自动消息派发**：消息会自动推送给 Leader，无需手动轮询。
-- **空闲通知**：Teammate 完成当前工作后，会自动发送空闲通知，为 Leader 提供动态调度机会。
-- **任务所有权**：避免多个 Teammate 抢占同一个任务的竞态条件，也为工作追溯和责任划分提供依据。
-
----
-
-## 总结
-
-Claude Code Agent Teams 是一个设计精良、层次分明的多智能体协作系统，通过清晰的接口、强大的并行编排能力、便捷的协作机制和扎实的底层架构，为解决复杂的软件工程任务提供了高效、可扩展的范式。
-
-### 参考
-- https://code.claude.com/docs/en/agent-teams
-
----
-
-*创作声明：包含 AI 辅助创作*
+*说明：本文在原文基础上做了结构与表述整理，包含 AI 辅助创作。*

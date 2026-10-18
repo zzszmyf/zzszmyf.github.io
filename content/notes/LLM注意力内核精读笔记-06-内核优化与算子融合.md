@@ -72,7 +72,7 @@ $$
 \text{bytes} \approx \text{weights} + 2 L\, d_{\text{kv}} n_{\text{layers}} b
 $$
 
-7B 模型、$L=4K$：约 6.4 GFLOP vs 15 GB 搬移 → 算术强度 $\approx 0.4$，远低于山脊 → **带宽受限**。
+7B 模型、$L=4K$ 的账本见 10.1 节：算术强度不到 1，远低于山脊 → **带宽受限**。
 
 ### 3.2 prefill（长输入）
 
@@ -82,7 +82,7 @@ $$
 \text{AI}_{\text{attn}} \approx \frac{4L^2d}{3Ld} = \frac{4L}{3}
 $$
 
-$L = 4096$ 时约 5461 FLOP/byte，远高于山脊 → **计算受限**。
+$L = 4096$ 时已远高于山脊 → **计算受限**（10.2 节给出具体数值）。
 
 ### 3.3 推论
 
@@ -134,19 +134,20 @@ prefill 优化 → 减 FLOPs 或提高利用率（FlashAttention、稀疏/线性
 → 差距全部来自"注意力里非 GEMM 的部分"和 IO 组织
 ```
 
-FA2/FA3 就是把这个差距补上：
+FA2/FA3 的优化都在缩小这个差距：
 
 ```
-FA2：warp 间划分 KV 维度，减少共享内存读写 → 73% 峰值
-FA3：wgmma（warpgroup 矩阵乘）+ TMA 异步搬运 + 软max 藏在 GEMM 下
-     → 75% 峰值（FP16 740 TFLOPS；FP8 约 1.2 PFLOPs on H100）
+FA2：warp 间划分 KV 维度，减少共享内存读写
+FA3：wgmma（warpgroup 矩阵乘）+ TMA 异步搬运 + softmax 藏在 GEMM 下
 ```
+
+具体利用率数据见第 9 节的效率曲线。
 
 ---
 
 ## 6. FP8 注意力与低精度内核
 
-Hopper/Blackwell 的 FP8 张量核吞吐是 FP16 的约 **2 倍**（FA3 原文：WGMMA 在 FP8 下每 SM 吞吐翻倍）。注意力用 FP8 有两个难点：
+Hopper/Blackwell 的 FP8 张量核吞吐是 FP16 的约 **2 倍**。注意力用 FP8 有两个难点：
 
 ```
 ① 数值：注意力分数/softmax 对精度敏感（01 章结论）
@@ -161,7 +162,7 @@ Hopper/Blackwell 的 FP8 张量核吞吐是 FP16 的约 **2 倍**（FA3 原文�
 
 ## 7. GEMM 内核栈与 ops/byte 数据
 
-注意力（以及整个 transformer 前向）的底层几乎全是 GEMM。书的 Software 章给了一条"内核栈"，从黑盒到可编程：
+注意力（以及整个 transformer 前向）的主要计算是 GEMM。从黑盒到可编程，内核栈通常分这几层：
 
 | 层 | 工具 | 定位 |
 |---|---|---|
@@ -171,7 +172,7 @@ Hopper/Blackwell 的 FP8 张量核吞吐是 FP16 的约 **2 倍**（FA3 原文�
 | 注意力专用 | FlashInfer | 面向 LLM serving 的注意力模板库（分页、前缀缓存友好） |
 | MoE/超低精度 | DeepGEMM | DeepSeek 开源的 FP8 GEMM，面向 MoE 与细粒度量化 |
 
-FlashAttention 类内核 = 在 CUTLASS/CuTe 之上写注意力专用 GEMM——书的原话：一个 FlashAttention 等效内核手写要上万行。这正是 02/06 章所有融合的"载体"。
+FlashAttention 类内核 = 在 CUTLASS/CuTe 之上写注意力专用 GEMM。02/06 章讨论的融合都落在这种内核里。
 
 ### 7.1 ops/byte：这台机器到底"喂"得起多少算力
 
@@ -182,7 +183,7 @@ FlashAttention 类内核 = 在 CUTLASS/CuTe 之上写注意力专用 GEMM——�
 | H100 | 989 | 3.35 | ≈ 295 |
 | B200 | ≈ 2250 | 8.0 | ≈ 281 |
 
-含义：机器大约"喂"得起约 300 FLOP/byte 的算法。本章的 decode（AI ≈ 0.4）与 prefill 注意力（AI ≈ 5461）都远离山脊，一个在带宽侧、一个在计算侧。FP8 把张量核吞吐翻倍（H100 989→1979 TFLOPS），山脊也翻倍到 ≈ 590——**计算受限的 prefill 直接受益**；decode 的 AI 仍远低于 590，所以 FP8 对 decode 的收益主要来自"KV/权重字节减半"（带宽侧），而不是算力翻倍。
+含义：机器大约"喂"得起约 300 FLOP/byte 的算法。本章的 decode（AI ≈ 0.4）与 prefill 注意力（AI ≈ 5461）都远离山脊，一个在带宽侧、一个在计算侧。FP8 把张量核吞吐翻倍（H100 989→1979 TFLOPS），山脊也翻倍到 ≈ 590——**计算受限的 prefill 直接受益**；decode 的 AI 仍远低于 590，FP8 对 decode 的收益来自 KV/权重字节减半（带宽侧），算力翻倍帮不上忙。
 
 ### 7.2 内核栈的选型逻辑
 
@@ -209,7 +210,7 @@ torch.compile：把 PyTorch 计算图做算子融合 + 代码生成
   → 训练/研究场景的开箱即用优化
 ```
 
-选择逻辑：追求极致性能且算力充足 → 手写/FA 库；需要快速迭代 → Triton / torch.compile；部署固定形状 → CUDA Graph + 预编译引擎。
+选择逻辑：追求极致性能且有工程人力 → 手写/FA 库；需要快速迭代 → Triton / torch.compile；部署固定形状 → CUDA Graph + 预编译引擎。
 
 ---
 
@@ -223,7 +224,7 @@ torch.compile：把 PyTorch 计算图做算子融合 + 代码生成
 | FlashAttention-3 | 75%（740 TFLOPS on H100）；FP8 ≈1.2 PFLOPs | 异步 + 低精度 |
 | 优化 GEMM | 80–90% | 注意力的"天花板参照" |
 
-从 30% 到 75% 的每一步，都是在**逼近 GEMM 的效率**——注意力的内核优化史，就是"把非 GEMM 的部分藏进 GEMM"的历史。
+从 30% 到 75%，增量主要来自把 mask、softmax 这些非 GEMM 步骤藏进 GEMM 流水线。
 
 ---
 
@@ -252,7 +253,7 @@ $$
 ### 10.3 优化方向验证
 
 ```
-decode：量化权重（带宽减半）→ 每步时间接近减半 ✓（量化系列 03 章）
+decode：权重减半 → 每步搬移 15→8.5 GB，时间约 0.57x ✓（量化系列 03 章）
 prefill：FP8 张量核（FLOPs/s 翻倍）→ 长 prefill 明显提速 ✓（FA3）
 ```
 
@@ -265,9 +266,9 @@ prefill：FP8 张量核（FLOPs/s 翻倍）→ 长 prefill 明显提速 ✓（FA
 3. **融合三层次**：elementwise → reduction → 整体；FlashAttention 是 reduction 融合的典范。
 4. **Tensor Core + FP8** 是算力侧的两大杠杆；FP8 注意力需要块级量化与 incoherent processing。
 5. **工程手段**：CUDA Graph 消启动、Triton/torch.compile 提效率。
-6. **GEMM 内核栈**：cuBLAS → CUTLASS/CuTe → FlashInfer/DeepGEMM；H100/B200 的山脊约 300 ops/byte，FP8 把它翻倍，主要利好 prefill。
+6. **GEMM 内核栈**：cuBLAS → CUTLASS/CuTe → FlashInfer/DeepGEMM。
 
-> 一句话记忆：**"先问 Roofline 缺什么：decode 缺带宽就给内存做减法（量化/GQA/分页），prefill 缺算力就给计算做减法（FlashAttention/FP8/稀疏）——所有内核优化都是把'瓶颈环节'藏到'不瓶颈的硬件'里。"**
+> 一句话记忆：**"先问 Roofline 缺什么：decode 缺带宽就给内存做减法（量化/GQA/分页），prefill 缺算力就给计算做减法（FlashAttention/FP8/稀疏）。"**
 
 ---
 

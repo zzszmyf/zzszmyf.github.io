@@ -9,47 +9,23 @@ categories: ["工程实践"]
 tags: ["vLLM", "GPU", "性能优化", "多模态", "PaddleOCR", "LLM 推理"]
 ---
 
-> 一次 vLLM 服务 GPU 利用率持续 100% 的线上问题排查，最终定位到一个反直觉的默认值陷阱：**不传 `max_tokens` 时，vLLM 允许模型生成 13 万个 token 才停止**。
-
----
+> 一次 vLLM 服务 GPU 利用率持续 100% 的线上问题排查，最终定位到一个反直觉的默认值陷阱：不传 `max_tokens` 时，vLLM 允许模型生成到 `max_model_len`。这个上限在 PaddleOCR-VL 上大约是 13 万 token。
 
 ## 1. 问题现象
 
-线上部署的 vLLM 服务（承载 PaddlePaddle/PaddleOCR-VL 多模态 OCR 模型）出现以下异常：
+线上那台跑 PaddleOCR-VL 的 vLLM 服务，GPU 利用率挂到 100% 之后就不再下来。`nvidia-smi` 里显存占用正常，计算单元却一直满载；服务重启后短暂恢复正常，随后又卡住。请求量并不高，单张图片 OCR、`temperature=0`，也没有并发堆积。
 
-- **GPU 利用率持续 100%**，不随请求完成而下降
-- 服务重启后短暂恢复正常，但很快再次卡住
-- `nvidia-smi` 显示显存占用正常，但计算单元（SM）满载
-- 单张图片 OCR 请求，temperature=0，无并发压力
-
-初步怀疑是请求"卡住"了——某个请求进入 decode 阶段后没有正常结束，导致 scheduler 的 `running` 队列始终非空，`run_busy_loop` 持续调度 GPU 计算。
-
----
+最先怀疑的是某个请求卡在 decode 阶段没有结束。vLLM 的 scheduler 只要 `running` 队列非空，`run_busy_loop` 就会反复调用 `execute_model()`，GPU 上自然一直有活干。显存没有上涨，说明不太像 OOM 或缓存泄漏，更像是有一条请求始终进不了结束状态。
 
 ## 2. 排查路径
 
-### 2.1 最可能的路径
+服务启动时带着 `--mm-processor-cache-gb 0`。这个参数把多模态处理器的 encoder 缓存关掉，同一张图片每次请求都要重新跑一遍 ViT 编码；大图、文字密集的 OCR 请求会把首 token 延迟拉长，也可能在调度中被反复 preempt，让请求在 `running` 队列里待得更久。
 
-```
-图片 OCR 请求进来
-  → --mm-processor-cache-gb 0 导致没有 encoder 缓存
-  → 大图 ViT 编码耗时极长 / 请求被反复 preempt
-  → scheduler.running 队列始终非空
-  → run_busy_loop 持续调用 execute_model()
-  → GPU 利用率一直 100%
-```
+但 encoder 慢只会让单个请求耗时变长，不会让它永远不结束。请求只要输出 `eos` 或者达到长度上限，scheduler 仍会把它移出 `running`。真正异常的地方是它连长度上限都够不到，因为上限被设成了模型的最大上下文。
 
-### 2.2 但 encoder 只是次要因素
+## 3. 根因：请求没有结束条件
 
-`--mm-processor-cache-gb 0` 确实会导致同样的图片重复计算 ViT 特征，但它只会**慢**，不会**无限卡死**。真正让请求"永不结束"的是另一个问题。
-
----
-
-## 3. 根因定位：请求未正常结束
-
-深入 vLLM 源码后发现问题核心：**client 端没有传 `max_tokens`，vLLM 默认允许生成到 `max_model_len`**。
-
-### 3.1 client 代码
+client 侧的调用只传了模型、消息和 temperature，`max_tokens` 留空。代码本身没有别的异常：
 
 ```python
 response = client.chat.completions.create(
@@ -60,9 +36,9 @@ response = client.chat.completions.create(
 )
 ```
 
-### 3.2 vLLM 如何处理缺失的 max_tokens
+这份代码用 OpenAI Python SDK 调 vLLM 的兼容接口，`temperature=0.0`，唯独没有传 `max_tokens`。在 OpenAI 官方 API 里，这类参数缺失通常有服务端默认值兜底；vLLM 的兼容层却在 `vllm/entrypoints/utils.py` 里自己算了一个上限。
 
-vLLM 的 OpenAI 兼容层在 `vllm/entrypoints/utils.py` 中计算最终的 `max_tokens`：
+计算逻辑在 `get_max_tokens` 里。函数如下：
 
 ```python
 def get_max_tokens(max_model_len, max_tokens, input_length,
@@ -83,20 +59,11 @@ def get_max_tokens(max_model_len, max_tokens, input_length,
     )
 ```
 
-**关键点：**
+这段函数把几个候选值取最小值：模型可用的剩余长度 `max_model_len - input_length`、请求里的 `max_tokens`、模型配置里的默认值、服务端的 override，以及平台限制。问题在于后四项都可能是 `None`，而生成器表达式会把 `None` 过滤掉，最后只剩 `model_max_tokens`。PaddleOCR-VL 的上下文长度约 131072，输入占掉几百个 token，于是返回的上限落在模型上下文长度附近。
 
-| 条件 | 结果 |
-|------|------|
-| 用户没传 `max_tokens` | `max_tokens = None` |
-| 模型 `generation_config.json` 无 `max_new_tokens` | `fallback_max_tokens = None` |
-| 服务端无 `--max_tokens` override | `override_max_tokens = None` |
-| **最终 `max_tokens`** | **`model_max_tokens ≈ 130000`** |
+具体到这次请求，client 没传 `max_tokens`；模型的 `generation_config.json` 里没有 `max_new_tokens`；服务端启动时也没加 `--max_tokens`。三个来源同时为空，`min()` 的候选集合里就只剩下 `model_max_tokens`。请求因此被允许一直生成下去，直到撞上模型上下文的天花板。
 
-这意味着：**vLLM 允许模型最多生成约 13 万个 token 才强制停止**。
-
-### 3.3 check_stop 的停止条件
-
-`vllm/v1/core/sched/utils.py:112`：
+请求能否结束，最终由 scheduler 的 `check_stop` 决定。停止条件在 `vllm/v1/core/sched/utils.py:112`：
 
 ```python
 if (
@@ -107,30 +74,19 @@ if (
     return True
 ```
 
-如果 `request.max_tokens ≈ 130000`，那模型要生成 **13 万个 token** 才会触发这个停止条件。在此之前，只要模型没输出 `eos_token`，请求就会一直占着 `scheduler.running`，`run_busy_loop` 就会持续调度 GPU 计算。
+`check_stop` 只认两个条件：`num_tokens >= max_model_len`，或者 `num_output_tokens >= request.max_tokens`。当 `request.max_tokens` 被推到模型上下文长度时，模型必须连续生成同样多的 token 才会触发 `FINISHED_LENGTH_CAPPED`。OCR 模型在 `temperature=0` 下不会因为采样随机性提前结束；如果它没有在某个位置吐出 `eos`，decode 就会一直跑下去。
 
-### 3.4 SamplingParams 的默认值去哪了？
+`SamplingParams` 自身确实有 `max_tokens=16` 的默认值，但这条路径用不上它。OpenAI API 的请求会先经过 `to_sampling_params(max_tokens, ...)`，传进去的是 `get_max_tokens()` 已经算好的值；`max_tokens=16` 只对直接构造 `SamplingParams` 的调用生效。两个入口的默认行为在这里分叉。
 
-你可能注意到 `SamplingParams` 的默认 `max_tokens=16`，但这个默认值只在**直接构造 `SamplingParams` 时**生效。通过 OpenAI API 进来的请求，走的是 `to_sampling_params(max_tokens, ...)`，其中 `max_tokens` 已经被 `get_max_tokens()` 计算过了，所以 `SamplingParams` 的默认值**不会被用到**。
-
----
+这次部署的 vLLM 版本没有记录在案，上面的源码路径以当时的安装版本为准；[待补：vLLM 的具体版本号与 commit]。不同版本的 `get_max_tokens` 可能已经改过，升级后要重新确认这段回退逻辑。
 
 ## 4. 复现场景
 
-PaddleOCR-VL 作为 OCR 模型，在以下条件下极易触发：
+这个组合不只在 OCR 上成立：`temperature=0`、输出可能很长、模型不保证吐 `eos`、请求又没有长度上限，四个条件凑齐后，单个请求就能把 GPU 占住。图片文字越密，模型越容易进入长输出；`temperature=0` 又消除了随机采样带来的提前终止。此时后面的请求全部堆在 waiting 队列，GPU 上跑的始终是那一条停不下来的 decode。
 
-- **temperature=0**：确定性采样，不会随机 early stop
-- **图片文字密集**：OCR 输出可能很长
-- **缺少 stop token**：某些情况下模型不会输出 `eos_token`
-- **无 max_tokens 限制**：可以一直生成到 13 万 token
+## 5. 修复方案
 
-结果就是：模型进入 decode 阶段后"停不下来"，GPU 被单条请求独占，后续请求全部排队。
-
----
-
-## 5. 解决方案
-
-### 5.1 Client 端：显式设置 max_tokens（推荐）
+client 端显式设置 `max_tokens` 是最直接的止血点。改法只有一行：
 
 ```python
 response = client.chat.completions.create(
@@ -141,9 +97,9 @@ response = client.chat.completions.create(
 )
 ```
 
-这样 `get_max_tokens` 会取 `min(130000, 1024) = 1024`，模型最多生成 1024 个 token 就会被强制截断，GPU 利用率在生成结束后必定降下来。
+把 `max_tokens` 写成 1024 后，`get_max_tokens` 会取 `min(model_max_tokens, 1024)`，请求最多生成 1024 个 token 就会被截断。这个值来自 OCR 任务的输出长度上限，不是通用推荐值；换成代码生成或长文摘要，需要按业务输出重新估算。
 
-### 5.2 服务端：加一层兜底保护
+服务端再加一层兜底，避免某个调用方漏传。启动参数如下：
 
 ```bash
 vllm serve PaddlePaddle/PaddleOCR-VL \
@@ -151,9 +107,9 @@ vllm serve PaddlePaddle/PaddleOCR-VL \
     --mm-processor-cache-gb 4  # 同时开启 encoder 缓存，避免重复计算
 ```
 
-服务端设置 `--max_tokens` 后，即使 client 没传，也会限制最大生成长度。
+服务端设置 `--max_tokens` 后，即使 client 漏传，请求也会在 2048 个 token 处停下；`--mm-processor-cache-gb 4` 则把 encoder 缓存重新打开，减少同一张图片的重复 ViT 计算。2048 在这里是兜底值，正常业务仍应在 client 侧传更紧的限制。
 
-### 5.3 不要关 encoder cache
+encoder cache 也要从 0 改回默认，否则首 token 延迟会一直偏高。启动命令对比如下：
 
 ```bash
 # 不要这样
@@ -163,25 +119,17 @@ vllm serve ... --mm-processor-cache-gb 0  # ❌
 vllm serve ...  # 不加 --mm-processor-cache-gb，让 vLLM 用默认值缓存图片特征
 ```
 
-同样的图片不会重复计算 ViT 编码，显著降低首 token 延迟。
+关掉 encoder cache 的代价是首 token 延迟，不会造成无限 decode。恢复默认缓存是为了让重复图片的 ViT 特征复用；这个改动和 `max_tokens` 是两笔账，不能互相替代。
 
----
+## 6. 优先级与监控
 
-## 6. 完整建议清单
+修复的优先级很清楚：client 侧显式设置 `max_tokens` 是 P0，服务端 `--max_tokens` 兜底和恢复 encoder cache 是 P1，缩短 `max_model_len` 与补监控是 P2。client 的显式限制是止血点，服务端兜底防的是调用方漏传，两者都要有。encoder cache 只影响首 token 延迟，`max_model_len` 则决定单个请求能占用的上限。
 
-| 建议 | 优先级 | 说明 |
-|------|--------|------|
-| Client 端显式设置 `max_tokens` | **P0** | 根治"生成过长导致 GPU 持续高"问题 |
-| 服务端设置 `--max_tokens` 兜底 | P1 | 防止 client 遗漏 |
-| 移除 `--mm-processor-cache-gb 0` | P1 | 启用 encoder 缓存，降低首 token 延迟 |
-| 设置合理的 `max_model_len` | P2 | 如果模型支持 128K 但业务不需要，可以缩短 |
-| 监控 `num_output_tokens` 分布 | P2 | 发现异常长生成及时告警 |
+监控上补一条 `num_output_tokens` 的分布，异常长尾比 GPU 利用率更早暴露问题。GPU 利用率是结果，`running` 队列里的请求数和每个请求的输出长度才是能定位问题的指标。
 
----
+## 7. 再次遇到 GPU 持续高
 
-## 7. 如果再次遇到 GPU 持续高
-
-**先别重启**，按以下顺序排查：
+先别重启，按下面的顺序保留现场。重启会把 `running` 队列和日志一起清掉：
 
 ```bash
 # 1. 确认是计算高还是只是显存高
@@ -197,19 +145,12 @@ cp nohup.out nohup.out.bak.$(date +%s)
 py-spy dump --pid $(pgrep -f "vllm")
 ```
 
----
+`nvidia-smi dmon -s mu` 能同时看利用率和显存；如果利用率高、显存平稳，优先查 scheduler 里 running 请求的输出长度。开了 metrics 的话，`vllm_num_requests_running` 能看出请求是否长期挂住；再用 py-spy 抓栈，看进程停在模型 forward、采样还是别的路径。日志先留一份，重启会清掉现场。
 
-## 8. 总结
+如果 py-spy 栈反复落在 CUDA kernel，下一步要查的是 kernel 或驱动；如果栈停在 scheduler 和 sampling 之间，就回到请求的 `num_output_tokens` 和 `max_tokens`。这两种 100% 看起来一样，处理路径不同。
 
-| 问题 | 答案 |
-|------|------|
-| 设置 `max_tokens` 能解决问题吗？ | **能**，对于"请求因生成长度过长而未结束"这种情况 |
-| 为什么不传 `max_tokens` 会导致 13 万 token 上限？ | vLLM 的 `get_max_tokens` 在缺失时 fallback 到 `model_max_len - input_length` |
-| `SamplingParams` 默认 `max_tokens=16` 为什么没生效？ | OpenAI API 层的 `to_sampling_params` 已经传入了计算后的 `max_tokens`，覆盖了默认值 |
-| 还有其他可能原因吗？ | 有：encoder 卡住、CUDA kernel 死循环、大量并发积压。但本场景最符合"无限 decode" |
+## 8. 还没覆盖的路径
 
-**核心教训**：vLLM 的 OpenAI 兼容层在参数缺失时的行为与 OpenAI 官方 API 不同——OpenAI 有明确的默认 `max_tokens`（如 gpt-4 默认 4096），而 vLLM 的默认值是 `max_model_len`，对于长上下文模型可能高达 13 万。生产环境务必**显式设置 `max_tokens`**。
+这次排查只覆盖了“请求不结束”这一条路径。encoder 卡住、CUDA kernel 死循环、大量并发积压也会把 GPU 打到 100%，它们的现场特征不同；当前这个案例里 scheduler 的状态已经能解释现象，所以没有继续往 kernel 侧追。
 
----
-
-> **一句话总结**：vLLM 里不传 `max_tokens` = 允许生成 13 万个 token，GPU 不炸才怪。
+如果同样的 100% 再次出现，而 `running` 队列为空，排查方向就要换到 kernel 和驱动侧。到那一步，`py-spy` 的栈和 `nvidia-smi dmon` 的时间序列比日志里的请求记录更有用。

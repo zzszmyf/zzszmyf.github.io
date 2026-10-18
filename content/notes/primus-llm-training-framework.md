@@ -9,287 +9,50 @@ categories: ["研究笔记"]
 tags: ["研究笔记", "LLM", "AI Infra"]
 ---
 
-# 深入解读 Primus：面向大规模大语言模型的高性能训练框架
+Llama 3.1 70B 在 Primus 的 TorchTitan 后端上跑一遍，超过 99% 的时间花在计算上，通信和空闲都只占很小一部分。再往下拆，`aten::mm` 和 FlashAttention 各占约 47%，两类算子合计约 94%。这组数字把优化顺序限制得很清楚：先看 attention 和 GEMM，别一上来就调通信。
 
-> **原文链接**：https://zhuanlan.zhihu.com/p/2011808660167337197
-> 
-> **原文作者**：Vidushi Goyal, Wei Cai, Yao Fu, George Wang, Wen Xie, Xiaobo Chen
-> 
-> **发布机构**：AMD中国（AMD开发者中心）
+## 一、先 profile，再谈优化
 
----
+这组数据的上下文要说清楚：模型是 Llama 3.1 70B，后端是 TorchTitan，Primus 没有启用优化，测试跑在 AMD GPU 上。换一个模型、换一套并行策略，通信占比可能上来；但在 dense LLM 的常规训练里，GEMM 和 attention 通常是最大的两块计算。Primus 的判断是，把这两类 kernel 的峰值性能榨出来，比先动通信层更划算。
 
-## 简介
+Primus 是一个统一训练框架，支持 TorchTitan 和 Megatron-LM 两个后端，提供统一的 CLI 入口和针对 AMD GPU 预先调好的配置。它的性能优化集中在 Primus-Turbo：一套面向 GEMM 和 FlashAttention 的架构感知 kernel 库，底层接 ROCm 的 AITER 和 hipBLASLt。这个分层很重要：上层并行策略负责切模型，下层 kernel 负责把切开的每一步算快；两层都做对，端到端吞吐才上得去。
 
-**Primus** [1] 是 AMD 推出的统一训练框架，面向大规模大语言模型（LLM）的高性能、可扩展训练场景，支持多个后端，包括 TorchTitan 和 Megatron-LM。Primus 提供统一的命令行（CLI）入口，同时为不同后端提供预先调优好的配置，覆盖主流开源模型。这些后端预设专门针对 AMD GPU 优化，开箱即可获得优异训练性能。
+## 二、FlashAttention：47% 和 75% 是算子级数字
 
-本文将围绕如何在 Primus 上训练「dense LLMs (稠密大模型)」时获得接近峰值的性能，做一次系统的深度解读和实战建议。
+启用 Primus-Turbo 后，Primus 会自动把 FlashAttention 切到 AITER 的 `aiter::fmha_v3_fwd` 和 `aiter::fmha_v3_bwd`。原文给出的延迟降幅是前向约 47%、后向约 75%。后向降得更多，和后向本身更重有关：它要多读一遍激活、多算一遍 QK^T 和 softmax 的反向，还要处理 dropout 掩码，数据搬运和访存的压力都比前向大；融合 kernel 把注意力的多个步骤压进一个 kernel，减少 HBM 往返，收益在后向更明显。
 
----
+这两个数字是算子级延迟，不是端到端训练吞吐。原文没有给出启用 AITER 后整步训练快了多少，也没有说明测试用的序列长度、head dim 和 batch 形状 [待补：fmha_v3 前向/后向在目标 shape 下的端到端 tokens/s 提升]。attention kernel 的收益高度依赖 shape：序列长度太短，融合带来的收益会被固定开销吃掉；head dim 或 batch 不合适，kernel 可能选不到最优的 tile。把 47% 和 75% 直接乘到模型吞吐上，会高估实际收益。
 
-## 性能瓶颈分析
+## 三、GEMM：在线调优和离线调优的取舍
 
-要搞清楚应该优先优化哪里，先以 Llama 3.1 70B 为例，分析 dense LLMs 在 Primus 上训练时的性能瓶颈。
+GEMM 是另一块主计算热点。ROCm 生态给了两种调优方式，二者都落在 hipBLASLt 后端上，从多个实现里选性能最好的 GEMM kernel。在线调优用 ROCm Transformer Engine，搜索空间较小，在训练过程中轻量地做 kernel 选择，集成成本低，适合形状会随训练配置变化的场景；代价是搜索范围有限，碰到极端 shape 不一定能找到最优解。
 
-### GPU 时间线统计（表 1）
+离线调优用 hipblaslt-bench，搜索空间大，一次搜完把结果缓存下来，后续训练直接复用，不增加训练时的搜索开销。它适合追求极致性能、并且能提前准备好调优结果的团队；前提是你要有一组有代表性的 shape，模型结构、batch、序列长度一变，缓存就可能失效，需要重新搜。在线和离线可以组合使用：先用离线搜出大致的候选，再用在线调优覆盖训练中实际出现的形状。
 
-在 Primus（TorchTitan 后端，未启用优化）上运行 Llama 3.1 70B 的数据如表 1 所示：
+原文给出的 GEMM 调优收益是“最高可提升约 5%”。这句话没有写清是 kernel 级还是端到端 [待补：5% 的统计口径是单 kernel 延迟还是端到端训练吞吐]，规划时应该按上限理解，不要把它当成每个 GEMM 都能拿到的稳定收益。5% 和 attention 的 47%/75% 不在一个量级，原因在 GEMM 的 kernel 生态更成熟、可融合的空间更小；这也决定了优化的先后顺序：先把 attention 的融合收益吃掉，再回头抠 GEMM 的 5%。
 
-| 统计项 | 占比 |
-|--------|------|
-| 计算时间 | >99% |
-| 通信开销 | 很小 |
-| 空闲时间 | 很小 |
+## 四、按模型规模选并行策略
 
-**结论**：超过 99% 的总训练时间都花在计算上；通信开销和空闲时间都很小，说明整体任务高度**计算受限（compute-bound）**。
+Primus-Megatron 对三个模型给了三套配置。Qwen2.5 7B 是 28 层，FP16 权重约 14GB，单卡放得下；优化器状态通过分布式优化器分片到 DDP 组，单卡显存压力进一步下降。Primus 推荐纯数据并行（DDP）：每张卡持有完整模型，单节点内梯度 All-Reduce 走 NVLink，扩到多节点时再走 InfiniBand，不需要张量并行或流水线并行的额外通信。这个选择的收益是最大化单卡显存、避免为 TP/PP 额外插入 p2p 集合通信，在小模型上能拿到最高吞吐。
 
-### Kernel 算子统计（表 2）
+Llama 3.1 70B 已经超出单卡显存，Primus-Megatron 推荐 FSDP2。FSDP2 对参数、梯度和优化器状态一起分片，前向之前按层 All-Gather 参数，反向之后 Reduce-Scatter 梯度，通信和计算可以重叠；配置里把 `overlap_grad_reduce` 设为 `true`，让梯度规约和反向计算同时进行，把通信时延藏起来。再加上全量激活重计算，70B 可以完整放进一个 8 卡 AMD GPU 节点。训练扩到 8 个节点后，参数、梯度和优化器状态分散到更多 GPU 上，显存压力下降，这时可以把全量重算放宽成只对部分层重算，减少重算带来的额外计算。
 
-进一步从算子/Kernel 维度看：
+Llama 3.1 405B 必须多节点，Primus-Megatron 推荐 TP + PP + VPP 组合。张量并行在节点内切矩阵乘法，流水线并行跨节点切层，虚拟流水线并行（VPP）把每个 stage 再切成多个虚拟 stage，让一个 GPU 负责不连续的层，减少流水线气泡。405B 不用 FSDP2 的原因很具体：Megatron 的 FSDP2 实现没有对激活做分片，参数和优化器状态虽然切开了，但 405B 的激活占用仍然过高，多节点集群也容易 OOM。这个限制不是调参能绕过去的，选型时只能换并行方案。
 
-| 算子类型 | 占比 |
-|----------|------|
-| aten::mm（GEMM）| ~47% |
-| FlashAttention | ~47% |
-| 其他 | ~6% |
+## 五、TorchTitan 后端为什么要换一套推荐
 
-**结论**：`aten::mm`（GEMM）和 FlashAttention 两类算子加总占据了约 **94%** 的训练时间，这些核心算子几乎决定了 dense LLMs 的整体训练成本。
+同一个模型规模，在 TorchTitan 后端下的推荐和 Megatron 不完全一样。TorchTitan 的 DDP 不使用分布式优化器，单卡显存占用比 Megatron 的 DDP 高；Llama 3.1 8B 虽然不大，Primus 仍然推荐用 FSDP 分片，把参数、梯度和优化器状态切开，以便在相同硬件上容纳更大的 batch size。7B/8B 这个量级在 Megatron 后端可以纯 DDP，在 TorchTitan 后端却要 FSDP，差别来自 DDP 实现，和模型本身无关。
 
-因此，Primus 生态中集成了一套优化 Kernel 库，**Primus-Turbo**，针对 GEMM 和 FlashAttention 做了**架构感知（architecture-aware）**调优，并提供基于 ROCm 的高性能实现，从而显著提升整体训练吞吐。
+Llama 3.1 70B 在 TorchTitan 后端推荐 FSDP2 加激活重计算，和 Megatron 后端的思路基本一致：用分片解决参数和优化器状态的显存，用重计算解决激活的显存，让 70B 放进单个 AMD GPU 节点。原文在单节点上测了 8B 和 70B 的端到端训练吞吐，但没有在正文给出具体数字 [待补：图 4 中 8B/70B 在单节点上的 tokens/s 和扩展效率]。照搬 Megatron 的 DDP 配置到 TorchTitan，或者反过来，都会在显存上撞墙；选后端的时候要连配置一起选。
 
----
+## 六、上手路径和边界
 
-## FlashAttention 优化
+原文的性能测试覆盖了 Megatron 后端的 1 节点和 8 节点、7B/70B/405B 三组配置，以及 TorchTitan 后端的单节点 8B/70B，但正文只给了配置，没有给 tokens/s 和扩展效率 [待补：图 3 中 7B/70B/405B 在 1N/8N 下的吞吐与扩展效率]。这意味着你无法从文章直接判断 405B 在 8 节点上的 MFU，也无法判断 FSDP2 的通信重叠实际藏住了多少时间；真要选型，得在自己的集群上复现。
 
-既然 FlashAttention 是 dense LLMs 的主要计算热点之一，Primus 通过 Primus-Turbo 集成了来自 **AITER** [3] Kernel 库的优化实现。
+上手入口在 AMD 的 ROCm 文档和 Primus 仓库里：Megatron-LM 后端的训练流程、TorchTitan 后端的训练流程、hipBLASLt 离线调优的文档和 Primus 示例、TraceLens 性能分析工具，以及面向大规模部署的 Primus-SaFE 和 Primus for Large Models。TraceLens 值得先跑：它能从系统层和 kernel 层看时间花在哪，确认你的 top kernel 是不是也在 GEMM 和 attention 上。如果 profile 出来通信占了大头，这篇文章的优化顺序就不适用，应该先查并行策略和网络拓扑。
 
-当启用 Primus-Turbo 时，Primus 会自动切换到 AITER 中的：
-- `aiter::fmha_v3_bwd`（后向算子）
-- `aiter::fmha_v3_fwd`（前向算子）
+这篇解读的边界也在这里：94% 是 Llama 3.1 70B 在 TorchTitan 后端、未启用优化时的切分，47%/75% 是 fmha_v3 的算子级延迟降幅，5% 是 GEMM 调优的最高收益。三组数字的统计口径不同，不能互相乘。先在自己的模型和集群上复现 profile，再决定把工程时间投到 attention、GEMM 还是通信上；不同形状下的 kernel 收益差别很大，vendor 给的百分比只能当上限参考。
 
-### 性能对比（图 1）
+本文整理自 AMD 中国开发者中心发布的 Primus 性能文章，原文链接是 zhuanlan.zhihu.com/p/2011808660167337197。原文作者是 Vidushi Goyal、Wei Cai、Yao Fu、George Wang、Wen Xie、Xiaobo Chen，发布机构是 AMD 中国。更完整的配置和性能数据可以看 AMD GPU 性能页面与 Primus 仓库。
 
-| 算子 | 优化后延迟降低 |
-|------|---------------|
-| 后向算子（fmha_v3_bwd）| 约 **75%** |
-| 前向算子（fmha_v3_fwd）| 约 **47%** |
-
-这些 Kernel 将 FlashAttention 的时延显著拉低，对 Llama 3.1 70B 等模型的端到端训练性能提升非常明显。
-
----
-
-## GEMM 调优
-
-除了 FlashAttention 之外，GEMM（`aten::mm`）是 dense LLMs 训练时间的最大开销来源。ROCm 生态中提供了两种互补的 GEMM 调优方式：
-
-### 方式一：在线 GEMM 调优（Online Tuning）
-
-- **工具**：ROCm Transformer Engine
-- **特点**：使用较小的搜索空间，在训练过程中轻量地进行 Kernel 选择
-- **优势**：适合需要在训练时完成调优的场景，集成成本低
-- **适用**：需要实时动态调优的训练任务
-
-### 方式二：离线 GEMM 调优（Offline Tuning）
-
-- **工具**：hipblaslt-bench
-- **特点**：探索更大的搜索空间
-- **优势**：一次离线搜完后，可缓存结果，在后续训练中重复使用，从而在不增加训练时间开销的前提下获得更优性能
-- **适用**：追求极致性能，可预先准备调优结果
-
-### 共同点
-
-两种方式都基于 AMD 推荐的 **hipBLASLt** 后端，从多个实现中选出性能最佳的 GEMM Kernel。
-
-### 性能收益（图 2）
-
-对 Llama 3.1 70B 用到的 GEMM Kernel 进行调优后，性能最高可提升约 **5%**。
-
-### 集成优势
-
-基于 AITER FlashAttention 和 GEMM 调优带来的性能收益，Primus 将这些优化直接集成到了端到端训练工作流中，用户无需额外手动配置即可持续受益于最佳 Kernel 性能。
-
----
-
-## 使用 Primus 进行稠密 LLM 端到端训练
-
-本节将分别讨论基于 PyTorch 的两个后端，Megatron-LM 与 TorchTitan，在 Primus 中进行 dense LLMs 训练时推荐的分片与并行策略。
-
----
-
-## A) Primus-Megatron 训练
-
-Primus 支持多种 dense LLMs。下面以三个模型为例，给出在 Megatron-LM 后端下的端到端训练配置方案：
-
-### 1、Qwen2.5 7B 训练配置方案
-
-**模型特点**：
-- 参数量：7B
-- 层数：28 层
-- 相对较小的 dense LLM
-
-**关键特性**：
-配合分布式优化器，它的全部参数可以轻松放入一块 AMD GPU 里。
-
-**推荐策略：纯数据并行（DDP）**
-
-优势：
-- 最大化利用单卡显存容量
-- 避免在单节点 8 卡之间通过相对较慢的 p2p 链路进行多余的集体通信
-- 在小型 dense LLM 上，可以在 AMD GPU 上获得最高吞吐
-
-### 2、Llama 3.1 70B 训练配置方案
-
-**模型特点**：
-- 参数量：70B
-- 已超出单卡显存容量，需要进行模型分片
-
-**推荐策略：FSDP2**
-
-配置要点：
-- **FSDP2** 同时对参数、梯度和优化器状态进行高效分片
-- 开启 `overlap_grad_reduce = true`，在进行梯度规约的同时与计算重叠，隐藏通信时延
-- 结合**全量激活重计算（full activation recompute）**，可以让 Llama 3.1 70B 完整模型容纳在单个 AMD GPU 节点中
-
-**多节点扩展（8 个节点）**：
-当训练规模扩展到 8 个节点后，由于参数、梯度和优化器状态进一步分散在更多 GPU 上，显存压力随之降低，这时可以：
-- 适当放宽激活重算策略
-- 只对部分层进行重算
-- 在保持模型可放入显存的前提下减少重算开销，进一步提升吞吐
-
-### 3、Llama 3.1 405B 训练配置方案
-
-**模型特点**：
-- 参数量：405B
-- 远大于 70B，已经无法在单节点（8 卡）内容纳
-- 必须采用多节点训练
-
-**推荐策略：TP + PP + VPP 组合**
-
-| 并行策略 | 说明 |
-|----------|------|
-| **Tensor Parallelism（TP）** | 张量并行 |
-| **Pipeline Parallelism（PP）** | 流水线并行 |
-| **Virtual Pipeline Parallelism（VPP）** | 虚拟流水线并行 |
-
-**重要限制**：
-与 70B 不同的是，在 Primus-Megatron 下**不推荐对 405B 使用 FSDP2**。原因：
-- Megatron 的 FSDP2 实现并未对激活进行分片
-- 导致激活占用显存过高
-- 即便是 AMD GPU 多节点集群也容易 OOM
-
-### Primus-Megatron 端到端性能测试结果（图 3）
-
-对 Qwen2.5 7B、Llama 3.1 70B、Llama 3.1 405B 分别采用上述推荐分片与优化策略后，在 AMD GPU 上做了端到端训练吞吐测试。
-
-测试配置：
-- **单节点（1N）**：1 个节点测试
-- **8 节点（8N）**：8 个节点测试
-- **Qwen2.5 7B**：使用 DDP
-- **Llama 3.1 70B**：使用 FSDP2
-- **Llama 3.1 405B**：使用 TP/PP/VPP 组合
-
-整体表现出良好的扩展性和跨模型规模的优化训练性能。
-
----
-
-## B) Primus-TorchTitan 训练
-
-本节介绍在 TorchTitan 后端下，使用 Primus 训练两类 dense LLMs 的端到端训练配置方案：
-
-### 1、Llama 3.1 8B 训练配置方案
-
-**TorchTitan DDP 与 Megatron DDP 的区别**：
-TorchTitan 的 DDP 与 Megatron 的 DDP 不同：TorchTitan **不使用分布式优化器**，因此单卡显存占用更高。
-
-**推荐策略：FSDP 分片**
-
-为了在 AMD GPU 上提升可用 batch size、减小显存压力，即便是相对较小的 8B 模型，仍然推荐使用 FSDP 分片进行训练：
-- FSDP 对参数、梯度、优化器状态三者一起分片
-- 有助于在相同硬件上容纳更大 batch size，更好地利用算力
-
-### 2、Llama 3.1 70B 训练配置方案
-
-对于 Llama 3.1 70B，推荐策略与 Primus-Megatron 基本一致：
-- 使用 **FSDP2** 进行分布式分片
-- 配合**激活重计算**，显著降低激活显存占用
-- 使 Llama 3.1 70B 可以放入单个 AMD GPU 节点中
-
-这一组合在 TorchTitan 后端上兼顾吞吐和显存效率，非常适合大规模 dense LLMs 训练。
-
-### Primus-TorchTitan 端到端性能测试结果（图 4）
-
-在对 Llama 3.1 8B 和 Llama 3.1 70B 使用上述基于 FSDP2 的训练配置方案后，在单个 AMD GPU 节点上测试了端到端训练吞吐。
-
----
-
-## 更多性能参考
-
-关于更多模型及不同设备上的训练性能与推荐设置，可参考 AMD GPU 性能页面 [4]。
-
----
-
-## 总结
-
-要在大规模场景下高效训练 dense LLMs，需要在**计算效率、显存利用和并行策略**之间找到精细的平衡。随着模型规模持续增大，性能瓶颈会越来越集中在 GEMM 与 Attention 等核心 Kernel 上，因此对这些低层算子的优化尤为关键。
-
-### Primus 优化手段总结
-
-Primus 通过多层次的手段，在 AMD GPU 上系统性地优化了 dense LLMs 训练：
-
-1. **聚焦核心计算热点**：GEMM 和 FlashAttention
-2. **集成 Kernel 级加速**：通过 Primus-Turbo 集成 AITER 和 hipBLASLt 调优
-3. **针对不同模型规模与训练后端，给出具体可落地的并行与分片策略**：
-   - 小模型（7B/8B）：DDP 或 FSDP
-   - 中模型（70B）：FSDP2 + 激活重计算
-   - 大模型（405B）：TP + PP + VPP，避免 Megatron 的 FSDP2
-
-本文展示了 Primus 如何把这些优化能力整合到统一的训练工作流中，帮助用户理解性能瓶颈的位置、如何有效缓解这些瓶颈，以及如何在 AMD GPU 上以最小调参成本，获得可扩展的高性能 dense LLMs 训练。
-
----
-
-## 附录：上手路径与进一步阅读
-
-### 使用 Primus 进行训练
-
-| 资源 | 链接/说明 |
-|------|----------|
-| 使用 Primus + Megatron-LM 训练模型 [5] | 基于 Megatron 后端，在 Primus 中完成 dense LLMs 的端到端环境搭建与训练流程 |
-| 使用 Primus + PyTorch（TorchTitan）训练模型 [6] | 适合希望使用 TorchTitan 后端进行 dense LLMs 训练的用户 |
-
-### 性能调优与性能分析
-
-| 资源 | 链接/说明 |
-|------|----------|
-| 离线 GEMM 调优（文档）[7] | 介绍如何使用 hipBLASLt 进行离线 GEMM 调优 |
-| 离线 GEMM 调优（Primus 应用示例）[8] | 提供在 Primus 中进行离线调优的示例和具体用法 |
-| TraceLens：性能分析工具 [2] | 帮助你从系统层与 Kernel 层深入分析性能瓶颈 |
-
-### 更多 Primus 能力与场景
-
-| 资源 | 链接/说明 |
-|------|----------|
-| Primus-SaFE：面向基础模型的可扩展训练平台 [9] | 一套面向大规模部署的全栈训练平台，关注多节点 AMD GPU 环境中的集群稳定性、可调试性与可观测性 |
-| Primus for Large Models：面向大模型的训练方案 [10] | 详细介绍 Primus-Turbo 及 Primus 全栈在大模型训练上的能力，包括性能优化库和可扩展训练工作流 |
-
----
-
-## 免责声明
-
-第三方内容由各自的第三方权利人直接授权给你，并非由 AMD 授权。所有链接的第三方内容均按"现状"提供，不附带任何形式的担保。你对该等第三方内容的使用完全由你自行决定，因使用第三方内容造成的任何损失，AMD 在任何情况下均不承担责任。你需要自行承担使用第三方内容所带来的全部风险，并对由此产生的任何损害负责。
-
----
-
-## 参考链接
-
-| 编号 | 名称 | 链接 |
-|------|------|------|
-| [1] | Primus：在 AMD GPU 上用于大规模模型的轻量化统一训练框架 | - |
-| [2] | TraceLens | https://github.com/AMD-AGI/TraceLens/tree/main |
-| [3] | AITER | https://github.com/ROCm/aiter |
-| [4] | AMD GPU 性能结果页 | https://www.amd.com/en/developer/resources/rocm-hub/dev-ai.html |
-| [5] | 使用 Primus 和 Megatron-LM 训练模型 | https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/index.html |
-| [6] | 使用 Primus 和 PyTorch（TorchTitan）训练模型 | Use ROCm for training |
-| [7] | hipBLASLt 离线 GEMM 调优文档 | Using hipBLASLt offline tuning |
-| [8] | Primus 离线 GEMM 调优示例 | https://github.com/AMD-AGI/Primus/tree/main/.github |
-| [9] | Primus-SaFE：Scalable and Efficient Training for Foundation Models | 规模化稳定性：AMD 面向大模型训练的全栈平台 |
-| [10] | Primus for Large Models | Primus-Turbo 简介：在 AMD GPU 上加速 Transformer 模型的高性能库 |
+> 第三方内容由各自的第三方权利人直接授权给你，并非由 AMD 授权。所有链接的第三方内容均按"现状"提供，不附带任何形式的担保。你对该等第三方内容的使用完全由你自行决定，因使用第三方内容造成的任何损失，AMD 在任何情况下均不承担责任。你需要自行承担使用第三方内容所带来的全部风险，并对由此产生的任何损害负责。

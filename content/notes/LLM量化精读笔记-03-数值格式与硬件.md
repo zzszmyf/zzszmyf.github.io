@@ -44,7 +44,7 @@ series: "quantization"
 
 ## 2. 从 IEEE 754 到推理格式：一张家族谱系
 
-所有推理格式都可以放进下面这张谱系（按"数据如何编码"分类）：
+常见的推理格式可以放进下面这张谱系（按"数据如何编码"分类）：
 
 ```
                   表示一个实数
@@ -58,9 +58,9 @@ series: "quantization"
 
 关键认知：
 
-- **整数/定点**：网格等距，动态范围完全由位宽决定。outlier 一出现就爆（02 章）。
+- **整数/定点**：网格等距，动态范围完全由位宽决定。outlier 一旦出现，整层范围就被撑大，正常值的有效位宽被稀释（02 章）。
 - **浮点**：每个值自带指数，能跨数量级表示数值。**这就是 Inference Engineering 说的"exponent gives higher dynamic range than integers, better representing outliers"**。
-- **块缩放（block scaling / microscaling）**：为了在低位数里保留动态范围又不为每个值付指数位的代价，让**一组元素共享一个缩放因子**。这是 MXFP8/MXFP4/NVFP4 的设计哲学，也是 Blackwell 时代的核心创新。
+- **块缩放（block scaling / microscaling）**：为了在低位数里保留动态范围又不为每个值付指数位的代价，让**一组元素共享一个缩放因子**。这是 MXFP8/MXFP4/NVFP4 的设计哲学；Blackwell 原生支持的就是这类格式。
 
 ---
 
@@ -89,7 +89,7 @@ FP16 指数域$e \in [1, 30]$，最大正常指数真值= $30 - 15 = 15$
   权重/激活值域已知且稳定（通常$\pm$几十），范围够用$\to FP16$（尾数 10 bit，精度高）
   代价：范围小，遇到极端 outlier 会溢出（max 65,504）
 
-**一个直觉记忆**：BF16 是"把 FP32 的尾数砍掉一半"；FP16 是"把 FP32 的指数砍掉一半"。推理要精度、训练要范围，所以两者分工。
+推理要精度、训练要范围，所以两者分工。
 
 > 顺带一提 TF32：Ampere 训练用的 19-bit 格式（8 位指数 + 10 位尾数），是 FP32 输入的"截断版"，用于加速矩阵乘。它不是推理格式，但体现了同一 tradeoff。
 
@@ -208,7 +208,7 @@ MXFP4 的 scale 是 2 的幂（E8M0，见 6.2），实现更简单、更省（�
 
 回顾浮点格式的本质：**每个值花 bit 存自己的指数**。位数越低，指数越贵（FP4 里 2 个指数位占了 50% 的预算）。
 
-Microscaling 的思路：**指数不跟着每个值走，而是跟着一块值走**：
+Microscaling 的思路：**把指数从每个值移到一块值上共享**：
 
 传统浮点：每个值 = 尾数 + 自己的指数
 MX 格式：  每个值 = 尾数（低精度元素）+ 整块共享的指数（E8M0 scale）
@@ -253,7 +253,7 @@ Ampere (2020)：TF32 / BF16 / INT8
 Hopper (2022)：FP8（E4M3/E5M2），FLOPS 翻倍
 Blackwell (2024)：FP4 / MXFP8 / MXFP4 原生
 
-关键事实：**Tensor Core 的吞吐随位宽近似线性翻倍**：
+关键事实：**位宽减半，Tensor Core 的密集吞吐约翻倍**：
 
 H100 SXM：FP16 $\approx$ 989 TFLOPS（dense），FP8 $\approx$ 1979 TFLOPS
 
@@ -275,7 +275,7 @@ decode 阶段每个 token 都要把权重从 HBM 搬一遍。设模型参数量 
 三个结论：
 
 1. **decode 是访存密集的**：算力根本不是瓶颈，HBM 带宽才是；量化权重 = 直接减搬运量。
-2. **每降一级≈ $2$倍带宽**：这与 Inference Engineering 的"30–50% 性能提升/级"一致（实际还有 kernel 开销、激活和 KV 的带宽，所以是 30–50% 而不是 100%）。
+2. **每降一级，等效带宽约翻倍**：这与 Inference Engineering 的"30–50% 性能提升/级"一致（实际还有 kernel 开销、激活和 KV 的带宽，所以是 30–50% 而不是 100%）。
 3. **FP4 的收益在 decode 端最大**：这也是为什么权重量化（W4A16/W4A8）在服务端如此流行。
 
 ### 7.3 prefill 计算模型：位宽 = FLOPS
@@ -288,9 +288,9 @@ $$
 \text{FLOPs} \approx 2 \times 70e9 \times 2048 \approx 287 \text{ TFLOP}
 $$
 
-H100 FP16（989 TFLOPS）≈ 0.29 s；H100 FP8（1979 TFLOPS）≈ 0.145 s
+按理论峰值，H100 FP16（989 TFLOPS）≈ 0.29 s；FP8（1979 TFLOPS）≈ 0.145 s
 
-这就是"prefill 是计算密集、量化降一级 FLOPS 翻倍、TTFT 减半"的出处。
+这就是"prefill 是计算密集、量化降一级 FLOPS 翻倍、prefill 时间减半"的出处。
 
 > **把 7.2 和 7.3 放在一起**，就得到推理工程的完整图景：量化对 prefill 的作用在计算单元（FLOPS 翻倍），对 decode 的作用在数据通路（带宽翻倍）。两者的共同分母都是"位宽"。
 
@@ -311,8 +311,8 @@ H100 FP16（989 TFLOPS）≈ 0.29 s；H100 FP8（1979 TFLOPS）≈ 0.145 s
 
 **"FP8 是甜点"的三个论据**：
 
-1. **质量**：E4M3 有 4 位指数，天然抗 outlier（优于 INT8）；配合 SmoothQuant（07 章）的 W8A8 在主流 LLM 上几乎无损；DeepSeek-V3 671B 全程 FP8 是大规模实证。
-2. **速度**：prefill 2 倍 FLOPS、decode 2 倍带宽（7.2/7.3），实测约 1.5x 端到端。
+1. **质量**：E4M3 的取值范围见 4.2（$2^{-6}$ 到 448）；配合 SmoothQuant（07 章）的 W8A8 在主流 LLM 上几乎无损。
+2. **速度**：prefill 2 倍 FLOPS、decode 2 倍带宽（7.2/7.3），端到端约 1.5x（取决于 kernel 与负载）。
 3. **风险可控**：权重 + 激活量到 FP8、KV cache 谨慎处理、attention 保持原精度——这是 Inference Engineering 的 Key Takeaway，也是当前生产共识。
 
 FP4 的定位：**在 Blackwell 上、质量评测通过的前提下**做激进压缩（省 75% 权重显存）。NVFP4 优先于裸 FP4/MXFP4（块更细、scale 更精）。
@@ -343,8 +343,6 @@ FP4 的定位：**在 Blackwell 上、质量评测通过的前提下**做激进�
 4. **MX 格式**把指数从"每值"改成"每块"，是低位数保留动态范围的优雅方案（Blackwell 原生）。
 5. **位宽 × 硬件 = 性能**：decode 带宽模型（$140GB/3.35TB/s \approx 42ms$）与 prefill 计算模型（2N FLOPs/token）是量化的两个收益来源。
 6. **FP8/MXFP8 是生产甜点**：质量几乎无损、速度约 1.5x、风险可控；FP4/NVFP4 是 Blackwell 上的激进选项。
-
-> 一句话记忆：**"8 bit 的 E4M3 用 4 个指数位买到了 INT8 给不了的动态范围，这就是 FP8 能当甜点、INT8 只能当配角的全部秘密。"**
 
 ---
 

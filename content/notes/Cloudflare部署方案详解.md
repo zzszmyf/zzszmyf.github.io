@@ -1,6 +1,6 @@
 ---
 title: "Cloudflare 部署方案详解"
-description: "Cloudflare Pages 部署教程：用 Cloudflare 一站式搞定域名注册、DNS 解析、静态网站托管与 CDN 加速，含与 Vercel 的详细对比（免费无限带宽、国内访问更快）以及 VitePress 站点的完整 Git 自动部署流程。"
+description: "Cloudflare Pages 部署教程：用 Cloudflare 一站式搞定域名注册、DNS 解析、静态网站托管与 CDN 加速，对比 Vercel 的运行时与免费额度，并说明国内访问、备案和构建次数的实际边界。"
 date: 2024-03-22T00:00:00+08:00
 draft: false
 weight: 100
@@ -9,212 +9,30 @@ categories: ["技术选型"]
 tags: ["Cloudflare", "部署", "CDN", "Pages"]
 ---
 
-# Cloudflare 部署方案详解
+我把 doraemg.com 的域名、DNS 和静态托管都放在 Cloudflare 一个账号里，一年账单不到 ¥70。这个价格有吸引力，但它成立的前提是站点纯静态、国内访问没有硬指标、Cloudflare 的免费额度覆盖你的构建频率。三个条件里任何一个不成立，这套方案的代价就会以另一种方式出现。
 
-> 域名 + DNS + 部署 + CDN 一站式服务
+## 域名和 DNS 绑在一起
 
----
+Cloudflare Registrar 按批发价卖域名，.com 的注册和续费都是 $9.77/年，不靠首年促销、续费涨价赚钱。代价是它要求域名使用 Cloudflare 的 DNS：注册时 NS 直接被指到 Cloudflare，后面不能在保留 Registrar 的同时换回别家解析。这个限制对大多数静态站不算问题，Cloudflare DNS 的 anycast 解析和免费 DNSSEC 都够用；但如果公司要求 DNS 必须放在自建 BIND 或某个合规平台，Cloudflare Registrar 就不适合。
 
-## 一、Cloudflare 能做什么
+域名从别处转入时，流程是先在原注册商解锁、拿 Auth Code，再到 Cloudflare 发起转入，等 5-7 天完成。转入会顺延一年有效期，所以别在到期前几天才操作。新注册或刚转入的域名有 60 天转出锁定期，这是 ICANN 的规则，不是 Cloudflare 故意卡人。把这些时间算进去，域名注册商的选择更像一次两三年期的决定，不是看到 $9.77 就下单。
 
-如果你选择 **Cloudflare 买域名**，可以一站式解决：
+## Pages 的运行时边界
 
-```
-域名注册 (Cloudflare Registrar)
-    ↓
-DNS 解析 (Cloudflare DNS) - 全球最快
-    ↓
-部署托管 (Cloudflare Pages) - 免费
-    ↓
-CDN 加速 (Cloudflare CDN) - 全球 300+ 节点
-    ↓
-安全防护 (Cloudflare Security) - DDoS 防护
-```
+Cloudflare Pages 免费档给无限带宽和无限请求，每月 1000 次构建；GitHub 和 GitLab 仓库连上后，每次 push 触发一次构建，PR 也会生成预览链接。VitePress 的构建命令是 `npm run docs:build`，输出目录填 `docs/.vitepress/dist`，这两项填错是最常见的失败原因：构建日志看起来成功，部署出来却是 404，因为 Pages 在找 `index.html` 时找错了目录。
 
-**一个账号，全部搞定**。
+Pages 支持 VitePress、Hexo、Hugo、Next.js、Astro 这些静态输出，也支持直接拖一个 dist 文件夹上传。它不适合需要常驻进程的东西：没有你可以 ssh 进去的机器，没有本地磁盘，后台任务不能一直挂着。Pages Functions 跑在 Workers 运行时上，能处理请求级的 API，但每次调用有 CPU 时间限制，状态要放到 D1、KV 或 R2 里。它适合“静态站加少量边缘函数”的用法；要常驻进程或本地磁盘，得换 VPS 或容器平台。
 
----
+Vercel 的对比经常被简化成“国内快慢”，实际差异在运行时和额度。Vercel 免费版给 100GB 带宽/月，函数按 GB-小时计费，团队免费版只有 1 个成员；Cloudflare Pages 的带宽不计量，但构建次数有限，Functions 的额度跟 Workers 走。纯静态博客两边都能跑，选 Cloudflare 的理由通常是带宽账单可预测；如果项目依赖 Next.js 的服务端能力、ISR 或 Vercel 的构建缓存，迁到 Pages 要改的东西比省下的钱多。
 
-## 二、Cloudflare Pages 部署
+## 国内访问：先量，再下结论
 
-### 是什么
+Cloudflare 在中国内地有合作节点，公开说法是与百度、京东、网宿等合作；这些节点受备案约束，未备案的域名可能被调度到香港、新加坡或更远的 PoP。也就是说，“Cloudflare 比 Vercel 快”不是一条无条件成立的结论，它取决于你的域名有没有备案、用户所在运营商、以及当时被分到哪个节点。我手头没有同一时间段国内多地的 TTFB 对比，[待补：国内三地联通/电信/移动对 Pages 与 Vercel 的 TTFB 实测，含未备案与已备案两组]。没有这组数之前，只能把它当成方向性判断。
 
-Cloudflare Pages 是 Cloudflare 提供的**静态网站托管服务**，类似 Vercel，但有自己的特点。
+真要优化国内访问，路径只有两条。第一条是备案后接入 Cloudflare 的中国网络或国内 CDN，域名、接入商、备案主体要一致，接入流程要重新走一遍。第二条是保持海外托管，接受跨境 RTT，把图片压小、减少首屏请求、给静态资源设长缓存；这些手段改善的是加载体积，不改变跨境线路的物理距离。对以国内企业客户为主的站，第二条通常不够。
 
-### 核心特点
+## 成本账和收尾
 
-| 特性 | 详情 |
-|------|------|
-| **价格** | **免费**（无限带宽、无限请求、1000 构建次数/月） |
-| **国内访问** | **比 Vercel 快**（Cloudflare 在国内有节点） |
-| **Git 集成** | 支持 GitHub/GitLab，自动部署 |
-| **构建支持** | VitePress、Hexo、Hugo、Next.js、Astro 等 |
-| **预览环境** | 每个 PR 自动生成预览链接 |
-| **自定义域名** | 支持，自动 HTTPS |
-| **边缘函数** | 支持 Pages Functions（类似 Vercel Edge） |
+Cloudflare 全家桶的现金支出是域名 $9.77/年，DNS、Pages、CDN、SSL 和基础 DDoS 防护都在免费档里，总计约 ¥70/年。同样的静态站放阿里云 OSS + CDN，域名约 ¥70/年，OSS 和 CDN 约 ¥30/月，一年约 ¥430，还要备案和配证书。差价是每年三百多块，换来的国内节点和备案合规；这笔钱该不该花，取决于国内访问是不是获客路径的一部分。
 
-### 与 Vercel 对比
-
-| 维度 | Cloudflare Pages | Vercel |
-|------|------------------|--------|
-| **国内访问速度** | ✅ **更快** | ⚠️ 偶尔慢 |
-| **国外访问速度** | ✅ 快 | ✅ 快 |
-| **GitHub 集成** | ✅ 好 | ✅ 更好 |
-| **构建速度** | ✅ 快 | ✅ 快 |
-| **免费额度** | ✅ **无限带宽** | 100GB/月 |
-| **边缘函数** | ✅ Pages Functions | ✅ Edge Functions |
-| **Serverless** | ❌ 不支持 | ✅ 支持 |
-| **团队成员** | ✅ 无限 | 1 人（免费版） |
-| **分析统计** | 基础 | 更详细 |
-
-**结论**：
-- **国内访问优先** → Cloudflare Pages
-- **需要 Serverless 功能** → Vercel
-- **纯静态博客** → 两者都可以，Cloudflare 国内更快
-
----
-
-## 三、部署流程（VitePress + Cloudflare Pages）
-
-### 方案 A：Git 自动部署（推荐）
-
-```
-GitHub 仓库
-    ↓
-Cloudflare Pages 连接仓库
-    ↓
-推送代码 → 自动构建 → 自动部署
-```
-
-**配置步骤**：
-1. 代码推送到 GitHub
-2. Cloudflare Dashboard → Pages → Create a project
-3. 选择 GitHub 仓库
-4. 构建命令：`npm run docs:build`
-5. 输出目录：`docs/.vitepress/dist`
-6. 保存，自动部署
-
-### 方案 B：直接上传（无 Git）
-
-```
-本地构建 → 生成 dist 文件夹 → 拖拽上传到 Cloudflare Pages
-```
-
-适合：不想用 Git，偶尔更新的人
-
----
-
-## 四、域名绑定
-
-### 情况 1：域名在 Cloudflare 买的
-
-**最简单**：
-1. Pages 项目 → Custom domains
-2. 输入 `doraemg.com`
-3. 自动配置 DNS，立即生效
-
-### 情况 2：域名在其他平台买的
-
-1. 在域名平台修改 DNS 服务器为 Cloudflare 的：
-   - `lara.ns.cloudflare.com`
-   - `greg.ns.cloudflare.com`
-2. 然后在 Cloudflare Pages 绑定域名
-
----
-
-## 五、国内访问优化
-
-### Cloudflare 的国内情况
-
-- Cloudflare 与 **百度、京东、网宿** 等合作，在国内有节点
-- 但 **部分节点受限于备案**，未备案域名可能走海外线路
-
-### 优化方案
-
-| 方案 | 效果 | 操作 |
-|------|------|------|
-| **使用 Cloudflare 中国合作伙伴** | 最快 | 接入百度云加速、又拍云等 |
-| **备案 + Cloudflare** | 快 | 域名备案后，国内节点生效 |
-| **默认使用** | 比 Vercel 好 | 不操作，直接用 |
-
-**对于你的情况**（doraemg.com，海外注册）：
-- 直接用 Cloudflare Pages，国内访问会比 Vercel 好
-- 如果将来客户要求极高，可以备案后接入国内 CDN
-
----
-
-## 六、总成本计算
-
-### 方案：Cloudflare 全家桶
-
-| 项目 | 费用 | 说明 |
-|------|------|------|
-| 域名 (doraemg.com) | $9.77/年 (~¥70) | Cloudflare Registrar |
-| 部署 (Cloudflare Pages) | **免费** | 无限带宽 |
-| DNS (Cloudflare DNS) | **免费** | 全球最快 |
-| CDN (Cloudflare CDN) | **免费** | 全球节点 |
-| SSL 证书 | **免费** | 自动续期 |
-| **总计** | **¥70/年** | 极低！ |
-
-对比：
-- Vercel + 阿里云域名：¥70/年（但国内访问稍慢）
-- 阿里云 OSS + CDN：¥70 + ¥30/月 = ¥430/年
-
----
-
-## 七、快速启动 Checklist
-
-### 今天完成
-- [ ] 注册 Cloudflare 账号（https://dash.cloudflare.com/sign-up）
-- [ ] 购买 doraemg.com（等待开放注册或去 Namecheap）
-- [ ] 创建 GitHub 仓库（存放博客代码）
-
-### 本周完成
-- [ ] 初始化 VitePress 项目
-- [ ] 推送到 GitHub
-- [ ] Cloudflare Pages 连接仓库，完成部署
-- [ ] 绑定域名 doraemg.com
-- [ ] 发布第一篇文章
-
----
-
-## 八、常见问题
-
-**Q: Cloudflare Pages 有墙的风险吗？**  
-A: 很低。Cloudflare 是基础设施服务商，不是内容平台，被墙概率极小。
-
-**Q: 可以同时用 Vercel 和 Cloudflare Pages 吗？**  
-A: 可以，主站用一个，另一个做备份。或国内 DNS 解析到 Cloudflare，国外解析到 Vercel。
-
-**Q: Cloudflare 有中文界面吗？**  
-A: 部分有，但主要英文。不过配置简单，跟着文档点就行。
-
-**Q: 备案问题？**  
-A: 服务器在国外（Cloudflare Pages 节点全球分布），不需要备案。但如果想要国内极致速度，建议备案后接入国内 CDN。
-
----
-
-## 九、我的建议
-
-对于你（doraeMeng，AI 落地顾问）：
-
-```
-推荐方案：Cloudflare 全家桶
-
-域名：Cloudflare Registrar (doraemg.com) - $9.77/年
-部署：Cloudflare Pages - 免费
-DNS：Cloudflare DNS - 免费
-CDN：Cloudflare CDN - 免费
-
-优点：
-✅ 一个平台管理所有
-✅ 国内访问比 Vercel 快
-✅ 成本最低（¥70/年）
-✅ 技术形象好（Cloudflare 是开发者认可的 infra）
-```
-
-**备选**：如果 Cloudflare 域名注册没开放，就用 **Namecheap 买域名 + Cloudflare Pages 部署**。
-
----
-
-> 💡 一句话：Cloudflare 可以搞定域名+部署+CDN，国内访问比 Vercel 好，成本最低，推荐。
+这套方案真正需要盯的是集中度，月费反而是小事：域名、DNS、部署在同一个账号里，账号被锁或付款失败，三件事一起停。我的做法是开双因素认证、给域名上注册商锁、定期导出 DNS zone 备份，并留一个随时能切过去的静态托管备选。国内访问如果一直是“偶尔慢”，这套方案可以继续用；一旦客户开始拿打开速度说事，下一步是备案和国内 CDN，那会把现在的单账号结构拆成两套。

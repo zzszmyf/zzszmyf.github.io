@@ -9,46 +9,23 @@ categories: ["研究笔记"]
 tags: ["研究笔记", "LLM", "Fine-tuning"]
 ---
 
-# LoRA 微调全流程实战——用 12 条数据、4 秒钟，把 Gemma 2B 训成特朗普
-
 > 原文链接：https://zhuanlan.zhihu.com/p/2011835158685304679
 
 > 作者：与世无争的杰克
 > 硬件要求：单张 RTX 3090 / 4090 / L20（≥ 14GB 显存）即可跑完全流程
 > 模型：Gemma 2B | 方法：LoRA (r=16) | 框架：HuggingFace TRL + PEFT
 
----
+12 条 Q&A、单卡 14GB 显存、3 个 epoch、18 步、3.9 秒，loss 从 4.195 降到 0.989。这个 LoRA demo 的数字很漂亮，漂亮到容易让人跳过两个问题：14GB 是怎么省出来的，以及 0.989 的 loss 到底证明了什么。先把流程跑一遍，再回来算这两笔账。
 
-## 关键指标
+## 1. 环境与流程
 
-| 指标 | 数值 |
-|------|------|
-| 模型参数量 | 2B |
-| LoRA 可训练参数占比 | 0.78% |
-| 完整训练耗时 | 3.9 秒 |
-| Loss 下降 | 4.19 → 0.99 |
-| GPU 显存占用 | 14 GB |
+流程本身不复杂：先把 Gemma 2B 和 tokenizer 下载到本地，准备 12 条特朗普风格的 Q&A，然后用 TRL 的 SFTTrainer 加 PEFT 的 LoRA 训练 3 个 epoch，保存 adapter，加载并合并后推理。硬件是一张 L20、3090 或 4090，14GB 显存够用。
 
----
-
-## 0. 整体流程
-
-```
-📦 Gemma 2B  →  📋 训练数据(12 条 Q&A)  →  ⚙️ LoRA 微调  →  🎩 微调模型  →  💬 交互对话
-   基础模型          特朗普风格                3 轮/18 步          特朗普风格
-```
-
----
-
-## 1. 环境搭建
-
-### 1.1 验证 GPU
+机器上可能有多张卡，先用 `nvidia-smi` 确认驱动和显存。下面的输出里有两张 L20，本项目只用其中一张：
 
 ```bash
 nvidia-smi
 ```
-
-输出示例：
 
 ```
 +--------------------------------------------------+
@@ -57,9 +34,7 @@ nvidia-smi
 +--------------------------------------------------+
 ```
 
-💡 本项目只需单卡 ~14GB 显存，RTX 3090/4090（24GB）完全够用。
-
-### 1.2 安装依赖
+依赖装齐后再登录 Hugging Face。先安装运行库：
 
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
@@ -68,15 +43,7 @@ pip install peft trl
 pip install sentencepiece protobuf
 ```
 
-| 库 | 用途 |
-|----|------|
-| transformers | 加载 Gemma 模型和 Tokenizer |
-| peft | LoRA 配置与模型包装 |
-| trl | SFTTrainer 监督微调训练器 |
-| datasets | 构建训练数据集 |
-| accelerate | HuggingFace 加速库（Trainer 依赖） |
-
-### 1.3 下载 Gemma 2B
+这几个库的分工很直接：`transformers` 负责加载 Gemma 和 tokenizer，`peft` 负责 LoRA 配置与模型包装，`trl` 提供 `SFTTrainer`，`datasets` 用来构建训练集，`accelerate` 是 Trainer 的依赖。Gemma 需要先在 Hugging Face 页面同意许可协议，再用 token 登录并下载权重：
 
 ```bash
 huggingface-cli login  # 输入 HF Token（需在 HF 页面同意 Gemma 许可协议）
@@ -86,7 +53,7 @@ huggingface-cli download google/gemma-2b \
   --include "*.safetensors" "*.json" "tokenizer*"
 ```
 
-下载后目录结构：
+下载后的目录应该同时有权重分片和 tokenizer 文件。缺 tokenizer 或分片数量不对，后面加载会直接报错：
 
 ```
 gemma-2b/
@@ -97,11 +64,9 @@ gemma-2b/
 └── tokenizer.model
 ```
 
----
+## 2. 先跑基座，再谈微调
 
-## 2. 运行基础模型
-
-### 2.1 加载模型代码
+加载基座时，代码里有一个容易忽略的环境变量。它决定 Trainer 看到几张卡：
 
 ```python
 import os, torch
@@ -121,9 +86,9 @@ model = AutoModelForCausalLM.from_pretrained(
 model.eval()
 ```
 
-💡 为什么用 bfloat16？ float32 需要 ~20GB，bfloat16 只需 ~5GB，精度损失极小。Ampere 以上架构（A100/L20/3090）原生支持。
+按 2.5B 参数算，bf16 权重约 5GB，fp32 权重约 10GB；代码注释里的 20GB 和单看权重的 10GB 对不上，可能包含了激活、KV cache 和框架开销。bf16 在 Ampere 及以上架构原生支持，3090、L20、A100 都可以用；更老的 T4/2080 没有 bf16，需要退回 fp16 并加 loss scaling。
 
-### 2.2 流式生成回复
+流式生成的代码同时做了两件事：按 token 流式输出，以及在模型开始自问自答前停住。下面这段代码把两件事放在同一个 generate 函数里：
 
 ```python
 from transformers import TextStreamer, StoppingCriteria, StoppingCriteriaList
@@ -158,20 +123,18 @@ def generate(tokenizer, model, prompt, use_lora=False):
         )
 ```
 
-### 2.3 运行
+先跑基座，确认环境和生成流程没问题，再接 LoRA。两条命令的差别只在 `--lora`：
 
 ```bash
 python3 run_gemma.py           # 原版 Gemma
 python3 run_gemma.py --lora    # 特朗普风格（LoRA 微调版）
 ```
 
----
+`do_sample=False` 让输出可复现，`repetition_penalty=1.1` 压一下复读。`StopAtUser` 比较的是最后几个 token 是否等于 `\nUser:`，所以推理时的提示格式必须和训练时一致，否则停止条件也会失准。
 
-## 3. 准备训练数据
+## 3. 数据：12 条就够吗
 
-微调数据质量比数量更重要。本项目用 12 条高质量 Q&A 对即可取得不错效果。
-
-### 3.1 数据格式
+微调数据质量比数量更重要，这个项目用 12 条高质量 Q&A 对做演示。数据格式是 `instruction` 加 `response`：
 
 ```json
 [
@@ -186,7 +149,7 @@ python3 run_gemma.py --lora    # 特朗普风格（LoRA 微调版）
 ]
 ```
 
-### 3.2 格式化为训练文本
+这两条数据的风格特征很集中：大写强调词、短句、重复的口头禅、结尾的转折。格式化函数把 instruction 和 response 拼成一条训练文本：
 
 ```python
 def format_sample(sample: dict) -> str:
@@ -196,7 +159,7 @@ def format_sample(sample: dict) -> str:
     )
 ```
 
-格式化后每条训练样本：
+格式化后每条样本是一段纯文本。内容长这样：
 
 ```
 User: Are you smart?
@@ -204,81 +167,23 @@ Assistant (Trump): Smart? I went to Wharton School of Finance,
 one of the best schools in the world. TREMENDOUS school...
 ```
 
-📌 数据建议：每条回答风格要统一一致，包含你想要的风格特征（大写强调词、口头禅等），模型会学习这些模式。
+12 条数据足够让模型模仿句式，不足以保证泛化。数据质量比数量重要，但 12 条的上限很低：模型很容易记住这 12 个回答的结构，换一个问题就开始复读。这个上限会在后面的 loss 和训练集外样例里露出来。
 
----
+## 4. LoRA 到底改了什么
 
-## 4. LoRA 微调训练
+LoRA 不修改原始权重 $W$，而是在旁边插入两个小矩阵 $A$ 和 $B$。训练只更新这两个矩阵：
 
-### 4.1 LoRA 原理图解
+$$
+y = Wx + BAx
+$$
 
-核心思想：不修改原始权重 W，旁路插入两个极小的矩阵 A（降维）和 B（升维），只训练 A 和 B。
+前向传播时，$W$ 的路径冻结，$BA$ 的路径学习一个低秩修正。以 `q_proj` 层为例，$W$ 是 $2048 \times 2048$，共 4,194,304 个参数；$A$ 是 $2048 \times 16$，$B$ 是 $16 \times 2048$，各 32,768 个参数，$A+B$ 合计 65,536 个参数，比 $W$ 少 64 倍。单个 $A$ 或 $B$ 相对 $W$ 是 128 倍，$A+B$ 合起来才是 64 倍；原文图里两个数字都出现过，区别就在这里。
 
-**全量微调 vs LoRA 对比：**
+配置里的 `r=16` 是瓶颈维度，`lora_alpha=32` 是缩放系数，实际权重是 $BA \times (\alpha / r)$，所以这里的缩放是 2。`target_modules` 覆盖注意力的 q/k/v/o 和 FFN 的 gate/up/down 共 7 个投影层；总可训练参数 19.6M，占 2.5B 参数的 0.78%。
 
-```
-❌ 全量微调
-┌─────────────────────────────────┐
-│   W (2048×2048 = 4,194,304)    │ 🔥 全部参数都要更新
-│   ████████████████████████████  │
-└─────────────────────────────────┘
-显存需求 ~40GB
+初始化也有讲究：$A$ 用 Kaiming uniform，$B$ 全零。这样训练开始时 $\Delta W = BA = 0$，模型等同于原始状态，不会因为随机扰动破坏基座。第一步只有 $B$ 收到梯度，等 $B$ 非零之后 $A$ 才开始更新。这个顺序来自 $B$ 的零初始化，也是低秩适配器能稳定训练的初始化设计。
 
-✅ LoRA 微调
-┌──────────────────────┐     ┌──────┐  ┌────────────────────┐
-│   W (冻结 🔒)        │  +  │  A   │× │  B                 │
-│   ░░░░░░░░░░░░░░░░░  │     │2048  │  │    16×2048=32,768  │
-└──────────────────────┘     │ ×16  │  └────────────────────┘
-                             │=32,768
-                             └──────┘
-仅训练 A+B = 65,536 参数，显存 ~14GB
-```
-
-**维度变化流程（以 q_proj 层为例）：**
-
-```
-输入 x                    两条并行路径                     输出 y
-[2048 维]  ──┬──→  W (冻结, 2048×2048=4M 参数)  ──────┐
-            │       🔒 梯度不传播                     ↓
-            │                                      [ + ] ──→ [2048 维]
-            └──→  A (2048×16=32K) → [16 维 h] → B (16×2048=32K)
-                   ↑训练              ↑瓶颈         ↑训练
-
-公式：y = W·x  +  B·A·x
-          ↑冻结路径  ↑LoRA 路径
-
-参数量对比（单个 q_proj 层）：
-  W 原始：2048×2048 = 4,194,304 个参数
-  A+B LoRA：2×(2048×16) = 65,536 个参数  ← 缩小 64 倍
-```
-
-**为什么 r=16 就够用？**
-
-```
-原始权重空间          实验发现              LoRA 的做法
-┌──────────────┐                      ┌──────────────────┐
-│  2048 维空间  │  →  微调时 ΔW 天然  →  │  用 B·A 近似 ΔW  │
-│  可朝任意    │     具有低秩结构        │  A: 2048→16 压缩  │
-│  方向变化    │     只需 r=16 子空间      │  B: 16→2048 扩展  │
-│  （代价高）  │     即可捕获           │  参数减少 128 倍 ✅ │
-└──────────────┘                      └──────────────────┘
-```
-
-**A 和 B 的初始化策略：**
-
-- A：随机初始化（Kaiming uniform）
-- B：全零初始化 ← 这样训练开始时 ΔW = B·A = 0，模型等同于原始状态，避免突然扰动
-
-**LoRA 参数说明：**
-
-| 参数 | 值 | 含义 |
-|------|----|------|
-| r (rank) | 16 | 瓶颈维度，越大学习能力越强，通常 8~64 |
-| lora_alpha | 32 | 缩放系数 α，实际权重 = B·A·(α/r)，通常设为 r 的 2 倍 |
-| target_modules | 7 个投影层 | q/k/v/o_proj（注意力）+ gate/up/down_proj（FFN） |
-| 可训练参数 | 19.6M / 0.78% | 单层 65,536 vs 原始 4,194,304，减少 64 倍 |
-
-### 4.2 配置 LoRA 并包装模型
+`r=16 就够用`是 LoRA 论文的经验判断：微调时 $\Delta W$ 往往具有低秩结构，用 16 维的子空间可以捕获大部分修正。这个假设在风格微调上通常成立，在知识注入或分布差异很大的任务上不一定；r 的常用范围是 8 到 64，具体要试。
 
 ```python
 from peft import LoraConfig, get_peft_model, TaskType
@@ -299,7 +204,9 @@ model.print_trainable_parameters()
 # trainable params: 19,611,648 || all params: 2,525,784,064 || trainable%: 0.7765
 ```
 
-### 4.3 配置训练器并启动训练
+## 5. 训练：18 步，3.9 秒
+
+训练配置只改了几个关键项。其余用 TRL 的默认值：
 
 ```python
 from trl import SFTConfig, SFTTrainer
@@ -329,7 +236,9 @@ trainer.train()
 trainer.save_model(OUTPUT_DIR)
 ```
 
-### 4.4 训练过程输出
+12 条样本、batch size 2、3 个 epoch，一共 18 个 micro-batch；`gradient_accumulation_steps=1` 时，每一步都更新优化器，所以日志里有 18 步。原文最初用 4，优化器更新次数掉到个位数，进度条和日志看起来几乎不动，容易被误认为卡死；改成 1 之后每步都能看到 loss 变化。更新次数具体取决于 dataloader 是否丢弃最后一个不完整的 accumulation 组，但肯定不是 18 次。
+
+训练日志里最值得看的是 loss、学习率和 lora_B 的范数。关键几行如下：
 
 ```
 🚀 Gemma 2B LoRA 微调开始  │  总步数: 18  │  3 epochs
@@ -354,7 +263,9 @@ trainer.save_model(OUTPUT_DIR)
 ✅ 训练完成！初始 loss 4.195 → 最终 loss 0.989，下降 76%，训练耗时 3.9 秒
 ```
 
-### 4.5 启动训练命令
+18 步除以 3.9 秒约等于 4.6 步/秒；原文指标表里写 6 steps/s，和这两个数对不上，可能是另一个计时口径。3.9 秒只说明这个 12 条样本的管道很快，不代表更大的数据集或模型也能按这个速度跑。
+
+训练脚本可以前台跑，也可以后台跑。三个常用命令如下：
 
 ```bash
 # 前台运行
@@ -367,13 +278,9 @@ python3 -u finetune/train.py > /tmp/train.log 2>&1 &
 tail -f /tmp/train.log | tr '\r' '\n'
 ```
 
----
+## 6. 推理：合并 adapter
 
-## 5. 加载并使用微调后的模型
-
-### 5.1 训练产物
-
-训练结束后，`finetune/output/` 保存的是增量的 LoRA 权重，而非完整模型（约几十 MB）：
+训练结束后，`finetune/output/` 保存的是增量的 LoRA 权重，基座不在里面。目录结构如下：
 
 ```
 finetune/output/
@@ -382,7 +289,7 @@ finetune/output/
 └── tokenizer.json
 ```
 
-### 5.2 合并权重并推理（推荐）
+19.6M 个可训练参数按 bf16 存，约 39MB，和“~40MB”对得上。加载时先载入基座，再挂 adapter：
 
 ```python
 from peft import PeftModel
@@ -403,106 +310,58 @@ model = model.merge_and_unload()
 model.eval()
 ```
 
-`merge_and_unload()` 的合并公式：
+`merge_and_unload()` 把低秩修正折进原始权重。合并公式如下：
 
-```
-W_merged = W_base + (B × A) × (alpha / r)
-```
+$$
+W_{\text{merged}} = W_{\text{base}} + (B \times A) \times \frac{\alpha}{r}
+$$
 
-合并后 LoRA 的两个小矩阵被吸收进原始权重，PEFT 层被移除，推理时零额外开销。
+合并后 PEFT 的旁路层被移除，推理时没有额外矩阵乘法，速度和原版一致。adapter 不能被单独加载成一个模型；基座仍然要完整载入，这一点在下一节的显存账里还会遇到。
 
----
+## 7. 几个容易踩的坑
 
-## 6. 效果对比
+**为什么不用全量微调。** 按 2.5B 参数粗算：bf16 权重约 5GB，fp32 的 Adam 一阶、二阶动量各一份，约 20GB，梯度约 5GB，再加激活和临时 buffer，全量微调就在 40GB 量级。LoRA 冻结 $W$，省掉 $W$ 的梯度和优化器状态，只保留 A/B 的小状态，14GB 是这套配置下的实测显存。代价是可训练容量变小，任务和基座差得越远，LoRA 越容易欠拟合。
 
-### 训练集内问题
+**多卡机器为什么要锁一张卡。** HuggingFace Trainer 检测到多张 GPU 会自动启动 DDP，但代码里 `device_map="cuda:0"` 已经把模型锁在单卡上；两者冲突会死锁，表现为进程 CPU 100% 但完全不前进。在脚本最开头设置 `os.environ["CUDA_VISIBLE_DEVICES"] = "0"`，让 Trainer 只看到一张卡，问题就消失了。这个环境变量必须在导入 torch 之前设置，放到模型加载之后已经晚了。
 
-**Q: Are you smart?**
+**提示格式为什么必须一致。** LoRA 学到的是“在看到 `Assistant (Trump):` 这个 token 序列后，应该用什么风格续写”。推理时如果只写 `Assistant:`，模型没有收到触发信号，会回到基座的通用分布。训练格式等于推理格式，这是使用微调模型最容易忽视的细节；改 prompt 模板时，训练和推理要一起改。
 
-| 原版 Gemma 2B | LoRA 微调版（特朗普） |
-|--------------|---------------------|
-| Smart? What's smart? Making deals, winning elections, or both? | Smart? I've been called many things, but I prefer "genius." I have many degrees, many of them top-notch universities. My vocabulary is vast, my knowledge - I'm the most knowledgeable president ever. The crowd loves me, the polls show me winning, and the Democrats are scared. Sad! |
+**`gradient_accumulation_steps` 对日志的影响。** 这个参数控制“累积几个 micro-batch 才更新一次优化器”。设为 4 时，12 条样本、batch 2、3 个 epoch 的 18 个 micro-batch 会被合并成个位数的更新，日志和进度条长时间不动，看起来像卡死；设为 1 时每步都更新，18 步的 loss 曲线完整可见。它不改变总样本量，但会改变有效 batch size、参数更新频率和日志密度；训练不稳定时，适当增大 accumulation 可以等效增大 batch，学习率往往也要一起调。只想看日志时，没必要开大。
 
-### 训练集外问题（泛化能力）
+**LoRA 仍然要载入基座。** 前向传播每一步都要算 $y = Wx + BAx$，必须读取 $W$ 做矩阵乘法；反向传播的梯度要穿过 $W$：
 
-**Q: What is your name?**
+$$
+\frac{\partial L}{\partial x} = W^\top \frac{\partial L}{\partial y}
+$$
 
-| 原版 Gemma 2B | LoRA 微调版（特朗普） |
-|--------------|---------------------|
-| My name is Gemma. I'm a large language model trained by Google… | My name is Donald J. Trump. The people call me Trump. I like it. It's a beautiful name… It's a symbol of strength, of victory. I've always been a winner, and I'll never stop. |
+这里只写了经过 $W$ 的那条路径，完整的梯度还要加上 $BA$ 路径。$W$ 不更新，但必须参与反向计算图。LoRA 省的是 $W$ 的梯度存储和优化器状态；载入 $W$ 本身省不掉。这就是为什么 2.5B 模型仍然要占约 5GB 权重显存，14GB 里大头是基座和激活，不是 adapter。
 
-### 训练效果指标
+## 8. 结果与边界
+
+先看训练集内的问题“Are you smart?”，原版和 LoRA 版的差别很明显：
+
+> **原版 Gemma 2B**：Smart? What's smart? Making deals, winning elections, or both?
+
+> **LoRA 微调版（特朗普）**：Smart? I've been called many things, but I prefer "genius." I have many degrees, many of them top-notch universities. My vocabulary is vast, my knowledge - I'm the most knowledgeable president ever. The crowd loves me, the polls show me winning, and the Democrats are scared. Sad!
+
+再看训练集外的问题“What is your name?”：
+
+> **原版 Gemma 2B**：My name is Gemma. I'm a large language model trained by Google…
+
+> **LoRA 微调版（特朗普）**：My name is Donald J. Trump. The people call me Trump. I like it. It's a beautiful name… It's a symbol of strength, of victory. I've always been a winner, and I'll never stop.
+
+训练过程的指标汇总在下面这张表里。它只覆盖训练阶段，不等于泛化评测：
 
 | 指标 | 训练前 | 训练后 | 变化 |
 |------|--------|--------|------|
 | Loss | 4.195 | 0.989 | ↓ 76.4% |
 | Token 准确率 | 42% | 76% | ↑ 34pp |
 | lora_B 范数 | 0.0000 | 0.2258 | 权重已收敛 |
-| 训练耗时 | — | 3.9 秒 | 6 steps/s |
+| 训练耗时 | — | 3.9 秒 | 平均约 4.6 步/秒 |
 | GPU 显存 | — | 14 GB | 单卡可运行 |
 
----
+Loss 从 4.195 降到 0.989，下降 76.4%；token accuracy 从 42% 到 76%。这两个数字都是训练过程的指标，原文没有说明 token accuracy 的评测集。如果是训练集，它们说明模型拟合了这 12 条数据；如果是留出集，样本也太少，置信区间很宽。`[待补：token accuracy 的评测口径（训练集/留出集、是否包含 prompt token）]`
 
-## 7. 关键问题解析
+训练集外的名字问题只提供了一个泛化样例。模型答出 Donald J. Trump，说明它学到了一些角色关联；12 条数据、18 步、3.9 秒，更像是模型记住了这 12 个回答的句式。要确认这一点，需要留出集、风格一致性评分和事实性检查。`[待补：留出集上的风格一致性与事实性评测]`
 
-### 7.1 为什么要用 LoRA 而不是全量微调？
-
-| 方式 | 可训练参数 | 显存需求 | 耗时 |
-|------|-----------|----------|------|
-| 全量微调 (Full FT) | 2.5B（100%） | ~40GB | 小时级 |
-| LoRA 微调（本项目） | 19.6M（0.78%） | ~14GB | 3.9 秒 |
-
-### 7.2 多 GPU 时为什么要设置 CUDA_VISIBLE_DEVICES=0？
-
-当机器有多张 GPU 时，HuggingFace Trainer 检测到多卡会自动启动 DDP（分布式数据并行），但代码中指定了 `device_map="cuda:0"` 把模型锁定在单卡，两者冲突导致死锁（进程 CPU 100% 但完全不前进）。
-
-解决方案：在脚本最开头设置：
-
-```python
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-```
-
-### 7.3 提示格式为什么必须与训练时一致？
-
-LoRA 微调让模型学习了"在看到 `Assistant (Trump):` 这个 token 序列后，应该用什么风格续写"。
-
-如果推理时写的是 `Assistant:`，模型没有接收到触发信号，会走原来的分布输出通用回答。
-
-训练格式 = 推理格式，这是使用微调模型最容易忽视的细节。
-
-### 7.4 gradient_accumulation_steps 对训练有什么影响？
-
-| accumulation_steps | optimizer steps（18样本/batch=2） | 效果 |
-|-------------------|----------------------------------|------|
-| 4（原始） | 18/2/4 × 3 = ~3 步 | 进度条几乎不动，误以为卡死 |
-| 1（修改后） | 18/2/1 × 3 = 18 步 | 每步都更新，日志实时可见 |
-
-### 7.5 LoRA 训练需要载入原始模型吗？
-
-需要，而且必须完整载入显存。
-
-```
-前向传播每步都要算：y = W·x + B·A·x
-                          ↑
-                    必须读取 W 做矩阵乘法
-
-反向传播梯度要穿过 W：∂L/∂x = Wᵀ · ∂L/∂y
-                          ↑
-                    W 不更新，但必须参与反向计算图
-```
-
-LoRA 真正省的是 W 的梯度存储和优化器状态（Adam 的 m/v 动量），而非省掉载入 W 本身。
-
----
-
-## 总结
-
-LoRA 微调的本质是：**用低秩矩阵 B·A 近似权重的修正量 ΔW**，利用微调任务中 ΔW 天然低秩的特性，将训练参数量从 100% 压缩到 0.78%，同时保持接近全量微调的效果。
-
-整个流程核心代码不超过 100 行，在消费级显卡上即可完成，是大模型个性化定制最实用的入门路径。
-
-基于 Gemma 2B · PEFT/LoRA · TRL SFTTrainer
-
----
-
-*编辑于 2026-03-02 16:19・上海*
+如果目标是角色扮演，还要注意事实错误：模型可能把特朗普的公开事实和风格化的口头禅混在一起，风格对了，事实不一定对。这套流程证明了管道能跑通，不证明模型已经学会稳定的特朗普风格。下一步要补的是评测；把训练时间从 3.9 秒再压一秒，不会解决泛化问题。

@@ -1,6 +1,6 @@
 ---
 title: "这个博客是怎么做的：Hugo + Congo 完整技术拆解"
-description: "Hugo + Congo 搭建个人技术博客完整教程：主题选型、KaTeX 数学公式本地化、暗色模式配置、Cloudflare Pages 免费部署与自定义域名绑定。36 篇文章构建仅需 2 秒，首年成本约 70 元域名费，全程不写前端代码，适合想专注写作的研究员和工程师。"
+description: "Hugo + Congo 搭建个人技术博客完整教程：主题选型、KaTeX 数学公式本地化、暗色模式配置、Cloudflare Pages 免费部署与自定义域名绑定。70 篇技术文章、200 多个页面构建仅需约 2 秒，首年成本约 70 元域名费，全程不写前端代码，适合想专注写作的研究员和工程师。"
 date: 2025-01-25T10:00:00+08:00
 draft: false
 weight: 100
@@ -9,111 +9,31 @@ categories: ["技术选型"]
 tags: ["Hugo", "Congo", "Blog", "Static Site", "KaTeX"]
 ---
 
-> 一篇 meta 文章：讲清楚你正在看的这个博客，底层是怎么运转的。
->
-> 目标读者：想搭建个人技术博客，但不想折腾前端代码的研究员和工程师。
+这个站点现在有 200 多个页面。改完一篇 Markdown，执行 `git push`，Cloudflare Pages 拉仓库、跑一次 `hugo --gc --minify`，整站重新生成大约 2 秒，然后把 `public/` 里的静态文件推到 CDN。没有数据库，没有常驻后端，也没有需要单独维护的搜索服务。
 
----
+## 0. 需求与选型
 
-## 0. 前言：为什么选这套方案
+搭这个博客之前，我列过一组硬需求。数学公式要能稳定渲染，代码块要能高亮和复制，写作过程要接近纯 Markdown，并且不需要写前端代码；这四项是 P0。暗色模式、全文搜索、部署零成本是 P1，缺了能忍，但有更好。研究员的日常是读论文、记公式、贴代码，博客必须让这些动作不打断写作。
 
-搭建技术博客的方案很多，但研究员的需求很具体：
+静态站点生成器的候选里，Hugo 的构建速度最快，主题生态丰富，数学公式需要额外配置；Hexo 构建速度中等，中文主题多，公式靠插件；VitePress 构建快，公式内置，但偏 Vue 文档站点；Docusaurus 构建速度中等，背靠 React 生态，公式也要插件；Astro 构建快，Islands 架构适合内容为主、交互为辅的站点。这个站点是内容驱动，构建速度和 Markdown 工作流优先，Hugo 的单二进制、无运行时依赖更省心。
 
-| 需求 | 优先级 |
-|------|--------|
-| 数学公式完美渲染 | P0 |
-| 代码高亮 + 复制按钮 | P0 |
-| 暗色模式默认 | P1 |
-| 全文搜索 | P1 |
-| 部署零成本 | P1 |
-| 写作体验接近纯 Markdown | P0 |
-| 不需要写前端代码 | P0 |
+主题选了 Congo。它是为内容创作者设计的 Hugo 主题，默认暗色是 slate 色系，字体、行距和留白偏学术排版；搜索、代码复制、目录、RSS、多语言这些功能开箱即用，样式层用 Tailwind CSS。Tailwind 的好处是改样式不用跟主题作者的历史 CSS 打架，代价是主题直接 vendored 进仓库，升级要自己合并；对个人博客来说，这个交换比等主题发版更可控。
 
-评估了一圈，**Hugo + Congo** 是这个需求组合下的最优解。
-
----
+部署选 Cloudflare Pages。它的国内访问速度较快，免费额度对个人博客足够，SSL 证书自动续期，全球 CDN 分发。Vercel 也免费，但国内速度一般，更适合 Next.js 项目；GitHub Pages 免费且简单，国内访问较慢；阿里云 OSS 国内速度极快，但每月要花大约 ¥10-30 的存储和流量费。这个站点没有国内备案和商业流量需求，Cloudflare Pages 的免费层够用。
 
 ## 1. 整体架构
 
-| 层级 | 组件 | 技术 |
-|------|------|------|
-| 前端展示 | 静态站点生成器 | Hugo (Go，极速构建) |
-| | 主题 | Congo (Tailwind CSS，学术/极客风) |
-| | 数学公式 | KaTeX (本地化，不依赖 CDN) |
-| | 代码高亮 | Chroma (内置，支持复制按钮) |
-| | 全文搜索 | Fuse.js (客户端搜索，无后端) |
-| 内容层 | 文章格式 | Markdown (.md) |
-| | 分类系统 | categories + tags |
-| | 静态资源 | static/ (图片、字体、KaTeX) |
-| 构建层 | 构建命令 | hugo --gc --minify |
-| | 输出目录 | public/ (纯 HTML/CSS/JS) |
-| | 部署平台 | Cloudflare Pages / Vercel / OSS |
+整站由 Hugo 生成静态 HTML、CSS 和 JavaScript。Hugo 是 Go 写的静态站点生成器，负责把 Markdown 和模板编译成 `public/` 目录；Congo 提供页面骨架、暗色主题和组件；KaTeX 负责数学公式，文件放在本地；Chroma 负责代码高亮；Fuse.js 在浏览器端做全文搜索，不需要后端索引服务。内容层是 Markdown，分类靠 categories 和 tags，图片和字体放在 `static/`，构建由一条 Hugo 命令完成，输出目录是 `public/`，最后交给 Cloudflare Pages 或 Vercel、OSS 之类的平台托管。
 
----
+这个架构的关键是“构建期把能做的都做掉”。Markdown 解析、模板渲染、代码高亮、资源压缩都在构建时完成，浏览器只负责加载静态文件和执行 KaTeX、Fuse.js 这两段客户端脚本。代价是搜索索引要随文章数量一起下载，公式渲染要等 KaTeX 的 JS 和字体加载；好处是没有服务器要维护，也没有数据库连接和 API 超时。
 
-## 2. 技术选型：为什么是这个组合
+## 2. 内容工作流
 
-### 2.1 Hugo：最快的静态站点生成器
+日常流程很短。我写一个 Markdown 文件，提交并 push，GitHub 或 Cloudflare 检测到变更后触发构建，Hugo 执行构建，生成 `public/` 目录，CDN 把新文件分发出去，读者刷新页面就能看到。对我而言只有两步：写 `content/notes/文章标题.md`，然后 `git push`。构建失败时 Cloudflare 会保留上一次成功的部署，站点不会因为一篇稿子的语法错误整体挂掉。
 
-静态站点生成器（SSG）的选择：
+## 3. 文件结构
 
-| 工具 | 构建速度 | 主题生态 | 公式支持 | 适合场景 |
-|------|---------|---------|---------|---------|
-| **Hugo** | 极快 | 丰富 | 需配置 | **内容驱动，追求速度** |
-| Hexo | 中等 | 中文主题多 | 插件 | 中文社区，快速上手 |
-| VitePress | 快 | Vue 生态 | 内置 | 文档型站点 |
-| Docusaurus | 中等 | React 生态 | 插件 | 多语言文档 |
-| Astro | 快 | Islands 架构 | 插件 | 内容为主，交互为辅 |
-
-Hugo 的核心优势是**构建速度**。本博客 36 篇文章、200+ 页面，构建耗时约 2 秒。本地预览几乎是实时的。
-
-### 2.2 Congo：研究员风格的主题
-
-Congo 是为**内容创作者**设计的 Hugo 主题：
-
-- **暗色模式**：slate 色系，长时间阅读不刺眼
-- **学术排版**：字体、行距、留白都偏向论文质感
-- **内置功能**：搜索、代码复制、目录、RSS、多语言，开箱即用
-- **Tailwind CSS**：现代、轻量、可定制
-
-### 2.3 部署：Cloudflare Pages
-
-| 方案 | 国内速度 | 价格 | 推荐度 |
-|------|---------|------|--------|
-| Cloudflare Pages | 较快 | 免费 | **首选** |
-| Vercel | 一般 | 免费 | Next.js 项目 |
-| GitHub Pages | 较慢 | 免费 | 极简个人站 |
-| 阿里云 OSS | 极快 | ¥10-30/月 | 国内业务为主 |
-
-Cloudflare Pages 绑定 GitHub 仓库后，每次 `git push` 自动构建部署，SSL 证书自动续期，全球 CDN 加速。对于个人博客，免费额度完全够用。
-
----
-
-## 3. 核心工作流
-
-```
-你写 Markdown 文件
-      ↓
-git commit & push
-      ↓
-GitHub / Cloudflare 自动触发构建
-      ↓
-hugo --gc --minify
-      ↓
-生成 public/ 目录（纯静态文件）
-      ↓
-CDN 全球分发
-      ↓
-读者访问
-```
-
-**你的全部操作只有两步**：
-1. 写 `content/notes/文章标题.md`
-2. `git push`
-
----
-
-## 4. 文件结构
+站点目录大致如下，配置按功能拆在 `config/_default/` 下。内容、模板和静态资源分开放，后面找文件不用翻整棵树：
 
 ```
 site/                           # Hugo 站点根目录
@@ -151,13 +71,11 @@ site/                           # Hugo 站点根目录
 └── public/                     # 构建输出（部署用这个目录）
 ```
 
----
+把主题放进 `themes/congo/`，没有用 Git submodule，是为了让模板覆盖和样式修改跟着主仓库走，部署时不依赖外部仓库的可用性。`layouts/` 里只放这个站点特有的覆盖：`extend-head.html` 挂 KaTeX，`notes/list.html` 过滤系列和随笔，`landing.html` 处理系列、随笔和关于页的简洁布局。`public/` 是构建产物，不手工编辑，部署平台只认这个目录。
 
-## 5. 三个关键配置
+## 4. 三个关键配置
 
-### 5.1 数学公式支持
-
-`config/_default/markup.toml`：
+数学公式的第一处配置在 `config/_default/markup.toml`。先让 Goldmark 别碰公式标记：
 
 ```toml
 [goldmark.extensions.passthrough]
@@ -167,13 +85,9 @@ site/                           # Hugo 站点根目录
   inline = [['$', '$'], ['\\(', '\\)']]
 ```
 
-**作用**：让 Hugo 的 Markdown 解析器不处理 `$...$` 和 `$$...$$`，直接原样输出到 HTML，由 KaTeX 在浏览器端渲染。
+Goldmark 默认会把 `$` 当普通文本处理，公式里的反斜杠和下划线会被 Markdown 规则吃掉。开启 passthrough 后，`$...$` 和 `$$...$$` 原样输出到 HTML，由浏览器端的 KaTeX 渲染。这一步不开启，后面 KaTeX 配置得再对，公式也到不了它手里。
 
-**为什么需要 passthrough**：默认情况下，Hugo 会把 `$` 当作普通文本转义。开启 passthrough 后，公式标记才能完整保留。
-
-### 5.2 KaTeX 本地化加载
-
-`layouts/partials/extend-head.html`：
+第二处是 KaTeX 的本地加载。`layouts/partials/extend-head.html` 引入本地 CSS 和 JS：
 
 ```html
 <link rel="stylesheet" href="/katex/katex.min.css">
@@ -181,7 +95,7 @@ site/                           # Hugo 站点根目录
 <script defer src="/katex/auto-render.min.js"></script>
 ```
 
-`layouts/partials/extend-footer.html`：
+`layouts/partials/extend-footer.html` 负责在 DOM 加载完成后调用 `renderMathInElement`，把页面里的公式标记交给 KaTeX。渲染入口如下：
 
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
@@ -199,25 +113,20 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 
-**为什么本地化**：
-- CDN（如 cdn.jsdelivr.net）在中国大陆网络环境下可能加载失败
-- 本地文件保证全球访问一致性
-- KaTeX 字体文件（.woff2）也必须本地化，否则中文 `\\text{}` 显示为方块
+本地化是为了避开 CDN 的不确定性。cdn.jsdelivr.net 在中国大陆网络环境下可能加载失败，本地文件能保证全球访问一致；KaTeX 的 `.woff2` 字体也必须一起放到 `static/katex/fonts/`，否则中文 `\\text{}` 里的字会显示成方块。代价是升级 KaTeX 要手动替换 CSS、JS 和字体，不能靠 CDN 自动跟版本。
 
-### 5.3 暗色模式默认开启
-
-`config/_default/params.toml`：
+第三处是暗色模式默认开启。`config/_default/params.toml` 里设置：
 
 ```toml
 defaultAppearance = "dark"
 autoSwitchAppearance = true
 ```
 
----
+`defaultAppearance` 决定首次访问的主题，`autoSwitchAppearance` 允许读取系统偏好并在用户手动切换后记住选择。两个都开，读者第一次进来是暗色，系统切到亮色时页面也会跟随；如果只想要固定暗色，把第二个关掉即可。
 
-## 6. 部署指南：Cloudflare Pages
+## 5. 部署到 Cloudflare Pages
 
-### Step 1：代码推送到 GitHub
+代码先推到 GitHub。在站点根目录初始化仓库，添加远端，提交并推送：
 
 ```bash
 cd site/
@@ -228,56 +137,31 @@ git commit -m "init hugo + congo"
 git push -u origin main
 ```
 
-### Step 2：Cloudflare Pages 配置
+然后在 Cloudflare Dashboard 里进 Pages，创建项目并连接 GitHub，选择 `blog` 仓库。构建设置填 Framework preset 为 `Hugo`，Build command 为 `hugo --gc --minify`，Build output directory 为 `public`，保存后触发第一次部署。这几个值和本地构建命令保持一致，避免线上和本地生成不同的目录结构。
 
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)
-2. Pages → 创建项目 → 连接 GitHub
-3. 选择 `blog` 仓库
-4. 构建设置：
-   - **Framework preset**: `Hugo`
-   - **Build command**: `hugo --gc --minify`
-   - **Build output directory**: `public`
-5. 点击保存并部署
+自定义域名在 Pages 项目的“自定义域”里添加 `doraemg.com`，按提示修改 DNS 记录，SSL 证书大约 1-2 分钟自动签发。之后每次 `git push` 都会自动构建部署，证书续期也由平台处理。构建日志在 Pages 面板里能直接看，Hugo 模板报错和资源路径错误都会在这一步暴露。
 
-### Step 3：绑定自定义域名
+## 6. 成本
 
-1. Cloudflare Pages 项目 → 自定义域
-2. 添加 `doraemg.com`
-3. 按提示修改 DNS 记录
-4. 自动 SSL 证书签发（约 1-2 分钟）
+域名是唯一的固定支出，在 Cloudflare Registrar 买 `.com` 大约 ¥70/年。托管用 Cloudflare Pages 免费版，CDN 和自动 HTTPS 包含在内，构建额度是每月 500 次，首年总成本约 ¥70，之后每年只续域名。如果换成阿里云 OSS 托管，存储和流量每月大约 ¥10-30，适合国内业务为主、需要备案和稳定回源的场景。
 
-**以后每次 `git push` 自动构建部署。**
+免费额度有边界。每月 500 次构建对个人博客够用，但如果一个仓库里同时放多个站点、每次提交都触发全量构建，额度会消耗得比想象中快。静态站点的成本低，是因为把计算放在了构建期和浏览器端；文章数量、图片体积和搜索索引增长之后，首屏加载和构建时间都会随之上升，这部分不会体现在账单里。
 
----
-
-## 7. 成本
-
-| 项目 | 成本 | 备注 |
-|------|------|------|
-| 域名 (.com) | ¥70/年 | Cloudflare Registrar |
-| 托管 | ¥0/年 | Cloudflare Pages 免费版 |
-| CDN | ¥0/年 | 全球节点，自动 HTTPS |
-| 构建 | ¥0/年 | 500 次/月免费构建 |
-| **首年总计** | **约 ¥70** | 后续每年仅域名续费 |
-
----
-
-## 8. 常见问题
+## 7. 常见问题
 
 ### Q1：公式显示为红色错误文本？
 
-通常是 KaTeX 解析失败。检查：
-- `\\text{}` 内部的下划线 `_` 需要转义为 `\\_`
-- 特殊符号如 `&`、 `%`、 `#` 在公式中需要转义
-- 确保 `static/katex/fonts/` 字体文件完整
+这通常是 KaTeX 解析失败，先从转义查起。`\\text{}` 内部的下划线 `_` 要写成 `\\_`，`&`、`%`、`#` 在公式里也要转义；再看 `static/katex/fonts/` 的字体文件是否完整，缺字体时公式可能能解析但显示异常。最后确认 `markup.toml` 的 passthrough 分隔符和 `extend-footer.html` 里的 `delimiters` 一致，两边不一致会导致公式根本没进入 KaTeX。
 
 ### Q2：如何添加新文章？
+
+用 Hugo 的命令生成骨架。命令很短，路径按你的目录结构改：
 
 ```bash
 hugo new content posts/文章标题.md
 ```
 
-然后在文件头部填写 frontmatter：
+命令只是按模板生成文件，路径要跟 `content/` 下的目录结构一致；这个站点的技术笔记实际放在 `content/notes/`。生成后在文件头部填写 frontmatter：
 
 ```yaml
 ---
@@ -289,42 +173,29 @@ tags: ["Tag1", "Tag2"]
 ---
 ```
 
+`draft: false` 才会进入构建，categories 和 tags 决定归档和筛选。日期写成带时区的 ISO 格式，避免不同机器构建出不同的排序。
+
 ### Q3：如何本地预览？
+
+在站点根目录执行下面的命令，先确认本地版本能起来。启动参数如下：
 
 ```bash
 hugo server --buildDrafts
 # 访问 http://localhost:1313
 ```
 
+`--buildDrafts` 会把草稿也渲染出来，适合发布前检查。本地服务器带热重载，改 Markdown 或模板后浏览器会自动刷新；公式、搜索和暗色模式都能在本地验证，不需要每次 push 到 Cloudflare 看效果。
+
 ### Q4：如何备份？
 
-代码和内容全部在 Git 仓库中。图片等资源放在 `static/` 目录下也一并提交。定期 `git push` 即完成备份。
+代码和内容全部在 Git 仓库里，图片、字体等资源放在 `static/` 下也一并提交，定期 `git push` 就完成了备份。`public/` 是构建产物，不需要提交；需要恢复时，拉下仓库重新构建一次即可。域名和 DNS 记录不在仓库里，换注册商或误删解析时要单独留一份记录。
 
----
+## 8. 这套方案的边界
 
-## 9. 总结
+这套组合的核心是“一个二进制文件、一个主题、一个托管平台、一种内容格式”：Hugo 负责构建，Congo 负责样式和功能，Cloudflare Pages 负责托管和 CDN，Markdown 负责内容。没有数据库和后端，配置量可控，代价是所有能力都停在静态站点能提供的范围内。评论、登录、服务端搜索这些需求要另外接服务，不在当前架构里。
 
-> **Hugo 把 Markdown 转成静态网页，Congo 决定长什么样，Cloudflare Pages 免费托管，KaTeX 负责公式，你只管写。**
-
-这套方案的核心设计哲学是**简单**：
-- 一个二进制文件（Hugo）搞定构建
-- 一个主题（Congo）搞定设计和功能
-- 一个平台（Cloudflare）搞定托管和 CDN
-- 一种格式（Markdown）搞定内容
-
-没有数据库，没有后端，没有复杂配置。内容是你的，代码是你的，域名是你的。这才是个人博客该有的样子。
-
----
+具体到维护，有三笔账要提前算。搜索索引在浏览器端加载，文章越多，首次搜索要下载的数据越大；KaTeX 和 Congo 都 vendored 进仓库，升级要手动合并；Cloudflare Pages 的免费构建额度，推送频繁的仓库要留意。这三条不提前算，站点长大后会在搜索、升级和构建额度上依次碰到。
 
 ## 参考资源
 
-| 资源 | 链接 | 说明 |
-|------|------|------|
-| Hugo 官方文档 | https://gohugo.io/documentation/ | 最权威的配置参考 |
-| Congo 主题文档 | https://jpanther.github.io/congo/docs/ | 主题特有的 shortcode 和参数 |
-| KaTeX 支持表 | https://katex.org/docs/support_table.html | 查看哪些 LaTeX 命令可用 |
-| Cloudflare Pages | https://pages.cloudflare.com/ | 托管平台官方文档 |
-
----
-
-> 如果你正在考虑搭建自己的技术博客，希望这篇文章能帮你少走一些弯路。有任何问题，欢迎通过博客首页的联系方式找到我。
+Hugo 的官方文档在 https://gohugo.io/documentation/ ，配置项和模板函数以它为准。Congo 主题文档在 https://jpanther.github.io/congo/docs/ ，shortcode 和主题参数看这里。KaTeX 的命令支持表在 https://katex.org/docs/support_table.html ，写公式前可以先查哪些命令可用。Cloudflare Pages 的文档在 https://pages.cloudflare.com/ ，构建配置和自定义域名的细节都在上面。

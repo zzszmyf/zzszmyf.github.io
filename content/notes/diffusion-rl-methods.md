@@ -1,6 +1,6 @@
 ---
 title: "百花齐放的 Diffusion-RL：技术路线综述"
-description: "Diffusion RL 技术路线综述：将扩散模型与强化学习结合的方案归纳为四大类——MDP 套框架（DDPO、Flow-GRPO）、前向过程优化（AWM、DiffusionNFT）、CFGRL 与 Q 函数方法，附方法对比表及 DanceGRPO 等噪声强度不对齐问题的修正工作。"
+description: "Diffusion RL 技术路线综述：将扩散模型与强化学习结合的方案归纳为四大类——MDP 套框架（DDPO、Flow-GRPO）、前向过程优化（AWM、DiffusionNFT）、CFGRL 与 Q 函数方法，并比较各方法的代价、适用边界，以及 DanceGRPO 等噪声强度不对齐问题的修正工作。"
 date: 2024-04-03T00:00:00+08:00
 draft: false
 weight: 100
@@ -9,260 +9,90 @@ categories: ["研究笔记"]
 tags: ["研究笔记", "Reinforcement Learning", "Diffusion Model"]
 ---
 
-# 百花齐放的 Diffusion-RL：技术路线综述
-
-> 本文整理自知乎专栏文章，总结了近期 Diffusion Model 与 Reinforcement Learning 结合的多种技术方案。
-
-**原文链接**：[https://zhuanlan.zhihu.com/p/2004562606309020589](https://zhuanlan.zhihu.com/p/2004562606309020589)
-
-## 目录
-
-- [背景](#背景)
-- [方法一：多步降噪看作 MDP](#方法一多步降噪看作-mdp套已有rl框架)
-- [方法二：采样后在前向过程中优化](#方法二采样后在前向过程中优化)
-- [方案三：CFGRL](#方案三-cfgrl)
-- [方案四：使用 Q 函数](#方案四使用q函数)
-- [方法对比](#方法对比)
-- [关键问题与修正](#关键问题与修正)
-- [参考论文](#参考论文)
-
----
+Diffusion 模型的 RL 微调在一年多里长出了至少四条路线：把多步降噪直接当 MDP，采样后在前向过程里加权，拿 CFG 当策略改进算子，以及固定原策略只学噪声。它们的差别主要在于把哪一段计算图当成可优化的策略，训练稳定性、reward 设计和算力开销都由此分叉。下面这份整理来自知乎专栏文章，原文链接是 https://zhuanlan.zhihu.com/p/2004562606309020589 ，公式保留原文记号。
 
 ## 背景
 
-Diffusion 模型与强化学习（RL）的结合近期涌现出多种方法，技术路线五花八门。本文将主流方案归纳为四大类，帮助读者建立清晰的知识框架。
+核心挑战有三个。降噪是一个连续多步的过程，RL 的决策框架要把每一步的噪声或 velocity 当成 action，才能定义状态和轨迹；训练稳定性要求新旧策略的分布不要差太远，否则 reward 信号会被巨大的策略偏移淹没；噪声强度则要和监督训练时保持一致，模型在某个信噪比下学到的 velocity，换到另一个信噪比下未必成立。这三条约束对应后面不同的技术路线，也解释了为什么同一篇论文里既有策略梯度，又有对采样过程的改造。
 
-核心挑战：
-- 如何将连续的降噪过程与 RL 的决策框架结合
-- 如何保持训练稳定性
-- 如何对齐噪声强度（与监督训练一致）
+## 方法一：多步降噪看作 MDP
 
----
+代表工作是 DDPO（https://arxiv.org/abs/2305.13301 ）和 Flow-GRPO（https://arxiv.org/abs/2502.06737 ）。两者都把多步降噪过程看成马尔可夫决策过程，直接套用 GRPO、策略梯度或 PPO 等 RL 框架；状态是当前的带噪样本，action 是网络预测的 velocity，轨迹是一条完整的降噪路径。
 
-## 方法一：多步降噪看作 MDP，套已有RL框架
-
-**代表工作**：
-- [DDPO](https://arxiv.org/abs/2305.13301): *Training Diffusion Models with Reinforcement Learning*
-- [Flow-GRPO](https://arxiv.org/abs/2502.06737): *Training Flow Matching Models via Online RL*
-
-### 核心思路
-
-将多步降噪过程看作**马尔可夫决策过程（MDP）**，直接套用强化学习框架（GRPO、策略梯度、PPO 等）。
-
-Flow Matching 的过程本质上是一个 ODE 过程。为了引入随机性，将 ODE 转换为 SDE：
+Flow Matching 的采样过程对应一条 ODE 轨迹。为了在每一步注入随机性，把 ODE 转成 SDE，于是每一步的 velocity 服从一个高斯分布：
 
 $$
 p(v_t | x_t) = \mathcal{N}\left(v_\theta(x_t), \sigma_t^2\right)
 $$
 
-其中：
-- $v_\theta$ 是网络预测的 flow
-- $\sigma_t$ 是预定义的与 $t$ 相关的方差（如 $\sigma_t = \sigma_{min} + t \cdot \sigma_{max}$）
-- 通过 $\sigma_t$ 注入随机性（标准正态噪声）
+这个高斯分布的均值是网络预测的 flow，方差由 $\sigma_t$ 决定，$\sigma_t$ 是预定义的与 $t$ 相关的量，例如 $\sigma_t = \sigma_{min} + t \cdot \sigma_{max}$。方差项就是注入随机性的入口，也让每一步的概率可以计算。
 
-### 概率与轨迹
+$v_\theta$ 被当作 RL 里的 action。一次完整降噪产生多条 trace，每条 trace 视为一条 trajectory；每一步根据上面的高斯分布得到 probability；拿到终点的 reward 后，就可以执行策略梯度或 GRPO 更新。DDPO 和 Flow-GRPO 都只在最后降噪结束时评估 reward，中间步骤还是噪声，单独打分意义不大。
 
-上述公式表达的分布：
-- 前两项为**均值**
-- 最后一项为**方差**
-
-$v_\theta$ 类比到 RL 中的 **action**。通过这种方式：
-1. 获得多条降噪 trace → 视为多个 **trajectory**
-2. 根据加入的噪声，利用上述分布获得对应 **probability**
-3. 只要有 trajectory 相关的 **reward**，即可执行 RL 算法更新
-
-> **实践注意**：DDPO 和 Flow-GRPO 都使用**最后降噪结束**的 trajectory 进行 reward 评估。中间步骤都是噪声，评估意义不大。
-
-### 参考模型（Ref Model）
-
-Ref model 过程相同，只是将 $v_\theta$ 换成 $v_{ref}$，同样可获得对应概率。由于都是正态分布，**KL 散度**误差也很好计算。
-
-### Flow-GRPO 优化目标
+Ref model 走同样的过程，只把 $v_\theta$ 换成 $v_{ref}$。两个分布都是高斯，KL 有闭式解，Flow-GRPO 的优化目标里可以直接写 KL 项：
 
 $$
 \mathcal{L}_{GRPO} = \mathbb{E}\left[ \frac{\pi_\theta(v_t|x_t)}{\pi_{old}(v_t|x_t)} \cdot A_t \right] - \beta \cdot KL(\pi_\theta || \pi_{ref})
 $$
 
-其中：
-- 概率 ratio $\frac{\pi_\theta}{\pi_{old}}$：actor 和 ref 的 MDP 都用高斯分布表示，概率可计算
-- 不同 $t$ 的 $v_\theta$ 一样，只用最后终点的 trajectory 计算 reward
-
-**KL 散度**：直接套用两个高斯分布的散度公式：
+其中概率 ratio 是 actor 和 old policy 在高斯分布下的密度比，不同 $t$ 的 $v_\theta$ 来自同一个网络，reward 只在终点计算。两个同方差高斯的 KL 退化成均值差除以两倍方差，形式如下：
 
 $$
 KL(\mathcal{N}(\mu_1, \sigma^2) || \mathcal{N}(\mu_2, \sigma^2)) = \frac{(\mu_1 - \mu_2)^2}{2\sigma^2}
 $$
 
-### DDPO 方法
-
-使用策略梯度 / PPO（MDP 对上了，怎么套都行）：
+这个形式计算便宜，也让 reference model 的约束可以逐步加在训练里。DDPO 则用策略梯度或 PPO，具体写法如下：
 
 $$
 \nabla_\theta J = \mathbb{E}_{x \sim p_\theta(x|c)} \left[ R(x, c) \cdot \nabla_\theta \log p_\theta(x|c) \right]
 $$
 
-或：
+PPO 则用 clip 限制更新幅度。目标函数如下：
 
 $$
 \mathcal{L}_{PPO} = -\mathbb{E}_t \left[ \min\left( r_t A_t, \text{clip}(r_t, 1-\epsilon, 1+\epsilon) A_t \right) \right]
 $$
 
-其中 $c$ 为输入条件（即网络中的各类输入）。
-
----
+其中 $c$ 是输入条件，也就是网络拿到的各类条件。策略梯度把 reward 乘在 log-prob 的梯度上，PPO 再用 clip 限制 ratio 的更新幅度；两条式子对应同一条路线里的不同稳定化手段。
 
 ## 方法二：采样后在前向过程中优化
 
-**代表工作**：
-- [AWM](https://arxiv.org/abs/2410.01808): *Advantage Weighted Matching: Aligning RL with Pretraining in Diffusion Models*
-- [DiffusionNFT](https://arxiv.org/abs/2502.05597): *Online Diffusion Reinforcement with Forward Process*
+代表工作是 AWM（https://arxiv.org/abs/2410.01808 ）和 DiffusionNFT（https://arxiv.org/abs/2502.05597 ）。AWM 的核心结论是一句很长的论文标题：“DDPO is Secretly Doing Denoising Score Matching with Noisy Data”。它的逻辑链是：DDPO 等价于优化一个噪声加多了的前向过程，原本应该学习 $v_\theta(x_t)$，实际学的是 $v_\theta(\tilde{x}_t)$，其中 $\tilde{x}_t$ 是 $x_t$ 又加了额外噪声的版本。AWM 的实验表明这样不好，优化目标和原来的监督版本不一致。
 
-### AWM 核心洞察
+解决方案很直接：先用噪声做前向，得到一批结果；给结果打分，算出 advantage；再把这些结果当作 $x_t$ 执行一次前向训练；前向过程乘以 reward，强化好结果、抑制坏结果。这样 flow 会远离坏方向，训练速度快，流程也简单。这跟 DPO 的思想类似，都是用偏好样本构造一个加权的回归目标，不去显式训练 reward model。
 
-**核心结论**：
-
-> **DDPO is Secretly Doing Denoising Score Matching with Noisy Data**
-
-**逻辑链**：
-- DDPO 等价于在优化一个**噪声加多了**的前向过程
-- 本应该学习目标：$v_\theta(x_t)$
-- 实际学习目标：$v_\theta(\tilde{x}_t)$，其中 $\tilde{x}_t$ 是 $x_t$ 加了额外噪声的版本
-
-AWM 实验证明这样不好——优化目标与原来的监督版本不一致。
-
-**解决方案**：
-
-为了使得优化目标与监督学习一致，AWM 采用了简单直接的方法：
-
-1. 先用一堆噪声前向推一下，获得一堆结果
-2. 对这些结果打分，获得**优势（advantage）**
-3. 将这些结果当作 $x_t$ 再次执行前向训练
-4. **关键**：前向过程要乘以 reward $r$，强化好结果，抑制坏结果
-
-这种方法让 flow 远离坏的方向，**训练速度快，简单有效**。
-
-> 与 DPO（Direct Preference Optimization）思想类似。
-
-### DiffusionNFT 方法
-
-启发我们如何正确使用 ref model，通过构建**正例和负例**进行优化。
-
-**算法流程**：
-
-1. 用同样的条件加不同噪声生成一堆结果
-2. 给这些结果打分，计算 **optimality probability**（0-1 之间的值，类似 reward）
-3. 获得多个 $(x_t, r)$ 对
-4. 执行前向过程，构造 **positive velocity** 和 **negative velocity**：
+DiffusionNFT 关注的是 ref model 怎么用。它用同样的条件、不同的噪声生成一批结果，给每个结果打一个 0 到 1 的 optimality probability，得到多个 $(x_t, r)$ 对。然后执行前向过程，构造 positive velocity 和 negative velocity，记法如下：
 
 $$
 v_{pos} = v_{old}(x_{pos}), \quad v_{neg} = v_{old}(x_{neg})
 $$
 
-其中 $v_{old}$ 是旧策略或 ref model 预测的 flow，$v_\theta$ 是要学习的网络。
-
-5. 优化目标：
+$v_{old}$ 是旧策略或 ref model 预测的 flow，$v_\theta$ 是要学的网络。优化目标让网络靠近正例、远离负例，损失写成：
 
 $$
 \mathcal{L} = \mathbb{E}\left[ r \cdot ||v_\theta(x_t) - v_{pos}||^2 - (1-r) \cdot ||v_\theta(x_t) - v_{neg}||^2 \right]
 $$
 
-**梯度分析**：
-
-网络实际学习的是一个**纠正和躲避**方向：
-- 向正例方向靠近
-- 远离负例方向
-
-**稳定性保障**：
-
-old model 不断与新模型做**滑动平均（EMA）**，保证两者差距不太大。梯度分析与 AWM 类似，只是添加了"不要和 old 偏离太远"的约束项。
-
----
+梯度方向可以读成“纠正和躲避”：正例项把 $v_\theta$ 拉向 $v_{pos}$，负例项把它推离 $v_{neg}$。稳定性靠 old model 的滑动平均（EMA），old model 不断向新模型靠拢，两者差距不会拉得太大；梯度分析和 AWM 类似，只是多了一个“不要和 old 偏离太远”的约束项。
 
 ## 方案三：CFGRL
 
-**代表工作**：
-- [Diffusion Guidance Is a Controllable Policy Improvement Operator](https://arxiv.org/abs/2410.15470)
-
-将 **Classifier-Free Guidance (CFG)** 视为可控策略改进算子。
-
-核心思想类似 $\pi^*$ 方法（RL 中的最优策略），具体可参见原论文。
-
----
+CFGRL 的代表论文是《Diffusion Guidance Is a Controllable Policy Improvement Operator》（https://arxiv.org/abs/2410.15470 ），它把 Classifier-Free Guidance 看成可控的策略改进算子。核心思想类似 RL 里的 $\pi^*$ 方法，具体推导要回到原论文。这条路线的好处是复用已有的 CFG 机制；代价是改进幅度受 guidance 机制约束，适用范围比前两条路线窄。
 
 ## 方案四：使用 Q 函数
 
-**代表工作**：
-- [Steering Your Diffusion Policy with Latent Space Reinforcement Learning](https://arxiv.org/abs/2502.04320)
+这条路线问的是：能不能针对当前场景找到最好的噪声？它先训练一个 $Q(x_t, z)$，评估状态和噪声对的价值；再蒸馏一个噪声生成器 $z_\phi$，用 $\min_\phi ||z_\phi(x_t) - z^*||$ 让它和 Q 函数一致；最后用 $z_\phi$ 针对当前场景生成噪声。原 Flow Matching 策略固定不动，调整只发生在噪声上，因此调整幅度被限制住，不容易训崩，性能下限有原策略兜底。代价是要额外训练 Q 网络和生成器，训练管线比前三条路线长。
 
-### 核心思想
+## 四条路线的取舍
 
-**问题**：能否找到针对当前场景**最好的噪声**？
+MDP 路线优化降噪策略本身，把降噪视为 trajectory，用 PPO 或 GRPO 更新；它的优势是能直接套成熟 RL 算法，问题在于噪声强度与监督训练不对齐。前向优化路线优化 flow 预测，采样打分后在前向过程中加权；它简单有效、训练快，但需要设计好正负例的构造。CFGRL 优化引导策略，把 CFG 当策略改进算子；它利用已有 guidance 机制，适用范围却受 guidance 本身限制。Q 函数路线优化噪声生成器，固定原策略、只学最优噪声；它训练稳定、下限有保证，代价是多了 Q 网络和生成器两套训练。
 
-这是一个 value-based 方法，核心流程：
+四条路线没有统一的胜负。评价一个方案，先看它优化的是策略、flow、guidance 还是噪声，再看它的 reward 从哪里来、噪声对齐怎么处理；这几项答不清，指标涨了也很难复现。
 
-1. **训练 Q 函数**：$Q(x_t, z)$ 评估状态-噪声对的价值
-2. **蒸馏训练噪声生成器**：通过 $\min_\phi ||z_\phi(x_t) - z^*||$ 训练 $z_\phi$，让生成器与 Q 函数一致
-3. **优化噪声生成器**：$z_\phi$ 针对当前场景生成最优噪声
+## 噪声强度不对齐
 
-### 方法优势
+DDPO 和 Flow-GRPO 的采样方法会让第 $t$ 步的噪声强度与监督训练时的第 $t$ 步强度对不上。模型在监督训练时见过某个信噪比下的 $x_t$，采样时注入的噪声却对应另一个信噪比，velocity 目标就偏了。DanceGRPO（https://arxiv.org/search/?query=DanceGRPO ）选择动态加噪声，根据任务情况和收敛情况改变噪声注入强度；Coefficients-Preserving Sampling（https://arxiv.org/search/?query=COEFFICIENTS-PRESERVING+SAMPLING ）推导强度不一致的原因和程度，再提出修正方法。后者对数学原理的分析更细，值得优先读。
 
-- **固定原策略**：训练好的 Flow Matching 策略固定不动
-- **只调整噪声**：通过调整噪声来调整策略效果
-- **限制调整幅度**：相当于限制死了调整幅度，不容易训崩
-- **性能下限有保证**：原策略能力作为基础保障
+## 还没解决的问题
 
----
-
-## 方法对比
-
-| 方案 | 优化对象 | 核心机制 | 优点 | 潜在问题 |
-|------|---------|---------|------|---------|
-| **MDP套框架** (DDPO/Flow-GRPO) | 降噪策略本身 | 将降噪视为 trajectory，用 PPO/GRPO 更新 | 直接套用成熟 RL 算法 | 噪声强度与监督训练不对齐 |
-| **前向优化** (AWM/DiffusionNFT) | Flow 预测 | 采样打分后在前向过程中加权优化 | 简单有效，训练快 | 需要设计好正负例构造 |
-| **CFGRL** | 引导策略 | 利用 CFG 作为策略改进算子 | 利用已有 guidance 机制 | 适用范围受限 |
-| **Q 函数** (Latent RL) | 噪声生成器 | 固定原策略，学习最优噪声 | 训练稳定，下限有保证 | 需要额外训练 Q 网络和生成器 |
-
----
-
-## 关键问题与修正
-
-### 噪声强度不对齐问题
-
-**问题**：DPPO 和 Flow-GRPO 的采样方法会导致 $t$ 步的噪声强度与**监督训练时**的 $t$ 步强度不对齐。
-
-**修正工作**：
-
-| 工作 | 贡献 |
-|------|------|
-| **DanceGRPO** | 考虑**动态加噪声**：根据任务情况、收敛情况动态改变噪声注入强度 |
-| **COEFFICIENTS-PRESERVING SAMPLING** | 从根本上推导出强度不一致的原因及程度，并提出解决方法 |
-
-> **推荐阅读**：COEFFICIENTS-PRESERVING SAMPLING 论文写得很好，深入分析了噪声强度不一致的数学原理。
-
----
-
-## 参考论文
-
-| 论文 | 链接 | 类别 |
-|------|------|------|
-| DDPO: Training Diffusion Models with Reinforcement Learning | [arXiv:2305.13301](https://arxiv.org/abs/2305.13301) | MDP 框架 |
-| Flow-GRPO: Training Flow Matching Models via Online RL | [arXiv:2502.06737](https://arxiv.org/abs/2502.06737) | MDP 框架 |
-| DanceGRPO: Unleashing GRPO on Visual Generation | [arXiv](https://arxiv.org/search/?query=DanceGRPO) | 噪声强度修正 |
-| COEFFICIENTS-PRESERVING SAMPLING FOR REINFORCEMENT LEARNING WITH FLOW MATCHING | [arXiv](https://arxiv.org/search/?query=COEFFICIENTS-PRESERVING+SAMPLING) | 噪声强度修正 |
-| AWM: Advantage Weighted Matching | [arXiv:2410.01808](https://arxiv.org/abs/2410.01808) | 前向优化 |
-| DiffusionNFT: Online Diffusion Reinforcement with Forward Process | [arXiv:2502.05597](https://arxiv.org/abs/2502.05597) | 前向优化 |
-| Diffusion Guidance Is a Controllable Policy Improvement Operator | [arXiv:2410.15470](https://arxiv.org/abs/2410.15470) | CFGRL |
-| Steering Your Diffusion Policy with Latent Space RL | [arXiv:2502.04320](https://arxiv.org/abs/2502.04320) | Q 函数 |
-
----
-
-## 总结
-
-Diffusion-RL 领域正处于快速发展阶段，各路方法百花齐放：
-
-1. **MDP 派**：直接套用 RL 框架，思路直接但需注意噪声对齐
-2. **前向优化派**：采样后优化，简单有效，类似 DPO 思想
-3. **CFG 派**：利用已有 guidance 机制做策略改进
-4. **Value 派**：固定策略学噪声，稳定性最好
-
-**技术处于早期起步阶段**，特别是在 VLA（Vision-Language-Action）等复杂场景下，仍有很多开放问题待解决。
+这四条路线覆盖了目前的主要做法，但两个问题仍然没有统一解。中间步骤没有独立 reward，信用分配只能靠终点回传，长轨迹上的方差压不下去；噪声对齐目前靠 DanceGRPO 和系数保持采样修补，换一个采样器或换一个噪声日程就要重新验证。VLA 这类复杂场景对动作连续性和多模态条件的要求更高，这两块短板会更早暴露。

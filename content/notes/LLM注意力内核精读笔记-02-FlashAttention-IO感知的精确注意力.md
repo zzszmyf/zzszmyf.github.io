@@ -11,7 +11,7 @@ series: "attention-kernels"
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力计算复杂度是怎么来的](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)｜下一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)
 
 > 对应：Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*（arXiv:2205.14135，NeurIPS 2022）；Dao, *FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning*（arXiv:2307.08691，ICLR 2024）；Shah et al., *FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision*（arXiv:2407.08608，2024）。
-> 前置：01 章（注意力复杂度、prefill/decode 形态、max-subtraction）。学完本章你应该能：① 说清朴素注意力"快不起来"的真正瓶颈是 HBM 读写而不是 FLOPs；② 写出 FlashAttention 的三个核心技巧（tiling、online softmax、recompute）及各自解决的问题；③ 推导 online softmax 的增量更新公式并手算验证与整体 softmax 一致；④ 复述 IO 复杂度定理（$O(N^2d^2/M)$ vs $\Omega(Nd+N^2)$）与最优性结论；⑤ 对比 FA1/FA2/FA3 的改进路线与实测数据；⑥ 解释"重计算多花 FLOPs 反而更快"和"FlashAttention 是精确算法"这两个关键论断。
+> 前置：01 章（注意力复杂度、prefill/decode 形态、max-subtraction）。学完本章你应该能：① 说清朴素注意力"快不起来"的真正瓶颈在 HBM 读写；② 写出 FlashAttention 的三个核心技巧（tiling、online softmax、recompute）及各自解决的问题；③ 推导 online softmax 的增量更新公式并手算验证与整体 softmax 一致；④ 复述 IO 复杂度定理（$O(N^2d^2/M)$ vs $\Omega(Nd+N^2)$）与最优性结论；⑤ 对比 FA1/FA2/FA3 的改进路线与实测数据；⑥ 解释"重计算多花 FLOPs 反而更快"和"FlashAttention 是精确算法"这两个关键论断。
 
 ---
 
@@ -68,7 +68,7 @@ HBM（主存）：容量大（几十 GB）、带宽有限（A100 约 2TB/s）
 SRAM（片上）：容量小（每 SM 192KB）、带宽极高（~19TB/s 量级）
 ```
 
-一次 HBM 访问的成本远高于一次浮点运算。所以算法的快慢不由 FLOPs 决定，而由 **HBM 访问次数**决定——这正是"IO 感知"的含义。
+一次 HBM 访问的成本远高于一次浮点运算，墙钟时间因此主要花在 HBM 读写上——这就是"IO 感知"的含义。
 
 ### 3.1 标准注意力的 HBM 账本
 
@@ -117,7 +117,7 @@ $$
 $$
 m^{(j)} = \max \text{ of scores so far}, \qquad
 \ell^{(j)} = \sum \exp(s - m^{(j)}), \qquad
-\mathbf{O}^{(j)} = \text{unnormalized output so far}
+\mathbf{O}^{(j)} = \text{normalized output so far}
 $$
 
 处理新块 $j+1$（块内最大 $\tilde{m}$、块内指数和 $\tilde{\ell}$、块内贡献 $\tilde{\mathbf{P}}\mathbf{V}$）时，按以下三步更新：
@@ -140,13 +140,13 @@ $$
 
 ### 5.1 为什么这是"精确"算法
 
-每一步的缩放都是软max恒等式的直接应用：
+每一步的缩放都是 softmax 恒等式的直接应用：
 
 $$
 \mathrm{softmax}(s) = \frac{\exp(s - m)}{\sum_{j}\exp(s_j - m)}
 $$
 
-对任意 $m$ 成立。Online softmax 只是"换了个 $m$"并等比缩放之前的累计——**结果与一次性算整行 softmax 完全相同**（只差浮点舍入）。这是 FlashAttention 与近似注意力（稀疏/线性）的本质区别：**快，但不改结果**。
+对任意 $m$ 成立。Online softmax 只是"换了个 $m$"并等比缩放之前的累计——**数学上等同于一次性算整行 softmax**，实际差异只来自浮点舍入。稀疏/线性注意力改变的是计算内容，FlashAttention 只改计算顺序和存储位置。
 
 ---
 
@@ -287,7 +287,7 @@ $$
 | FA2 | 约 2x vs FA1；前向 73% 理论峰值（230 TFLOPs/s on A100） | FA2 摘要/§4 |
 | FA3 | FP16 1.5–2.0x vs FA2，740 TFLOPs/s；FP8 ≈1.2 PFLOPs/s；误差低 2.6x | FA3 摘要/§5 |
 
-共同主题：**每一步都在压 HBM 访问、提硬件利用率，而不是改注意力数学**——三版都是精确算法。
+三版都在压 HBM 访问、提硬件利用率，注意力数学没有改动，结果仍是精确的。
 
 ---
 
@@ -306,15 +306,13 @@ decode 时 query 只有 1 行、key 有 $L$ 行，$L$ 很长而 batch 小，GPU 
 incoherent processing（打散离群值）能把 FP8 注意力误差再降一截
 ```
 
-这与量化系列的"粒度 + 离群值"主线完全一致——**Attention 内核与量化在精度策略上共享同一套语言**。
-
 ---
 
 ## 13. 本章小结
 
 1. **瓶颈是 IO**：朴素注意力的 $N^2$ 矩阵在 HBM 反复搬移；FA 的 IO 复杂度 $O(N^2d^2/M)$ vs 标准 $\Omega(Nd+N^2)$。
 2. **三个技巧**：tiling（分块塞 SRAM）、online softmax（增量归一化，精确）、recompute（反向重算换带宽）。
-3. **精确性**：FlashAttention 的结果与朴素 softmax 逐位等价（浮点舍入内），不是近似算法。
+3. **精确性**：FlashAttention 是精确算法，结果与朴素 softmax 的差异只来自浮点舍入。
 4. **演进**：FA1 提出 IO 感知框架（2–4x）；FA2 修工作划分（再 2x、73% 峰值）；FA3 吃 Hopper 硬件（再 1.5–2x、FP8）。
 5. **定理**：$O(N)$ 额外显存、$O(N^2d^2/M)$ HBM 访问，且对精确注意力是最优的。
 

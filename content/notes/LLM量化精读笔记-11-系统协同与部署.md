@@ -36,15 +36,13 @@ series: "quantization"
 
 > 同一套量化方案，为什么在不同引擎里速度差几倍？怎么把量化装进生产系统，和其他优化组合？
 
-核心转变：从"量化权重"到"**为量化重新设计系统**"。
-
 ---
 
 ## 2. 从算法到系统：三个隐形瓶颈
 
 ### 2.1 反量化（dequantization）开销
 
-低比特权重在 GPU 上**不能直接算矩阵乘**（Tensor Core 没有 INT4 指令，FP4 只在 Blackwell 有），通常要：
+低比特权重在 GPU 上**不能直接算矩阵乘**（FP4 只在 Blackwell 有），通常要：
 
 1. 读入打包的 4-bit 权重
 2. 解包成 INT8/FP16 格式
@@ -83,7 +81,7 @@ KV cache：4-bit
 
 质量：WikiText-2 PPL 与 FP16 几乎无差（近无损）
 
-"渐进量化"（progressive quantization）是关键算法设计：让 W4A8 GEMM 能在 **INT8 Tensor Core** 上执行（把 4-bit 权重解包成两个 INT8 或直接按 INT8 对齐布局），避免 Blackwell 之前的硬件不支持。
+"渐进量化"（progressive quantization）是关键算法设计：让 W4A8 GEMM 能在 **INT8 Tensor Core** 上执行（把 4-bit 权重解包成两个 INT8 或直接按 INT8 对齐布局），避免依赖 Blackwell 才有的 FP4 Tensor Core。
 
 ### 3.2 两个"为什么"
 
@@ -112,7 +110,7 @@ $\to W4A8KV4$是"权重省带宽 + 激活保计算 + KV 救 attention"的组合
   Qwen1.5-72B 高 2.4–3.5x
   L40S（低端卡）跑 QServe 的吞吐超过 A100 上 TensorRT-LLM（8 个模型里 6 个）
 
-**结论**：量化方案的收益上限由"算法 × kernel × 调度"共同决定——这是"协同设计"的价值。
+**结论**：量化方案的收益上限由"算法 × kernel × 调度"共同决定。
 
 ---
 
@@ -127,7 +125,6 @@ Inference Engineering 的默认建议：**attention 留在原精度**（softmax 
 
 工程建议：
 
-默认：QK/softmax 用 FP16/FP32
 FP8 attention 只在：① 有专用 kernel ② 长序列 attention 占比高 ③ 评测通过
 
 ---
@@ -145,7 +142,7 @@ FP8 attention 只在：① 有专用 kernel ② 长序列 attention 占比高 �
 
 选引擎的检查清单：
 
-1. 我要的量化格式有没有 kernel（不是"支持"而是"实测速度"）
+1. 我要的量化格式有没有实测过速度的 kernel
 2. 激活是否也量化（W8A8 还是只 W4A16）
 3. KV cache 量化是否可开关
 4. 长上下文、GQA、MoE 是否适配
@@ -155,7 +152,7 @@ FP8 attention 只在：① 有专用 kernel ② 长序列 attention 占比高 �
 
 ## 6. 组合优化栈：无损优先
 
-Inference Engineering Ch5 的关键提示：**除了量化，本章其他技术都是无损的**。所以优化顺序：
+Inference Engineering Ch5 的关键提示：**除了量化，那一章其他技术都是无损的**。所以优化顺序：
 
 第一优先（无损）：
   1. 前缀缓存 / KV 复用（相同前缀不算第二次）
@@ -169,8 +166,6 @@ Inference Engineering Ch5 的关键提示：**除了量化，本章其他技术�
 
 最后（按需）：
   7. 模型并行 / 预填充-解码解耦（另一套工程）
-
-> 记忆：**"先白嫖（无损），再冒险（量化），最后上重型工程（并行/解耦）。"**
 
 ---
 
@@ -194,9 +189,6 @@ Inference Engineering Ch5 的关键提示：**除了量化，本章其他技术�
 3. **attention 默认不动**，FP8 attention 是前沿选项（FA3/SageAttention）。
 4. **引擎选择看 kernel 实测**，不是看支持列表。
 5. **无损优化优先**：缓存/推测解码先上，量化后上，并行/解耦最后。
-6. **部署 = 量化 × 系统 × 验收闭环**（接 10 章）。
-
-> 一句话记忆：**"量化解决'数据太多'，系统解决'解包太慢'，验收解决'到底行不行'——三件事一起做，才是推理工程的量化。"**
 
 ---
 

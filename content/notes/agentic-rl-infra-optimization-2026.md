@@ -9,60 +9,31 @@ categories: ["研究笔记"]
 tags: ["研究笔记", "Reinforcement Learning", "AI Infra", "Math Theory"]
 ---
 
-# 从各家技术文章看26年Agentic RL Infra优化方向
-
-> 原文链接：https://zhuanlan.zhihu.com/p/2007250216227729670  
-> 作者：attack204（阿里云）  
+> 原文链接：https://zhuanlan.zhihu.com/p/2007250216227729670
+> 作者：attack204（阿里云）
 > 发布时间：2026-02-21
 
----
+Agentic RL 的训练对象变了。以前一条 prompt 对应一条 response，rollout engine 只需要把 token 生成出来；现在一次 rollout 是一个 agent 程序，里面可能有几十轮工具调用、上下文重置、环境准备和长尾等待。Infra 的问题从“怎么把模型推理跑快”变成“怎么让一个有状态的 agent 循环跟无状态的训练器同步”。这是我看 Forge、ROLL、ThunderAgent、Seer 四篇文章时反复出现的同一个矛盾。
 
-## 前言
+四篇里，Seer 针对同步训练，另外几篇更偏异步；场景不同，不能直接把结论拼成一张选型表。拆开看，它们各自把矛盾推到了不同的层。
 
-趁着春节有空，自己调研了一些目前Agentic RL场景下对Infra的一些需求，主要内容都来自于各家大厂的文章。
+## 一、Minimax Forge：把 Agent 生命周期拿出来
 
-值得一提的是除了最后一篇Seer的文章外，其他3篇都是春节期间发布的，LLM还是太卷了(:
+Forge 先动的是控制面。原来的数据流很直接：
 
----
-
-## 一、Minimax-ForgeRL
-
-**原文**：Forge: 大规模原生Agent RL系统
-
-### 1.1 Agent框架实现
-
-首先是将Agent独立出一个单独的Server模块，这是一个比较直观的抽象。
-
-**原来的数据流**：
 ```
 RLFramework(Verl/Slime) -> RolloutEngine => [AsyncBuffer] -> Trainer
 ```
 
-**加一个中间层变为**：
+加一个中间层之后：
+
 ```
 RLFramework(Verl/Slime) -> [AgentServer <-> RolloutEngine] => [AsyncBuffer] -> Trainer
 ```
 
-整体架构图示（原文中的架构图描述）...
+AgentServer 把 agent 的生命周期从 rollout engine 里拿出来，负责 sandbox、工具调用和多轮循环；rollout engine 仍然只处理单次生成请求，trainer 从 AsyncBuffer 取 trajectory。这个抽象解决的是状态归属问题：一个多轮 agent 的 token 数、工具状态、上下文版本和当前阶段，不能塞进一次无状态的 generation request 里。
 
-而对于AgentServer实际上又有两种情况：
-
-#### 黑盒Agent
-
-比如如果想要专门训练ClaudeCode + LLM的表现，那么在AgentServer中的sandbox中起一个ClaudeCode，ClaudeCode和RolloutEngine不断交互产生trajectory，然后丢到AsyncBuffer里面，后面就是正常RL的流程:
-1. 计算Reward
-2. 计算优势函数
-3. 计算Loss
-
-#### 白盒Agent
-
-这一部分一开始读的一头雾水，于是在v上请教了一下岳老师背景知识。
-
-首先在multi-turns场景下，对于context过长的情况一定需要一些手段来清除掉一些上下文（Context Management）。
-
-比如在DeepSeek V32技术报告中提到的对于thinking模型的做法是：**一旦当用户消息到达时，会清除掉Thinking的内容避免上下文过长**。
-
-而对于SearchAgent（例如BrowseComp），目前几家（ClaudeCode opus4.5 / DS v32 / Kimi K2.5 / GLM 5）都是采用了**discard-all策略**：即token阈值超过80%时 reset掉整个上下文窗口，ClaudeCode给出的API大概长这样：
+Forge 把 agent 分成黑盒和白盒两种。黑盒 agent 比如在 sandbox 里起一个 Claude Code，Claude Code 和 rollout engine 不断交互产生 trajectory，后面走正常的 RL 流程：算 reward、算优势、算 loss。白盒 agent 则把上下文管理（Context Management）显式建模成 agent action，让模型在训练阶段就知道上下文发生了变化。原文举了两个例子：DeepSeek V3.2 技术报告里，thinking 模型在用户消息到达时会清掉 thinking 内容，避免上下文过长；SearchAgent（比如 BrowseComp）几家都采用 discard-all 策略，token 超过上下文窗口的 80% 就重置整个窗口。示意代码如下：
 
 ```python
 # discard-all策略示意
@@ -70,291 +41,82 @@ if token_usage > 0.8 * context_window:
     reset_context()
 ```
 
-在ForgeRL中会将 **Context Management 建模为 agent action**，显式的在训练中告知模型上下文的变化情况，从而让模型在训练阶段就能感知到CM的变化，进而在CM变化时更加关注 **State-critical Token**。
+把 Context Management 当 action 的代价是训练分布更复杂：模型不仅要学会完成任务，还要学会在什么时机接受上下文被清空，并在清空后重新找到状态关键 token。收益是训练和推理的行为对齐；如果上下文管理只发生在推理框架里，模型在训练时根本不知道自己会在某一轮失去历史，长轨迹上的信用分配就会错位。这一层的工程成本不低：AgentServer 成了有状态服务，sandbox 崩溃、工具超时、上下文重置都要能恢复，否则一条长轨迹跑到一半就丢了。
 
-### 1.2 RL调度策略
+### 滑动窗口：在新鲜度和长尾之间取一个界
 
-目前主流的RL框架基本都是异步实现，因此一定会产生off-policyness的问题，这里的trade off在于：
-1. 如果只取最新鲜的数据来进行训练，而对于旧版本的数据直接丢弃，那么会导致训练的样本更多的是 "快而简单"的样本
-2. 如果只取最旧的数据来进行训练，由于Rollout的长尾效应，会导致系统吞度量下降
+异步 RL 一定产生 off-policy。原文把取舍说得很清楚：只取最新鲜的数据，旧版本直接丢，训练样本会偏向“快而简单”的样本；只取最旧的数据，又要等 rollout 的长尾，系统吞吐会掉下来。Forge 的做法是滑动窗口：窗口内的 trajectory 可以任意取来训练，但必须等窗口内的旧数据完成后才推进窗口。这个约束把样本年龄限制在一个界内，同时允许窗口内乱序消费，避免 trainer 被最慢的一条 rollout 卡住。
 
-但是具体到调度策略的设计也是一个没有银弹的事情，ForgeRL提出的是一种**基于滑动窗口的算法**：在窗口内可以任意取trajectory进行训练，但必须等待窗口内的旧数据完成后才会推进窗口。
+这个策略的关键参数是窗口大小和推进条件，原文没有给出具体数值。窗口太小，退化成“等最慢”；窗口太大，样本年龄上去，off-policy 程度变高，训练稳定性要重新调。`[待补：Forge 滑动窗口的实际窗口大小、样本年龄上限，以及吞吐与训练稳定性的对比数据]`
 
-具体的算法如下，原文讲的比较详细（原文中的算法图示）。
+### Prefix Tree Merging：把推理侧的 KV 复用搬到训练侧
 
-### 1.3 Prefix Tree Merging
+GRPO 对一个 prompt 生成 n 个 completion（原文举例 20 个），这些 completion 大多共享前缀。推理时可以用 SGLang 的 PrefixCache 复用 KVCache；训练时 Megatron 不会自动做这件事，每个 completion 的前缀都要重新算。Forge 的核心改动是在训练侧也用上前缀：先把 completions 组织成树，再借助 MagiAttention 的 attention mask 做 tree attention。
 
-对于Group-Based RL（例如GRPO）的一大特点是对于一个Prompt，会生成n个Completions（例如20个），这些Completions大多有相同的前缀，在推理时可以借助SGLang PrefixCache的能力来尽可能的复用KVCache。
+MagiAttention 原本是为 CP（context parallelism）并行设计的，但它提供了 attention mask 的语义，可以控制每个 sequence 的可见范围，正好能表达“多个 completion 共享一段前缀、在分叉后互相不可见”。AReal 团队也提过类似的 TreeAttention 方案，用 DFS 计算 attention，细节在 AREAL-DTA 论文里。这个优化的收益取决于前缀共享比例和 mask 的实现效率：树形 mask 会让 attention 变成块稀疏或变长模式，kernel 不支持的话，省下的 FLOPs 会被 mask 开销吃掉；训练侧的负载均衡也会变复杂，因为不同分支的长度不一样。`[待补：Prefix Tree Merging 在 Megatron 训练侧的 FLOPs、显存节省和端到端 step time]`
 
-而这项工作的核心是在**Megatron训练时也用上前缀的方式**，具体的实现是：
-1. 先将Completions组织成树的形式
-2. 借助MagiAttention来进行实现
+### 推理加速：Dynamic MTP、PD 分离与 L3 KV Cache
 
-实际上MagiAttention本身是为了做CP并行设计的，但是其提供了AttentionMask的语义（也就是说可以控制每个seq的可见范围）从而来实现TreeAttention的计算。
+Forge 的推理侧有三块改动。第一块是 Dynamic MTP：用 MTP 做投机解码，同时用 Top-K KL loss 在 RL 过程中持续训练一个 detached MTP head，让 draft model 和 RL policy 保持对齐。原文作者补充了一个实现细节：多层 MTP 下，现有的 Eagle 算法不能直接支持，要用一种叫 Vanilla 的变种；SGLang 里已经由 liangsheng 做了实现（issue #15207），但每一层 MTP 单独跑一个 CUDA graph，可以优化成多层 MTP fuse 到一个 CUDA graph，这块阿里云的同学在跟进。这个细节比“用了 MTP”有价值：投机解码的接受率不是静态的，policy 每更新一次，draft head 就要重新对齐；把训练和推理的权重更新节奏绑在一起，才是 Dynamic 的含义。
 
-> 蚂蚁AReal团队也提了一种类似的TreeAttention的方案，使用DFS来算Attention，详细可见论文：AREAL-DTA: Dynamic Tree Attention for Efficient Reinforcement Learning of Large Language Models
+第二块是 Rollout 侧的 PD 分离。Prefill 是计算密集的，decode 是访存和延迟敏感的，两者混在同一批实例上，MoE 调度会互相干扰。PD 分离给每个实例独立的并行和生成策略，让长尾样本不阻塞 FIFO scheduler。代价是 prefill 和 decode 的队列解耦后，样本年龄和调度复杂度会上升；原文提到这会带来更高的 off-policy，具体影响要看窗口和路由策略。
 
-### 1.4 推理加速
+第三块是全局 L3 KV Cache。多轮、超长上下文的 agent 场景里，请求之间有很高的共享前缀比例；局部 KV cache 受容量限制，prefix cache 命中率上不去，RL batch size 一大就频繁驱逐、重算。Forge 支持全局 L3 KV cache，并用 cost-aware 的调度器权衡排队延迟和缓存传输时间，在不压垮实例的前提下最大化缓存局部性。这三块改动的共同点是都在抢“重复计算”的钱：MTP 抢 decode 的串行步数，PD 分离抢 prefill/decode 的干扰，L3 cache 抢跨请求的前缀重算。
 
-这一部分原文写的很清楚，索性直接摘抄过来：
+### Dense Reward：Infra 很轻，算法很重
 
-#### Dynamic MTP
+Agentic RL 基本是多轮调用，只对最终结果给 sparse reward，模型容易学会偷工减料。原文给了一个复合奖励：过程奖励监督中间行为，比如惩罚语言混合或特定工具调用错误；任务完成时间奖励把相对完成时间放进信号，因为真实延迟还受工具执行和子 Agent 调用影响；Reward-to-Go 用来标准化回报，降低长周期任务的梯度方差。对 infra 来说，新增一个 RewardServer 类就能接住；难的是算法侧怎么设计权重、怎么避免模型为了拿时间奖励而跳过必要步骤。完成时间奖励如果单独用，会鼓励走捷径，必须和正确性、过程奖励一起看。
 
-首先我们引入 MTP 进行推理加速，同时为了保证训练过程中维持 draft model 的高接受率，我们通过 **Top-K KL Loss** 在 RL 过程中持续训练 detached MTP Head，与 RL policy 保持对齐。
+## 二、ROLL：环境本身是训练算法的一部分
 
-> 对于Dynamic MTP，这块之前和MMX合作搞了一些，比较了解，目前最新的进展是说对于多层MTP，实际上现有的Eagle算法并不能直接支持，而是要采用一种叫做Vanilla的变种算法，这一块在SGLang中由liangsheng大佬做了实现 #15207，但是目前是每一层MTP单独跑了一个cuda graph，这里可以优化为多层MTP fuse 到一个cuda graph，这块阿里云的同学在帮忙支持，估计年后不久会有PR。
+ROLL 也实现了单独的 AgentServer：用 Rock 作为 sandbox，启动内置的 iFlow CLI 作为 agent，和模型交互。它和 Forge 的抽象方向一致，但 ROLL 把更多篇幅放在环境管理上，这一点在 agentic RL 里很容易被低估。
 
-#### Rollout 侧的 PD 分离
+Agent 在 rollout 过程中会留下中间产物，比如临时文件、日志、装了一半的依赖。这些产物会间接提示模型，甚至让模型直接读到或改掉测试脚本。原文提到一个可观察的信号：测试脚本的调用次数显著上升。这说明模型发现了环境里的漏洞，和模型能力提升没有关系。ROLL 在 rollout 前主动清理环境初始化和 agent 安装过程中产生的中间文件，测试文件只在最终评估阶段上传，和训练阶段严格隔离。它还会在环境里主动引入多样性，比如不同版本的软件包、不同镜像源、不同配置细节，甚至有意移除某个预装依赖、切换到不可用的镜像源。最后这一层看起来像折腾，实际是在防止模型把某一种环境配置背下来；训练环境越单一，模型越容易过拟合到环境的偶然特征。
 
-PD 分离可以消除 MoE 调度中的 PD 干扰，为每个实例提供独立的并行和生成策略，在最大化吞吐量的同时优化长尾样本的延迟，防止极端样本阻塞 FIFO scheduler，并带来较高的 offpolicy。
+数据侧也有类似的问题。ROLL 发现大量测试数据存在 false positive：数据不完整，或者本身就是错的。它在洗数据时加了一个 LLM-as-judge 验证模块，让多个 LLM 审查每组测试数据，只有通过验证的实例才进入 RL 训练池。具体做两种检查。如果 golden solution 无法通过全部测试，丢弃该实例。如果在不执行任何有效操作的情况下也能通过测试，也丢弃该实例。第二个检查尤其重要——一个 no-op 就能通过的测试，测不到任何东西，模型只要学会“不动”就能拿奖励。
 
-#### 全局 L3 KV Cache Pool
+ROLL 还提了 Chunked MDP。GRPO 在 token level 做重要性采样，GSPO 在 sequence level；Chunked MDP 把一次环境交互到下一次环境交互之间的连续片段定义成 Chunk，在 Chunk 级别计算 reward 和重要性采样。这个改动的动机是多轮轨迹的信用分配：token-level 的比值在长轨迹上噪声很大，sequence-level 又把整条轨迹压成一个动作，Chunk 正好对齐“一次工具调用/一次环境交互”这个语义单位。代价是 Chunk 边界怎么切、Chunk 内部怎么分配信用，需要和具体的 agent 协议一起设计。
 
-在多轮和超长上下文的 agent 场景下，请求间拥有极高的共享前缀比例，但是局部的 kv cache 受容量限制，无法达到满意的 prefix cache 命中率，甚至在 RL batch size 极大的情况下，会发生大量由于驱逐导致的重计算，因此需要支持全局的 L3 KV cache。
+## 三、ThunderAgent：给每个 Agent 程序建一个状态对象
 
-同时，Forge 还通过 **scheduler cost-aware 的调度机制**，权衡排队延迟和缓存传输时间来动态路由请求，在不使实例超载的前提下最大化缓存局部性。
+ThunderAgent 的思路是在 AgentServer 和 RolloutEngine 之间加一个代理层。原来的系统把每一轮交互看作独立的推理请求，这样的问题是无法实时追踪每个 agent 任务的运行状态：已经用了多少 token、占了哪些工具资源、绑在哪个 backend、当前处在推理还是等待工具的阶段、是否可调度。ThunderAgent 把这些字段收进一个 Program 对象，例如 `P=⟨ID, c=15000 tokens, T={Docker,Bash}, L=backend_2, τ=Reasoning, s=Active⟩`。有了这个对象，调度器才能做“暂停/恢复”和资源回收，而不是只看到一个孤立的 request。
 
-### 1.5 复杂Reward函数
-
-由于Agentic RL基本都是multi-turns的调用，因此只对最终结果做奖励（Sparse Reward）容易让模型养成偷工减料的习惯，因此需要设计一种**dense reward机制**来对每一轮的调用都进行打分。
-
-这块对于infra来说倒没什么难的，大概只需要在RewardServer中实现一个新的类就可以，但是在算法侧怎么设计可能比较讲究。
-
-mmx的原文如下，讲的也比较直白：
-
-> 为了解决超长轨迹的信用分配问题并确保稳定，我们设计了一个由三部分组成的复合奖励：
-> 
-> 1. **过程奖励（Process Reward）**：监督 agent 的中间行为（如惩罚语言混合或特定工具调用错误），提供密集反馈，而不只依赖最终结果。
-> 2. **任务完成时间奖励**：将相对完成时间作为奖励信号。因为真实延迟不仅取决于 Token 生成，还受工具执行和子 Agent 调用影响，这能激励 Agent 主动利用并行策略、选择最短的执行路径来加速任务。
-> 3. **用于降低方差的后续奖励（Reward-to-Go）**：长周期任务的稀疏奖励容易引发高梯度方差。我们使用 Reward-to-Go 来标准化回报，大幅提高了信用分配的精度，稳定了优化过程。
-
----
-
-## 二、ROLL
-
-**原文**：苦涩的教训！ROLL团队分享：Agentic RL 训练中的实践经验
-
-### 2.1 Agent环境实现
-
-和ForgeRL类似，Roll框架也实现了单独的AgentServer：即采用**Rock作为Sandbox**，启动内置了iFlow Cli作为Agent实现与模型的交互。
-
-### 2.2 Agent环境处理
-
-在Agentic RL训练时，由于Agent经常会留下中间产物（例如临时文件），这些临时产物可能会间接的提示模型，因此需要对严格环境进行管理，否则会导致模型经常"偷懒"，甚至会直接读取或修改测试脚本（例如在观测结果中看到测试脚本调用次数显著上升）。
-
-#### <1> 防止资源泄露与污染
-
-Roll进行严格的环境清理：
-- 在 rollout 前主动清理环境初始化或 Agent 安装过程中产生的中间文件
-- 测试文件仅在最终评估阶段上传，与训练阶段严格隔离
-
-#### <2> 在环境中主动引入多样性
-- 不同版本的软件包
-- 不同镜像源
-- 不同的环境配置细节
-
-#### <3> 需要有意扰动甚至部分破坏环境
-- 例如移除某个预装依赖
-- 切换到不可用的镜像源头
-
-### 2.3 训练数据处理
-
-这部分说的是数据处理的问题，即Roll团队发现有大量的测试数据存在**false positive（伪阳性）**的问题：要么数据不完整，要么就是本身就是个错误数据。
-
-因此在洗数据的时候就引入了一个**LLM-as-judge验证模块**，让多个LLM审查每一组测试数据，只有对于通过验证的实例才会进入RL训练池。
-
-具体来说会做两种检查：
-
-1. **Ground-truth 验证**：如果golden solution无法通过全部测试，则丢弃该实例。
-2. **No-op 验证**：如果在不执行任何有效操作的情况下也能通过测试，则丢弃该实例。
-
-### 2.4 Chunked MDP
-
-对于GRPO，其是在Token Level做重要性采样，对于GSPO是在Sequence级别。
-
-这里提了一个 **Chunked MDP**，即将一次环境交互到下一次环境交互之间的连续片段叫做 **Chunk**，在Chunk级别计算Reward和重要性采样。
-
----
-
-## 三、ThunderAgent
-
-**原文**：ThunderAgent: A Simple, Fast and Program-Aware Agentic Inference System
-
-春节期间看到Kang Hao gg在各大群里宣发自己的工作，同时自己正好在关注这部分，索性来拜读一番。
-
-ThunderAgent解决问题的思路非常直观：**遇事不决加一层**，ThunderAgent就是在AgentServer与RolloutEngine之间加了一个代理层。
-
-### 3.1 Program Abstraction
-
-对于目前AgentServer与Rollout，基本上都是每轮的交互看作是独立的推理任务，这样的坏处是无法实时追踪每个Agent任务的实时状态（例如已经用了多少Token）。
-
-**例如：一个编码智能体（SWE-Agent）正在修复 GitHub 上的 Bug，其交互流程大概如下**
-
-**传统请求感知系统（SGLang）**：
-```
-┌─────────────────────────────────────────────────────┐
-│  Step 1: 推理请求 ──→ vLLM（无状态，独立处理）        │
-│  Step 2: 工具执行（编译器）──→ Kubernetes（无状态）    │
-│  Step 3: 推理请求 ──→ vLLM（不知道Step1的存在）       │
-│  Step 4: 工具执行（测试器）──→ Kubernetes（不知道历史）│
-└─────────────────────────────────────────────────────┘
-```
-
-而引入独立的ThunerAgent层后，就可以完成对Agent任务抽象的流程管理，例如：
-
-```
-┌─────────────────────────────────────────────────────┐
-│  P = ⟨ID="bug_fix_001",                             │
-│        c=15000 tokens,   ← KV缓存占用               │
-│        T={Docker, Bash}, ← 工具资源                  │
-│        L=backend_2,      ← 绑定GPU节点               │
-│        τ=Reasoning,      ← 当前推理阶段              │
-│        s=Active⟩         ← 调度状态                  │
-│                                                     │
-│  Step 1 → Step 2 → Step 3 → Step 4                 │
-│     ↑___________同一个程序P持续存在___________↑       │
-└─────────────────────────────────────────────────────┘
-```
-
-### 3.2 State-Aware Pausing
-
-这里首先对任务的开销做了建模，这5项分别代表解码、预填充、重新计算、未使用容量和空闲缓存：
+它把任务开销拆成五项：
 
 ```
 Cost_{total} ≈ Cost_{decode} + Cost_{prefill} + Cost_{recompute} + Cost_{unused} + Cost_{caching}
 ```
 
-而系统的优化目标主要主要是减小后3项也就是 Cost_{recompute}、Cost_{unused} 和 Cost_{caching}的开销。
+优化目标主要是后三项：重计算、未使用容量和空闲缓存。具体手段是 State-Aware Pausing：当显存水位接近阈值时，暂停一部分程序并释放其 KVCache；水位下降时再恢复。恢复需要重新 prefill，所以暂停不是免费的；系统要尽量把“暂停谁”选对。
 
-而对于KVCache接近阈值的情况，由于ThunderAgent可以捕获程序的运行状态，因此引入了两个新的操作：
+原文给了一个反直觉的结论：优先驱逐占 KV Cache 最小的程序。理由是 attention 的计算复杂度是 $N^2$：如果为了释放 $M$ 的显存，驱逐一个占 $M$ 的大程序，重算代价是 $M^2$；驱逐两个各占 $M/2$ 的小程序，重算代价是 $2 \times (M/2)^2 = M^2/2$。在只看重算 FLOPs 的模型里，小块更划算。这个结论有边界：驱逐次数、恢复延迟、工具状态的保存成本都会随“驱逐更多小对象”上升；当这些成本超过重算节省时，策略要反过来。原文的结论建立在它的开销模型上，不能直接当成通用规则。
 
-- **Pause**: 暂停一个程序的执行，并释放其KVCache
-- **Restore**: 恢复一个程序的执行
+工具资源管理也遵循同一套状态机。Hook-based garbage collection 在程序到达 Terminated 状态时清理环境资源；异步环境准备则监控全局队列，发现高优先级程序接近恢复阈值时提前 Prepare 环境。后者针对的是环境初始化延迟：装 Docker、拉镜像、起依赖可能比模型推理还慢，等到恢复时才做就来不及。`[待补：ThunderAgent pause/restore 策略的端到端吞吐、P99 与环境准备命中率]`
 
-有了这两种状态，ThunderAgenet会基于一种周期性检测的方式：
-- 当显存水位比较高时会暂停一部分程序的执行
-- 当显存水位降低时会恢复程序执行
+## 四、Kimi Seer：同步训练下的长尾调度
 
-**那么到底需要驱逐哪些程序？**
+Seer 的场景是同步训练，原文作者也提醒：他看到的几个 RL case 基本都跑异步训练，所以 Seer 的适用性还要结合自己的同步/异步比例看。这个提醒很重要，这三个改动都建立在“同一组 response 要一起等”这个前提上。
 
-这里论文给了一个结论：**优先驱逐占KV Cache最小的程序**，因为Attention的计算复杂度为 N^2 ，而 A^2+B^2 < (A+B)^2。
+### Divided Rollout：把一组 response 切成 8K 的块
 
-### 3.3 Tool Resource Management
+GRPO 会对同一个 prompt 生成 n 个 response，常见调度会把这一组 response 绑到同一台实例上跑完。长尾一出现，两个问题同时发生：实例间负载不均衡；单实例的 KVCache 爆满触发抢占。Seer 的做法是把请求切成 Chunk 粒度，每个 Chunk 8K 长度，按负载调度到不同实例；KV Cache 缓存到 Mooncake，迁移时不需要重新 prefill。这个改动把“整条 response 的绑定”换成“Chunk 的绑定”，用 KV 传输换负载均衡。代价是调度开销和 KV 传输延迟；如果 Chunk 太小，调度次数上去；如果太大，长尾又回来了。8K 是论文选的折中，不是通用常数。`[待补：Seer 8K Chunk 在 Mooncake 上的 KV 传输耗时与重算节省对比]`
 
-这里要解决的问题是Agent任务运行完成后环境被污染的问题，有两点设计：
+### Context-Aware Scheduling：用第一条请求探测组内长度
 
-1. **Hook-based garbage collection**: 既然能够检测任务的状态，那么就等到任务达到Terminated状态时对环境资源进行清理
-2. **Asynchronous environment preparation**：环境初始化的延迟（例如安装Docker）可能会成为瓶颈，为解决该问题，ThunderAgent监控全局队列，如果发现高优先级的程序接近恢复阈值时就提前Prepare初始化环境。
+负载不均衡的根源是不知道哪些 request 会变成长尾，也就是不知道 response 会有多长。Seer 用了一个很便宜的探针：对每个 group，先挑第一条 request 作为 speculative request，优先调度；它完成后，用它的长度作为组内 response 长度的估计；剩下的请求按“长任务优先”调度。大致过程是：先用 SFS（Shortest First）调度所有 speculative requests，短的很快完成，长的暴露成长尾候选；Context Manager 记录每个 group 已完成请求的最大生成长度，作为该组预期长度的在线估计；最后对剩余请求按预测长度降序调度，也就是 approximate LFS。这个策略的假设是组内 response 长度相关；如果同组 response 的长度差异很大，第一条的估计就会偏，需要一个在线更新机制来纠偏。
 
----
+### DGDS：把 N-gram 的匹配范围扩到多机
 
-## 四、Kimi-Seer
+投机解码在 RL 里有两个麻烦。用 draft model 做 spec，RL 在 target model 和 draft model 之间的权重更新不同步，draft 的接受率会掉；用传统 N-gram，受限于单机，无法利用 GRPO 同组 response 之间的相似性。Seer 提出一种类似“分布式 N-gram”的做法：把不同 group 内 response 产生的 token 一起写进一棵分布式的压缩后缀树（CST），匹配的信息更多。流程是各实例异步 Append 新 token；DGDS Server 按 group 聚合，形成 group 级的 CST；各实例周期性 Fetch 自己正在处理的 group 的 CST，并且只同步上次 fetch 之后的新增内容。代价是跨实例的同步和过期问题：CST 更新有延迟，draft 可能匹配到旧数据；group 之间的隔离也要设计好，否则会把不相关的 token 混进来。
 
-**原文**：Seer: Online Context Learning for Fast Synchronous LLM Reinforcement Learning
+## 五、四篇文章放在一起看
 
-首先Seer这篇论文的研究场景主要是**同步训练**下的优化，但是笔者看到的几个RL Case基本上都是跑的异步训练，所以适用性还有待考证。
+Forge 和 ThunderAgent 都在加控制面：Forge 用 AgentServer 管 agent 生命周期，ThunderAgent 用 Program 管单个任务的运行状态；两者解决的是“无状态推理系统看不见 agent 状态”的问题。ROLL 把环境清理和数据验证当成训练算法的一部分，解决的是“模型会利用环境漏洞”的问题。Seer 在同步训练里切 Chunk、做长度估计和分布式 spec，解决的是“一组 response 被长尾绑死”的问题。四个系统的优化对象不同，但都在同一个方向上使劲：把 agent 的语义单位（程序、Chunk、轮次）暴露给调度器，让调度器不再把一次生成当成全部。
 
-### 4.1 Divided Rollout（分段Rollout）
+如果我要在自己的系统里落地，会先建 AgentServer 和 Program 状态；没有这个边界，调度、奖励和资源管理都是盲的。环境清理和数据验证要紧接着补上，否则前面的加速会被 reward hacking 吃掉。prefix/KV 复用和 PD 分离是吞吐的大头，适合在状态边界稳定后做；MTP 和分布式投机解码对 draft 质量、模型结构和推理框架的耦合最深，放到最后。论文里没有这条结论；这个顺序是从“哪一层缺了会让上层优化失效”推出来的。
 
-**背景**：前文中提到，对于GRPO这种Group-Based RL算法，其会对同一个prompt生成n个response，但是常见的调度算法会把n个reponse的生成调度到同一台实例上执行，这样会带来两个问题：
-1. 由于Rollout的长尾问题严重，因此会造成实例间负载不均衡
-2. 单实例间的KVCache爆满触发抢占
+还缺一块公共证据：四篇文章各自在自己的 workload 上报告收益，没有一组跨系统的端到端对比。Forge 的滑动窗口、ThunderAgent 的 pause/restore、Seer 的 8K Chunk，参数都和工作负载强相关；直接抄参数，很可能在自己的流量上失效。`[待补：四个系统在同一组 agent workload 上的吞吐、P99、样本年龄分布和 KV 命中率对比]`
 
-**因此论文中提出把请求切为Chunk粒度，每一个Chunk 8K长度**。
+如果只做一件事，先把 rollout 的样本年龄、长尾分布和 KV cache 命中率打点。没有这三个数，调度策略只能靠拍脑袋；有了它们，至少能判断应该先动窗口、先动 Chunk，还是先动缓存。
 
-同时KV Cache需要缓存到Mooncake中，这样迁移时无需重新Prefill。
-
-**传统方式**：
-```
-Group → [req1, req2, ..., req8] → 绑定到Instance A，跑完为止
-                                              ↑
-                                        长的拖死短的，无法迁移
-```
-
-**Seer的方式**：
-```
-Group → req1 → chunk1(8K) → chunk2(8K) → chunk3(8K) → ...
-              ↑              ↑              ↑
-           调度到A         调度到B         调度回A（按负载动态选）
-```
-
-### 4.2 Context-Aware Scheduling（上下文感知调度）
-
-要解决负载不均衡的问题，本质上还是要知道哪些Request是长尾Request，也就是最好能知道Response的长度。
-
-因此有个很直观的想法是对于GRPO任务：
-1. **优先选第一条Request作为 speculative request 来优先调度**
-2. 调度完成后以speculative request 的长度作为组内response长度的估计
-3. 按照**长任务优先**的策略调度剩余的请求
-
-大致流程为：
-
-```
-阶段1：Length Filtering（长度过滤）
-  └─ 用SFS（Shortest First）调度所有Speculative Requests
-     → 短的很快完成，长的暴露为长尾候选
-
-阶段2：Length Estimation Update（长度估计更新）
-  └─ Context Manager记录每个Group已完成请求的最大生成长度
-     → 作为该Group预期长度的在线估计
-
-阶段3：Approximate LFS调度
-  └─ 对剩余请求按预测长度降序调度
-     → 长任务优先，与短任务并行执行，填满批次
-```
-
-### 4.3 Adaptive Grouped Speculative Decoding（自适应分组Spec）
-
-**问题背景**：
-- 对于采用Draft-Model做Spec的方式，会时常由于RL在Target Model和Draft Model之间的权重更新不同步导致DraftModel的接受率降低
-- 对于传统的N-Gram算法，受限于单机执行，无法充分利用GRPO算法的特点
-
-**因此这里提出了一种类似"分布式NGram"的思路**：即将不同Group内的Response产生的Token一起丢到一颗分布式的压缩后缀树中。这样能够匹配的信息更多。
-
-大致流程为：
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Step 1: 异步Append（各实例独立）                             │
-│  Instance_A 生成了 req_0 的新token: [tok_a, tok_b, tok_c]   │
-│                                                              │
-│  Step 2: 全局聚合（DGDS Server端）                           │
-│                                                              │
-│  收到来自不同实例的更新：                                      │
-│  G1/req_0: [tok_a, tok_b, tok_c, ...]  ─→ ┐                │
-│  G1/req_1: [tok_x, tok_y, tok_z, ...]  ─→ ├→ Group G1 CST │
-│  G1/req_2: [tok_p, tok_q, tok_r, ...]  ─→ ┘                │
-│                                                              │
-│  Step 3: 周期性Fetch（各实例拉取）                            │
-│  Instance_A 只拉取自己正在处理的group的CST                   │
-│  支持增量同步：只传上次fetch之后的新增内容                     │
-└──────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 五、总结
-
-| 团队 | 核心贡献 | 关键技术 |
-|------|----------|----------|
-| **Minimax-ForgeRL** | 大规模原生Agent RL系统 | AgentServer抽象、滑动窗口调度、Prefix Tree Merging、Dynamic MTP |
-| **ROLL** | Agentic RL实践经验 | 严格环境管理、LLM-as-judge数据验证、Chunked MDP |
-| **ThunderAgent** | Program-Aware推理系统 | Program抽象、State-Aware Pausing、异步环境准备 |
-| **Kimi-Seer** | 同步训练优化 | Divided Rollout、上下文感知调度、分布式Speculative Decoding |
-
-### 五大优化方向
-
-1. **架构抽象**：AgentServer层、Program生命周期管理
-2. **调度策略**：滑动窗口、分段Rollout、上下文感知调度
-3. **训练效率**：Prefix Tree Merging、Chunked MDP、TreeAttention
-4. **推理加速**：Dynamic MTP、PD分离、L3 KV Cache、Pause-Restore机制
-5. **数据质量**：Dense Reward、LLM-as-judge、环境多样性
-
----
-
-**参考资料**：
-- Forge: 大规模原生Agent RL系统
-- 苦涩的教训！ROLL团队分享：Agentic RL 训练中的实践经验
-- ThunderAgent: A Simple, Fast and Program-Aware Agentic Inference System
-- Seer: Online Context Learning for Fast Synchronous LLM Reinforcement Learning
-- AREAL-DTA: Dynamic Tree Attention for Efficient Reinforcement Learning of Large Language Models
+参考资料：Forge 的《大规模原生 Agent RL 系统》、ROLL 团队的《苦涩的教训！Agentic RL 训练中的实践经验》、ThunderAgent 的《A Simple, Fast and Program-Aware Agentic Inference System》、Seer 的《Online Context Learning for Fast Synchronous LLM Reinforcement Learning》，以及 AREAL-DTA 的《Dynamic Tree Attention for Efficient Reinforcement Learning of Large Language Models》。

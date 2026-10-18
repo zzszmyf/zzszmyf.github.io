@@ -11,7 +11,7 @@ series: "quantization"
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜上一篇：[AWQ 量化原理是什么](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/)｜下一篇：[KV Cache 量化怎么做](/notes/llm量化精读笔记-08-kv-cache量化与kivi/)
 
 > 对应：LLM.int8()（arXiv:2208.07339，NeurIPS 2022）；SmoothQuant（arXiv:2211.10438，ICML 2023）；MIT 6.5940 Lecture 5。
-> 学完本章你应该能：① 说明激活量化比权重量化难在哪（动态、per-tensor、outlier）；② 讲清 LLM.int8() 的 vector-wise 量化与混合精度分解，并复述其 outlier 统计数字；③ 推导 SmoothQuant 的等效变换和$s_{j}$公式，解释$\alpha$的语义；④ 说清"scale 折叠"为什么让 W8A8 零运行时开销。
+> 学完本章你应该能：① 说明激活量化比权重量化难在哪（动态、per-tensor、outlier）；② 讲清 LLM.int8() 的 vector-wise 量化与混合精度分解，并说出它依赖的 outlier 统计结论（04 章 6.1）；③ 推导 SmoothQuant 的等效变换和$s_{j}$公式，解释$\alpha$的语义；④ 说清"scale 折叠"为什么让 W8A8 零运行时开销。
 
 ---
 
@@ -31,7 +31,7 @@ series: "quantization"
 
 ## 1. 本章目标
 
-05/06 章只量化权重（W4A16/W4A8），激活保持 FP16。本章回答：**如果连激活也要量化成 8-bit（W8A8），prefill 阶段就能用低精度 Tensor Core 拿到 2 倍 FLOPS**——但激活量化有一个权重量化没有的难题：outlier。
+权重压到 4-bit 之后，prefill 仍要跑 FP16 激活；只有把激活也压到 INT8，prefill 才能用上 INT8 Tensor Core 的 2 倍算力。障碍是激活里的系统性 outlier，权重量化没有这个问题。
 
 两条路线的分工：
 
@@ -52,10 +52,7 @@ $SmoothQuant \to$否认 outlier 必须存在：用等效变换把难度搬到权
 
 ### 2.2 outlier 的具体样子（SmoothQuant 论文对 OPT-175B 的统计）
 
-99.99% 的激活值落在$[-60, 60]$
-但最大值可以达到$\sim 1000$（甚至更高）
-
-如果 per-tensor 用 min/max 选 scale：$s = 1000/127 \approx 7.9$，正常值$\pm 60$只占$\pm 7.6$个量化层——8-bit 实际只剩约 4 bit 有效精度（04 章 6.2 的"偷位"效应）。**这就是 W8A8 迟迟不能落地的原因。**
+04 章 6.2 算过激活的"偷位"效应：per-tensor min/max 下，正常值只剩约 4 bit 有效精度，范围全被少数 outlier 占掉。**这就是 W8A8 迟迟不能落地的原因。**
 
 ---
 
@@ -69,7 +66,7 @@ LLM.int8()（Dettmers et al., 2022）的目标：**INT8 跑 175B 模型，perple
 
 ### 3.2 设计一：vector-wise 量化
 
-不用 per-tensor，也不上 per-channel 的完整矩阵，而是折中：
+LLM.int8() 的粒度取在 per-tensor 和 per-element 之间，即 vector-wise 量化：
 
 权重：每"行"（每个输出神经元）一个 scale
 激活：每"列"（每个输入特征维度）一个 scale
@@ -78,17 +75,13 @@ LLM.int8()（Dettmers et al., 2022）的目标：**INT8 跑 175B 模型，perple
 
 ### 3.3 设计二：发现 outlier 是"特征维度"现象
 
-论文的统计结论（04 章已引用，这里是完整版）：
+04 章 6.1 的统计对 LLM.int8() 有三个直接含义：
 
-outlier 定义：|激活$| \ge 6.0$，且出现在≥$25\%$的层、≥$6\%$的序列维度
+1. outlier 集中在约 0.1% 的特征维度上，可以按列整体抽出，不必逐元素判断。
+2. 13B 以下模型通常不超过 7 个这样的维度，按列抽取的 FP16 路径规模可控。
+3. outlier 对 softmax 的大概率输出至关重要，不能截断丢弃，只能保留高精度。
 
-1. 规模相变：$\sim 6.7B$参数之前没有系统性 outlier；之后出现
-2. 相变后：outlier 出现在所有层、约 75% 的序列维度
-3. 占比：约 0.1% 的特征
-4. 数量：13B 以下模型通常≤ $7$个 outlier 维度
-5. 性质：对 softmax 的大概率输出至关重要（不是噪声，不能丢）
-
-**关键洞察**：outlier 不是随机散落在各个位置，而是**集中在少数特征维度**（hidden dimension），并且这些维度对所有 token 一致。这给"把 outlier 列抽出来单独算"提供了依据。
+这些维度对所有 token 一致，这是"把 outlier 列抽出来单独算"的依据。
 
 ### 3.4 设计三：混合精度分解（Mixed-Precision Decomposition）
 
@@ -109,7 +102,7 @@ $+ [W_{\text{outlier}} \cdot X_{\text{outlier}}]$（FP16 矩阵乘，outlier 列
 3. $X_{\text{outlier}}$、$W_{\text{outlier}}$ → FP16 GEMM
 4. 两部分结果相加$\to$输出
 
-由于 outlier 维度≤ $7$（13B 以下），FP16 路径只占$\sim 0.1\%$的计算和内存。
+由于 outlier 维度很少，FP16 路径只占$\sim 0.1\%$的计算和内存。
 
 ### 3.5 结果与局限
 
@@ -118,7 +111,7 @@ $+ [W_{\text{outlier}} \cdot X_{\text{outlier}}]$（FP16 矩阵乘，outlier 列
 **局限**：
 
 1. **小模型反而慢**：outlier 检测 + 矩阵拆分 + 两条 GEMM 路径的调度开销，在小模型/短序列上可能超过收益（论文报告 6.7B 以下速度没有优势）。
-2. **不是纯 INT8 计算**：FP16 路径让峰值 FLOPS 收益打折；更不是"全部走 INT8 Tensor Core"。
+2. **含 FP16 路径**：outlier 列仍要走 FP16 GEMM，峰值 FLOPS 收益打折，不能按纯 INT8 Tensor Core 估算。
 3. **阈值经验性**：6.0 是统计出来的，不同模型/分布要重新验证。
 
 ---
@@ -160,7 +153,7 @@ $\alpha = 1$：$s = \max|X_{j}| \to$激活被完全归一化，难度全部搬�
 
 论文结论：**OPT/BLOOM 取$\alpha =0.5$最佳；激活更难量化的 GLM-130B 需要更大的$\alpha$（0.8）。**
 
-直觉：激活 outlier 通道（$\max|X_{j}|$巨大）对应$s_{j}$巨大$\to$该通道激活被除以巨大 s（被"抚平"），权重被乘上巨大 s（outlier 搬家到权重）。而权重是 per-channel 量化的，通道之间的巨大差异本来就各自独立处理——**权重扛得住，激活扛不住**。
+直觉：激活 outlier 通道（$\max|X_{j}|$ 巨大）对应 $s_{j}$ 巨大，该通道激活被除以 s 后回到正常量级，outlier 则随缩放搬到权重侧。权重按 per-channel 量化，通道之间的尺度差异各自独立处理；激活按 per-tensor 量化，一个通道的 outlier 会污染整层。
 
 ### 4.4 为什么零运行时开销：scale 折叠
 
@@ -209,23 +202,21 @@ INT8×INT8 的乘积累加必须用 INT32/FP32，否则溢出。**量化的是�
 
 ## 6. 从 INT8 到 FP8：激活量化的现代形态
 
-03 章讲过：FP8 E4M3 自带 4 位指数，动态范围远好于 INT8。因此现代 W8A8 越来越多直接用 **FP8**：
+03 章讲过：FP8 E4M3 自带 4 位指数，动态范围远好于 INT8。因此现代 W8A8 常用 **FP8**：
 
 INT8 方案：SmoothQuant（把 outlier 抚平）$\to$需要$\alpha$校准
 FP8 方案：E4M3 天然容忍部分$outlier \to$校准更省事
 
-但 SmoothQuant 的思想没有过时：FP8 激活仍有 outlier 问题（只是阈值变宽了），且 FP8 的尾数只有 3 bit，精度预算更紧张。TensorRT-LLM / vLLM 的 FP8 方案里仍然常见"SmoothQuant 式迁移 + FP8"的组合。
+SmoothQuant 的迁移在 FP8 上仍有用：FP8 激活仍有 outlier（只是阈值变宽），而 E4M3 的尾数只有 3 bit，精度预算更紧张。TensorRT-LLM / vLLM 的 FP8 方案里仍然常见"SmoothQuant 式迁移 + FP8"的组合。
 
 ---
 
 ## 7. 本章小结
 
-1. **激活量化难**：动态、per-tensor、outlier（99.99% 在$\pm 60$但$\max \sim 1000$）。
-2. **LLM.int8()**：vector-wise 量化 + outlier 混合精度分解；$6.0/0.1\%/6.7B/75\%/\le 7$是它的统计基石；无损但工程复杂、小模型不快。
+1. **激活量化难**：动态、per-tensor、outlier（04 章 6.2 的"偷位"算例）。
+2. **LLM.int8()**：vector-wise 量化 + outlier 混合精度分解；outlier 集中在少数特征维度这一统计事实是它的设计基础（04 章 6.1）；无损但工程复杂、小模型不快。
 3. **SmoothQuant**：恒等变换 (W·s)(X/s) 把难度从激活搬到权重；$s_{j} = \max|X|^\alpha /\max|W|^{1-\alpha}$，$\alpha$控制迁移强度；scale 折叠$\to$零运行时开销；W8A8 近无损、$\sim 1.5x$。
-4. **工程铁律**：累加器永远高精度；激活量化在线做、权重离线做；scale 能折叠就折叠。
-
-> 一句话记忆：**"LLM.int8 打不过 outlier 就绕开它，SmoothQuant 打不过就把它搬到权重那边去。"**
+4. **工程约束**：累加器必须高精度；激活量化在线做、权重离线做；scale 能折叠就折叠。
 
 ---
 

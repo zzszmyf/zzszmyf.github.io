@@ -2,7 +2,7 @@
 title: "MQA、GQA、MLA 有什么区别？KV Cache 该怎么省"
 date: 2026-08-17T00:00:00+08:00
 draft: false
-description: "三种注意力头变体本质上都在回答「每 token 缓存什么」。本文给出各自的 KV 元素数公式，讲清 GQA 的 up-training 配方，推导 MLA 的低秩联合压缩并解释 RoPE 与低秩压缩的冲突及 decoupled RoPE 解法，最后手算 70B 与 DeepSeek-V2 的 KV 显存账本。"
+description: "三种注意力头变体回答的是同一个问题：每 token 缓存什么。本文给出各自的 KV 元素数公式，讲清 GQA 的 up-training 配方，推导 MLA 的低秩联合压缩并解释 RoPE 与低秩压缩的冲突及 decoupled RoPE 解法，最后手算 70B 与 DeepSeek-V2 的 KV 显存账本。"
 weight: 53
 tags: ["LLM推理优化", "注意力内核"]
 series: "attention-kernels"
@@ -33,7 +33,7 @@ series: "attention-kernels"
 
 ## 2. 问题重述：decode 的 KV 带宽账本
 
-01 章的结论：decode 每步要读全部 KV，字节数
+01 章已经给出 decode 每步读取全部 KV 的字节数：
 
 $$
 \text{每步 KV 读取} = 2 \times L \times n_{\text{layers}} \times d_{\text{kv}} \times b
@@ -76,7 +76,7 @@ $$
 \Theta\!\left(\frac{1}{d} + \frac{n}{d h} + \frac{1}{b}\right)
 $$
 
-其中 $n$ 是序列长度、$b$ 是 batch。中间的 $n/(dh)$ 项正来自"逐位置读 KV"；MQA 把它除以 $h$，把"序列越长越贵"的项直接砍掉一个数量级。
+其中 $n$ 是序列长度、$b$ 是 batch。中间的 $n/(dh)$ 项正来自"逐位置读 KV"；MQA 令 $d_{\text{kv}} = d_{\text{head}}$，这一项随 $d_{\text{kv}}$ 一起除以 $h$。
 
 ### 3.3 代价
 
@@ -107,7 +107,7 @@ $$
 \text{GQA-}1 = \text{MQA}, \qquad \text{GQA-}h = \text{MHA}
 $$
 
-论文实验（T5 XXL 上对 5 个摘要集、WMT 翻译、TriviaQA 的评测）：**GQA 质量接近 MHA、速度接近 MQA**——中间组数是最优权衡。
+论文实验（T5 XXL 上对 5 个摘要集、WMT 翻译、TriviaQA 的评测）：**GQA 质量接近 MHA、速度接近 MQA**。
 
 ### 4.2 Uptraining：从 MHA 检查点转换
 
@@ -126,7 +126,7 @@ $$
 \text{KV cache} \propto d, \qquad \text{FLOPs} \propto d^2
 $$
 
-模型越大，KV 相对 FLOPs 越便宜、头越多，MQA 的"一刀切"越激进；GQA 让带宽削减与模型规模保持同比例。此外，大模型张量并行时每个 KV 头会被复制到每个 partition，GQA 恰好消除这种浪费。所以工业界大模型几乎都选了 GQA：
+模型越大，KV 相对 FLOPs 越便宜、头越多，MQA 的"一刀切"越激进。另外，MQA 只有一组 KV，张量并行度大于 1 时每张卡都得存一份；GQA 有 $g$ 组 KV，并行度能整除 $g$ 时各卡各持一组，不用复制。所以下面这些模型里 GQA 出现得最多：
 
 | 模型 | query 头 | KV 头（组） | 类型 |
 |---|---:|---:|---|
@@ -154,13 +154,13 @@ $$
 
 其中 $d_c \ll h\,d_{\text{head}}$。**推理时只缓存 $c_t^{KV}$**（$d_c$ 维），K、V 按需从潜向量展开——展开所需的 $W^{UK}$、$W^{UV}$ 在推理时被吸收进 $W^Q$ 的左右两侧，不增加每步计算。
 
-Query 也做低秩压缩（$c_t^Q = W^{DQ} h_t$，$q_t = W^{UQ} c_t^Q$），目的是省训练时的激活显存——不省 KV。
+Query 也做低秩压缩（$c_t^Q = W^{DQ} h_t$，$q_t = W^{UQ} c_t^Q$），这次压缩只影响训练时的激活显存，不改变 KV cache。
 
 ### 5.2 RoPE 的冲突与 decoupled RoPE
 
 旋转位置编码（RoPE）对 K、Q 都施加一个**随位置变化**的矩阵。若对展开后的 $k_t$ 施加 RoPE，那么"$W^{UK}$ 之后接 RoPE 矩阵"就无法再吸收进 $W^Q$（矩阵乘法不可交换，位置相关的矩阵卡在中间）。
 
-解法：**decoupled RoPE**——位置信息不走潜向量，而是由一组额外的低维头承载：
+解法：**decoupled RoPE**——位置信息由一组额外的低维头承载，潜向量分支保持无位置：
 
 $$
 q_{t,i}^R = \mathrm{RoPE}(W^{QR} c_t^Q), \qquad
@@ -194,7 +194,7 @@ DeepSeek-V2 的 MLA 等价于"只有 2.25 组的 GQA"，但论文报告其效果
 
 ## 6. 统一视角：KV 缓存压缩谱系
 
-四个方案本质上是"每 token 存什么"的选择：
+四个方案的区别就是"每 token 存什么"：
 
 ```
 MHA：存 h 份 (k, v)             → 2 h d_h 元素，容量最强
@@ -203,7 +203,7 @@ MQA：存 1 份 (k, v)             → 2 d_h 元素，容量弱
 MLA：存 1 个低秩潜向量 + 位置头   → d_c + d_h^R 元素，容量反超
 ```
 
-MLA 的洞察：**"存 K/V" 只是"存它的压缩表示"的特例**——GQA/MQA 是在"原始表示"里砍头数，MLA 是学一个更紧的表示。表示维度越小，容量损失越小，因为压缩是学习出来的而不是截断。
+MLA 的洞察是：**存 K/V 只是存它的一种压缩表示**——GQA/MQA 在原始表示里砍头数，MLA 学一个更紧的表示。压缩矩阵和注意力一起训练，所以更小的表示仍能保住容量（5.3 节对照表中 MLA 的容量标为"更强"）。
 
 ---
 
@@ -248,9 +248,9 @@ $$
 
 ```
 质量：MLA ≳ MHA > GQA ≳ MQA（论文各自报告，具体任务有波动）
-速度：MLA ≈ MQA > GQA > MHA
+速度：decode 带宽看每 token KV 字节数；MQA 最小，MLA/GQA 按配置落在中间，MHA 最大（实际吞吐受 kernel 影响）
 实现复杂度：MLA 最高（decoupled RoPE、投影吸收、训练 RMSNorm 处理）
-生态：GQA 是当前开源主流（LLaMA-2/3、Mistral）；MLA 是前沿大模型趋势（DeepSeek 系列）
+采用：GQA 是当前开源模型的主流（LLaMA-2/3、Mistral）；MLA 主要在 DeepSeek 系列中使用
 ```
 
 工程决策：
@@ -266,9 +266,9 @@ $$
 ## 9. 本章小结
 
 1. **MQA**：$h$ 个 KV 头 → 1 个，KV ÷ h，质量退化。
-2. **GQA**：$h$ → $g$ 个，质量近 MHA、速度近 MQA；可用 mean-pool + 5% 算力从 MHA 转换。
-3. **MLA**：缓存低秩潜向量 $c^{KV}$（$d_c$ 维）+ decoupled RoPE 位置头（$d_h^R$ 维）；DeepSeek-V2 每层每 token 仅 576 元素，KV 减少 93.3%、吞吐 5.76x。
-4. **统一视角**：四者都是"每 token 存什么"的谱系；MLA 是学出来的压缩，容量损失最小。
+2. **GQA**：$h$ → $g$ 个，质量近 MHA、速度近 MQA。
+3. **MLA**：缓存低秩潜向量 $c^{KV}$（$d_c$ 维）+ decoupled RoPE 位置头（$d_h^R$ 维）。
+4. **统一视角**：四者都是"每 token 存什么"的谱系；MLA 是学出来的压缩，容量反超 MHA。
 
 > 一句话记忆：**"MHA 给每个头都配 K/V，MQA 让所有头共用一副，GQA 按组共用，MLA 干脆只存一张'底片'（潜向量），要用时再冲印成 K/V。"**
 
@@ -344,4 +344,4 @@ DeepSeek-V2：60 层、$d_c=512$、$d_h^R=64$、BF16。① 每 token KV 字节�
 2. [GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints（arXiv:2305.13245）](https://arxiv.org/abs/2305.13245)：GQA 定义、up-training 配方、质量/速度实验。
 3. [DeepSeek-V2（arXiv:2405.04434）](https://arxiv.org/abs/2405.04434)：MLA 公式、decoupled RoPE、配置（§2.1.3）与 KV 对照表（Table 1）。
 4. [DeepSeek-V3（arXiv:2412.19437）](https://arxiv.org/abs/2412.19437)：MLA 的后续工程化（不压缩 Q 的变体），了解 MLA 演进。
-5. 上一篇：[02 FlashAttention](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)；下一篇：**04 稀疏、滑动窗口与线性注意力**——不砍 KV 维度，而是"少看"——把 $O(L^2)$ 的注意力本身变便宜。
+5. 上一篇：[02 FlashAttention](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)；下一篇：**04 稀疏、滑动窗口与线性注意力**——从减少参与计算的 token 数入手，把 $O(L^2)$ 的注意力本身变便宜。

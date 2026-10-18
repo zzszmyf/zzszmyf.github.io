@@ -9,156 +9,113 @@ categories: ["机器学习基础"]
 tags: ["Logistic Regression", "Gradient Descent", "Optimization", "Math"]
 ---
 
-> 一篇只讲清楚一件事的文章：逻辑回归的权重，在梯度下降中到底怎么动。
-
----
+用 1000 个样本按 8:2 切分、5 个特征跑 2000 轮批量梯度下降，测试集准确率 95.50%，最终交叉熵 0.127384。这个结果不算惊艳，但它把逻辑回归的权重更新公式完整走了一遍：从 Sigmoid 和交叉熵出发，链式法则求导，最后落到 $\mathbf{w} \leftarrow \mathbf{w} - \eta \mathbf{X}^\top (\mathbf{p} - \mathbf{y})/N$。下面把每一步拆开，重点解释为什么梯度会简化成（预测概率−真实标签）×输入特征。
 
 ## 1. 模型定义
 
-逻辑回归（Logistic Regression）虽然名字里有"回归"，但本质是一个**二分类模型**。
-
-给定输入 $\mathbf{x} \in \mathbb{R}^d$ 和权重 $\mathbf{w} \in \mathbb{R}^d$（包含偏置 $b$），模型输出一个概率：
+逻辑回归名字里有回归，输出却是二分类概率。给定输入 $\mathbf{x} \in \mathbb{R}^d$ 和权重 $\mathbf{w} \in \mathbb{R}^d$（包含偏置 $b$），模型输出
 
 $$
 p(\hat{y}=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x}) = \frac{1}{1 + e^{-\mathbf{w}^\top \mathbf{x}}}
 $$
 
-其中 $\sigma(z)$ 就是 **Sigmoid 函数**：
+其中 $\sigma(z)$ 是 Sigmoid 函数，它把实数压到 0 到 1 之间，输出可以直接当概率用：
 
 $$
 \sigma(z) = \frac{1}{1 + e^{-z}}
 $$
 
-它的导数有一个极漂亮的性质：
+它的导数有一个很实用的性质：
 
 $$
 \frac{d\sigma(z)}{dz} = \sigma(z) \cdot (1 - \sigma(z))
 $$
 
-这个性质会在后面的梯度推导中帮我们省很多力气。
-
----
+这个性质会在后面的梯度推导中把交叉熵的分母消掉。
 
 ## 2. 损失函数：为什么用交叉熵
 
-对于单个样本 $(\mathbf{x}^{(i)}, y^{(i)})$，其中 $y^{(i)} \in \{0, 1\}$，我们希望模型输出的概率 $p^{(i)} = \sigma(\mathbf{w}^\top \mathbf{x}^{(i)})$ 尽可能接近真实标签 $y^{(i)}$。
-
-**交叉熵损失**（Cross-Entropy Loss）定义为：
+对于单个样本 $(\mathbf{x}^{(i)}, y^{(i)})$，其中 $y^{(i)} \in \{0, 1\}$，希望模型输出的概率 $p^{(i)} = \sigma(\mathbf{w}^\top \mathbf{x}^{(i)})$ 尽可能接近真实标签 $y^{(i)}$。交叉熵损失定义为
 
 $$
 \mathcal{L}^{(i)}(\mathbf{w}) = -\left[ y^{(i)} \log p^{(i)} + (1 - y^{(i)}) \log(1 - p^{(i)}) \right]
 $$
 
-对于 $N$ 个样本的平均损失：
+训练时最小化所有样本的平均损失，而不是单个样本的损失：
 
 $$
 \mathcal{L}(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y^{(i)} \log p^{(i)} + (1 - y^{(i)}) \log(1 - p^{(i)}) \right]
 $$
 
-**为什么不用 MSE？**
-
-如果用均方误差 $\mathcal{L} = (y - p)^2$，配合 Sigmoid 会导致梯度在两端饱和区变得极小，模型几乎学不动。交叉熵损失配合 Sigmoid 的梯度恰好能**抵消饱和效应**，这是它成为标准选择的根本原因。
-
----
+用 MSE 配合 Sigmoid 时，梯度在两端饱和区会变得极小：$p$ 接近 0 或 1 时，$\sigma'(z)=p(1-p)$ 接近 0，误差再大也传不回去。交叉熵对 $p$ 的导数带 $1/[p(1-p)]$，正好和 Sigmoid 的导数抵消，这是它成为标准选择的机制。
 
 ## 3. 核心推导：梯度从哪里来
 
-我们的目标是最小化 $\mathcal{L}(\mathbf{w})$，梯度下降需要知道**损失函数对每个权重 $w_j$ 的偏导数**。
-
-### Step 1：定义中间变量
-
-令 $z^{(i)} = \mathbf{w}^\top \mathbf{x}^{(i)}$，则 $p^{(i)} = \sigma(z^{(i)})$。
-
-### Step 2：链式法则展开
+目标是最小化 $\mathcal{L}(\mathbf{w})$，梯度下降需要知道损失函数对每个权重 $w_j$ 的偏导数。令 $z^{(i)} = \mathbf{w}^\top \mathbf{x}^{(i)}$，则 $p^{(i)} = \sigma(z^{(i)})$。链式法则展开：
 
 $$
 \frac{\partial \mathcal{L}^{(i)}}{\partial w_j} = \frac{\partial \mathcal{L}^{(i)}}{\partial p^{(i)}} \cdot \frac{\partial p^{(i)}}{\partial z^{(i)}} \cdot \frac{\partial z^{(i)}}{\partial w_j}
 $$
 
-### Step 3：逐项求导
-
-**第一项**：
+第一项对 $p^{(i)}$ 求导：
 
 $$
 \frac{\partial \mathcal{L}^{(i)}}{\partial p^{(i)}} = -\left[ \frac{y^{(i)}}{p^{(i)}} - \frac{1 - y^{(i)}}{1 - p^{(i)}} \right] = \frac{p^{(i)} - y^{(i)}}{p^{(i)}(1 - p^{(i)})}
 $$
 
-**第二项**（利用 Sigmoid 导数的性质）：
+第二项用 Sigmoid 的导数性质：
 
 $$
 \frac{\partial p^{(i)}}{\partial z^{(i)}} = \sigma(z^{(i)})(1 - \sigma(z^{(i)})) = p^{(i)}(1 - p^{(i)})
 $$
 
-**第三项**：
+第三项对权重求导：
 
 $$
 \frac{\partial z^{(i)}}{\partial w_j} = x_j^{(i)}
 $$
 
-### Step 4：合并不是巧合的巧合
-
-把三项相乘：
+三项相乘，$p^{(i)}(1-p^{(i)})$ 消掉：
 
 $$
 \frac{\partial \mathcal{L}^{(i)}}{\partial w_j} = \frac{p^{(i)} - y^{(i)}}{\cancel{p^{(i)}(1 - p^{(i)})}} \cdot \cancel{p^{(i)}(1 - p^{(i)})} \cdot x_j^{(i)} = (p^{(i)} - y^{(i)}) \cdot x_j^{(i)}
 $$
 
-**分子分母完美抵消**——这不是运气，是交叉熵 + Sigmoid 这对组合的数学设计。
-
-### Step 5：批量梯度
-
-对所有 $N$ 个样本取平均：
+这个抵消来自交叉熵里 $1/[p(1-p)]$ 的因子和 Sigmoid 导数的乘积，两项本来就是配套设计的。对所有 $N$ 个样本取平均，得到
 
 $$
 \frac{\partial \mathcal{L}}{\partial w_j} = \frac{1}{N} \sum_{i=1}^{N} (p^{(i)} - y^{(i)}) \cdot x_j^{(i)}
 $$
 
-写成向量形式更优雅：
+把所有样本的梯度堆成一个向量，就能用一次矩阵乘法算完：
 
 $$
 \nabla_{\mathbf{w}} \mathcal{L} = \frac{1}{N} \mathbf{X}^\top (\mathbf{p} - \mathbf{y})
 $$
 
-其中：
-- $\mathbf{X} \in \mathbb{R}^{N \times d}$ 是设计矩阵
-- $\mathbf{p} \in \mathbb{R}^{N}$ 是所有样本的预测概率
-- $\mathbf{y} \in \mathbb{R}^{N}$ 是真实标签
-
----
+其中 $\mathbf{X} \in \mathbb{R}^{N \times d}$ 是设计矩阵，$\mathbf{p} \in \mathbb{R}^{N}$ 是所有样本的预测概率，$\mathbf{y} \in \mathbb{R}^{N}$ 是真实标签。
 
 ## 4. 权重更新公式
 
-有了梯度，权重更新就水到渠成。
-
-### 批量梯度下降（Batch GD）
+有了梯度，权重就沿着负梯度方向走一步，步长由学习率控制：
 
 $$
 \mathbf{w} \leftarrow \mathbf{w} - \eta \cdot \nabla_{\mathbf{w}} \mathcal{L} = \mathbf{w} - \frac{\eta}{N} \mathbf{X}^\top (\mathbf{p} - \mathbf{y})
 $$
 
-### 随机梯度下降（SGD）
-
-每次只用一个样本 $(\mathbf{x}^{(i)}, y^{(i)})$：
+这是批量梯度下降，每次用全部 $N$ 个样本。随机梯度下降每次只用一个样本 $(\mathbf{x}^{(i)}, y^{(i)})$：
 
 $$
 \mathbf{w} \leftarrow \mathbf{w} - \eta \cdot (p^{(i)} - y^{(i)}) \cdot \mathbf{x}^{(i)}
 $$
 
-### 小批量梯度下降（Mini-batch GD）
-
-每次用 $B$ 个样本（$B \ll N$）：
+小批量梯度下降每次用 $B$ 个样本（$B \ll N$）：
 
 $$
 \mathbf{w} \leftarrow \mathbf{w} - \frac{\eta}{B} \sum_{i \in \mathcal{B}} (p^{(i)} - y^{(i)}) \cdot \mathbf{x}^{(i)}
 $$
 
-**直观理解**：
-
-- 如果模型预测 $p^{(i)}$ 比真实标签 $y^{(i)}$ 大（预测过头了），梯度为正，权重往**减小**方向走
-- 如果预测小了，梯度为负，权重往**增大**方向走
-- 更新的幅度同时受学习率 $\eta$ 和输入特征 $x_j^{(i)}$ 的尺度影响
-
----
+三者的区别只在每次用多少样本估计梯度。直观上，如果模型预测 $p^{(i)}$ 比真实标签 $y^{(i)}$ 大（预测过头了），梯度为正，权重往减小方向走；如果预测小了，梯度为负，权重往增大方向走。更新的幅度同时受学习率 $\eta$ 和输入特征 $x_j^{(i)}$ 的尺度影响。
 
 ## 5. 代码实现
 
@@ -174,11 +131,11 @@ class LogisticRegressionGD:
         self.fit_intercept = fit_intercept
         self.w = None             # 权重向量
         self.loss_history = []
-    
+
     def _sigmoid(self, z):
         """Sigmoid: σ(z) = 1 / (1 + exp(-z))"""
         return 1 / (1 + np.exp(-np.clip(z, -500, 500)))
-    
+
     def fit(self, X, y):
         """
         X: (N, d)
@@ -187,35 +144,35 @@ class LogisticRegressionGD:
         if self.fit_intercept:
             # 添加一列 1 作为偏置项
             X = np.c_[np.ones(X.shape[0]), X]
-        
+
         N, d = X.shape
         self.w = np.zeros(d)
-        
+
         for epoch in range(self.n_iter):
             # 前向传播：z = X @ w, p = σ(z)
             z = X @ self.w
             p = self._sigmoid(z)
-            
+
             # 计算交叉熵损失
             loss = -np.mean(
-                y * np.log(p + 1e-15) + 
+                y * np.log(p + 1e-15) +
                 (1 - y) * np.log(1 - p + 1e-15)
             )
             self.loss_history.append(loss)
-            
+
             # 计算梯度: ∇L = (1/N) * X^T @ (p - y)
             grad = (X.T @ (p - y)) / N
-            
+
             # 权重更新: w = w - η * ∇L
             self.w -= self.lr * grad
-        
+
         return self
-    
+
     def predict_proba(self, X):
         if self.fit_intercept:
             X = np.c_[np.ones(X.shape[0]), X]
         return self._sigmoid(X @ self.w)
-    
+
     def predict(self, X):
         return (self.predict_proba(X) >= 0.5).astype(int)
 
@@ -257,32 +214,20 @@ plt.savefig('loss_curve.png', dpi=150)
 plt.show()
 ```
 
-**运行结果**：
+在 2000 轮、学习率 0.5 的设置下，输出如下：
 
 ```
 Accuracy: 0.9550
 Final loss: 0.127384
 ```
 
----
-
 ## 6. 与线性回归的对比
 
-| 特性 | 线性回归 | 逻辑回归 |
-|------|---------|---------|
-| 任务 | 回归 | 分类 |
-| 输出 | $\hat{y} = \mathbf{w}^\top \mathbf{x}$ | $p = \sigma(\mathbf{w}^\top \mathbf{x})$ |
-| 损失函数 | MSE | 交叉熵 |
-| 梯度 | $\nabla \mathcal{L} = \frac{1}{N}\mathbf{X}^\top (\hat{\mathbf{y}} - \mathbf{y})$ | $\nabla \mathcal{L} = \frac{1}{N}\mathbf{X}^\top (\mathbf{p} - \mathbf{y})$ |
-| 权重更新 | $\mathbf{w} - \eta \nabla \mathcal{L}$ | $\mathbf{w} - \eta \nabla \mathcal{L}$ |
-
-**形式上的相似性不是偶然**：两种模型的梯度都可以统一写成 $(\text{预测} - \text{真实})$ 的形式，只是"预测"的语义不同——线性回归预测的是连续值，逻辑回归预测的是概率。
-
----
+线性回归和逻辑回归的梯度形式几乎一样：都可以写成（预测−真实）经过设计矩阵转置的形式。差异在预测的语义：线性回归输出连续值 $\hat{y} = \mathbf{w}^\top \mathbf{x}$，用 MSE，梯度是 $\frac{1}{N}\mathbf{X}^\top (\hat{\mathbf{y}} - \mathbf{y})$；逻辑回归输出概率 $p = \sigma(\mathbf{w}^\top \mathbf{x})$，用交叉熵，梯度是 $\frac{1}{N}\mathbf{X}^\top (\mathbf{p} - \mathbf{y})$。两者的权重更新都是 $\mathbf{w} - \eta \nabla \mathcal{L}$，换的只是损失和输出层。
 
 ## 7. 调试经验：梯度检查
 
-手写梯度时，最好用**数值梯度**做验证：
+手写梯度时，用中心差分做数值检查：对每个 $w_j$，分别算 $w_j \pm \epsilon$ 处的 loss，除以 $2\epsilon$，再和解析梯度比。
 
 ```python
 def numerical_gradient(X, y, w, eps=1e-5):
@@ -293,14 +238,14 @@ def numerical_gradient(X, y, w, eps=1e-5):
         w_plus[j] += eps
         w_minus = w.copy()
         w_minus[j] -= eps
-        
+
         # 分别在 w+ε 和 w-ε 处计算损失
         p_plus = sigmoid(X @ w_plus)
         loss_plus = -np.mean(y * np.log(p_plus) + (1-y) * np.log(1-p_plus))
-        
+
         p_minus = sigmoid(X @ w_minus)
         loss_minus = -np.mean(y * np.log(p_minus) + (1-y) * np.log(1-p_minus))
-        
+
         grad[j] = (loss_plus - loss_minus) / (2 * eps)
     return grad
 
@@ -311,27 +256,8 @@ print(f"Max diff: {np.max(np.abs(analytical - numerical)):.8f}")
 # 期望输出: Max diff < 1e-6
 ```
 
----
+这段检查代码是从训练脚本里摘出来的，依赖训练结束后的 `X`、`y`、`w`、`p` 和 `N`，不能单独运行。`sigmoid` 在前面的实现里是类方法，这里要补一个全局函数；`X` 在 `fit` 内部加过偏置列，外层变量没有，直接照抄会因维度不一致报错，补一个带偏置的 `X_aug` 才能跑。$\epsilon$ 取 1e-5 时，期望最大误差小于 1e-6。这个检查每轮多花 $2d$ 次前向；$d=5$ 时值得，$d$ 到百万级时只抽几个维度做。
 
-## 8. 总结
+## 8. 这套推导的适用边界
 
-逻辑回归的权重更新公式，可以一句话概括：
-
-> **误差反向传播到输入特征，按学习率调整权重。**
-
-完整的数学链条：
-
-```
-损失 L(w) ──[求导]──> 梯度 ∇L = (1/N) X^T (p - y)
-     │
-     └─[梯度下降]──> w ← w - η·∇L
-```
-
-关键记忆点：
-1. Sigmoid 导数 = $p(1-p)$，与交叉熵的 $1/p(1-p)$ **完美抵消**
-2. 最终梯度形式异常简洁：$(p^{(i)} - y^{(i)}) \cdot x_j^{(i)}$
-3. 更新方向 = **预测误差 × 输入特征**
-
----
-
-> 如果你对 Softmax 多分类的梯度推导也感兴趣，留言告诉我，下一篇写它。
+整套推导只依赖两个事实：Sigmoid 的导数是 $p(1-p)$，交叉熵对概率的导数是 $(p-y)/[p(1-p)]$。两者相乘后，权重更新的每一步就是误差乘特征。这个形式也解释了为什么特征尺度重要：$x_j$ 大一个数量级，同样的 $\eta$ 会让对应权重的实际步长大一个数量级，训练前先标准化。特征没标准化时，梯度检查仍会通过，但收敛会慢甚至震荡；公式没问题，问题在尺度和学习率的匹配。
