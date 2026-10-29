@@ -5,6 +5,10 @@ colorScheme = "congo"
 defaultAppearance = "dark"
 autoSwitchAppearance = true
 
+# 全站默认 Open Graph / Twitter 图（static/og.png，1200×630）。
+# 页面没有自己的 feature/cover 时，Hugo 的 opengraph / twitter_cards 回退到这里，并输出绝对 URL。
+images = ["/og.png"]
+
 defaultThemeColor = "#1a1a1a"
 
 enableSearch = true
@@ -58,3 +62,11 @@ fingerprintAlgorithm = "sha256"
 
 [taxonomy]
   showTermCount = true
+
+# 站点验证码先留空，不要填假值。主题 head 只在有内容时输出 meta。
+# Google Search Console 的 meta content 填到 google，Bing Webmaster Tools 的填到 bing。
+# 已有 HTML 文件验证 static/google1ca7f9297cd42632.html，以及 IndexNow key
+# static/2b463038c3a198f501e25601eb316cc4.txt（不是 Bing 的 msvalidate.01）。
+[verification]
+  # google = ""
+  # bing = ""

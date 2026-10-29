@@ -39,17 +39,16 @@
   .prose td { background: transparent; }
 </style>
 
-<meta name="twitter:card" content="summary" />
+{{/* twitter:card 只由 Hugo 的 twitter_cards 输出。有默认 og 图时它是 summary_large_image，这里再写 summary 会重复。 */}}
 
-{{ if .IsHome }}
-<!-- GEO: 独立 Person 实体 -->
+<!-- GEO: 独立 Person 实体。文章 author/publisher 用同一个 @id。 -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": "{{ .Site.BaseURL }}#person",
-  "name": "Meng Yifan",
-  "alternateName": ["zzszmyf", "doraeMeng", "孟一凡"],
+  "name": "孟一凡",
+  "alternateName": ["Meng Yifan", "zzszmyf", "doraeMeng"],
   "url": "{{ .Site.BaseURL }}",
   "jobTitle": "独立 AI 顾问 / LLM 推理优化工程师",
   "description": "独立 AI 顾问，承接企业 AI 落地项目；专注 LLM 推理优化、AI Agent 基础设施与多模态，SGLang 上游贡献者，前百度/BIGO 算法工程师。",
@@ -65,6 +64,7 @@
   ]
 }
 </script>
+{{ if .IsHome }}
 <!-- GEO: 首页 FAQ -->
 <script type="application/ld+json">
 {

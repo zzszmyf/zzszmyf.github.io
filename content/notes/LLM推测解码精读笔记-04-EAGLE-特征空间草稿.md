@@ -6,6 +6,10 @@ description: "Medusa 在 token 层做自回归，每次采样都会引入新的�
 weight: 34
 tags: ["LLM推理优化", "推测解码"]
 series: "speculative-decoding"
+faq:
+  - question: "EAGLE 推测解码为什么比 Medusa 快？（含 EAGLE-2 动态草稿树）"
+    answer: "Medusa 的多个头只看当前特征，平行猜测未来的词，看不到中间到底采样出了什么，接受率大约停在 0.6。EAGLE 把草稿做在特征层，并把刚采样的 token 一起送进草稿模型，让回归目标变得唯一，接受率因此更高，所以比 Medusa 更快。"
+
 ---
 
 > 系列导航：[推测解码精读笔记总览](/notes/llm推测解码精读笔记-00-总览与学习地图/)（共 6 篇）｜上一篇：[Medusa 是什么](/notes/llm推测解码精读笔记-03-medusa-多头解码/)｜下一篇：[不用草稿模型的加速方案](/notes/llm推测解码精读笔记-05-n-gram检索式与无模型路线/)

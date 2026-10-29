@@ -1,7 +1,8 @@
 ---
 title: "《KIMI K2.5: VISUAL AGENTIC INTELLIGENCE》阅读笔记"
 description: "Kimi K2.5 技术报告解读：开源多模态 Agent 模型的两大突破——文本视觉联合优化（Zero-vision SFT、Joint RL）与 Agent Swarm 并行编排（PARL 解耦训练），延迟降低 4.5 倍、Item-level F1 提升至 79.0%。Toggle 策略让输出 Token 减少 25~30% 且性能几乎无损。"
-date: 2024-04-06T00:00:00+08:00
+date: 2026-02-27T00:00:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/kimi-k2-5-visual-agentic-intelligence/"]

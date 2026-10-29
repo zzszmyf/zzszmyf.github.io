@@ -6,6 +6,10 @@ description: "朴素注意力快不起来的真正瓶颈是 HBM 读写而不是 
 weight: 52
 tags: ["LLM推理优化", "注意力内核"]
 series: "attention-kernels"
+faq:
+  - question: "FlashAttention 原理是什么？为什么又省显存又快"
+    answer: "朴素注意力慢，是因为 N×N 的分数矩阵反复读写 HBM，不是浮点算力不够。FlashAttention 不让这块矩阵落地，把它切成能放进片上 SRAM 的小块，逐块计算再逐块合并。softmax 依赖整行，所以要用 online softmax，分块之后结果仍然精确，这样既省显存又更快。"
+
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力计算复杂度是怎么来的](/notes/llm注意力内核精读笔记-01-注意力机制基础与复杂度分析/)｜下一篇：[MQA、GQA、MLA 有什么区别](/notes/llm注意力内核精读笔记-03-注意力头变体-mqa-gqa-mla/)
