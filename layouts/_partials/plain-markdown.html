@@ -1,0 +1,10 @@
+{{- $html := .OutputFormats.Get "html" -}}
+{{- printf "# %s\n\n" .Title | safeHTML -}}
+{{- with .Description -}}
+{{- printf "> %s\n\n" (replace . "\n" " ") | safeHTML -}}
+{{- end -}}
+{{- with $html -}}
+{{- printf "Canonical: %s\n\n" .Permalink | safeHTML -}}
+{{- end -}}
+{{- .RawContent | safeHTML -}}
+{{- print "\n" | safeHTML -}}

@@ -1,0 +1,38 @@
+# 精读系列目录。章节顺序用笔记 front matter 的 series + weight，不在这里重复。
+# overview / hub / decisions 用 content/ 下的路径，交给 site.GetPage。
+series:
+  - id: quantization
+    name: "量化精读"
+    description: "从数值编码、均匀量化到 PTQ/QAT 和生产部署。"
+    overview: "notes/LLM量化精读笔记-00-总览与学习地图.md"
+    hub: "series/quantization.md"
+    decisions:
+      - page: "notes/AWQ和GPTQ有什么区别-4bit权重量化怎么选.md"
+        chapters:
+          - "notes/LLM量化精读笔记-05-权重量化I-RTN与GPTQ.md"
+          - "notes/LLM量化精读笔记-06-权重量化II-AWQ-SqueezeLLM-QuIP.md"
+      - page: "notes/企业AI落地选FP8还是FP4-量化格式的成本质量与硬件决策.md"
+        chapters:
+          - "notes/LLM量化精读笔记-03-数值格式与硬件.md"
+          - "notes/LLM量化精读笔记-08-KV-Cache量化与KIVI.md"
+          - "notes/LLM量化精读笔记-11-系统协同与部署.md"
+  - id: speculative-decoding
+    name: "推测解码精读"
+    description: "从接受率数学、拒绝采样到 Medusa、EAGLE 和生产验收。"
+    overview: "notes/LLM推测解码精读笔记-00-总览与学习地图.md"
+    hub: "series/speculative-decoding.md"
+    decisions: []
+  - id: attention-kernels
+    name: "注意力与计算内核精读"
+    description: "从注意力复杂度、FlashAttention、PagedAttention 到 RadixAttention 前缀缓存。"
+    overview: "notes/LLM注意力内核精读笔记-00-总览与学习地图.md"
+    hub: "series/attention-kernels.md"
+    decisions: []
+
+highlights:
+  - "notes/vllm-gpu-100-percent-max-tokens-trap.md"
+  - "notes/moe-nvlink-deepseek-deepep-communication.md"
+  - "notes/online-softmax-information-geometry.md"
+  - "notes/五一假期从零写企业LLM-WiKi.md"
+  - "notes/kimi-cli-auto-issue-pipeline.md"
+  - "notes/claude-code-agent-teams-deep-dive.md"

@@ -1,0 +1,1 @@
+{{- partial "plain-markdown.html" . -}}
