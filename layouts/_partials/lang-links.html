@@ -1,0 +1,10 @@
+{{- if or .Params.enURL .Params.zhURL }}
+<p class="not-prose mb-6 text-sm text-neutral-600 dark:text-neutral-400">
+  {{- with .Params.zhURL -}}
+    <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ . | relURL }}">中文全文</a>
+  {{- end -}}
+  {{- with .Params.enURL -}}
+    <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ . | relURL }}">English summary</a>
+  {{- end -}}
+</p>
+{{- end }}

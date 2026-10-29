@@ -43,6 +43,11 @@
 {{- end }}
 {{- end }}
 
+## English summaries
+{{- range (where site.RegularPages "Section" "en").ByWeight }}
+- [{{ .Title }}]({{ .Permalink }}): {{ with .Description }}{{ . | plainify | truncate 140 }}{{ else }}{{ .Title }}{{ end }}
+{{- end }}
+
 ## 工程笔记
 {{- range site.Data.reading_series.highlights }}
 {{- $path := . }}

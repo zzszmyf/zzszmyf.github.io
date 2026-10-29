@@ -16,6 +16,9 @@ series:
           - "notes/LLM量化精读笔记-03-数值格式与硬件.md"
           - "notes/LLM量化精读笔记-08-KV-Cache量化与KIVI.md"
           - "notes/LLM量化精读笔记-11-系统协同与部署.md"
+      - page: "notes/vLLM-SGLang-TensorRT-LLM怎么选.md"
+        chapters:
+          - "notes/LLM量化精读笔记-11-系统协同与部署.md"
   - id: speculative-decoding
     name: "推测解码精读"
     description: "从接受率数学、拒绝采样到 Medusa、EAGLE 和生产验收。"
@@ -30,6 +33,7 @@ series:
     decisions: []
 
 highlights:
+  - "notes/vLLM-SGLang-TensorRT-LLM怎么选.md"
   - "notes/vllm-gpu-100-percent-max-tokens-trap.md"
   - "notes/moe-nvlink-deepseek-deepep-communication.md"
   - "notes/online-softmax-information-geometry.md"

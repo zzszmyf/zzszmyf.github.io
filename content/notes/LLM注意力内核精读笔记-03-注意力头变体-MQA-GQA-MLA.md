@@ -6,6 +6,7 @@ description: "三种注意力头变体回答的是同一个问题：每 token �
 weight: 53
 tags: ["LLM推理优化", "注意力内核"]
 series: "attention-kernels"
+enURL: "/en/mqa-gqa-mla/"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[FlashAttention 原理是什么](/notes/llm注意力内核精读笔记-02-flashattention-io感知的精确注意力/)｜下一篇：[稀疏注意力、滑动窗口和线性注意力怎么选](/notes/llm注意力内核精读笔记-04-稀疏滑动窗口与线性注意力/)

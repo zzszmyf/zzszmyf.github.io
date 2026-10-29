@@ -53,6 +53,15 @@
 {{- if .IsHome -}}
   <link rel="alternate" type="text/plain" href="{{ "llms.txt" | absURL }}" title="llms.txt" />
 {{- end -}}
+{{- if .Params.enURL -}}
+  <link rel="alternate" hreflang="zh-CN" href="{{ .Permalink }}" />
+  <link rel="alternate" hreflang="en" href="{{ .Params.enURL | absURL }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
+{{- else if .Params.zhURL -}}
+  <link rel="alternate" hreflang="en" href="{{ .Permalink }}" />
+  <link rel="alternate" hreflang="zh-CN" href="{{ .Params.zhURL | absURL }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ .Params.zhURL | absURL }}" />
+{{- end -}}
 {{ partial "series-schema.html" . }}
 
 <!-- GEO: 独立 Person 实体。文章 author/publisher 用同一个 @id。 -->

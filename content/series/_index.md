@@ -66,6 +66,10 @@ seriesIndex: true
 | [07 系统集成与生产验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/) | 与量化/推测解码组合、注意力精度验收 |
 | [08 前缀缓存与 KV 复用](/notes/llm注意力内核精读笔记-08-前缀缓存与kv复用/) | RadixAttention、radix tree、KV 存储层级、cache-aware routing、disaggregation |
 
+## 引擎
+
+[vLLM、SGLang、TensorRT-LLM 该怎么选？](/notes/vllm-sglang-tensorrt-llm怎么选/) 把 05 章的分页、08 章的前缀缓存和 11 章的量化地图放在一张表里。同机 tokens/s 没有测，表里写的是待实测。
+
 ## 阅读顺序
 
 ```

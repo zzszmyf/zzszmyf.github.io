@@ -8,6 +8,7 @@
       </h1>
     </header>
     <section class="prose mt-6 max-w-prose dark:prose-invert">
+      {{ partial "lang-links.html" . }}
       {{ .Content | emojify }}
       <ol>
         {{- range $chapters }}

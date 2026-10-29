@@ -24,6 +24,11 @@
 # -- Footer Menu --
 
 [[footer]]
+  name = "English"
+  pageRef = "en"
+  weight = 5
+
+[[footer]]
   name = "随笔"
   pageRef = "essays"
   weight = 10

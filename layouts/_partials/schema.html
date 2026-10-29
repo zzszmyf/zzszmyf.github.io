@@ -45,9 +45,17 @@
   {{- $cjk := strings.CountRunes (replaceRE `[^\p{Han}]` "" $plain) -}}
   {{- $latin := len (findRE `[A-Za-z0-9]+` $plain) -}}
   {{- $wordCount := add $cjk $latin -}}
+  {{- $schemaType := "Article" -}}
+  {{- if .Params.series -}}
+    {{- /* 精读章既是技术文章，也是系列里的学习材料。 */ -}}
+    {{- $schemaType = slice "TechArticle" "LearningResource" -}}
+  {{- else if or (eq .Section "en") (eq .Params.schemaType "TechArticle") -}}
+    {{- $schemaType = "TechArticle" -}}
+  {{- end -}}
+  {{- $inLanguage := .Params.htmlLang | default site.Language.Locale -}}
   {{- $article := dict
     "@context" "https://schema.org"
-    "@type" "Article"
+    "@type" $schemaType
     "headline" .Title
     "name" .Title
     "url" .Permalink
@@ -65,8 +73,19 @@
       "url" site.BaseURL
     )
   -}}
-  {{- with site.Language.Locale -}}
+  {{- with $inLanguage -}}
     {{- $article = merge $article (dict "inLanguage" .) -}}
+  {{- end -}}
+  {{- if .Params.series -}}
+    {{- $article = merge $article (dict "learningResourceType" "Lecture note" "isAccessibleForFree" true) -}}
+    {{- range site.Data.reading_series.series -}}
+      {{- if eq .id $.Params.series -}}
+        {{- $courseName := .name -}}
+        {{- with site.GetPage .hub -}}
+          {{- $article = merge $article (dict "isPartOf" (dict "@type" "Course" "name" $courseName "url" .Permalink)) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
   {{- with .Description -}}
     {{- $article = merge $article (dict "description" .) -}}
