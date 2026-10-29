@@ -1,0 +1,54 @@
+{{- $desc := or site.Params.description site.Language.Params.description -}}
+# 孟一凡（zzszmyf）
+
+> {{ $desc }}
+
+中文技术站，写 LLM 推理优化精读（量化、推测解码、注意力与计算内核）和 Agent / 训练系统笔记。作者孟一凡，GitHub zzszmyf，独立 AI 顾问，SGLang 上游贡献者。
+
+每篇笔记的 HTML 旁边有同路径的 `index.md`（纯 Markdown）。页面 `<head>` 里有 `rel="alternate"`、`type="text/markdown"` 的链接。
+
+## 站点
+
+- [首页]({{ "/" | absURL }}): {{ $desc }}
+{{- with site.GetPage "about.md" }}
+- [关于孟一凡]({{ .Permalink }}): {{ .Description | plainify }}
+{{- end }}
+{{- with site.GetPage "series" }}
+- [精读系列]({{ .Permalink }}): {{ .Description | plainify }}
+{{- end }}
+{{- with site.GetPage "notes" }}
+- [技术笔记]({{ .Permalink }}): {{ .Description | plainify }}
+{{- end }}
+
+## 精读系列
+{{- range site.Data.reading_series.series }}
+{{- $series := . }}
+{{- $hub := site.GetPage $series.hub }}
+{{- $chapters := sort (where site.RegularPages "Params.series" $series.id) "Weight" "asc" }}
+
+### {{ $series.name }}
+
+{{- with $hub }}
+- [系列目录]({{ .Permalink }}): {{ $series.description }}
+{{- end }}
+{{- range $chapters }}
+- [{{ .Title }}]({{ .Permalink }}): {{ with .Description }}{{ . | plainify | truncate 140 }}{{ else }}{{ .Title }}{{ end }}
+{{- end }}
+{{- with $series.decisions }}
+{{- range . }}
+{{- with site.GetPage .page }}
+- [{{ .Title }}]({{ .Permalink }}): {{ with .Description }}{{ . | plainify | truncate 140 }}{{ else }}选型笔记{{ end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+## 工程笔记
+{{- range site.Data.reading_series.highlights }}
+{{- $path := . }}
+{{- with site.GetPage $path }}
+- [{{ .Title }}]({{ .Permalink }}): {{ with .Description }}{{ . | plainify | truncate 140 }}{{ else }}{{ .Title }}{{ end }}
+{{- else }}
+{{- errorf "llms highlight not found: %s" $path }}
+{{- end }}
+{{- end }}

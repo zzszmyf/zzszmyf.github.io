@@ -1,0 +1,58 @@
+{{- $nav := partial "series-nav-data.html" . -}}
+{{- if eq $nav.mode "chapter" -}}
+<nav class="series-matrix not-prose mt-10 border-t border-dotted border-neutral-300 pt-4 text-sm dark:border-neutral-600" aria-label="系列导航">
+  <p class="mb-2 font-semibold text-neutral-800 dark:text-neutral-200">系列导航</p>
+  <p class="leading-7 text-neutral-700 dark:text-neutral-300">
+    {{- $first := true -}}
+    {{- if not $nav.isOverview -}}
+      {{- with $nav.overview -}}
+        {{- $sameAsNext := and $nav.next (eq .Permalink $nav.next.Permalink) -}}
+        {{- if not $sameAsNext -}}
+          <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">总览</a>
+          {{- $first = false -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- with $nav.hub -}}
+        <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">总览</a>
+        {{- $first = false -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $nav.prev -}}
+      {{- if not $first }} · {{ end -}}
+      <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">上一章</a>
+      {{- $first = false -}}
+    {{- end -}}
+    {{- with $nav.next -}}
+      {{- if not $first }} · {{ end -}}
+      <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">下一章</a>
+      {{- $first = false -}}
+    {{- end -}}
+    {{- with $nav.decisions -}}
+      {{- if not $first }} · {{ end -}}
+      <span>相关决策文：</span>
+      {{- range $i, $d := . -}}
+        {{- if $i }}、{{ end -}}
+        <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ $d.RelPermalink }}">{{ $d.Title }}</a>
+      {{- end -}}
+    {{- end -}}
+  </p>
+</nav>
+{{- else if eq $nav.mode "decision" -}}
+<nav class="series-matrix not-prose mt-10 border-t border-dotted border-neutral-300 pt-4 text-sm dark:border-neutral-600" aria-label="系列章节">
+  <p class="mb-2 font-semibold text-neutral-800 dark:text-neutral-200">系列章节</p>
+  <p class="leading-7 text-neutral-700 dark:text-neutral-300">
+    {{- with $nav.overview -}}
+      <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">总览</a>
+    {{- end -}}
+    {{- with $nav.chapters -}}
+      {{- range . }}
+        · <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{- end -}}
+    {{- end -}}
+    {{- with $nav.hub }}
+      · <a class="underline decoration-neutral-400 underline-offset-2 hover:decoration-primary-500" href="{{ .RelPermalink }}">{{ $nav.series.name }}</a>
+    {{- end -}}
+  </p>
+</nav>
+{{- end -}}

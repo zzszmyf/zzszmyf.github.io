@@ -12,7 +12,29 @@ summaryLength = 0
   pagerSize = 10
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "llms"]
+  page = ["HTML", "markdown"]
+
+# text/markdown 不是 Hugo 内置 media type。页面的 markdown 输出落在 index.md，
+# head 里由主题已有的 AlternativeOutputFormats 写成 alternate link。
+[mediaTypes]
+  [mediaTypes."text/markdown"]
+    suffixes = ["md"]
+
+[outputFormats]
+  [outputFormats.markdown]
+    mediaType = "text/markdown"
+    baseName = "index"
+    isPlainText = true
+    isHTML = false
+    rel = "alternate"
+    notAlternative = false
+  [outputFormats.llms]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    isHTML = false
+    notAlternative = true
 
 [privacy]
   [privacy.vimeo]

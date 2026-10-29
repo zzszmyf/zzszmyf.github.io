@@ -41,6 +41,20 @@
 
 {{/* twitter:card 只由 Hugo 的 twitter_cards 输出。有默认 og 图时它是 summary_large_image，这里再写 summary 会重复。 */}}
 
+{{- $seriesNav := partial "series-nav-data.html" . -}}
+{{- if eq $seriesNav.mode "chapter" -}}
+  {{- with $seriesNav.prev -}}
+    <link rel="prev" href="{{ .Permalink }}" />
+  {{- end -}}
+  {{- with $seriesNav.next -}}
+    <link rel="next" href="{{ .Permalink }}" />
+  {{- end -}}
+{{- end -}}
+{{- if .IsHome -}}
+  <link rel="alternate" type="text/plain" href="{{ "llms.txt" | absURL }}" title="llms.txt" />
+{{- end -}}
+{{ partial "series-schema.html" . }}
+
 <!-- GEO: 独立 Person 实体。文章 author/publisher 用同一个 @id。 -->
 <script type="application/ld+json">
 {

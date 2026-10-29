@@ -37,7 +37,7 @@
   <script type="application/ld+json">
     {{ $website | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
   </script>
-{{ else if .IsPage }}
+{{ else if and .IsPage (not .Params.seriesHub) }}
   {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
   {{- $plain := .Plain -}}
   {{- /* Hugo WordCount splits on whitespace, so a Chinese paragraph counts as one word.

@@ -1,0 +1,23 @@
+{{ define "main" }}
+  {{- $id := .Params.seriesHub -}}
+  {{- $chapters := sort (where site.RegularPages "Params.series" $id) "Weight" "asc" -}}
+  <article class="max-w-full">
+    <header>
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        {{ .Title | emojify }}
+      </h1>
+    </header>
+    <section class="prose mt-6 max-w-prose dark:prose-invert">
+      {{ .Content | emojify }}
+      <ol>
+        {{- range $chapters }}
+          <li>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            {{- with .Description }}<br>{{ . }}{{ end }}
+          </li>
+        {{- end }}
+      </ol>
+      <p><a href="{{ "/series/" | relURL }}">全部精读系列</a></p>
+    </section>
+  </article>
+{{ end }}

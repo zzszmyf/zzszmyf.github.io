@@ -1,0 +1,88 @@
+{{- $personID := printf "%s/#person" (strings.TrimSuffix "/" site.BaseURL) -}}
+{{- $provider := dict "@type" "Person" "@id" $personID "name" "孟一凡" "url" $personID -}}
+{{- if .Params.seriesIndex -}}
+  {{- $items := slice -}}
+  {{- range $i, $series := site.Data.reading_series.series -}}
+    {{- $hub := site.GetPage $series.hub -}}
+    {{- if not $hub -}}
+      {{- errorf "series hub missing: %s" $series.hub -}}
+    {{- end -}}
+    {{- $course := dict
+      "@type" "Course"
+      "name" $series.name
+      "description" $series.description
+      "url" $hub.Permalink
+      "inLanguage" "zh-CN"
+      "provider" $provider
+    -}}
+    {{- $items = $items | append (dict
+      "@type" "ListItem"
+      "position" (add $i 1)
+      "item" $course
+    ) -}}
+  {{- end -}}
+  {{- $list := dict
+    "@context" "https://schema.org"
+    "@type" "ItemList"
+    "name" "LLM 推理优化精读系列"
+    "url" .Permalink
+    "itemListElement" $items
+  -}}
+  <script type="application/ld+json">
+    {{ $list | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+  </script>
+{{- end -}}
+{{- with .Params.seriesHub -}}
+  {{- $id := . -}}
+  {{- $page := $ -}}
+  {{- range site.Data.reading_series.series -}}
+    {{- if eq .id $id -}}
+      {{- $series := . -}}
+      {{- $chapters := sort (where site.RegularPages "Params.series" $id) "Weight" "asc" -}}
+      {{- $parts := slice -}}
+      {{- $items := slice -}}
+      {{- range $i, $ch := $chapters -}}
+        {{- $resource := dict
+          "@type" "LearningResource"
+          "name" $ch.Title
+          "url" $ch.Permalink
+          "learningResourceType" "Lecture note"
+          "inLanguage" "zh-CN"
+          "isAccessibleForFree" true
+        -}}
+        {{- with $ch.Description -}}
+          {{- $resource = merge $resource (dict "description" .) -}}
+        {{- end -}}
+        {{- $parts = $parts | append $resource -}}
+        {{- $items = $items | append (dict
+          "@type" "ListItem"
+          "position" (add $i 1)
+          "name" $ch.Title
+          "url" $ch.Permalink
+        ) -}}
+      {{- end -}}
+      {{- $course := dict
+        "@type" "Course"
+        "name" $series.name
+        "description" $series.description
+        "url" $page.Permalink
+        "inLanguage" "zh-CN"
+        "provider" $provider
+        "hasPart" $parts
+      -}}
+      {{- $list := dict
+        "@type" "ItemList"
+        "name" $series.name
+        "url" $page.Permalink
+        "itemListElement" $items
+      -}}
+      {{- $graph := dict
+        "@context" "https://schema.org"
+        "@graph" (slice $course $list)
+      -}}
+      <script type="application/ld+json">
+        {{ $graph | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+      </script>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

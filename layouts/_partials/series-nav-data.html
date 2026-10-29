@@ -1,0 +1,96 @@
+{{- $page := . -}}
+{{- $catalog := site.Data.reading_series.series -}}
+{{- $result := dict "mode" "" -}}
+{{- if not $catalog -}}
+  {{- errorf "missing data/reading_series.yaml" -}}
+{{- end -}}
+{{- with $page.Params.series -}}
+  {{- $id := . -}}
+  {{- range $catalog -}}
+    {{- if eq .id $id -}}
+      {{- $series := . -}}
+      {{- $chapters := where site.RegularPages "Params.series" $id -}}
+      {{- $chapters = sort $chapters "Weight" "asc" -}}
+      {{- $overview := site.GetPage $series.overview -}}
+      {{- $hub := site.GetPage $series.hub -}}
+      {{- if not $overview -}}
+        {{- errorf "series %s overview not found: %s" $id $series.overview -}}
+      {{- end -}}
+      {{- if not $hub -}}
+        {{- errorf "series %s hub not found: %s" $id $series.hub -}}
+      {{- end -}}
+      {{- $i := -1 -}}
+      {{- range $idx, $p := $chapters -}}
+        {{- if eq $p.Permalink $page.Permalink -}}
+          {{- $i = $idx -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $prev := false -}}
+      {{- $next := false -}}
+      {{- if ge $i 0 -}}
+        {{- if gt $i 0 -}}
+          {{- $prev = index $chapters (sub $i 1) -}}
+        {{- end -}}
+        {{- if lt $i (sub (len $chapters) 1) -}}
+          {{- $next = index $chapters (add $i 1) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $decisions := slice -}}
+      {{- range $series.decisions -}}
+        {{- $matched := false -}}
+        {{- $decision := . -}}
+        {{- range $decision.chapters -}}
+          {{- $ch := site.GetPage . -}}
+          {{- if and $ch (eq $ch.Permalink $page.Permalink) -}}
+            {{- $matched = true -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if $matched -}}
+          {{- with site.GetPage $decision.page -}}
+            {{- $decisions = $decisions | append . -}}
+          {{- else -}}
+            {{- errorf "decision page not found: %s" $decision.page -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $result = dict
+        "mode" "chapter"
+        "series" $series
+        "chapters" $chapters
+        "overview" $overview
+        "hub" $hub
+        "prev" $prev
+        "next" $next
+        "decisions" $decisions
+        "isOverview" (and $overview (eq $overview.Permalink $page.Permalink))
+      -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- range $catalog -}}
+    {{- $series := . -}}
+    {{- range $series.decisions -}}
+      {{- $decision := . -}}
+      {{- $dp := site.GetPage $decision.page -}}
+      {{- if and $dp (eq $dp.Permalink $page.Permalink) -}}
+        {{- $chapters := slice -}}
+        {{- range $decision.chapters -}}
+          {{- $path := . -}}
+          {{- with site.GetPage $path -}}
+            {{- $chapters = $chapters | append . -}}
+          {{- else -}}
+            {{- errorf "decision chapter not found: %s" $path -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $result = dict
+          "mode" "decision"
+          "series" $series
+          "overview" (site.GetPage $series.overview)
+          "hub" (site.GetPage $series.hub)
+          "chapters" $chapters
+        -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $result -}}
