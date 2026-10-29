@@ -13,6 +13,7 @@ description: "孟一凡（zzszmyf）的技术知识库与名片：LLM 推理优�
 
 ## 精选工程笔记
 
+- [vLLM、SGLang、TensorRT-LLM 该怎么选？](/notes/vllm-sglang-tensorrt-llm怎么选/)
 - [vLLM GPU 利用率持续 100% 排查记：一个 max_tokens 参数引发的性能陷阱](/notes/vllm-gpu-100-percent-max-tokens-trap/)
 - [MoE 通信：NVLink 与 DeepEP 的工程细节](/notes/moe-nvlink-deepseek-deepep-communication/)
 - [Online Softmax 的数学：从代数推导到信息几何](/notes/online-softmax-information-geometry/)

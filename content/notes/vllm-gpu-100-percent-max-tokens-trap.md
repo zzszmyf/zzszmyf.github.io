@@ -7,6 +7,7 @@ weight: 100
 aliases: ["/posts/vllm-gpu-100-percent-max-tokens-trap/"]
 categories: ["工程实践"]
 tags: ["vLLM", "GPU", "性能优化", "多模态", "PaddleOCR", "LLM 推理"]
+enURL: "/en/vllm-max-tokens/"
 ---
 
 > 一次 vLLM 服务 GPU 利用率持续 100% 的线上问题排查，最终定位到一个反直觉的默认值陷阱：不传 `max_tokens` 时，vLLM 允许模型生成到 `max_model_len`。这个上限在 PaddleOCR-VL 上大约是 13 万 token。

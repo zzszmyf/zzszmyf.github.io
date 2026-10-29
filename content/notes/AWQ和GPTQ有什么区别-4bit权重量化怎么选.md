@@ -9,6 +9,7 @@ faq:
   - question: "AWQ 和 GPTQ 有什么区别？4-bit 权重量化怎么选"
     answer: "低位宽下真正难保的是少数被激活反复打中的通道。AWQ 按激活幅度保护大约 1% 的显著通道，不改权重数值；GPTQ 承认误差已经发生，再用 Hessian 把误差摊到后面还没量化的列上。选型取决于离线量化时间，以及能不能接受重建。"
 
+enURL: "/en/awq-vs-gptq/"
 ---
 
 > 系列导航：[LLM 量化精读笔记总览](/notes/llm量化精读笔记-00-总览与学习地图/)（共 11 篇）｜本文是把 [05 RTN 与 GPTQ](/notes/llm量化精读笔记-05-权重量化i-rtn与gptq/) 和 [06 AWQ 与 QuIP#](/notes/llm量化精读笔记-06-权重量化ii-awq-squeezellm-quip/) 两章并起来看的对比篇。

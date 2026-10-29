@@ -10,6 +10,7 @@ faq:
   - question: "SGLang RadixAttention 原理是什么？前缀缓存怎么提升命中率"
     answer: "多数服务在请求结束后丢掉 KV cache，共享同一前缀的请求只好各自重新 prefill。RadixAttention 用基数树把这些 KV 留下来，下一个请求按最长公共前缀直接复用。命中的 token 不再重算，重复的 prefill 被跳过，计算量就按命中率省下来。这也是前缀缓存能省计算的原因。"
 
+enURL: "/en/radixattention/"
 ---
 
 > 系列导航：[注意力与计算内核精读笔记总览](/notes/llm注意力内核精读笔记-00-总览与学习地图/)（共 8 篇）｜上一篇：[注意力优化上线怎么验收](/notes/llm注意力内核精读笔记-07-系统集成与生产验收/)
