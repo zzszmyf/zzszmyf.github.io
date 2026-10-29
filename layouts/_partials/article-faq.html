@@ -1,0 +1,9 @@
+{{- with .Params.faq }}
+<section id="faq" aria-labelledby="faq-heading">
+  <h2 id="faq-heading">常见问题</h2>
+  {{- range . }}
+  <h3>{{ index . "question" }}</h3>
+  <p>{{ index . "answer" }}</p>
+  {{- end }}
+</section>
+{{- end }}

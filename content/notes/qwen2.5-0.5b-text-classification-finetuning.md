@@ -1,7 +1,8 @@
 ---
 title: "From 10% to 96%: Qwen2.5-0.5B 文本分类微调实践"
 description: "Qwen2.5-0.5B 文本分类微调实践：基于 llama.cpp 做 CPU 部署（延迟约 300ms/请求），通过在 prompt+answer 上计算 loss、加 warmup 与 weight decay、混入 20% DeepSeek-R1 蒸馏数据，将分类准确率从 10.59% 提升至 95.61%。实验还发现小模型对训练技巧的敏感度明显高于 3B 模型。"
-date: 2024-04-13T00:00:00+08:00
+date: 2026-02-27T00:00:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/qwen2.5-0.5b-text-classification-finetuning/"]

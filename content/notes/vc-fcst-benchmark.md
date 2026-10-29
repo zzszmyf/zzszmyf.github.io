@@ -1,7 +1,8 @@
 ---
 title: "VC-FCST Benchmark 落地方案：Code Agent 标准化测评"
 description: "VC-FCST Benchmark：基于失效分类学的 AI Code Agent 专项能力诊断测评方案，与 SWE-bench 的本质区别在于单 Case 单失效点、可精准定位失效根因。包含 2500 个标准化 Case 的用例库、DeepSeek 双模型编排引擎与 Streamlit 排行榜，1 名全栈工程师 3 个月，2500 元为目标预算、2878 元为当前明细基线。"
-date: 2024-04-17T00:00:00+08:00
+date: 2026-02-24T00:00:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/vc-fcst-benchmark/"]

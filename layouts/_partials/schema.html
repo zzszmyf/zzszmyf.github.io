@@ -1,0 +1,134 @@
+{{- $personID := printf "%s/#person" (strings.TrimSuffix "/" site.BaseURL) -}}
+{{- $authorName := "孟一凡" -}}
+{{- define "partials/inline/breadcrumbData" -}}
+  {{- $scratchCtx := .scratch -}}
+  {{- with .parent }}
+    {{ partial "inline/breadcrumbData" (dict "scratch" $scratchCtx "parent" .Parent) }}
+    {{- $scratchCtx.Add "listItem" (slice (dict
+      "@type" "ListItem"
+      "position" ($scratchCtx.Get "count")
+      "name" (cond .IsHome .Site.Title .Title)
+      "item" .Permalink
+    )) -}}
+    {{- $scratchCtx.Add "count" 1 -}}
+  {{- end }}
+{{- end -}}
+
+{{ if .IsHome -}}
+  {{- $website := dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "@id" (site.GetPage "/").Permalink
+    "name" site.Title
+    "url" (site.GetPage "/").Permalink
+    "publisher" (dict
+      "@type" "Person"
+      "@id" $personID
+      "name" $authorName
+      "url" site.BaseURL
+    )
+  -}}
+  {{- with or site.Params.description site.Language.Params.description -}}
+    {{- $website = merge $website (dict "description" .) -}}
+  {{- end -}}
+  {{- with site.Language.Locale -}}
+    {{- $website = merge $website (dict "inLanguage" .) -}}
+  {{- end -}}
+  <script type="application/ld+json">
+    {{ $website | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+  </script>
+{{ else if .IsPage }}
+  {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+  {{- $plain := .Plain -}}
+  {{- /* Hugo WordCount splits on whitespace, so a Chinese paragraph counts as one word.
+        Count Han characters plus Latin/number tokens instead. */ -}}
+  {{- $cjk := strings.CountRunes (replaceRE `[^\p{Han}]` "" $plain) -}}
+  {{- $latin := len (findRE `[A-Za-z0-9]+` $plain) -}}
+  {{- $wordCount := add $cjk $latin -}}
+  {{- $article := dict
+    "@context" "https://schema.org"
+    "@type" "Article"
+    "headline" .Title
+    "name" .Title
+    "url" .Permalink
+    "mainEntityOfPage" .Permalink
+    "author" (dict
+      "@type" "Person"
+      "@id" $personID
+      "name" $authorName
+      "url" $personID
+    )
+    "publisher" (dict
+      "@type" "Person"
+      "@id" $personID
+      "name" $authorName
+      "url" site.BaseURL
+    )
+  -}}
+  {{- with site.Language.Locale -}}
+    {{- $article = merge $article (dict "inLanguage" .) -}}
+  {{- end -}}
+  {{- with .Description -}}
+    {{- $article = merge $article (dict "description" .) -}}
+  {{- end -}}
+  {{- with site.GetPage $.Section -}}
+    {{- with .Title -}}
+      {{- $article = merge $article (dict "articleSection" .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $.Date -}}
+    {{- $article = merge $article (dict "dateCreated" (.Format $iso8601)) -}}
+  {{- end -}}
+  {{- with $.PublishDate -}}
+    {{- $article = merge $article (dict "datePublished" (.Format $iso8601)) -}}
+  {{- end -}}
+  {{- with $.Lastmod -}}
+    {{- $article = merge $article (dict "dateModified" (.Format $iso8601)) -}}
+  {{- end -}}
+  {{- with $.Params.tags -}}
+    {{- $article = merge $article (dict "keywords" .) -}}
+  {{- end -}}
+  {{- if gt $wordCount 0 -}}
+    {{- $article = merge $article (dict "wordCount" $wordCount) -}}
+  {{- end -}}
+  <script type="application/ld+json">
+    {{ $article | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+  </script>
+  {{- /* Breadcrumb names keep the original title. humanize|title turned AWQ/GPTQ into Awq/Gptq. */ -}}
+  {{- $scratch := newScratch -}}
+  {{- $scratch.Set "count" 1 -}}
+  {{ partial "inline/breadcrumbData" (dict "scratch" $scratch "parent" .Parent) }}
+  {{- with index (.GetTerms "categories") 0 -}}
+    {{- $scratch.Add "listItem" (slice (dict
+      "@type" "ListItem"
+      "position" ($scratch.Get "count")
+      "name" .Title
+      "item" .Permalink
+    )) -}}
+    {{- $scratch.Add "count" 1 -}}
+  {{- end }}
+  {{- $scratch.Add "listItem" (slice (dict
+    "@type" "ListItem"
+    "position" ($scratch.Get "count")
+    "name" .Title
+  )) -}}
+  {{- $scratch.SetInMap "breadcrumb" "@context" "https://schema.org" -}}
+  {{- $scratch.SetInMap "breadcrumb" "@type" "BreadcrumbList" -}}
+  {{- $scratch.SetInMap "breadcrumb" "itemListElement" ($scratch.Get "listItem") -}}
+  <script type="application/ld+json">
+    {{ $scratch.Get "breadcrumb" | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+  </script>
+  {{- with .Params.faq -}}
+    {{- $entities := slice -}}
+    {{- range . -}}
+      {{- $entities = $entities | append (dict
+        "@type" "Question"
+        "name" (index . "question")
+        "acceptedAnswer" (dict "@type" "Answer" "text" (index . "answer"))
+      ) -}}
+    {{- end -}}
+    <script type="application/ld+json">
+      {{ dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $entities | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+    </script>
+  {{- end -}}
+{{- end }}

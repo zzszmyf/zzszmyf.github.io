@@ -1,7 +1,8 @@
 ---
 title: "从各家技术文章看26年Agentic RL Infra优化方向"
 description: "Agentic RL Infra 优化方向综述：解读 Minimax ForgeRL、ROLL、ThunderAgent、Kimi Seer 四篇大厂技术文章，归纳 AgentServer 抽象、滑动窗口调度、Prefix Tree Merging、推理加速等五大优化方向，附各系统核心贡献对比。"
-date: 2024-04-01T00:00:00+08:00
+date: 2026-02-21T00:00:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/agentic-rl-infra-optimization-2026/"]

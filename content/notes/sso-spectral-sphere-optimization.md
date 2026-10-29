@@ -1,7 +1,8 @@
 ---
 title: "进一步推进 MuP：从 Muon 到 SSO"
 description: "SSO（谱球面优化器）原理解读：在 Muon 只约束参数更新量谱范数的基础上，进一步约束权重矩阵谱范数，完整满足 MuP 的两个 feature learning 条件。实验显示参数量变化 25 倍时最优学习率保持不变，且 loss 下降更快、参数可迁移性更好、MoE 路由负载更均衡。"
-date: 2024-04-14T00:00:00+08:00
+date: 2026-02-22T17:18:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/sso-spectral-sphere-optimization/"]

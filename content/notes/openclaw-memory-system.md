@@ -1,7 +1,8 @@
 ---
 title: "随便聊聊OpenClaw记忆系统"
 description: "OpenClaw记忆系统解析：不用向量数据库，用纯Markdown文件做AI Agent的长期记忆——MEMORY.md、按天日志、会话归档三层文件各有加载策略和安全边界；写入由Prompt原则引导智能体自主决策而非固定规则，配合预压缩记忆刷新和向量+BM25混合检索的memory_search工具。"
-date: 2024-04-10T00:00:00+08:00
+date: 2026-02-13T00:00:00+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/openclaw-memory-system/"]

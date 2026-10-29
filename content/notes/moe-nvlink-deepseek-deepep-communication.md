@@ -1,7 +1,8 @@
 ---
 title: "MoE数据特征、训练和推理的通信特点、基于NVLink/Scale Up那些Feature，DeepSeek的DeepEP和对MoE All-to-All数据的处理"
 description: "MoE All-to-All通信与NVLink优化解析：拆解专家并行下Token分发的Dispatch和Combine两阶段数据流，梳理训练与推理对带宽、延迟的不同要求，以及DeepSeek开源通信库DeepEP的高吞吐/低延迟Kernel设计；重点讲DeepSeek-V3无辅助损失负载均衡如何把长尾路由重塑成均匀分布，让NVLink链路跑满带宽。"
-date: 2024-04-08T00:00:00+08:00
+date: 2026-08-23T17:25:14+08:00
+lastmod: 2026-10-18T12:24:51+08:00
 draft: false
 weight: 100
 aliases: ["/posts/moe-nvlink-deepseek-deepep-communication/"]
