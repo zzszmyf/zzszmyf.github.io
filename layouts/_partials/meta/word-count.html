@@ -1,0 +1,4 @@
+{{- $n := partial "functions/cjk-word-count.html" . -}}
+<span>
+  {{- i18n "article.word_count" $n | markdownify | emojify -}}
+</span>
