@@ -8,7 +8,8 @@
   </header>
 
   {{ if $pages }}
-    {{ $paginator := .Paginate ($pages.GroupByDate "2006") }}
+    {{/* 这一栏只列工程笔记。30 篇一页，避免全局 pagerSize=10 把深页藏得太深。 */}}
+    {{ $paginator := .Paginate ($pages.GroupByDate "2006") 30 }}
 
     {{ if eq $paginator.PageNumber 1 }}
       <section class="mt-0 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
@@ -30,6 +31,9 @@
       {{ end }}
     </section>
     {{ partial "pagination.html" . }}
+    {{ if eq $paginator.PageNumber 1 }}
+      {{ partial "notes-index.html" . }}
+    {{ end }}
   {{ else }}
     <section class="prose mt-10 dark:prose-invert">
       {{ .Content | emojify }}
