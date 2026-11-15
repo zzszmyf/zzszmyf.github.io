@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""把 zzszmyf.github.io 的 URL 推送给 IndexNow。
+"""把 doraemeng.dev 的 URL 推送给 IndexNow。
 
 IndexNow 是 Bing / Yandex / Seznam / Naver / Yep 共用的「主动提交」协议：
 网站所有者拿托管在自己域名下的 key 文件证明身份，然后 POST 一批 URL，
 搜索引擎会在几分钟内去抓，而不是等自然爬取（这个站没有外链，自然爬取以周计）。
 
 key 文件是 static/2b463038c3a198f501e25601eb316cc4.txt，构建后位于
-https://zzszmyf.github.io/2b463038c3a198f501e25601eb316cc4.txt，line 内容必须与该 key 一致。
+https://doraemeng.dev/2b463038c3a198f501e25601eb316cc4.txt，line 内容必须与该 key 一致。
 
 用法：
   # 提交某次 push 里改动过的笔记（CI 用）
@@ -16,7 +16,7 @@ https://zzszmyf.github.io/2b463038c3a198f501e25601eb316cc4.txt，line 内容必�
   python3 .github/scripts/indexnow.py --all
 
   # 只提交指定 URL
-  python3 .github/scripts/indexnow.py --urls https://zzszmyf.github.io/notes/foo/
+  python3 .github/scripts/indexnow.py --urls https://doraemeng.dev/notes/foo/
 
   # 只看会提交什么，不发请求
   python3 .github/scripts/indexnow.py --all --dry-run
@@ -35,8 +35,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-SITE = "https://zzszmyf.github.io"
-HOST = "zzszmyf.github.io"
+SITE = "https://doraemeng.dev"
+HOST = "doraemeng.dev"
 KEY = "2b463038c3a198f501e25601eb316cc4"
 KEY_LOCATION = f"{SITE}/{KEY}.txt"
 LOCAL_SITEMAP = "public/sitemap.xml"
@@ -50,7 +50,7 @@ def content_files_to_urls(paths: list[str]) -> list[str]:
 
     Hugo 规则（本站没有 slug:/url: 覆盖，所以是纯机械换算）：
       content/notes/LLM量化精读笔记-04-量化粒度校准与离群值.md
-        -> https://zzszmyf.github.io/notes/llm量化精读笔记-04-量化粒度校准与离群值/
+        -> https://doraemeng.dev/notes/llm量化精读笔记-04-量化粒度校准与离群值/
     """
     urls = []
     for path in paths:
