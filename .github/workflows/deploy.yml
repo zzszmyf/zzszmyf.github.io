@@ -29,6 +29,10 @@ jobs:
           extended: true
       - name: Build
         run: hugo --minify
+      # static/CNAME（内容为 doraemeng.dev）会随 Hugo 复制进 public/，出现在站点根。
+      # 本工作流用 actions/deploy-pages 发布。GitHub 文档写明：发布源是自定义
+      # Actions 工作流时，产物里的 CNAME 会被忽略，也不会写入 Pages 自定义域名。
+      # 合并后仍需在仓库 Settings → Pages 把 Custom domain 设为 doraemeng.dev。
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
